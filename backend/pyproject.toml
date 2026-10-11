@@ -1,0 +1,17 @@
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["app", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "UP", "ASYNC"]
+ignore = [
+  "E501",
+  "B008",   # FastAPI Depends() in defaults is idiomatic
+  "UP017",  # timezone.utc keeps 3.9+ local tooling working; prod uses 3.11
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
