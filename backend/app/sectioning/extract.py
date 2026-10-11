@@ -1,0 +1,141 @@
+"""PDF → lines in reading order, with geometry and typography.
+
+Uses pdfplumber/pdfminer (MIT) rather than PyMuPDF (AGPL), so the app can be
+served publicly without source-disclosure obligations. pdfminer's layout
+analysis groups characters into text boxes and orders the boxes for reading
+(`boxes_flow`), which keeps two-column pages in column order.
+
+Every line gets a character range in one canonical document string. Sections
+are expressed as ranges in that string, so a section maps back to exact lines
+and, through their boxes, to exact rectangles on the rendered page.
+"""
+
+from __future__ import annotations
+
+import json
+import re
+import statistics
+from collections.abc import Callable
+from dataclasses import asdict, dataclass
+from pathlib import Path
+
+import pdfplumber
+from pdfminer.layout import LTChar, LTTextBox, LTTextLine
+
+LAPARAMS = {
+    "line_overlap": 0.5,
+    "char_margin": 2.0,
+    "line_margin": 0.5,
+    "word_margin": 0.1,
+    "boxes_flow": 0.5,
+}
+BOLD_FONT = re.compile(r"bold|black|heavy|semibold|demi", re.I)
+CONTROL = re.compile(r"[\x00-\x08\x0b-\x1f\x7f]")
+
+
+@dataclass
+class Page:
+    n: int  # 1-based
+    width: float
+    height: float
+    # pdfminer reports coordinates relative to the mediabox origin; pdf.js wants
+    # PDF user space, so keep the origin to shift boxes back.
+    origin_x: float
+    origin_y: float
+    rotation: int
+    has_text: bool
+
+
+@dataclass
+class Line:
+    i: int
+    page: int
+    text: str
+    # PDF user-space box (origin bottom-left), ready for pdf.js
+    # viewport.convertToViewportRectangle.
+    x0: float
+    y0: float
+    x1: float
+    y1: float
+    size: float
+    bold: bool
+    start: int  # char range in Extraction.text
+    end: int
+
+
+@dataclass
+class Extraction:
+    pages: list[Page]
+    lines: list[Line]
+    text: str
+
+    def body_size(self) -> float:
+        """The most common font size weighted by characters: the body text."""
+        weights: dict[float, int] = {}
+        for ln in self.lines:
+            weights[ln.size] = weights.get(ln.size, 0) + len(ln.text)
+        return max(weights, key=weights.get) if weights else 10.0
+
+    def save(self, path: Path) -> None:
+        path.write_text(
+            json.dumps(
+                {
+                    "pages": [asdict(p) for p in self.pages],
+                    "lines": [asdict(ln) for ln in self.lines],
+                },
+                separators=(",", ":"),
+            )
+        )
+
+    @classmethod
+    def load(cls, path: Path) -> Extraction:
+        raw = json.loads(path.read_text())
+        lines = [Line(**ln) for ln in raw["lines"]]
+        return cls([Page(**p) for p in raw["pages"]], lines, "\n".join(ln.text for ln in lines))
+
+
+def _clean(text: str) -> str:
+    return re.sub(r"\s+", " ", CONTROL.sub("", text)).strip()
+
+
+def extract(path: Path, on_page: Callable[[int, int], None] | None = None) -> Extraction:
+    pages: list[Page] = []
+    lines: list[Line] = []
+    cursor = 0
+    with pdfplumber.open(path, laparams=LAPARAMS) as pdf:
+        total = len(pdf.pages)
+        for n, page in enumerate(pdf.pages, 1):
+            mb = page.mediabox
+            before = len(lines)
+            for box in page.layout:
+                if not isinstance(box, LTTextBox):
+                    continue
+                for tl in box:
+                    if not isinstance(tl, LTTextLine):
+                        continue
+                    text = _clean(tl.get_text())
+                    if not text:
+                        continue
+                    chars = [c for c in tl if isinstance(c, LTChar)]
+                    size = round(statistics.median(c.size for c in chars), 1) if chars else 0.0
+                    bold = bool(chars) and sum(bool(BOLD_FONT.search(c.fontname)) for c in chars) * 2 > len(chars)
+                    lines.append(
+                        Line(
+                            i=len(lines), page=n, text=text,
+                            x0=round(tl.x0 + mb[0], 2), y0=round(tl.y0 + mb[1], 2),
+                            x1=round(tl.x1 + mb[0], 2), y1=round(tl.y1 + mb[1], 2),
+                            size=size, bold=bold, start=cursor, end=cursor + len(text),
+                        )
+                    )
+                    cursor += len(text) + 1  # lines are joined with "\n"
+            pages.append(
+                Page(
+                    n=n, width=float(page.width), height=float(page.height),
+                    origin_x=float(mb[0]), origin_y=float(mb[1]),
+                    rotation=int(page.rotation or 0), has_text=len(lines) > before,
+                )
+            )
+            page.close()  # drop pdfplumber's per-page caches; matters at 500 pages
+            if on_page:
+                on_page(n, total)
+    return Extraction(pages, lines, "\n".join(ln.text for ln in lines))

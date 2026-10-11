@@ -43,6 +43,30 @@ class Settings(BaseSettings):
     ALLOWED_ORIGINS: str = "http://localhost:5173"
     MAX_PROMPT_CHARS: int = 20_000
 
+    # Sectioning
+    DATA_DIR: str = "data"
+    CORPUS_DIR: str = "../corpus"
+    MAX_UPLOAD_MB: int = 100
+    MAX_PAGES: int = 500
+    RUN_COST_CAP_USD: float = 5.0
+    SECTIONING_LLM_TIMEOUT_SECONDS: int = 600
+    ALLOWED_MODELS: str = "gpt-5.5,gpt-5"
+    # USD per 1M tokens. Keep in config so cost readouts track price changes.
+    MODEL_PRICES_JSON: str = (
+        '{"gpt-5.5": {"input": 5.00, "cached": 0.50, "output": 30.00},'
+        ' "gpt-5": {"input": 1.25, "cached": 0.125, "output": 10.00}}'
+    )
+
+    @property
+    def model_prices(self) -> dict[str, dict[str, float]]:
+        import json
+
+        return json.loads(self.MODEL_PRICES_JSON)
+
+    @property
+    def allowed_models_list(self) -> list[str]:
+        return [m.strip() for m in self.ALLOWED_MODELS.split(",") if m.strip()]
+
     @field_validator("DATABASE_URL")
     @classmethod
     def require_asyncpg(cls, v: str) -> str:
