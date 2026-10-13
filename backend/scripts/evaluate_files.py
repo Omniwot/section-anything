@@ -68,7 +68,7 @@ async def main() -> None:
     strategies = [s for s in pipeline.STRATEGIES if not s.uses_llm and (not args.strategy or s.id in args.strategy)]
 
     uploaded = {}
-    for pdf in Path(settings.DATA_DIR, "docs").resolve().glob("*/original.pdf"):
+    for pdf in Path(settings.DATA_DIR, "docs").resolve().glob("*/original.pdf"):  # noqa: ASYNC240 (one-off CLI)
         uploaded[hashlib.sha256(pdf.read_bytes()).hexdigest()] = pdf
     for d in docs:
         if "file" not in d and d.get("sha256") in uploaded:

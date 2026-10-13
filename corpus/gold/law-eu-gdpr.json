@@ -1,0 +1,627 @@
+[
+ {
+  "level": 1,
+  "title": "CHAPTER I General provisions",
+  "page": 32
+ },
+ {
+  "level": 2,
+  "title": "Article 1 Subject-matter and objectives",
+  "page": 32
+ },
+ {
+  "level": 2,
+  "title": "Article 2 Material scope",
+  "page": 32
+ },
+ {
+  "level": 2,
+  "title": "Article 3 Territorial scope",
+  "page": 32
+ },
+ {
+  "level": 2,
+  "title": "Article 4 Definitions",
+  "page": 33
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER II Principles",
+  "page": 35
+ },
+ {
+  "level": 2,
+  "title": "Article 5 Principles relating to processing of personal data",
+  "page": 35
+ },
+ {
+  "level": 2,
+  "title": "Article 6 Lawfulness of processing",
+  "page": 36
+ },
+ {
+  "level": 2,
+  "title": "Article 7 Conditions for consent",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "Article 8 Conditions applicable to child's consent in relation to information society services",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "Article 9 Processing of special categories of personal data",
+  "page": 38
+ },
+ {
+  "level": 2,
+  "title": "Article 10 Processing of personal data relating to criminal convictions and offences",
+  "page": 39
+ },
+ {
+  "level": 2,
+  "title": "Article 11 Processing which does not require identification",
+  "page": 39
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER III Rights of the data subject",
+  "page": 39
+ },
+ {
+  "level": 2,
+  "title": "Section 1 Transparency and modalities",
+  "page": 39
+ },
+ {
+  "level": 3,
+  "title": "Article 12 Transparent information, communication and modalities for the exercise of the rights of the data subject",
+  "page": 39
+ },
+ {
+  "level": 2,
+  "title": "Section 2 Information and access to personal data",
+  "page": 40
+ },
+ {
+  "level": 3,
+  "title": "Article 13 Information to be provided where personal data are collected from the data subject",
+  "page": 40
+ },
+ {
+  "level": 3,
+  "title": "Article 14 Information to be provided where personal data have not been obtained from the data subject",
+  "page": 41
+ },
+ {
+  "level": 3,
+  "title": "Article 15 Right of access by the data subject",
+  "page": 43
+ },
+ {
+  "level": 2,
+  "title": "Section 3 Rectification and erasure",
+  "page": 43
+ },
+ {
+  "level": 3,
+  "title": "Article 16 Right to rectification",
+  "page": 43
+ },
+ {
+  "level": 3,
+  "title": "Article 17 Right to erasure (‘right to be forgotten’)",
+  "page": 43
+ },
+ {
+  "level": 3,
+  "title": "Article 18 Right to restriction of processing",
+  "page": 44
+ },
+ {
+  "level": 3,
+  "title": "Article 19 Notification obligation regarding rectification or erasure of personal data or restriction of processing",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "Article 20 Right to data portability",
+  "page": 45
+ },
+ {
+  "level": 2,
+  "title": "Section 4 Right to object and automated individual decision-making",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "Article 21 Right to object",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "Article 22 Automated individual decision-making, including profiling",
+  "page": 46
+ },
+ {
+  "level": 2,
+  "title": "Section 5 Restrictions",
+  "page": 46
+ },
+ {
+  "level": 3,
+  "title": "Article 23 Restrictions",
+  "page": 46
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER IV Controller and processor",
+  "page": 47
+ },
+ {
+  "level": 2,
+  "title": "Section 1 General obligations",
+  "page": 47
+ },
+ {
+  "level": 3,
+  "title": "Article 24 Responsibility of the controller",
+  "page": 47
+ },
+ {
+  "level": 3,
+  "title": "Article 25 Data protection by design and by default",
+  "page": 48
+ },
+ {
+  "level": 3,
+  "title": "Article 26 Joint controllers",
+  "page": 48
+ },
+ {
+  "level": 3,
+  "title": "Article 27 Representatives of controllers or processors not established in the Union",
+  "page": 48
+ },
+ {
+  "level": 3,
+  "title": "Article 28 Processor",
+  "page": 49
+ },
+ {
+  "level": 3,
+  "title": "Article 29 Processing under the authority of the controller or processor",
+  "page": 50
+ },
+ {
+  "level": 3,
+  "title": "Article 30 Records of processing activities",
+  "page": 50
+ },
+ {
+  "level": 3,
+  "title": "Article 31 Cooperation with the supervisory authority",
+  "page": 51
+ },
+ {
+  "level": 2,
+  "title": "Section 2 Security of personal data",
+  "page": 51
+ },
+ {
+  "level": 3,
+  "title": "Article 32 Security of processing",
+  "page": 51
+ },
+ {
+  "level": 3,
+  "title": "Article 33 Notification of a personal data breach to the supervisory authority",
+  "page": 52
+ },
+ {
+  "level": 3,
+  "title": "Article 34 Communication of a personal data breach to the data subject",
+  "page": 52
+ },
+ {
+  "level": 2,
+  "title": "Section 3 Data protection impact assessment and prior consultation",
+  "page": 53
+ },
+ {
+  "level": 3,
+  "title": "Article 35 Data protection impact assessment",
+  "page": 53
+ },
+ {
+  "level": 3,
+  "title": "Article 36 Prior consultation",
+  "page": 54
+ },
+ {
+  "level": 2,
+  "title": "Section 4 Data protection officer",
+  "page": 55
+ },
+ {
+  "level": 3,
+  "title": "Article 37 Designation of the data protection officer",
+  "page": 55
+ },
+ {
+  "level": 3,
+  "title": "Article 38 Position of the data protection officer",
+  "page": 55
+ },
+ {
+  "level": 3,
+  "title": "Article 39 Tasks of the data protection officer",
+  "page": 56
+ },
+ {
+  "level": 2,
+  "title": "Section 5 Codes of conduct and certification",
+  "page": 56
+ },
+ {
+  "level": 3,
+  "title": "Article 40 Codes of conduct",
+  "page": 56
+ },
+ {
+  "level": 3,
+  "title": "Article 41 Monitoring of approved codes of conduct",
+  "page": 58
+ },
+ {
+  "level": 3,
+  "title": "Article 42 Certification",
+  "page": 58
+ },
+ {
+  "level": 3,
+  "title": "Article 43 Certification bodies",
+  "page": 59
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER V Transfers of personal data to third countries or international organisations",
+  "page": 60
+ },
+ {
+  "level": 2,
+  "title": "Article 44 General principle for transfers",
+  "page": 60
+ },
+ {
+  "level": 2,
+  "title": "Article 45 Transfers on the basis of an adequacy decision",
+  "page": 61
+ },
+ {
+  "level": 2,
+  "title": "Article 46 Transfers subject to appropriate safeguards",
+  "page": 62
+ },
+ {
+  "level": 2,
+  "title": "Article 47 Binding corporate rules",
+  "page": 62
+ },
+ {
+  "level": 2,
+  "title": "Article 48 Transfers or disclosures not authorised by Union law",
+  "page": 64
+ },
+ {
+  "level": 2,
+  "title": "Article 49 Derogations for specific situations",
+  "page": 64
+ },
+ {
+  "level": 2,
+  "title": "Article 50 International cooperation for the protection of personal data",
+  "page": 65
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER VI Independent supervisory authorities",
+  "page": 65
+ },
+ {
+  "level": 2,
+  "title": "Section 1 Independent status",
+  "page": 65
+ },
+ {
+  "level": 3,
+  "title": "Article 51 Supervisory authority",
+  "page": 65
+ },
+ {
+  "level": 3,
+  "title": "Article 52 Independence",
+  "page": 66
+ },
+ {
+  "level": 3,
+  "title": "Article 53 General conditions for the members of the supervisory authority",
+  "page": 66
+ },
+ {
+  "level": 3,
+  "title": "Article 54 Rules on the establishment of the supervisory authority",
+  "page": 66
+ },
+ {
+  "level": 2,
+  "title": "Section 2 Competence, tasks and powers",
+  "page": 67
+ },
+ {
+  "level": 3,
+  "title": "Article 55 Competence",
+  "page": 67
+ },
+ {
+  "level": 3,
+  "title": "Article 56 Competence of the lead supervisory authority",
+  "page": 67
+ },
+ {
+  "level": 3,
+  "title": "Article 57 Tasks",
+  "page": 68
+ },
+ {
+  "level": 3,
+  "title": "Article 58 Powers",
+  "page": 69
+ },
+ {
+  "level": 3,
+  "title": "Article 59 Activity reports",
+  "page": 70
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER VII Cooperation and consistency",
+  "page": 71
+ },
+ {
+  "level": 2,
+  "title": "Section 1 Cooperation",
+  "page": 71
+ },
+ {
+  "level": 3,
+  "title": "Article 60 Cooperation between the lead supervisory authority and the other supervisory authorities concerned",
+  "page": 71
+ },
+ {
+  "level": 3,
+  "title": "Article 61 Mutual assistance",
+  "page": 72
+ },
+ {
+  "level": 3,
+  "title": "Article 62 Joint operations of supervisory authorities",
+  "page": 72
+ },
+ {
+  "level": 2,
+  "title": "Section 2 Consistency",
+  "page": 73
+ },
+ {
+  "level": 3,
+  "title": "Article 63 Consistency mechanism",
+  "page": 73
+ },
+ {
+  "level": 3,
+  "title": "Article 64 Opinion of the Board",
+  "page": 73
+ },
+ {
+  "level": 3,
+  "title": "Article 65 Dispute resolution by the Board",
+  "page": 74
+ },
+ {
+  "level": 3,
+  "title": "Article 66 Urgency procedure",
+  "page": 75
+ },
+ {
+  "level": 3,
+  "title": "Article 67 Exchange of information",
+  "page": 76
+ },
+ {
+  "level": 2,
+  "title": "Section 3 European data protection board",
+  "page": 76
+ },
+ {
+  "level": 3,
+  "title": "Article 68 European Data Protection Board",
+  "page": 76
+ },
+ {
+  "level": 3,
+  "title": "Article 69 Independence",
+  "page": 76
+ },
+ {
+  "level": 3,
+  "title": "Article 70 Tasks of the Board",
+  "page": 76
+ },
+ {
+  "level": 3,
+  "title": "Article 71 Reports",
+  "page": 78
+ },
+ {
+  "level": 3,
+  "title": "Article 72 Procedure",
+  "page": 78
+ },
+ {
+  "level": 3,
+  "title": "Article 73 Chair",
+  "page": 78
+ },
+ {
+  "level": 3,
+  "title": "Article 74 Tasks of the Chair",
+  "page": 79
+ },
+ {
+  "level": 3,
+  "title": "Article 75 Secretariat",
+  "page": 79
+ },
+ {
+  "level": 3,
+  "title": "Article 76 Confidentiality",
+  "page": 79
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER VIII Remedies, liability and penalties",
+  "page": 80
+ },
+ {
+  "level": 2,
+  "title": "Article 77 Right to lodge a complaint with a supervisory authority",
+  "page": 80
+ },
+ {
+  "level": 2,
+  "title": "Article 78 Right to an effective judicial remedy against a supervisory authority",
+  "page": 80
+ },
+ {
+  "level": 2,
+  "title": "Article 79 Right to an effective judicial remedy against a controller or processor",
+  "page": 80
+ },
+ {
+  "level": 2,
+  "title": "Article 80 Representation of data subjects",
+  "page": 81
+ },
+ {
+  "level": 2,
+  "title": "Article 81 Suspension of proceedings",
+  "page": 81
+ },
+ {
+  "level": 2,
+  "title": "Article 82 Right to compensation and liability",
+  "page": 81
+ },
+ {
+  "level": 2,
+  "title": "Article 83 General conditions for imposing administrative fines",
+  "page": 82
+ },
+ {
+  "level": 2,
+  "title": "Article 84 Penalties",
+  "page": 83
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER IX Provisions relating to specific processing situations",
+  "page": 83
+ },
+ {
+  "level": 2,
+  "title": "Article 85 Processing and freedom of expression and information",
+  "page": 83
+ },
+ {
+  "level": 2,
+  "title": "Article 86 Processing and public access to official documents",
+  "page": 84
+ },
+ {
+  "level": 2,
+  "title": "Article 87 Processing of the national identification number",
+  "page": 84
+ },
+ {
+  "level": 2,
+  "title": "Article 88 Processing in the context of employment",
+  "page": 84
+ },
+ {
+  "level": 2,
+  "title": "Article 89 Safeguards and derogations relating to processing for archiving purposes in the public interest, scientific or historical research purposes or statistical purposes",
+  "page": 84
+ },
+ {
+  "level": 2,
+  "title": "Article 90 Obligations of secrecy",
+  "page": 85
+ },
+ {
+  "level": 2,
+  "title": "Article 91 Existing data protection rules of churches and religious associations",
+  "page": 85
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER X Delegated acts and implementing acts",
+  "page": 85
+ },
+ {
+  "level": 2,
+  "title": "Article 92 Exercise of the delegation",
+  "page": 85
+ },
+ {
+  "level": 2,
+  "title": "Article 93 Committee procedure",
+  "page": 86
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER XI Final provisions",
+  "page": 86
+ },
+ {
+  "level": 2,
+  "title": "Article 94 Repeal of Directive 95/46/EC",
+  "page": 86
+ },
+ {
+  "level": 2,
+  "title": "Article 95 Relationship with Directive 2002/58/EC",
+  "page": 86
+ },
+ {
+  "level": 2,
+  "title": "Article 96 Relationship with previously concluded Agreements",
+  "page": 87
+ },
+ {
+  "level": 2,
+  "title": "Article 97 Commission reports",
+  "page": 87
+ },
+ {
+  "level": 2,
+  "title": "Article 98 Review of other Union legal acts on data protection",
+  "page": 87
+ },
+ {
+  "level": 2,
+  "title": "Article 99 Entry into force and application",
+  "page": 87
+ }
+]

@@ -1,0 +1,171 @@
+[
+ {
+  "level": 1,
+  "title": "Python (programming language)",
+  "page": 1
+ },
+ {
+  "level": 2,
+  "title": "History",
+  "page": 1
+ },
+ {
+  "level": 2,
+  "title": "Design philosophy and features",
+  "page": 2,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Enhancement Proposals",
+  "page": 4,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Syntax and semantics",
+  "page": 4,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Indentation",
+  "page": 4,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Statements and control flow",
+  "page": 4,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Expressions",
+  "page": 5
+ },
+ {
+  "level": 3,
+  "title": "Typing",
+  "page": 7
+ },
+ {
+  "level": 3,
+  "title": "Arithmetic operations",
+  "page": 9
+ },
+ {
+  "level": 3,
+  "title": "Function syntax",
+  "page": 10,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Code examples",
+  "page": 10,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Libraries",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "Development environments",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "Implementations",
+  "page": 12,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Reference implementation",
+  "page": 12,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Limitations of the reference implementation",
+  "page": 12,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Other implementations",
+  "page": 12,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Unsupported implementations",
+  "page": 13
+ },
+ {
+  "level": 3,
+  "title": "Transpilers to other languages",
+  "page": 14,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Performance",
+  "page": 14,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Language development",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "Naming",
+  "page": 16,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Languages influenced by Python",
+  "page": 16,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "See also",
+  "page": 16,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Notes",
+  "page": 17
+ },
+ {
+  "level": 2,
+  "title": "References",
+  "page": 17
+ },
+ {
+  "level": 3,
+  "title": "Sources",
+  "page": 32,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Further reading",
+  "page": 32,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "External links",
+  "page": 32,
+  "image_only": true
+ }
+]

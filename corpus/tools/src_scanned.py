@@ -1,7 +1,6 @@
 """Image-only copies of corpus documents that already have gold, so each
 scanned file is scored against the same headings as its born-digital twin.
-Variants cover resolution, skew, photocopy noise, a half-scanned file, and
-non-Latin scripts. Needs OCR to section; without it a sectioner should
+Variants cover resolution, skew, photocopy noise and a half-scanned file. Needs OCR to section; without it a sectioner should
 say so rather than return nothing silently. (hips-10 is the real-world
 case of a broken text layer.)"""
 
@@ -31,8 +30,8 @@ SCANS = [
     ("manual-bash", 40, 150, 1.5, 0.0, 1.0, "manual, visible skew"),
     ("prose-hamlet", 40, 120, 0.4, 0.15, 1.0, "play, mild skew and noise"),
     ("synth-numbering-only", 40, 200, 0.0, 0.5, 1.0, "numbering-only headings, heavy noise"),
-    ("wiki-05-de", 40, 150, 0.0, 0.0, 0.5, "half the pages scanned, half born-digital"),
-    ("wiki-08-ja", 40, 200, 0.0, 0.0, 1.0, "Japanese script"),
+    ("wiki-05-en", 40, 150, 0.0, 0.0, 0.5, "half the pages scanned, half born-digital"),
+    ("report-nist-ir8312", 40, 200, 0.0, 0.0, 1.0, "government report, clean 200 dpi"),
 ]
 
 

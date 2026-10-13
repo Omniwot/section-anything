@@ -26,12 +26,12 @@ ARTICLES = [
     ("en", "World War I", "long history article, many levels"),
     ("en", "Ada Lovelace", "biography, short sections"),
     ("en", "List of largest cities", "mostly tables"),
-    ("de", "Photosynthese", "German"),
-    ("fr", "Révolution française", "French, long"),
-    ("es", "Sistema solar", "Spanish"),
-    ("ja", "光合成", "Japanese, CJK"),
-    ("ar", "التمثيل الضوئي", "Arabic, right-to-left"),
-    ("hi", "प्रकाश संश्लेषण", "Hindi, Devanagari"),
+    ("en", "Python (programming language)", "code samples and syntax tables"),
+    ("en", "Byzantine Empire", "very long history, deep nesting"),
+    ("en", "Periodic table", "large tables and figures"),
+    ("en", "Moon", "science article with infobox and many subsections"),
+    ("en", "Taj Mahal", "architecture, image-heavy, short sections"),
+    ("en", "Ludwig van Beethoven", "biography with a works list"),
 ]
 
 

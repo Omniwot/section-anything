@@ -1,0 +1,158 @@
+[
+ {
+  "level": 1,
+  "title": "Introduction",
+  "page": 8,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "Four Principles of Explainable AI",
+  "page": 9,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Explanation",
+  "page": 10,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Meaningful",
+  "page": 10,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Explanation Accuracy",
+  "page": 11,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Knowledge Limits",
+  "page": 12,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Summary",
+  "page": 12,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "Purposes and styles of explanations",
+  "page": 13,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "Risk Management of Explainable AI",
+  "page": 15,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "Overview of Principles in the Literature",
+  "page": 17,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "Overview of Explainable AI Algorithms",
+  "page": 19,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Self-Interpretable Models",
+  "page": 19,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Post-Hoc Explanations",
+  "page": 20,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Local Explanations",
+  "page": 20,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Global Explanations",
+  "page": 21,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Adversarial Attacks on Explainability",
+  "page": 22,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "Evaluating Explainable AI Algorithms",
+  "page": 22,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Evaluating Meaningfulness",
+  "page": 22,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Evaluating Explanation Accuracy",
+  "page": 24,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "Humans as a Comparison Group for Explainable AI",
+  "page": 25,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Explanation",
+  "page": 26,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Meaningful",
+  "page": 26,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Explanation Accuracy",
+  "page": 27,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Knowledge Limits",
+  "page": 27,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "Discussion and Conclusions",
+  "page": 28,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "References",
+  "page": 30,
+  "image_only": true
+ }
+]

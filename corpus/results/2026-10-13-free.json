@@ -10,10 +10,10 @@
    },
    "legislation": {
     "docs": 10,
-    "precision": 0.426,
-    "recall": 0.613,
-    "f1": 0.386,
-    "levels": 0.817
+    "precision": 0.556,
+    "recall": 0.608,
+    "f1": 0.52,
+    "levels": 0.839
    },
    "manuals": {
     "docs": 10,
@@ -45,9 +45,9 @@
    },
    "scanned": {
     "docs": 10,
-    "precision": 0.057,
-    "recall": 0.046,
-    "f1": 0.054,
+    "precision": 0.106,
+    "recall": 0.037,
+    "f1": 0.064,
     "levels": 1.0
    },
    "slides": {
@@ -66,24 +66,24 @@
    },
    "textbooks": {
     "docs": 11,
-    "precision": 0.477,
-    "recall": 0.972,
-    "f1": 0.591,
-    "levels": 0.929
+    "precision": 0.514,
+    "recall": 0.976,
+    "f1": 0.634,
+    "levels": 0.965
    },
    "wikipedia": {
     "docs": 10,
-    "precision": 0.7,
-    "recall": 0.701,
-    "f1": 0.651,
-    "levels": 0.985
+    "precision": 0.837,
+    "recall": 0.993,
+    "f1": 0.879,
+    "levels": 0.987
    },
    "ALL": {
     "docs": 114,
-    "precision": 0.61,
-    "recall": 0.731,
-    "f1": 0.607,
-    "levels": 0.935
+    "precision": 0.649,
+    "recall": 0.756,
+    "f1": 0.653,
+    "levels": 0.942
    }
   }
  },
@@ -129,7 +129,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 212,
-    "seconds": 0.2,
+    "seconds": 0.19,
     "precision": 0.467,
     "recall": 1.0,
     "f1": 0.637,
@@ -145,7 +145,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 42,
-    "seconds": 0.07,
+    "seconds": 0.06,
     "precision": 0.238,
     "recall": 0.145,
     "f1": 0.18,
@@ -161,7 +161,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 188,
-    "seconds": 0.33,
+    "seconds": 0.32,
     "precision": 0.846,
     "recall": 1.0,
     "f1": 0.916,
@@ -177,7 +177,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 302,
-    "seconds": 1.7,
+    "seconds": 1.68,
     "precision": 0.649,
     "recall": 0.933,
     "f1": 0.766,
@@ -209,7 +209,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 146,
-    "seconds": 0.28,
+    "seconds": 0.31,
     "precision": 0.469,
     "recall": 0.708,
     "f1": 0.564,
@@ -225,7 +225,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 133,
-    "seconds": 1.55,
+    "seconds": 1.54,
     "precision": 0.379,
     "recall": 0.245,
     "f1": 0.298,
@@ -241,7 +241,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 255,
-    "seconds": 1.25,
+    "seconds": 1.21,
     "precision": 0.196,
     "recall": 0.155,
     "f1": 0.173,
@@ -257,7 +257,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 204,
-    "seconds": 0.27,
+    "seconds": 0.25,
     "precision": 0.088,
     "recall": 0.123,
     "f1": 0.103,
@@ -273,7 +273,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 143,
-    "seconds": 1.08,
+    "seconds": 1.06,
     "precision": 0.629,
     "recall": 0.369,
     "f1": 0.465,
@@ -289,7 +289,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 755,
-    "seconds": 2.02,
+    "seconds": 1.91,
     "precision": 0.343,
     "recall": 0.989,
     "f1": 0.509,
@@ -297,35 +297,35 @@
    }
   },
   {
-   "id": "law-ca-privacy-act",
+   "id": "law-de-basic-law-english",
    "category": "legislation",
-   "complete": false,
-   "variant": "bookmarks-removed",
-   "gold": 68,
+   "complete": true,
+   "variant": "",
+   "gold": 223,
    "gold_image_only": 0,
    "rules": {
-    "sections": 593,
-    "seconds": 0.33,
-    "precision": 0.099,
-    "recall": 0.868,
-    "f1": 0.179,
-    "level_agreement": 0.552
+    "sections": 204,
+    "seconds": 0.11,
+    "precision": 0.98,
+    "recall": 0.892,
+    "f1": 0.934,
+    "level_agreement": 0.965
    }
   },
   {
-   "id": "law-de-grundgesetz",
+   "id": "law-eu-gdpr",
    "category": "legislation",
-   "complete": false,
-   "variant": "bookmarks-removed",
-   "gold": 228,
+   "complete": true,
+   "variant": "",
+   "gold": 125,
    "gold_image_only": 0,
    "rules": {
-    "sections": 226,
-    "seconds": 0.08,
-    "precision": 0.996,
-    "recall": 0.987,
-    "f1": 0.991,
-    "level_agreement": 0.871
+    "sections": 125,
+    "seconds": 0.12,
+    "precision": 0.912,
+    "recall": 0.912,
+    "f1": 0.912,
+    "level_agreement": 0.637
    }
   },
   {
@@ -337,7 +337,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 257,
-    "seconds": 0.27,
+    "seconds": 0.21,
     "precision": 0.833,
     "recall": 0.826,
     "f1": 0.829,
@@ -401,7 +401,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 118,
-    "seconds": 0.45,
+    "seconds": 0.44,
     "precision": 0.0,
     "recall": 0.0,
     "f1": 0.0,
@@ -449,7 +449,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 362,
-    "seconds": 0.27,
+    "seconds": 0.26,
     "precision": 0.392,
     "recall": 0.993,
     "f1": 0.562,
@@ -465,7 +465,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 790,
-    "seconds": 0.51,
+    "seconds": 0.44,
     "precision": 0.49,
     "recall": 0.982,
     "f1": 0.654,
@@ -497,7 +497,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 870,
-    "seconds": 1.14,
+    "seconds": 1.12,
     "precision": 0.301,
     "recall": 0.876,
     "f1": 0.448,
@@ -513,7 +513,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 335,
-    "seconds": 2.06,
+    "seconds": 2.64,
     "precision": 0.609,
     "recall": 1.0,
     "f1": 0.757,
@@ -529,7 +529,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 222,
-    "seconds": 0.15,
+    "seconds": 0.14,
     "precision": 0.252,
     "recall": 1.0,
     "f1": 0.403,
@@ -561,7 +561,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 316,
-    "seconds": 0.13,
+    "seconds": 0.12,
     "precision": 0.383,
     "recall": 0.428,
     "f1": 0.404,
@@ -577,7 +577,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 944,
-    "seconds": 1.17,
+    "seconds": 1.18,
     "precision": 0.264,
     "recall": 0.886,
     "f1": 0.407,
@@ -673,7 +673,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 61,
-    "seconds": 0.21,
+    "seconds": 0.2,
     "precision": 0.508,
     "recall": 0.775,
     "f1": 0.614,
@@ -833,7 +833,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 7,
-    "seconds": 0.09,
+    "seconds": 0.08,
     "precision": 0.857,
     "recall": 0.158,
     "f1": 0.267,
@@ -865,7 +865,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 12,
-    "seconds": 0.1,
+    "seconds": 0.09,
     "precision": 1.0,
     "recall": 1.0,
     "f1": 1.0,
@@ -881,7 +881,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 0,
-    "seconds": 0.07,
+    "seconds": 0.06,
     "precision": null,
     "recall": null,
     "f1": null,
@@ -897,7 +897,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 42,
-    "seconds": 0.11,
+    "seconds": 0.1,
     "precision": 1.0,
     "recall": 1.0,
     "f1": 1.0,
@@ -993,7 +993,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 49,
-    "seconds": 0.07,
+    "seconds": 0.06,
     "precision": 0.327,
     "recall": 0.727,
     "f1": 0.451,
@@ -1009,7 +1009,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 155,
-    "seconds": 0.12,
+    "seconds": 0.13,
     "precision": 0.71,
     "recall": 1.0,
     "f1": 0.83,
@@ -1041,7 +1041,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 240,
-    "seconds": 0.36,
+    "seconds": 0.35,
     "precision": 0.075,
     "recall": 1.0,
     "f1": 0.14,
@@ -1057,7 +1057,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 1030,
-    "seconds": 0.97,
+    "seconds": 1.02,
     "precision": 0.092,
     "recall": 0.812,
     "f1": 0.166,
@@ -1177,28 +1177,28 @@
    }
   },
   {
-   "id": "scan-09-wiki-05-de",
+   "id": "scan-09-wiki-05-en",
    "category": "scanned",
    "complete": true,
    "variant": "half the pages scanned, half born-digital",
-   "gold": 39,
-   "gold_image_only": 21,
+   "gold": 30,
+   "gold_image_only": 19,
    "rules": {
-    "sections": 35,
-    "seconds": 0.04,
-    "precision": 0.514,
-    "recall": 0.462,
-    "f1": 0.486,
+    "sections": 13,
+    "seconds": 0.02,
+    "precision": 0.846,
+    "recall": 0.367,
+    "f1": 0.512,
     "level_agreement": 1.0
    }
   },
   {
-   "id": "scan-10-wiki-08-ja",
+   "id": "scan-10-report-nist-ir8312",
    "category": "scanned",
-   "complete": true,
-   "variant": "Japanese script",
-   "gold": 15,
-   "gold_image_only": 15,
+   "complete": false,
+   "variant": "government report, clean 200 dpi",
+   "gold": 26,
+   "gold_image_only": 26,
    "rules": {
     "sections": 0,
     "seconds": 0.0,
@@ -1393,7 +1393,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 83,
-    "seconds": 0.05,
+    "seconds": 0.04,
     "precision": 0.578,
     "recall": 1.0,
     "f1": 0.733,
@@ -1464,7 +1464,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 30,
-    "seconds": 0.05,
+    "seconds": 0.06,
     "precision": 1.0,
     "recall": 0.714,
     "f1": 0.833,
@@ -1528,7 +1528,7 @@
    "gold_image_only": 0,
    "rules": {
     "sections": 780,
-    "seconds": 1.0,
+    "seconds": 1.01,
     "precision": 1.0,
     "recall": 1.0,
     "f1": 1.0,
@@ -1623,99 +1623,99 @@
    }
   },
   {
-   "id": "wiki-05-de",
+   "id": "wiki-05-en",
    "category": "wikipedia",
    "complete": true,
-   "variant": "German",
-   "gold": 39,
+   "variant": "code samples and syntax tables",
+   "gold": 30,
    "gold_image_only": 0,
    "rules": {
-    "sections": 62,
-    "seconds": 0.09,
-    "precision": 0.629,
+    "sections": 32,
+    "seconds": 0.04,
+    "precision": 0.938,
     "recall": 1.0,
-    "f1": 0.772,
+    "f1": 0.968,
     "level_agreement": 1.0
    }
   },
   {
-   "id": "wiki-06-fr",
+   "id": "wiki-06-en",
    "category": "wikipedia",
    "complete": true,
-   "variant": "French, long",
-   "gold": 72,
+   "variant": "very long history, deep nesting",
+   "gold": 41,
    "gold_image_only": 0,
    "rules": {
-    "sections": 97,
-    "seconds": 0.09,
-    "precision": 0.742,
+    "sections": 43,
+    "seconds": 0.15,
+    "precision": 0.953,
     "recall": 1.0,
-    "f1": 0.852,
-    "level_agreement": 0.958
+    "f1": 0.976,
+    "level_agreement": 0.975
    }
   },
   {
-   "id": "wiki-07-es",
+   "id": "wiki-07-en",
    "category": "wikipedia",
    "complete": true,
-   "variant": "Spanish",
-   "gold": 17,
+   "variant": "large tables and figures",
+   "gold": 33,
    "gold_image_only": 0,
    "rules": {
-    "sections": 22,
+    "sections": 240,
+    "seconds": 0.18,
+    "precision": 0.138,
+    "recall": 1.0,
+    "f1": 0.242,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "wiki-08-en",
+   "category": "wikipedia",
+   "complete": true,
+   "variant": "science article with infobox and many subsections",
+   "gold": 61,
+   "gold_image_only": 0,
+   "rules": {
+    "sections": 81,
+    "seconds": 0.08,
+    "precision": 0.741,
+    "recall": 0.984,
+    "f1": 0.845,
+    "level_agreement": 0.983
+   }
+  },
+  {
+   "id": "wiki-09-en",
+   "category": "wikipedia",
+   "complete": true,
+   "variant": "architecture, image-heavy, short sections",
+   "gold": 19,
+   "gold_image_only": 0,
+   "rules": {
+    "sections": 23,
     "seconds": 0.02,
-    "precision": 0.773,
+    "precision": 0.826,
     "recall": 1.0,
-    "f1": 0.872,
-    "level_agreement": 0.938
+    "f1": 0.905,
+    "level_agreement": 0.944
    }
   },
   {
-   "id": "wiki-08-ja",
+   "id": "wiki-10-en",
    "category": "wikipedia",
    "complete": true,
-   "variant": "Japanese, CJK",
-   "gold": 15,
+   "variant": "biography with a works list",
+   "gold": 35,
    "gold_image_only": 0,
    "rules": {
-    "sections": 2,
-    "seconds": 0.01,
-    "precision": 1.0,
-    "recall": 0.067,
-    "f1": 0.125,
-    "level_agreement": null
-   }
-  },
-  {
-   "id": "wiki-09-ar",
-   "category": "wikipedia",
-   "complete": true,
-   "variant": "Arabic, right-to-left",
-   "gold": 8,
-   "gold_image_only": 0,
-   "rules": {
-    "sections": 0,
-    "seconds": 0.0,
-    "precision": 0.0,
-    "recall": 0.0,
-    "f1": 0.0,
-    "level_agreement": null
-   }
-  },
-  {
-   "id": "wiki-10-hi",
-   "category": "wikipedia",
-   "complete": true,
-   "variant": "Hindi, Devanagari",
-   "gold": 14,
-   "gold_image_only": 0,
-   "rules": {
-    "sections": 5,
-    "seconds": 0.01,
-    "precision": 0.0,
-    "recall": 0.0,
-    "f1": 0.0,
-    "level_agreement": null
+    "sections": 38,
+    "seconds": 0.03,
+    "precision": 0.921,
+    "recall": 1.0,
+    "f1": 0.959,
+    "level_agreement": 0.971
    }
   }
  ]

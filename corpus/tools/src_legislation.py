@@ -6,11 +6,21 @@ arrangement of sections (India, South Africa), always located in the body."""
 
 from __future__ import annotations
 
+import html
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from common import Entry, anchor, built, extraction, fetch, from_bookmarks, register
+from common import (
+    Entry,
+    anchor,
+    built,
+    extraction,
+    fetch,
+    fetch_text,
+    from_bookmarks,
+    register,
+)
 
 LAW = "law/"
 # "B" may be a separate drop-cap line, leaving "E IT ENACTED …".
@@ -120,6 +130,42 @@ def printed_contents(pdf: Path) -> tuple[list[tuple[int, str]], str]:
     return out, first
 
 
+def html_headings(page: str) -> list[tuple[int, str]]:
+    """Headings of a gesetze-im-internet.de English translation: centred bold
+    paragraphs. Roman-numbered chapters and other headings are level 1,
+    articles ("Article 1 [Human dignity …]") level 2; the act's title is skipped."""
+    out = []
+    for p in re.findall(r'<p style="text-align: center; font-weight: bold">(.*?)</p>', page, re.DOTALL)[1:]:
+        text = html.unescape(re.sub(r"<[^>]+>", " ", re.sub(r"<a[^>]*>.*?</a>", "", p, flags=re.DOTALL)))
+        text = re.sub(r"\s+", " ", text).strip()
+        if text:
+            out.append((2 if re.match(r"Article \d", text) else 1, text))
+    return out
+
+
+def eurlex_headings(page: str) -> list[tuple[int, str]]:
+    """EUR-Lex HTML: "CHAPTER I" + "General provisions" (level 1), "Section 1"
+    + title (level 2), "Article 1" + "Subject-matter" (one deeper than the
+    current chapter or section)."""
+    out: list[tuple[int, str]] = []
+    depth = 0
+    for kind, inner in re.findall(r'<p[^>]*class="oj-(ti-section-[12]|ti-art|sti-art)"[^>]*>(.*?)</p>', page, re.DOTALL):
+        text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", inner))).strip()
+        if not text:
+            continue
+        if kind == "ti-section-1":
+            depth = 1 if text.upper().startswith("CHAPTER") else 2
+            out.append((depth, text))
+        elif kind == "ti-art":
+            out.append((depth + 1, text))
+        elif out:  # subtitle joins the heading above it
+            out[-1] = (out[-1][0], f"{out[-1][1]} {text}")
+    return out
+
+
+HTML_PARSERS = {"gesetze": html_headings, "eurlex": eurlex_headings}
+
+
 DOCS = [
     # id, url, cache file, title, licence, how, extra
     ("uk-climate-change-act-2008", "https://www.legislation.gov.uk/ukpga/2008/27/pdfs/ukpga_20080027_en.pdf",
@@ -143,11 +189,15 @@ DOCS = [
      ("xml", "https://www.govinfo.gov/content/pkg/PLAW-117publ167/uslm/PLAW-117publ167.xml", "us-plaw-117-167.xml",
       {k: ("num", "heading") for k in ("division", "title", "subtitle", "part", "subpart", "chapter", "subchapter", "section")},
       {"quotedContent", "toc", "meta", "preface", "endMarker"})),
-    ("ca-privacy-act", "https://laws-lois.justice.gc.ca/PDF/P-21.pdf", "ca-privacy.pdf",
-     "Privacy Act, R.S.C. 1985, c. P-21 (Canada)", "Open Government Licence – Canada", ("bookmarks", {})),
-    ("de-grundgesetz", "https://www.gesetze-im-internet.de/gg/GG.pdf", "de-gg.pdf",
-     "Grundgesetz für die Bundesrepublik Deutschland (Germany, in German)", "Amtliches Werk, § 5 UrhG (public domain)",
-     ("bookmarks", {})),
+    # Canada's federal PDFs are bilingual (English and French columns), so the EU stands in.
+    ("eu-gdpr", "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32016R0679", "eu-gdpr.pdf",
+     "Regulation (EU) 2016/679, General Data Protection Regulation (EU, Official Journal)",
+     "EUR-Lex: reuse authorised with acknowledgement (Commission Decision 2011/833/EU)",
+     ("html", "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679", "eu-gdpr.html", "eurlex")),
+    ("de-basic-law-english", "https://www.gesetze-im-internet.de/englisch_gg/englisch_gg.pdf", "de-gg-en.pdf",
+     "Basic Law for the Federal Republic of Germany (official English translation)",
+     "Federal Ministry of Justice translation; free to use with attribution",
+     ("html", "https://www.gesetze-im-internet.de/englisch_gg/englisch_gg.html", "de-gg-en.html", "gesetze")),
     ("au-privacy-act-1988", "https://www.legislation.gov.au/C2004A03712/2026-06-04/2026-06-04/text/original/pdf",
      "au-privacy.pdf", "Privacy Act 1988, compilation 104 (Australia, excerpt)", "CC BY 4.0",
      ("bookmarks", {"max_pages": 300})),
@@ -181,7 +231,11 @@ def build(force: bool = False) -> None:
             continue
         ext = extraction(pdf)
         # Section headings in many acts run into the first sentence ("1. Short title.—(1) This Act …").
-        if how[0] == "xml":
+        if how[0] == "html":
+            items = HTML_PARSERS[how[3]](fetch_text(how[1], LAW + how[2]))
+            entry.gold_source = "legislation-html"
+            gold, missing = anchor(ext, items)
+        elif how[0] == "xml":
             _, xurl, xname, structural, skip = how
             items = xml_headings(fetch(xurl, LAW + xname), structural, skip)
             entry.gold_source = "legislation-xml"

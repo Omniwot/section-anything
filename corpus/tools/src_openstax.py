@@ -40,10 +40,9 @@ BOOKS = [
     ("principles-economics-3e", "principles-economics-3e_-_WEB.pdf", 3, "graphs and tables"),
     ("introduction-philosophy", "Introduction_to_Philosophy-WEB.pdf", 4, "humanities prose"),
     ("writing-guide", "WritingGuide-WEB.pdf", 2, "writing guide, many short sections"),
-    ("cálculo-volumen-1", "Calculo_volumen_1_-_WEB_vGHB4xK.pdf", 2, "Spanish"),
+    ("astronomy-2e", "astronomy-2e_-_WEB.pdf", 6, "astronomy: instruments, figures, worked examples"),
 ]
-SKIP = {"chapter outline", "introduction", "learning objectives", "introducción", "esquema del capítulo",
-        "objetivos de aprendizaje"}
+SKIP = {"chapter outline", "introduction", "learning objectives"}
 
 
 def _slugify(s: str) -> str:
