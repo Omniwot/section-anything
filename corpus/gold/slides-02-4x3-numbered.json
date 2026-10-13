@@ -1,0 +1,112 @@
+[
+ {
+  "level": 1,
+  "title": "1. Coastal Survey Design at Scale",
+  "page": 2
+ },
+ {
+  "level": 2,
+  "title": "1.1 Urban Benchmarks Revisited",
+  "page": 3
+ },
+ {
+  "level": 2,
+  "title": "1.2 Statistical Validation at Scale",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "1.3 Urban Retrofits in Practice",
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "1.4 Adaptive Survey Design under Load",
+  "page": 6
+ },
+ {
+  "level": 1,
+  "title": "2. Statistical Data Quality",
+  "page": 7
+ },
+ {
+  "level": 2,
+  "title": "2.1 Hydraulic Material Selection",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "2.2 Secondary Sensor Placement in Practice",
+  "page": 9
+ },
+ {
+  "level": 2,
+  "title": "2.3 Hydraulic Sensor Placement",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "2.4 Comparative Load Paths in Practice",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "2.5 Field Coverage under Load",
+  "page": 12
+ },
+ {
+  "level": 2,
+  "title": "2.6 Lateral Interpolation under Load",
+  "page": 13
+ },
+ {
+  "level": 1,
+  "title": "3. Statistical Noise Floor Revisited",
+  "page": 14
+ },
+ {
+  "level": 2,
+  "title": "3.1 Comparative Coverage at Scale",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "3.2 Coastal Data Quality",
+  "page": 16
+ },
+ {
+  "level": 2,
+  "title": "3.3 Seasonal Benchmarks",
+  "page": 17
+ },
+ {
+  "level": 2,
+  "title": "3.4 Urban Fatigue Revisited",
+  "page": 18
+ },
+ {
+  "level": 1,
+  "title": "4. Comparative Interpolation under Load",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "4.1 Seasonal Erosion at Scale",
+  "page": 20
+ },
+ {
+  "level": 2,
+  "title": "4.2 Optical Validation in Practice",
+  "page": 21
+ },
+ {
+  "level": 2,
+  "title": "4.3 Lateral Water Balance",
+  "page": 22
+ },
+ {
+  "level": 2,
+  "title": "4.4 Hydraulic Fatigue for Small Sites",
+  "page": 23
+ }
+]

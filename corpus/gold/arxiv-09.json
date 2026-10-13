@@ -1,0 +1,167 @@
+[
+ {
+  "level": 1,
+  "title": "Introduction",
+  "page": 1
+ },
+ {
+  "level": 1,
+  "title": "2 Related work",
+  "page": 3
+ },
+ {
+  "level": 1,
+  "title": "3 Data",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "3.1 Sources and assembly",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "3.2 What a posted price is and is not",
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "3.3 Release",
+  "page": 6
+ },
+ {
+  "level": 1,
+  "title": "4 Measuring capability",
+  "page": 6
+ },
+ {
+  "level": 1,
+  "title": "5 Auditing the capability measure",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "5.1 Scoring: differential functioning and untestable cohorts",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "5.2 Generalisation: dimensionality and saturation",
+  "page": 9
+ },
+ {
+  "level": 2,
+  "title": "5.3 Extrapolation: external criteria",
+  "page": 9
+ },
+ {
+  "level": 2,
+  "title": "5.4 Decision: where the index can be trusted",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "5.5 Dispositions",
+  "page": 10
+ },
+ {
+  "level": 1,
+  "title": "6 From capability to a price index",
+  "page": 10
+ },
+ {
+  "level": 1,
+  "title": "7 Results",
+  "page": 13
+ },
+ {
+  "level": 1,
+  "title": "Implications for economic measurement",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "8.1 An illustrative deflator bound",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "8.2 What this says to current proposals",
+  "page": 16
+ },
+ {
+  "level": 2,
+  "title": "8.3 The price of intelligence, so far",
+  "page": 17
+ },
+ {
+  "level": 1,
+  "title": "9 Limitations",
+  "page": 18
+ },
+ {
+  "level": 1,
+  "title": "10 Conclusion",
+  "page": 18
+ },
+ {
+  "level": 1,
+  "title": "A How to read this appendix",
+  "page": 21
+ },
+ {
+  "level": 1,
+  "title": "B Mathematical basis",
+  "page": 21
+ },
+ {
+  "level": 1,
+  "title": "C Procedure boxes",
+  "page": 25
+ },
+ {
+  "level": 1,
+  "title": "D Panel construction and provenance",
+  "page": 25
+ },
+ {
+  "level": 1,
+  "title": "E Benchmark battery",
+  "page": 28
+ },
+ {
+  "level": 1,
+  "title": "F Anchor selection",
+  "page": 29
+ },
+ {
+  "level": 1,
+  "title": "G Audit evidence",
+  "page": 29
+ },
+ {
+  "level": 1,
+  "title": "H Index estimation detail",
+  "page": 34
+ },
+ {
+  "level": 1,
+  "title": "I Robustness, registered and delivered",
+  "page": 34
+ },
+ {
+  "level": 1,
+  "title": "J Deviations from the pre-registration",
+  "page": 35
+ },
+ {
+  "level": 1,
+  "title": "K Reproducibility and data provenance",
+  "page": 36
+ },
+ {
+  "level": 1,
+  "title": "L Use of AI assistance",
+  "page": 36
+ }
+]

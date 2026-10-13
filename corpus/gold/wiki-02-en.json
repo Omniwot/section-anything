@@ -1,0 +1,357 @@
+[
+ {
+  "level": 1,
+  "title": "World War I",
+  "page": 1
+ },
+ {
+  "level": 2,
+  "title": "Names",
+  "page": 3
+ },
+ {
+  "level": 2,
+  "title": "Background",
+  "page": 3
+ },
+ {
+  "level": 3,
+  "title": "Political and military alliances",
+  "page": 3
+ },
+ {
+  "level": 3,
+  "title": "Arms race",
+  "page": 4
+ },
+ {
+  "level": 3,
+  "title": "Conflicts in the Balkans",
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "Prelude",
+  "page": 6
+ },
+ {
+  "level": 3,
+  "title": "Sarajevo assassination",
+  "page": 6
+ },
+ {
+  "level": 3,
+  "title": "Expansion of violence in Bosnia and Herzegovina",
+  "page": 6
+ },
+ {
+  "level": 3,
+  "title": "July Crisis",
+  "page": 6
+ },
+ {
+  "level": 2,
+  "title": "Progress of the war",
+  "page": 8
+ },
+ {
+  "level": 3,
+  "title": "Opening hostilities",
+  "page": 8
+ },
+ {
+  "level": 4,
+  "title": "Confusion among the Central Powers",
+  "page": 8
+ },
+ {
+  "level": 4,
+  "title": "Serbian campaign",
+  "page": 8
+ },
+ {
+  "level": 4,
+  "title": "German offensive in Belgium and France",
+  "page": 8
+ },
+ {
+  "level": 4,
+  "title": "Asia and the Pacific",
+  "page": 9
+ },
+ {
+  "level": 4,
+  "title": "African campaigns",
+  "page": 10
+ },
+ {
+  "level": 4,
+  "title": "Indian support for the Allies",
+  "page": 10
+ },
+ {
+  "level": 3,
+  "title": "Western Front",
+  "page": 10
+ },
+ {
+  "level": 4,
+  "title": "Trench warfare begins",
+  "page": 10
+ },
+ {
+  "level": 4,
+  "title": "Continuation of trench warfare",
+  "page": 11
+ },
+ {
+  "level": 3,
+  "title": "Naval war",
+  "page": 11
+ },
+ {
+  "level": 3,
+  "title": "Southern theatres",
+  "page": 12
+ },
+ {
+  "level": 4,
+  "title": "War in the Balkans",
+  "page": 12
+ },
+ {
+  "level": 4,
+  "title": "Ottoman Empire",
+  "page": 14
+ },
+ {
+  "level": 4,
+  "title": "Italian Front",
+  "page": 15
+ },
+ {
+  "level": 3,
+  "title": "Eastern Front",
+  "page": 16
+ },
+ {
+  "level": 4,
+  "title": "Initial actions",
+  "page": 16
+ },
+ {
+  "level": 4,
+  "title": "Romanian participation",
+  "page": 17
+ },
+ {
+  "level": 3,
+  "title": "Central Powers peace overtures",
+  "page": 18
+ },
+ {
+  "level": 3,
+  "title": "Final years of the war",
+  "page": 18
+ },
+ {
+  "level": 4,
+  "title": "Russian Revolution and withdrawal",
+  "page": 18
+ },
+ {
+  "level": 4,
+  "title": "United States enters the war",
+  "page": 19
+ },
+ {
+  "level": 4,
+  "title": "Nivelle offensive (April–May 1917)",
+  "page": 19
+ },
+ {
+  "level": 4,
+  "title": "Sinai and Palestine campaign (1917–1918)",
+  "page": 20
+ },
+ {
+  "level": 4,
+  "title": "German offensive and Allied counter-offensive (March–November 1918)",
+  "page": 20
+ },
+ {
+  "level": 4,
+  "title": "German Caucasus Expedition (June 1918) and German–Ottoman Clashes",
+  "page": 21
+ },
+ {
+  "level": 4,
+  "title": "Allied advance to the Hindenburg Line",
+  "page": 21
+ },
+ {
+  "level": 4,
+  "title": "Breakthrough of Macedonian front (September 1918)",
+  "page": 21
+ },
+ {
+  "level": 3,
+  "title": "Armistices and capitulations",
+  "page": 22
+ },
+ {
+  "level": 4,
+  "title": "German government surrenders",
+  "page": 22
+ },
+ {
+  "level": 2,
+  "title": "Aftermath",
+  "page": 23
+ },
+ {
+  "level": 3,
+  "title": "Formal end of the war",
+  "page": 23
+ },
+ {
+  "level": 3,
+  "title": "Peace treaties and national boundaries",
+  "page": 23
+ },
+ {
+  "level": 3,
+  "title": "National identities",
+  "page": 25
+ },
+ {
+  "level": 2,
+  "title": "Casualties",
+  "page": 25
+ },
+ {
+  "level": 3,
+  "title": "War crimes",
+  "page": 26
+ },
+ {
+  "level": 4,
+  "title": "Chemical weapons in warfare",
+  "page": 26
+ },
+ {
+  "level": 4,
+  "title": "Genocides by the Ottoman Empire",
+  "page": 26
+ },
+ {
+  "level": 3,
+  "title": "Prisoners of war",
+  "page": 27
+ },
+ {
+  "level": 2,
+  "title": "Soldiers' experiences",
+  "page": 27
+ },
+ {
+  "level": 3,
+  "title": "Conscription",
+  "page": 27
+ },
+ {
+  "level": 3,
+  "title": "Military attachés and war correspondents",
+  "page": 28
+ },
+ {
+  "level": 2,
+  "title": "Economic effects",
+  "page": 28
+ },
+ {
+  "level": 2,
+  "title": "Support and opposition for the war",
+  "page": 29
+ },
+ {
+  "level": 3,
+  "title": "Support",
+  "page": 29
+ },
+ {
+  "level": 4,
+  "title": "Patriotic funds",
+  "page": 31
+ },
+ {
+  "level": 3,
+  "title": "Opposition",
+  "page": 31
+ },
+ {
+  "level": 2,
+  "title": "Technology",
+  "page": 32
+ },
+ {
+  "level": 2,
+  "title": "Diplomacy",
+  "page": 32
+ },
+ {
+  "level": 2,
+  "title": "Legacy and memory",
+  "page": 32
+ },
+ {
+  "level": 3,
+  "title": "Memorials",
+  "page": 32
+ },
+ {
+  "level": 3,
+  "title": "Historiography",
+  "page": 33
+ },
+ {
+  "level": 3,
+  "title": "Unexploded ordnance",
+  "page": 34
+ },
+ {
+  "level": 2,
+  "title": "See also",
+  "page": 34
+ },
+ {
+  "level": 2,
+  "title": "Footnotes",
+  "page": 34
+ },
+ {
+  "level": 2,
+  "title": "References",
+  "page": 35
+ },
+ {
+  "level": 2,
+  "title": "Bibliography",
+  "page": 49
+ },
+ {
+  "level": 2,
+  "title": "External links",
+  "page": 58
+ },
+ {
+  "level": 3,
+  "title": "Archival materials",
+  "page": 59
+ },
+ {
+  "level": 3,
+  "title": "Library guides",
+  "page": 59
+ }
+]

@@ -1,0 +1,1972 @@
+[
+ {
+  "level": 1,
+  "title": "Copyright",
+  "page": 2
+ },
+ {
+  "level": 2,
+  "title": "Contributors",
+  "page": 2
+ },
+ {
+  "level": 2,
+  "title": "Feedback",
+  "page": 2
+ },
+ {
+  "level": 2,
+  "title": "Publication date and software version",
+  "page": 2
+ },
+ {
+  "level": 1,
+  "title": "Preface",
+  "page": 9
+ },
+ {
+  "level": 2,
+  "title": "Who is this book for?",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "What’s in this book?",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "Minimum requirements for using LibreOffice",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "How to get LibreOffice",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "Installing LibreOffice",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "Setting up and customizing LibreOffice",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "Extensions and add-ons",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "Where to get more help",
+  "page": 11
+ },
+ {
+  "level": 3,
+  "title": "Help system",
+  "page": 11
+ },
+ {
+  "level": 3,
+  "title": "Other free online support",
+  "page": 12
+ },
+ {
+  "level": 3,
+  "title": "Paid support and training",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "What you see may be different",
+  "page": 13
+ },
+ {
+  "level": 3,
+  "title": "Illustrations",
+  "page": 13
+ },
+ {
+  "level": 3,
+  "title": "Icons",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "Using LibreOffice on macOS",
+  "page": 14
+ },
+ {
+  "level": 2,
+  "title": "Frequently asked questions",
+  "page": 14
+ },
+ {
+  "level": 2,
+  "title": "What’s new in LibreOffice Writer 7.6 Community?",
+  "page": 15
+ },
+ {
+  "level": 1,
+  "title": "Chapter 1, Introducing Writer",
+  "page": 16
+ },
+ {
+  "level": 2,
+  "title": "What is Writer?",
+  "page": 17
+ },
+ {
+  "level": 2,
+  "title": "Parts of the main Writer window",
+  "page": 17
+ },
+ {
+  "level": 3,
+  "title": "Title bar",
+  "page": 17
+ },
+ {
+  "level": 3,
+  "title": "Menu bar",
+  "page": 17
+ },
+ {
+  "level": 3,
+  "title": "Sidebar",
+  "page": 18
+ },
+ {
+  "level": 3,
+  "title": "Toolbars",
+  "page": 21
+ },
+ {
+  "level": 4,
+  "title": "Displaying or hiding toolbars",
+  "page": 21
+ },
+ {
+  "level": 4,
+  "title": "Sub-menus and tool palettes",
+  "page": 21
+ },
+ {
+  "level": 4,
+  "title": "Locking and unlocking toolbars",
+  "page": 22
+ },
+ {
+  "level": 4,
+  "title": "Docking, locking, and moving toolbars",
+  "page": 22
+ },
+ {
+  "level": 4,
+  "title": "Customizing toolbars",
+  "page": 22
+ },
+ {
+  "level": 3,
+  "title": "Rulers",
+  "page": 23
+ },
+ {
+  "level": 3,
+  "title": "Status bar",
+  "page": 24
+ },
+ {
+  "level": 2,
+  "title": "Context (right-click) menus",
+  "page": 26
+ },
+ {
+  "level": 2,
+  "title": "Dialogs",
+  "page": 26
+ },
+ {
+  "level": 2,
+  "title": "Document views",
+  "page": 26
+ },
+ {
+  "level": 2,
+  "title": "Starting a new document",
+  "page": 27
+ },
+ {
+  "level": 3,
+  "title": "From the Start Center",
+  "page": 27
+ },
+ {
+  "level": 3,
+  "title": "From a template",
+  "page": 28
+ },
+ {
+  "level": 2,
+  "title": "Opening an existing document",
+  "page": 29
+ },
+ {
+  "level": 3,
+  "title": "Opening files not in OpenDocument Text (.odt) format",
+  "page": 30
+ },
+ {
+  "level": 2,
+  "title": "Saving a document",
+  "page": 30
+ },
+ {
+  "level": 3,
+  "title": "Save commands",
+  "page": 30
+ },
+ {
+  "level": 4,
+  "title": "Save a new file or a previously-saved file",
+  "page": 30
+ },
+ {
+  "level": 4,
+  "title": "Save to a remote server",
+  "page": 31
+ },
+ {
+  "level": 4,
+  "title": "Save a copy",
+  "page": 31
+ },
+ {
+  "level": 4,
+  "title": "Save all",
+  "page": 31
+ },
+ {
+  "level": 3,
+  "title": "Save As command",
+  "page": 31
+ },
+ {
+  "level": 3,
+  "title": "Saving documents automatically",
+  "page": 31
+ },
+ {
+  "level": 3,
+  "title": "Saving as a Microsoft Word document",
+  "page": 32
+ },
+ {
+  "level": 3,
+  "title": "Exchanging documents with users of Apple Pages",
+  "page": 32
+ },
+ {
+  "level": 2,
+  "title": "Using password protection and OpenPGP encryption",
+  "page": 32
+ },
+ {
+  "level": 3,
+  "title": "Password protection",
+  "page": 32
+ },
+ {
+  "level": 4,
+  "title": "Changing or removing the password for a document",
+  "page": 33
+ },
+ {
+  "level": 3,
+  "title": "OpenPGP encryption",
+  "page": 34
+ },
+ {
+  "level": 2,
+  "title": "Opening and saving files on remote servers",
+  "page": 34
+ },
+ {
+  "level": 2,
+  "title": "Moving quickly through a document",
+  "page": 34
+ },
+ {
+  "level": 3,
+  "title": "Using Go to Page",
+  "page": 34
+ },
+ {
+  "level": 3,
+  "title": "Using the Navigator",
+  "page": 35
+ },
+ {
+  "level": 3,
+  "title": "Using outline folding",
+  "page": 37
+ },
+ {
+  "level": 3,
+  "title": "Setting reminders",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "Undoing and redoing changes",
+  "page": 38
+ },
+ {
+  "level": 2,
+  "title": "Displaying multiple views of a document",
+  "page": 38
+ },
+ {
+  "level": 2,
+  "title": "Reloading a document",
+  "page": 39
+ },
+ {
+  "level": 2,
+  "title": "Closing a document",
+  "page": 39
+ },
+ {
+  "level": 1,
+  "title": "Chapter 2, Working with Text: Basics",
+  "page": 40
+ },
+ {
+  "level": 2,
+  "title": "Introduction",
+  "page": 20
+ },
+ {
+  "level": 3,
+  "title": "Selecting a vertical block of text",
+  "page": 42
+ },
+ {
+  "level": 2,
+  "title": "Cutting, copying, and pasting text",
+  "page": 43
+ },
+ {
+  "level": 2,
+  "title": "Finding and replacing text",
+  "page": 43
+ },
+ {
+  "level": 3,
+  "title": "Using the Find toolbar",
+  "page": 44
+ },
+ {
+  "level": 3,
+  "title": "Using the Find and Replace dialog",
+  "page": 44
+ },
+ {
+  "level": 2,
+  "title": "Inserting special characters",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "Inserting non-breaking spaces, hyphens, and more",
+  "page": 46
+ },
+ {
+  "level": 3,
+  "title": "Inserting en and em dashes",
+  "page": 47
+ },
+ {
+  "level": 2,
+  "title": "Checking spelling and grammar",
+  "page": 49
+ },
+ {
+  "level": 3,
+  "title": "Spelling",
+  "page": 49
+ },
+ {
+  "level": 3,
+  "title": "Spelling and grammar",
+  "page": 50
+ },
+ {
+  "level": 3,
+  "title": "Grammar",
+  "page": 51
+ },
+ {
+  "level": 4,
+  "title": "English sentence checking",
+  "page": 52
+ },
+ {
+  "level": 4,
+  "title": "Grammar checking",
+  "page": 53
+ },
+ {
+  "level": 4,
+  "title": "Punctuation",
+  "page": 53
+ },
+ {
+  "level": 4,
+  "title": "Others",
+  "page": 54
+ },
+ {
+  "level": 2,
+  "title": "Using Language Tool",
+  "page": 54
+ },
+ {
+  "level": 2,
+  "title": "Using synonyms and the thesaurus",
+  "page": 54
+ },
+ {
+  "level": 2,
+  "title": "Hyphenating words",
+  "page": 55
+ },
+ {
+  "level": 3,
+  "title": "Automatic hyphenation",
+  "page": 56
+ },
+ {
+  "level": 3,
+  "title": "Hyphenation options",
+  "page": 56
+ },
+ {
+  "level": 2,
+  "title": "Using AutoCorrect",
+  "page": 58
+ },
+ {
+  "level": 2,
+  "title": "Using Word Completion",
+  "page": 58
+ },
+ {
+  "level": 2,
+  "title": "Using AutoText",
+  "page": 60
+ },
+ {
+  "level": 3,
+  "title": "Creating AutoText",
+  "page": 60
+ },
+ {
+  "level": 3,
+  "title": "Inserting AutoText",
+  "page": 61
+ },
+ {
+  "level": 3,
+  "title": "Printing a list of AutoText entries",
+  "page": 61
+ },
+ {
+  "level": 2,
+  "title": "Changing the case of selected text",
+  "page": 61
+ },
+ {
+  "level": 1,
+  "title": "Chapter 3, Working with Text: Advanced",
+  "page": 63
+ },
+ {
+  "level": 2,
+  "title": "Introduction",
+  "page": 64
+ },
+ {
+  "level": 2,
+  "title": "Using built-in language tools",
+  "page": 64
+ },
+ {
+  "level": 3,
+  "title": "Using Tools > Language",
+  "page": 64
+ },
+ {
+  "level": 3,
+  "title": "Using language settings in Options",
+  "page": 65
+ },
+ {
+  "level": 3,
+  "title": "Using paragraph and character styles",
+  "page": 66
+ },
+ {
+  "level": 3,
+  "title": "Using the Status bar",
+  "page": 66
+ },
+ {
+  "level": 2,
+  "title": "Advanced find and replace techniques",
+  "page": 67
+ },
+ {
+  "level": 3,
+  "title": "Find and replace paragraph styles",
+  "page": 67
+ },
+ {
+  "level": 3,
+  "title": "Find and replace text formatting",
+  "page": 67
+ },
+ {
+  "level": 3,
+  "title": "Similarity search",
+  "page": 68
+ },
+ {
+  "level": 3,
+  "title": "Search with wildcards and regular expressions",
+  "page": 69
+ },
+ {
+  "level": 2,
+  "title": "Tracking changes to a document",
+  "page": 70
+ },
+ {
+  "level": 3,
+  "title": "Preparing a document for review",
+  "page": 70
+ },
+ {
+  "level": 3,
+  "title": "Track Changes menu and toolbar",
+  "page": 71
+ },
+ {
+  "level": 3,
+  "title": "Recording changes",
+  "page": 71
+ },
+ {
+  "level": 3,
+  "title": "Accepting or rejecting changes",
+  "page": 73
+ },
+ {
+  "level": 3,
+  "title": "Comparing documents",
+  "page": 75
+ },
+ {
+  "level": 3,
+  "title": "Merging modified documents",
+  "page": 75
+ },
+ {
+  "level": 2,
+  "title": "Adding other comments",
+  "page": 75
+ },
+ {
+  "level": 2,
+  "title": "Using footnotes and endnotes",
+  "page": 77
+ },
+ {
+  "level": 3,
+  "title": "Inserting footnotes and endnotes",
+  "page": 77
+ },
+ {
+  "level": 3,
+  "title": "Formatting footnotes and endnotes",
+  "page": 78
+ },
+ {
+  "level": 2,
+  "title": "Linking to another part of a document",
+  "page": 78
+ },
+ {
+  "level": 3,
+  "title": "Using cross-references",
+  "page": 79
+ },
+ {
+  "level": 3,
+  "title": "Using bookmarks",
+  "page": 79
+ },
+ {
+  "level": 3,
+  "title": "Using hyperlinks",
+  "page": 79
+ },
+ {
+  "level": 4,
+  "title": "Editing hyperlinks",
+  "page": 79
+ },
+ {
+  "level": 2,
+  "title": "Rearranging headings and text using the Navigator",
+  "page": 80
+ },
+ {
+  "level": 2,
+  "title": "Outline folding",
+  "page": 81
+ },
+ {
+  "level": 3,
+  "title": "Using the Navigator",
+  "page": 81
+ },
+ {
+  "level": 3,
+  "title": "Using a mouse",
+  "page": 81
+ },
+ {
+  "level": 3,
+  "title": "Saving, printing, and exporting folded contents",
+  "page": 82
+ },
+ {
+  "level": 2,
+  "title": "Inserting material from other documents",
+  "page": 82
+ },
+ {
+  "level": 2,
+  "title": "Line numbering",
+  "page": 82
+ },
+ {
+  "level": 1,
+  "title": "Chapter 4, Formatting Text",
+  "page": 85
+ },
+ {
+  "level": 2,
+  "title": "Introduction",
+  "page": 86
+ },
+ {
+  "level": 3,
+  "title": "Formatting: direct (manual) or styles",
+  "page": 86
+ },
+ {
+  "level": 3,
+  "title": "Using styles is recommended",
+  "page": 86
+ },
+ {
+  "level": 3,
+  "title": "Removing manual formatting",
+  "page": 86
+ },
+ {
+  "level": 2,
+  "title": "Formatting paragraphs using styles",
+  "page": 87
+ },
+ {
+  "level": 2,
+  "title": "Formatting paragraphs directly",
+  "page": 87
+ },
+ {
+  "level": 3,
+  "title": "Formatting toolbar",
+  "page": 87
+ },
+ {
+  "level": 3,
+  "title": "Sidebar Properties deck",
+  "page": 87
+ },
+ {
+  "level": 3,
+  "title": "Alignment options",
+  "page": 88
+ },
+ {
+  "level": 3,
+  "title": "Line and paragraph spacing",
+  "page": 89
+ },
+ {
+  "level": 3,
+  "title": "Paragraph indentation",
+  "page": 91
+ },
+ {
+  "level": 3,
+  "title": "Paragraph background color",
+  "page": 91
+ },
+ {
+  "level": 3,
+  "title": "Settings on the Paragraph dialog",
+  "page": 92
+ },
+ {
+  "level": 4,
+  "title": "Borders",
+  "page": 92
+ },
+ {
+  "level": 4,
+  "title": "Drop caps",
+  "page": 93
+ },
+ {
+  "level": 4,
+  "title": "Area",
+  "page": 93
+ },
+ {
+  "level": 4,
+  "title": "Transparency",
+  "page": 93
+ },
+ {
+  "level": 4,
+  "title": "Text Flow",
+  "page": 93
+ },
+ {
+  "level": 4,
+  "title": "Outline & List",
+  "page": 94
+ },
+ {
+  "level": 3,
+  "title": "Setting tab stops and indents",
+  "page": 95
+ },
+ {
+  "level": 3,
+  "title": "Changing the default tab stop interval",
+  "page": 95
+ },
+ {
+  "level": 3,
+  "title": "Changing measurement units for tab stops and rulers",
+  "page": 96
+ },
+ {
+  "level": 2,
+  "title": "Formatting characters using styles",
+  "page": 96
+ },
+ {
+  "level": 2,
+  "title": "Formatting characters directly",
+  "page": 96
+ },
+ {
+  "level": 3,
+  "title": "Font name, size, and effects",
+  "page": 97
+ },
+ {
+  "level": 3,
+  "title": "Settings on the Character dialog",
+  "page": 98
+ },
+ {
+  "level": 4,
+  "title": "Font and Font Effects",
+  "page": 99
+ },
+ {
+  "level": 4,
+  "title": "Position",
+  "page": 100
+ },
+ {
+  "level": 4,
+  "title": "Hyperlink",
+  "page": 100
+ },
+ {
+  "level": 4,
+  "title": "Highlighting",
+  "page": 101
+ },
+ {
+  "level": 4,
+  "title": "Borders",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "Formatting lists using styles",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "Formatting lists directly",
+  "page": 102
+ },
+ {
+  "level": 3,
+  "title": "Using the Bullets and Numbering toolbar",
+  "page": 102
+ },
+ {
+  "level": 3,
+  "title": "Using the Bullets and Numbering palettes on the Sidebar",
+  "page": 103
+ },
+ {
+  "level": 3,
+  "title": "Using the Bullets and Numbering dialog",
+  "page": 103
+ },
+ {
+  "level": 2,
+  "title": "Autoformatting",
+  "page": 104
+ },
+ {
+  "level": 1,
+  "title": "Chapter 5, Formatting Pages: Basics",
+  "page": 107
+ },
+ {
+  "level": 2,
+  "title": "Introduction",
+  "page": 108
+ },
+ {
+  "level": 2,
+  "title": "Setting up basic page layout using styles",
+  "page": 108
+ },
+ {
+  "level": 2,
+  "title": "Changing page margins",
+  "page": 109
+ },
+ {
+  "level": 2,
+  "title": "Inserting page breaks",
+  "page": 111
+ },
+ {
+  "level": 3,
+  "title": "Controlling automatic page breaks",
+  "page": 111
+ },
+ {
+  "level": 3,
+  "title": "Inserting a page break without changing the page style",
+  "page": 111
+ },
+ {
+  "level": 3,
+  "title": "Inserting a page break and changing to a new page style",
+  "page": 111
+ },
+ {
+  "level": 2,
+  "title": "Creating headers and footers",
+  "page": 113
+ },
+ {
+  "level": 3,
+  "title": "Formatting headers and footers",
+  "page": 114
+ },
+ {
+  "level": 2,
+  "title": "Numbering pages",
+  "page": 115
+ },
+ {
+  "level": 3,
+  "title": "Simple page numbering",
+  "page": 118
+ },
+ {
+  "level": 4,
+  "title": "Page number wizard",
+  "page": 117
+ },
+ {
+  "level": 4,
+  "title": "Page number alignment",
+  "page": 117
+ },
+ {
+  "level": 4,
+  "title": "Page number format",
+  "page": 118
+ },
+ {
+  "level": 3,
+  "title": "Restarting page numbering and changing numbering format",
+  "page": 118
+ },
+ {
+  "level": 3,
+  "title": "Numbering the first page something other than 1",
+  "page": 119
+ },
+ {
+  "level": 3,
+  "title": "Numbering pages by chapter",
+  "page": 119
+ },
+ {
+  "level": 2,
+  "title": "Including other information in headers and footers",
+  "page": 121
+ },
+ {
+  "level": 2,
+  "title": "Defining a different first page for a document",
+  "page": 121
+ },
+ {
+  "level": 3,
+  "title": "Using one page style",
+  "page": 122
+ },
+ {
+  "level": 3,
+  "title": "Using different page styles",
+  "page": 122
+ },
+ {
+  "level": 3,
+  "title": "Adding title pages",
+  "page": 123
+ },
+ {
+  "level": 2,
+  "title": "Formatting footnotes and endnotes",
+  "page": 124
+ },
+ {
+  "level": 3,
+  "title": "Defining footnote location and separator line",
+  "page": 124
+ },
+ {
+  "level": 2,
+  "title": "Inserting column and line breaks",
+  "page": 124
+ },
+ {
+  "level": 3,
+  "title": "Column breaks",
+  "page": 125
+ },
+ {
+  "level": 3,
+  "title": "Line breaks",
+  "page": 125
+ },
+ {
+  "level": 2,
+  "title": "Changing page orientation within a document",
+  "page": 125
+ },
+ {
+  "level": 3,
+  "title": "Setting up a landscape page style",
+  "page": 126
+ },
+ {
+  "level": 3,
+  "title": "Inserting a landscape page into a portrait document",
+  "page": 126
+ },
+ {
+  "level": 3,
+  "title": "Portrait headers or footers on landscape pages",
+  "page": 127
+ },
+ {
+  "level": 1,
+  "title": "Chapter 6, Formatting Pages: Advanced",
+  "page": 131
+ },
+ {
+  "level": 2,
+  "title": "Introduction",
+  "page": 132
+ },
+ {
+  "level": 2,
+  "title": "Choosing a layout method",
+  "page": 132
+ },
+ {
+  "level": 2,
+  "title": "Using columns to define the page layout",
+  "page": 133
+ },
+ {
+  "level": 3,
+  "title": "Formatting column width and spacing",
+  "page": 133
+ },
+ {
+  "level": 3,
+  "title": "Formatting separator lines",
+  "page": 134
+ },
+ {
+  "level": 3,
+  "title": "Distributing text across columns",
+  "page": 134
+ },
+ {
+  "level": 2,
+  "title": "Using frames for page layout",
+  "page": 134
+ },
+ {
+  "level": 3,
+  "title": "Creating a frame",
+  "page": 135
+ },
+ {
+  "level": 3,
+  "title": "Frame toolbar",
+  "page": 135
+ },
+ {
+  "level": 3,
+  "title": "Moving, resizing, and changing frame attributes",
+  "page": 136
+ },
+ {
+  "level": 3,
+  "title": "Anchoring frames",
+  "page": 137
+ },
+ {
+  "level": 3,
+  "title": "Linking frames",
+  "page": 137
+ },
+ {
+  "level": 2,
+  "title": "Using tables for page layout",
+  "page": 139
+ },
+ {
+  "level": 3,
+  "title": "Positioning information in headers or footers",
+  "page": 139
+ },
+ {
+  "level": 3,
+  "title": "Creating sideheads using tables",
+  "page": 139
+ },
+ {
+  "level": 4,
+  "title": "Example",
+  "page": 139
+ },
+ {
+  "level": 2,
+  "title": "Using sections for page layout",
+  "page": 141
+ },
+ {
+  "level": 3,
+  "title": "Creating sections",
+  "page": 142
+ },
+ {
+  "level": 4,
+  "title": "Naming sections",
+  "page": 142
+ },
+ {
+  "level": 4,
+  "title": "Linking sections",
+  "page": 143
+ },
+ {
+  "level": 4,
+  "title": "Write-protecting sections",
+  "page": 143
+ },
+ {
+  "level": 4,
+  "title": "Password-protecting sections",
+  "page": 143
+ },
+ {
+  "level": 4,
+  "title": "Hiding sections",
+  "page": 144
+ },
+ {
+  "level": 4,
+  "title": "Formatting a section into columns",
+  "page": 144
+ },
+ {
+  "level": 4,
+  "title": "Indenting the section from margins",
+  "page": 145
+ },
+ {
+  "level": 4,
+  "title": "Changing the background of the section",
+  "page": 145
+ },
+ {
+  "level": 4,
+  "title": "Customizing footnotes and endnotes in a section",
+  "page": 145
+ },
+ {
+  "level": 5,
+  "title": "Customizing footnotes",
+  "page": 145
+ },
+ {
+  "level": 4,
+  "title": "Editing the format of a section",
+  "page": 147
+ },
+ {
+  "level": 4,
+  "title": "Removing sections",
+  "page": 147
+ },
+ {
+  "level": 3,
+  "title": "Updating links",
+  "page": 147
+ },
+ {
+  "level": 4,
+  "title": "Removing links",
+  "page": 148
+ },
+ {
+  "level": 2,
+  "title": "Defining borders and backgrounds",
+  "page": 148
+ },
+ {
+  "level": 3,
+  "title": "Adding a border",
+  "page": 149
+ },
+ {
+  "level": 3,
+  "title": "Adding a color to the background area",
+  "page": 149
+ },
+ {
+  "level": 3,
+  "title": "Adding an image to the background",
+  "page": 150
+ },
+ {
+  "level": 3,
+  "title": "Adding a gradient, pattern, or hatch to the background",
+  "page": 151
+ },
+ {
+  "level": 3,
+  "title": "Deleting a color, gradient, image, or other background",
+  "page": 151
+ },
+ {
+  "level": 3,
+  "title": "Adjusting the transparency of the background",
+  "page": 151
+ },
+ {
+  "level": 2,
+  "title": "Using document themes",
+  "page": 152
+ },
+ {
+  "level": 2,
+  "title": "Using page line-spacing for printing",
+  "page": 153
+ },
+ {
+  "level": 3,
+  "title": "To enable a page style for page line-spacing",
+  "page": 153
+ },
+ {
+  "level": 3,
+  "title": "To enable paragraph styles for page line-spacing",
+  "page": 154
+ },
+ {
+  "level": 3,
+  "title": "To enable paragraphs for page line-spacing",
+  "page": 154
+ },
+ {
+  "level": 1,
+  "title": "Chapter 7, Printing and Publishing",
+  "page": 155
+ },
+ {
+  "level": 2,
+  "title": "Introduction",
+  "page": 156
+ },
+ {
+  "level": 2,
+  "title": "Quick printing",
+  "page": 156
+ },
+ {
+  "level": 3,
+  "title": "Specifying the default printer",
+  "page": 156
+ },
+ {
+  "level": 2,
+  "title": "Controlling printing using the Print dialog",
+  "page": 156
+ },
+ {
+  "level": 3,
+  "title": "Print dialog on Windows and Linux",
+  "page": 156
+ },
+ {
+  "level": 4,
+  "title": "Selecting general printing options",
+  "page": 157
+ },
+ {
+  "level": 4,
+  "title": "Selecting printer and print job options",
+  "page": 158
+ },
+ {
+  "level": 4,
+  "title": "Selecting what to print",
+  "page": 158
+ },
+ {
+  "level": 4,
+  "title": "Choices on the LibreOffice Writer tab",
+  "page": 159
+ },
+ {
+  "level": 3,
+  "title": "Print dialog on macOS",
+  "page": 159
+ },
+ {
+  "level": 4,
+  "title": "Selecting general printing options",
+  "page": 160
+ },
+ {
+  "level": 4,
+  "title": "Choices on the LibreOffice Writer page",
+  "page": 160
+ },
+ {
+  "level": 4,
+  "title": "Selecting what to print",
+  "page": 161
+ },
+ {
+  "level": 3,
+  "title": "Printing multiple pages on a single sheet of paper",
+  "page": 162
+ },
+ {
+  "level": 3,
+  "title": "Printing a brochure",
+  "page": 162
+ },
+ {
+  "level": 2,
+  "title": "Printing in black and white on a color printer",
+  "page": 164
+ },
+ {
+  "level": 2,
+  "title": "Previewing pages before printing",
+  "page": 165
+ },
+ {
+  "level": 2,
+  "title": "Printing envelopes",
+  "page": 165
+ },
+ {
+  "level": 2,
+  "title": "Printing labels",
+  "page": 168
+ },
+ {
+  "level": 2,
+  "title": "Exporting to PDF",
+  "page": 168
+ },
+ {
+  "level": 3,
+  "title": "Quick export to PDF",
+  "page": 168
+ },
+ {
+  "level": 3,
+  "title": "Controlling PDF content and quality",
+  "page": 168
+ },
+ {
+  "level": 4,
+  "title": "General tab of PDF Options dialog",
+  "page": 168
+ },
+ {
+  "level": 4,
+  "title": "Initial View tab of PDF Options dialog",
+  "page": 171
+ },
+ {
+  "level": 4,
+  "title": "User Interface tab of PDF Options dialog",
+  "page": 171
+ },
+ {
+  "level": 4,
+  "title": "Links tab of PDF Options dialog",
+  "page": 172
+ },
+ {
+  "level": 4,
+  "title": "Security tab of PDF Options dialog",
+  "page": 173
+ },
+ {
+  "level": 4,
+  "title": "Digital Signatures tab of PDF Options dialog",
+  "page": 173
+ },
+ {
+  "level": 2,
+  "title": "Exporting to EPUB format",
+  "page": 175
+ },
+ {
+  "level": 3,
+  "title": "Quick export to EPUB",
+  "page": 175
+ },
+ {
+  "level": 3,
+  "title": "Controlling export to EPUB",
+  "page": 175
+ },
+ {
+  "level": 2,
+  "title": "Exporting to other formats",
+  "page": 176
+ },
+ {
+  "level": 2,
+  "title": "Emailing Writer documents",
+  "page": 176
+ },
+ {
+  "level": 3,
+  "title": "Emailing a document to several recipients",
+  "page": 177
+ },
+ {
+  "level": 2,
+  "title": "Digital signing of documents",
+  "page": 177
+ },
+ {
+  "level": 3,
+  "title": "Applying a digital signature",
+  "page": 177
+ },
+ {
+  "level": 3,
+  "title": "Including a signature line",
+  "page": 179
+ },
+ {
+  "level": 2,
+  "title": "Removing personal data",
+  "page": 179
+ },
+ {
+  "level": 2,
+  "title": "Redaction",
+  "page": 180
+ },
+ {
+  "level": 3,
+  "title": "Auto-redaction",
+  "page": 180
+ },
+ {
+  "level": 2,
+  "title": "Accessibility checking",
+  "page": 181
+ },
+ {
+  "level": 1,
+  "title": "Chapter 8, Introduction to Styles",
+  "page": 183
+ },
+ {
+  "level": 2,
+  "title": "What are styles?",
+  "page": 184
+ },
+ {
+  "level": 3,
+  "title": "Why use styles?",
+  "page": 184
+ },
+ {
+  "level": 3,
+  "title": "Style categories",
+  "page": 184
+ },
+ {
+  "level": 2,
+  "title": "The Styles deck in the Sidebar",
+  "page": 184
+ },
+ {
+  "level": 3,
+  "title": "Filtering the visible styles",
+  "page": 185
+ },
+ {
+  "level": 2,
+  "title": "Applying styles",
+  "page": 185
+ },
+ {
+  "level": 3,
+  "title": "Applying paragraph styles",
+  "page": 185
+ },
+ {
+  "level": 4,
+  "title": "Using the Styles deck on the Sidebar",
+  "page": 186
+ },
+ {
+  "level": 4,
+  "title": "Using the Styles menu",
+  "page": 186
+ },
+ {
+  "level": 4,
+  "title": "Using the context (right-click) menu",
+  "page": 187
+ },
+ {
+  "level": 4,
+  "title": "Using the Set Paragraph Style list",
+  "page": 187
+ },
+ {
+  "level": 4,
+  "title": "Using the Styles menu",
+  "page": 186
+ },
+ {
+  "level": 4,
+  "title": "Using the Styles deck on the Sidebar",
+  "page": 186
+ },
+ {
+  "level": 4,
+  "title": "Using the context (right-click) menu",
+  "page": 187
+ },
+ {
+  "level": 3,
+  "title": "Applying frame styles",
+  "page": 190
+ },
+ {
+  "level": 3,
+  "title": "Applying page styles",
+  "page": 190
+ },
+ {
+  "level": 4,
+  "title": "Example: Chapters",
+  "page": 191
+ },
+ {
+  "level": 4,
+  "title": "Example: Page with special formatting",
+  "page": 191
+ },
+ {
+  "level": 4,
+  "title": "Example: A book chapter sequence of pages",
+  "page": 192
+ },
+ {
+  "level": 3,
+  "title": "Applying list styles",
+  "page": 195
+ },
+ {
+  "level": 4,
+  "title": "New Style from Selection",
+  "page": 197
+ },
+ {
+  "level": 4,
+  "title": "Update Selected Style",
+  "page": 197
+ },
+ {
+  "level": 4,
+  "title": "Load Styles (from a template or document)",
+  "page": 197
+ },
+ {
+  "level": 3,
+  "title": "Drag-and-drop a selection to create a style",
+  "page": 198
+ },
+ {
+  "level": 3,
+  "title": "Changing a style using the Style dialog",
+  "page": 198
+ },
+ {
+  "level": 3,
+  "title": "Using AutoUpdate",
+  "page": 198
+ },
+ {
+  "level": 2,
+  "title": "Deleting styles",
+  "page": 199
+ },
+ {
+  "level": 2,
+  "title": "Example: creating and modifying paragraph styles",
+  "page": 199
+ },
+ {
+  "level": 3,
+  "title": "Creating the Poem paragraph style",
+  "page": 200
+ },
+ {
+  "level": 3,
+  "title": "Creating the Poem Heading style",
+  "page": 201
+ },
+ {
+  "level": 4,
+  "title": "Sample poem",
+  "page": 201
+ },
+ {
+  "level": 3,
+  "title": "Changing the formatting of styles",
+  "page": 201
+ },
+ {
+  "level": 2,
+  "title": "Using paragraph styles to define a hierarchy of headings",
+  "page": 202
+ },
+ {
+  "level": 3,
+  "title": "Choosing paragraph styles for heading levels",
+  "page": 202
+ },
+ {
+  "level": 3,
+  "title": "Assigning outline levels to other styles",
+  "page": 203
+ },
+ {
+  "level": 3,
+  "title": "Setting up heading numbering",
+  "page": 204
+ },
+ {
+  "level": 1,
+  "title": "Chapter 9, Working with Styles",
+  "page": 205
+ },
+ {
+  "level": 2,
+  "title": "Introduction",
+  "page": 206
+ },
+ {
+  "level": 2,
+  "title": "Creating custom (new) styles",
+  "page": 206
+ },
+ {
+  "level": 3,
+  "title": "Style dialog",
+  "page": 206
+ },
+ {
+  "level": 3,
+  "title": "Organizer tab",
+  "page": 206
+ },
+ {
+  "level": 3,
+  "title": "Style inheritance",
+  "page": 207
+ },
+ {
+  "level": 4,
+  "title": "Example: Changing a property of a parent style",
+  "page": 208
+ },
+ {
+  "level": 2,
+  "title": "Working with paragraph styles",
+  "page": 208
+ },
+ {
+  "level": 3,
+  "title": "Indents & Spacing tab",
+  "page": 208
+ },
+ {
+  "level": 3,
+  "title": "Alignment tab",
+  "page": 210
+ },
+ {
+  "level": 3,
+  "title": "Text flow options for paragraph styles",
+  "page": 210
+ },
+ {
+  "level": 4,
+  "title": "Hyphenation options",
+  "page": 210
+ },
+ {
+  "level": 4,
+  "title": "Breaks options",
+  "page": 211
+ },
+ {
+  "level": 4,
+  "title": "Other options",
+  "page": 212
+ },
+ {
+  "level": 3,
+  "title": "Font options for the paragraph style",
+  "page": 212
+ },
+ {
+  "level": 4,
+  "title": "Specifying a relative font size",
+  "page": 212
+ },
+ {
+  "level": 4,
+  "title": "Selecting a language for a paragraph style",
+  "page": 213
+ },
+ {
+  "level": 3,
+  "title": "Options for positioning text",
+  "page": 214
+ },
+ {
+  "level": 4,
+  "title": "Example: Rotating the text in a paragraph style",
+  "page": 215
+ },
+ {
+  "level": 4,
+  "title": "Spacing options",
+  "page": 215
+ },
+ {
+  "level": 3,
+  "title": "Controlling tab stops",
+  "page": 215
+ },
+ {
+  "level": 3,
+  "title": "Outline & List tab",
+  "page": 216
+ },
+ {
+  "level": 3,
+  "title": "Setting up a drop cap",
+  "page": 216
+ },
+ {
+  "level": 3,
+  "title": "Background (area), highlighting, and transparency",
+  "page": 217
+ },
+ {
+  "level": 3,
+  "title": "Borders",
+  "page": 218
+ },
+ {
+  "level": 3,
+  "title": "Using conditional paragraph styles",
+  "page": 218
+ },
+ {
+  "level": 2,
+  "title": "Working with character styles",
+  "page": 219
+ },
+ {
+  "level": 3,
+  "title": "Creating a new character style",
+  "page": 220
+ },
+ {
+  "level": 2,
+  "title": "Working with frame styles",
+  "page": 220
+ },
+ {
+  "level": 3,
+  "title": "How frame styles work",
+  "page": 221
+ },
+ {
+  "level": 3,
+  "title": "Planning the styles",
+  "page": 221
+ },
+ {
+  "level": 3,
+  "title": "Creating or modifying frame styles",
+  "page": 222
+ },
+ {
+  "level": 2,
+  "title": "Working with page styles",
+  "page": 222
+ },
+ {
+  "level": 3,
+  "title": "Creating a new page style",
+  "page": 222
+ },
+ {
+  "level": 3,
+  "title": "Organizer tab",
+  "page": 222
+ },
+ {
+  "level": 3,
+  "title": "General settings for the page style",
+  "page": 222
+ },
+ {
+  "level": 3,
+  "title": "Area and Border tabs",
+  "page": 224
+ },
+ {
+  "level": 3,
+  "title": "Header and Footer tabs",
+  "page": 224
+ },
+ {
+  "level": 3,
+  "title": "Columns tab",
+  "page": 224
+ },
+ {
+  "level": 3,
+  "title": "Footnote tab",
+  "page": 224
+ },
+ {
+  "level": 2,
+  "title": "Working with list styles",
+  "page": 224
+ },
+ {
+  "level": 3,
+  "title": "Creating a new list style",
+  "page": 225
+ },
+ {
+  "level": 4,
+  "title": "Unordered, Ordered, and Image tabs",
+  "page": 225
+ },
+ {
+  "level": 4,
+  "title": "Outline tab",
+  "page": 225
+ },
+ {
+  "level": 4,
+  "title": "Position tab",
+  "page": 225
+ },
+ {
+  "level": 4,
+  "title": "Customize tab",
+  "page": 226
+ },
+ {
+  "level": 2,
+  "title": "Solving formatting problems",
+  "page": 227
+ },
+ {
+  "level": 3,
+  "title": "Using the Style Inspector",
+  "page": 227
+ },
+ {
+  "level": 3,
+  "title": "Using the Styles Spotlight",
+  "page": 228
+ },
+ {
+  "level": 1,
+  "title": "Chapter 10, Working with Templates",
+  "page": 230
+ },
+ {
+  "level": 2,
+  "title": "Introduction",
+  "page": 221
+ },
+ {
+  "level": 2,
+  "title": "Creating a template",
+  "page": 233
+ },
+ {
+  "level": 3,
+  "title": "Creating a template from a document",
+  "page": 233
+ },
+ {
+  "level": 3,
+  "title": "Creating a template using a wizard",
+  "page": 233
+ },
+ {
+  "level": 2,
+  "title": "Adding templates obtained from other sources",
+  "page": 234
+ },
+ {
+  "level": 3,
+  "title": "Installing templates",
+  "page": 236
+ },
+ {
+  "level": 2,
+  "title": "Editing a template",
+  "page": 236
+ },
+ {
+  "level": 3,
+  "title": "Updating a document from a changed template",
+  "page": 236
+ },
+ {
+  "level": 2,
+  "title": "Changing the template assigned to a document",
+  "page": 237
+ },
+ {
+  "level": 3,
+  "title": "Manually changing the template",
+  "page": 237
+ },
+ {
+  "level": 2,
+  "title": "Setting a default template",
+  "page": 238
+ },
+ {
+  "level": 3,
+  "title": "Setting a template as the default",
+  "page": 238
+ },
+ {
+  "level": 3,
+  "title": "Resetting Writer’s default template as the default",
+  "page": 238
+ },
+ {
+  "level": 3,
+  "title": "Renaming a template category",
+  "page": 240
+ },
+ {
+  "level": 3,
+  "title": "Moving a template",
+  "page": 240
+ },
+ {
+  "level": 3,
+  "title": "Renaming a template",
+  "page": 240
+ },
+ {
+  "level": 3,
+  "title": "Creating a template from a document",
+  "page": 233
+ }
+]

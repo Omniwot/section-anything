@@ -1,0 +1,1417 @@
+[
+ {
+  "level": 1,
+  "title": "Beloved Features",
+  "page": 7
+ },
+ {
+  "level": 1,
+  "title": "The User Guide",
+  "page": 9
+ },
+ {
+  "level": 2,
+  "title": "Installation of Requests",
+  "page": 9
+ },
+ {
+  "level": 3,
+  "title": "$ python -m pip install requests",
+  "page": 9
+ },
+ {
+  "level": 3,
+  "title": "Get the Source Code",
+  "page": 9
+ },
+ {
+  "level": 2,
+  "title": "Quickstart",
+  "page": 10
+ },
+ {
+  "level": 3,
+  "title": "Make a Request",
+  "page": 10
+ },
+ {
+  "level": 3,
+  "title": "Passing Parameters In URLs",
+  "page": 10
+ },
+ {
+  "level": 3,
+  "title": "Response Content",
+  "page": 11
+ },
+ {
+  "level": 3,
+  "title": "Binary Response Content",
+  "page": 11
+ },
+ {
+  "level": 3,
+  "title": "JSON Response Content",
+  "page": 12
+ },
+ {
+  "level": 3,
+  "title": "Raw Response Content",
+  "page": 12
+ },
+ {
+  "level": 3,
+  "title": "Custom Headers",
+  "page": 13
+ },
+ {
+  "level": 3,
+  "title": "More complicated POST requests",
+  "page": 13
+ },
+ {
+  "level": 3,
+  "title": "POST a Multipart-Encoded File",
+  "page": 14
+ },
+ {
+  "level": 3,
+  "title": "Response Status Codes",
+  "page": 16
+ },
+ {
+  "level": 3,
+  "title": "Response Headers",
+  "page": 16
+ },
+ {
+  "level": 3,
+  "title": "Cookies",
+  "page": 17
+ },
+ {
+  "level": 3,
+  "title": "Redirection and History",
+  "page": 18
+ },
+ {
+  "level": 3,
+  "title": "Timeouts",
+  "page": 18
+ },
+ {
+  "level": 3,
+  "title": "Errors and Exceptions",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "Advanced Usage",
+  "page": 19
+ },
+ {
+  "level": 3,
+  "title": "Session Objects",
+  "page": 19
+ },
+ {
+  "level": 3,
+  "title": "Request and Response Objects",
+  "page": 20
+ },
+ {
+  "level": 3,
+  "title": "Prepared Requests",
+  "page": 21
+ },
+ {
+  "level": 3,
+  "title": "SSL Cert Verification",
+  "page": 22
+ },
+ {
+  "level": 3,
+  "title": "Client Side Certificates",
+  "page": 23
+ },
+ {
+  "level": 3,
+  "title": "CA Certificates",
+  "page": 24
+ },
+ {
+  "level": 3,
+  "title": "Body Content Workflow",
+  "page": 24
+ },
+ {
+  "level": 3,
+  "title": "Keep-Alive",
+  "page": 24
+ },
+ {
+  "level": 3,
+  "title": "Streaming Uploads",
+  "page": 25
+ },
+ {
+  "level": 3,
+  "title": "Chunk-Encoded Requests",
+  "page": 25
+ },
+ {
+  "level": 3,
+  "title": "POST Multiple Multipart-Encoded Files",
+  "page": 25
+ },
+ {
+  "level": 3,
+  "title": "Event Hooks",
+  "page": 26
+ },
+ {
+  "level": 3,
+  "title": "Custom Authentication",
+  "page": 27
+ },
+ {
+  "level": 3,
+  "title": "Streaming Requests",
+  "page": 27
+ },
+ {
+  "level": 3,
+  "title": "Proxies",
+  "page": 28
+ },
+ {
+  "level": 4,
+  "title": "SOCKS",
+  "page": 30
+ },
+ {
+  "level": 3,
+  "title": "Compliance",
+  "page": 30
+ },
+ {
+  "level": 4,
+  "title": "Encodings",
+  "page": 30
+ },
+ {
+  "level": 3,
+  "title": "HTTP Verbs",
+  "page": 31
+ },
+ {
+  "level": 3,
+  "title": "Custom Verbs",
+  "page": 33
+ },
+ {
+  "level": 3,
+  "title": "Link Headers",
+  "page": 34
+ },
+ {
+  "level": 3,
+  "title": "Transport Adapters",
+  "page": 34
+ },
+ {
+  "level": 3,
+  "title": "Header Ordering",
+  "page": 36
+ },
+ {
+  "level": 3,
+  "title": "Timeouts",
+  "page": 36
+ },
+ {
+  "level": 2,
+  "title": "Authentication",
+  "page": 37
+ },
+ {
+  "level": 3,
+  "title": "Basic Authentication",
+  "page": 37
+ },
+ {
+  "level": 4,
+  "title": "netrc Authentication",
+  "page": 37
+ },
+ {
+  "level": 3,
+  "title": "Digest Authentication",
+  "page": 37
+ },
+ {
+  "level": 3,
+  "title": "OAuth 1 Authentication",
+  "page": 38
+ },
+ {
+  "level": 3,
+  "title": "OAuth 2 and OpenID Connect Authentication",
+  "page": 38
+ },
+ {
+  "level": 3,
+  "title": "Other Authentication",
+  "page": 38
+ },
+ {
+  "level": 3,
+  "title": "New Forms of Authentication",
+  "page": 38
+ },
+ {
+  "level": 1,
+  "title": "The Community Guide",
+  "page": 41
+ },
+ {
+  "level": 2,
+  "title": "Recommended Packages and Extensions",
+  "page": 41
+ },
+ {
+  "level": 3,
+  "title": "Certifi CA Bundle",
+  "page": 41
+ },
+ {
+  "level": 3,
+  "title": "CacheControl",
+  "page": 41
+ },
+ {
+  "level": 3,
+  "title": "Requests-Toolbelt",
+  "page": 41
+ },
+ {
+  "level": 3,
+  "title": "Requests-Threads",
+  "page": 41
+ },
+ {
+  "level": 3,
+  "title": "Requests-OAuthlib",
+  "page": 42
+ },
+ {
+  "level": 3,
+  "title": "Betamax",
+  "page": 42
+ },
+ {
+  "level": 2,
+  "title": "Frequently Asked Questions",
+  "page": 42
+ },
+ {
+  "level": 3,
+  "title": "Encoded Data?",
+  "page": 42
+ },
+ {
+  "level": 3,
+  "title": "Custom User-Agents?",
+  "page": 42
+ },
+ {
+  "level": 3,
+  "title": "Why not Httplib2?",
+  "page": 42
+ },
+ {
+  "level": 3,
+  "title": "Python 3 Support?",
+  "page": 43
+ },
+ {
+  "level": 3,
+  "title": "Python 2 Support?",
+  "page": 43
+ },
+ {
+  "level": 3,
+  "title": "What are “hostname doesn’t match” errors?",
+  "page": 43
+ },
+ {
+  "level": 2,
+  "title": "Integrations",
+  "page": 43
+ },
+ {
+  "level": 2,
+  "title": "Articles & Talks",
+  "page": 43
+ },
+ {
+  "level": 2,
+  "title": "Support",
+  "page": 43
+ },
+ {
+  "level": 3,
+  "title": "Stack Overflow",
+  "page": 44
+ },
+ {
+  "level": 3,
+  "title": "File an Issue",
+  "page": 44
+ },
+ {
+  "level": 3,
+  "title": "Send a Tweet",
+  "page": 44
+ },
+ {
+  "level": 2,
+  "title": "Vulnerability Disclosure",
+  "page": 44
+ },
+ {
+  "level": 2,
+  "title": "Release Process and Rules",
+  "page": 44
+ },
+ {
+  "level": 3,
+  "title": "Major Releases",
+  "page": 44
+ },
+ {
+  "level": 3,
+  "title": "Minor Releases",
+  "page": 44
+ },
+ {
+  "level": 3,
+  "title": "Hotfix Releases",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "Reasoning",
+  "page": 45
+ },
+ {
+  "level": 2,
+  "title": "Community Updates",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "GitHub",
+  "page": 45
+ },
+ {
+  "level": 2,
+  "title": "Release History",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "dev",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "2.34.2 (2026-05-14)",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "2.34.1 (2026-05-13)",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "2.34.0 (2026-05-11)",
+  "page": 46
+ },
+ {
+  "level": 3,
+  "title": "2.33.1 (2026-03-30)",
+  "page": 46
+ },
+ {
+  "level": 3,
+  "title": "2.33.0 (2026-03-25)",
+  "page": 46
+ },
+ {
+  "level": 3,
+  "title": "2.32.5 (2025-08-18)",
+  "page": 47
+ },
+ {
+  "level": 3,
+  "title": "2.32.4 (2025-06-10)",
+  "page": 47
+ },
+ {
+  "level": 3,
+  "title": "2.32.3 (2024-05-29)",
+  "page": 47
+ },
+ {
+  "level": 3,
+  "title": "2.32.2 (2024-05-21)",
+  "page": 47
+ },
+ {
+  "level": 3,
+  "title": "2.32.1 (2024-05-20)",
+  "page": 47
+ },
+ {
+  "level": 3,
+  "title": "2.32.0 (2024-05-20)",
+  "page": 47
+ },
+ {
+  "level": 3,
+  "title": "2.31.0 (2023-05-22)",
+  "page": 48
+ },
+ {
+  "level": 3,
+  "title": "2.30.0 (2023-05-03)",
+  "page": 49
+ },
+ {
+  "level": 3,
+  "title": "2.29.0 (2023-04-26)",
+  "page": 49
+ },
+ {
+  "level": 3,
+  "title": "2.28.2 (2023-01-12)",
+  "page": 49
+ },
+ {
+  "level": 3,
+  "title": "2.28.1 (2022-06-29)",
+  "page": 49
+ },
+ {
+  "level": 3,
+  "title": "2.28.0 (2022-06-09)",
+  "page": 49
+ },
+ {
+  "level": 3,
+  "title": "2.27.1 (2022-01-05)",
+  "page": 50
+ },
+ {
+  "level": 3,
+  "title": "2.27.0 (2022-01-03)",
+  "page": 50
+ },
+ {
+  "level": 3,
+  "title": "2.26.0 (2021-07-13)",
+  "page": 51
+ },
+ {
+  "level": 3,
+  "title": "2.25.1 (2020-12-16)",
+  "page": 51
+ },
+ {
+  "level": 3,
+  "title": "2.25.0 (2020-11-11)",
+  "page": 51
+ },
+ {
+  "level": 3,
+  "title": "2.24.0 (2020-06-17)",
+  "page": 52
+ },
+ {
+  "level": 3,
+  "title": "2.23.0 (2020-02-19)",
+  "page": 52
+ },
+ {
+  "level": 3,
+  "title": "2.22.0 (2019-05-15)",
+  "page": 52
+ },
+ {
+  "level": 3,
+  "title": "2.21.0 (2018-12-10)",
+  "page": 52
+ },
+ {
+  "level": 3,
+  "title": "2.20.1 (2018-11-08)",
+  "page": 52
+ },
+ {
+  "level": 3,
+  "title": "2.20.0 (2018-10-18)",
+  "page": 53
+ },
+ {
+  "level": 3,
+  "title": "2.19.1 (2018-06-14)",
+  "page": 53
+ },
+ {
+  "level": 3,
+  "title": "2.19.0 (2018-06-12)",
+  "page": 53
+ },
+ {
+  "level": 3,
+  "title": "2.18.4 (2017-08-15)",
+  "page": 54
+ },
+ {
+  "level": 3,
+  "title": "2.18.3 (2017-08-02)",
+  "page": 54
+ },
+ {
+  "level": 3,
+  "title": "2.18.2 (2017-07-25)",
+  "page": 54
+ },
+ {
+  "level": 3,
+  "title": "2.18.1 (2017-06-14)",
+  "page": 54
+ },
+ {
+  "level": 3,
+  "title": "2.18.0 (2017-06-14)",
+  "page": 54
+ },
+ {
+  "level": 3,
+  "title": "2.17.3 (2017-05-29)",
+  "page": 55
+ },
+ {
+  "level": 3,
+  "title": "2.17.2 (2017-05-29)",
+  "page": 55
+ },
+ {
+  "level": 3,
+  "title": "2.17.1 (2017-05-29)",
+  "page": 55
+ },
+ {
+  "level": 3,
+  "title": "2.17.0 (2017-05-29)",
+  "page": 55
+ },
+ {
+  "level": 3,
+  "title": "2.16.5 (2017-05-28)",
+  "page": 55
+ },
+ {
+  "level": 3,
+  "title": "2.16.4 (2017-05-27)",
+  "page": 55
+ },
+ {
+  "level": 3,
+  "title": "2.16.3 (2017-05-27)",
+  "page": 55
+ },
+ {
+  "level": 3,
+  "title": "2.16.2 (2017-05-27)",
+  "page": 55
+ },
+ {
+  "level": 3,
+  "title": "2.16.1 (2017-05-27)",
+  "page": 56
+ },
+ {
+  "level": 3,
+  "title": "2.16.0 (2017-05-26)",
+  "page": 56
+ },
+ {
+  "level": 3,
+  "title": "2.15.1 (2017-05-26)",
+  "page": 56
+ },
+ {
+  "level": 3,
+  "title": "2.15.0 (2017-05-26)",
+  "page": 56
+ },
+ {
+  "level": 3,
+  "title": "2.14.2 (2017-05-10)",
+  "page": 56
+ },
+ {
+  "level": 3,
+  "title": "2.14.1 (2017-05-09)",
+  "page": 57
+ },
+ {
+  "level": 3,
+  "title": "2.14.0 (2017-05-09)",
+  "page": 57
+ },
+ {
+  "level": 3,
+  "title": "2.13.0 (2017-01-24)",
+  "page": 58
+ },
+ {
+  "level": 3,
+  "title": "2.12.5 (2017-01-18)",
+  "page": 58
+ },
+ {
+  "level": 3,
+  "title": "2.12.4 (2016-12-14)",
+  "page": 58
+ },
+ {
+  "level": 3,
+  "title": "2.12.3 (2016-12-01)",
+  "page": 58
+ },
+ {
+  "level": 3,
+  "title": "2.12.2 (2016-11-30)",
+  "page": 58
+ },
+ {
+  "level": 3,
+  "title": "2.12.1 (2016-11-16)",
+  "page": 59
+ },
+ {
+  "level": 3,
+  "title": "2.12.0 (2016-11-15)",
+  "page": 59
+ },
+ {
+  "level": 3,
+  "title": "2.11.1 (2016-08-17)",
+  "page": 59
+ },
+ {
+  "level": 3,
+  "title": "2.11.0 (2016-08-08)",
+  "page": 60
+ },
+ {
+  "level": 3,
+  "title": "2.10.0 (2016-04-29)",
+  "page": 60
+ },
+ {
+  "level": 3,
+  "title": "2.9.2 (2016-04-29)",
+  "page": 60
+ },
+ {
+  "level": 3,
+  "title": "2.9.1 (2015-12-21)",
+  "page": 61
+ },
+ {
+  "level": 3,
+  "title": "2.9.0 (2015-12-15)",
+  "page": 61
+ },
+ {
+  "level": 3,
+  "title": "2.8.1 (2015-10-13)",
+  "page": 61
+ },
+ {
+  "level": 3,
+  "title": "2.8.0 (2015-10-05)",
+  "page": 62
+ },
+ {
+  "level": 3,
+  "title": "2.7.0 (2015-05-03)",
+  "page": 62
+ },
+ {
+  "level": 3,
+  "title": "2.6.2 (2015-04-23)",
+  "page": 62
+ },
+ {
+  "level": 3,
+  "title": "2.6.1 (2015-04-22)",
+  "page": 63
+ },
+ {
+  "level": 3,
+  "title": "2.6.0 (2015-03-14)",
+  "page": 63
+ },
+ {
+  "level": 3,
+  "title": "2.5.3 (2015-02-24)",
+  "page": 63
+ },
+ {
+  "level": 3,
+  "title": "2.5.2 (2015-02-23)",
+  "page": 63
+ },
+ {
+  "level": 3,
+  "title": "2.5.1 (2014-12-23)",
+  "page": 64
+ },
+ {
+  "level": 3,
+  "title": "2.5.0 (2014-12-01)",
+  "page": 64
+ },
+ {
+  "level": 3,
+  "title": "2.4.3 (2014-10-06)",
+  "page": 65
+ },
+ {
+  "level": 3,
+  "title": "2.4.2 (2014-10-05)",
+  "page": 65
+ },
+ {
+  "level": 3,
+  "title": "2.4.1 (2014-09-09)",
+  "page": 65
+ },
+ {
+  "level": 3,
+  "title": "2.4.0 (2014-08-29)",
+  "page": 66
+ },
+ {
+  "level": 3,
+  "title": "2.3.0 (2014-05-16)",
+  "page": 66
+ },
+ {
+  "level": 3,
+  "title": "2.2.1 (2014-01-23)",
+  "page": 67
+ },
+ {
+  "level": 3,
+  "title": "2.2.0 (2014-01-09)",
+  "page": 67
+ },
+ {
+  "level": 3,
+  "title": "2.1.0 (2013-12-05)",
+  "page": 67
+ },
+ {
+  "level": 3,
+  "title": "2.0.1 (2013-10-24)",
+  "page": 68
+ },
+ {
+  "level": 3,
+  "title": "2.0.0 (2013-09-24)",
+  "page": 68
+ },
+ {
+  "level": 3,
+  "title": "1.2.3 (2013-05-25)",
+  "page": 69
+ },
+ {
+  "level": 3,
+  "title": "1.2.2 (2013-05-23)",
+  "page": 69
+ },
+ {
+  "level": 3,
+  "title": "1.2.1 (2013-05-20)",
+  "page": 69
+ },
+ {
+  "level": 3,
+  "title": "1.2.0 (2013-03-31)",
+  "page": 69
+ },
+ {
+  "level": 3,
+  "title": "1.1.0 (2013-01-10)",
+  "page": 70
+ },
+ {
+  "level": 3,
+  "title": "1.0.3 (2012-12-18)",
+  "page": 70
+ },
+ {
+  "level": 3,
+  "title": "1.0.2 (2012-12-17)",
+  "page": 70
+ },
+ {
+  "level": 3,
+  "title": "1.0.1 (2012-12-17)",
+  "page": 70
+ },
+ {
+  "level": 3,
+  "title": "1.0.0 (2012-12-17)",
+  "page": 70
+ },
+ {
+  "level": 3,
+  "title": "0.14.2 (2012-10-27)",
+  "page": 71
+ },
+ {
+  "level": 3,
+  "title": "0.14.1 (2012-10-01)",
+  "page": 71
+ },
+ {
+  "level": 3,
+  "title": "0.14.0 (2012-09-02)",
+  "page": 71
+ },
+ {
+  "level": 3,
+  "title": "0.13.9 (2012-08-25)",
+  "page": 71
+ },
+ {
+  "level": 3,
+  "title": "0.13.8 (2012-08-21)",
+  "page": 71
+ },
+ {
+  "level": 3,
+  "title": "0.13.7 (2012-08-19)",
+  "page": 72
+ },
+ {
+  "level": 3,
+  "title": "0.13.6 (2012-08-06)",
+  "page": 72
+ },
+ {
+  "level": 3,
+  "title": "0.13.5 (2012-07-27)",
+  "page": 72
+ },
+ {
+  "level": 3,
+  "title": "0.13.4 (2012-07-27)",
+  "page": 72
+ },
+ {
+  "level": 3,
+  "title": "0.13.3 (2012-07-12)",
+  "page": 72
+ },
+ {
+  "level": 3,
+  "title": "0.13.2 (2012-06-28)",
+  "page": 72
+ },
+ {
+  "level": 3,
+  "title": "0.13.1 (2012-06-07)",
+  "page": 73
+ },
+ {
+  "level": 3,
+  "title": "0.13.0 (2012-05-29)",
+  "page": 73
+ },
+ {
+  "level": 3,
+  "title": "0.12.1 (2012-05-08)",
+  "page": 73
+ },
+ {
+  "level": 3,
+  "title": "0.12.0 (2012-05-02)",
+  "page": 73
+ },
+ {
+  "level": 3,
+  "title": "0.11.2 (2012-04-22)",
+  "page": 74
+ },
+ {
+  "level": 3,
+  "title": "0.11.1 (2012-03-30)",
+  "page": 74
+ },
+ {
+  "level": 3,
+  "title": "0.11.0 (2012-03-14)",
+  "page": 74
+ },
+ {
+  "level": 3,
+  "title": "0.10.8 (2012-03-09)",
+  "page": 74
+ },
+ {
+  "level": 3,
+  "title": "0.10.7 (2012-03-07)",
+  "page": 74
+ },
+ {
+  "level": 3,
+  "title": "0.10.6 (2012-02-25)",
+  "page": 74
+ },
+ {
+  "level": 3,
+  "title": "0.10.5 (2012-02-25)",
+  "page": 75
+ },
+ {
+  "level": 3,
+  "title": "0.10.4 (2012-02-20)",
+  "page": 75
+ },
+ {
+  "level": 3,
+  "title": "0.10.3 (2012-02-20)",
+  "page": 75
+ },
+ {
+  "level": 3,
+  "title": "0.10.2 (2012-01-15)",
+  "page": 75
+ },
+ {
+  "level": 3,
+  "title": "0.10.1 (2012-01-23)",
+  "page": 75
+ },
+ {
+  "level": 3,
+  "title": "0.10.0 (2012-01-21)",
+  "page": 75
+ },
+ {
+  "level": 3,
+  "title": "0.9.3 (2012-01-18)",
+  "page": 76
+ },
+ {
+  "level": 3,
+  "title": "0.9.2 (2012-01-18)",
+  "page": 76
+ },
+ {
+  "level": 3,
+  "title": "0.9.1 (2012-01-06)",
+  "page": 76
+ },
+ {
+  "level": 3,
+  "title": "0.9.0 (2011-12-28)",
+  "page": 76
+ },
+ {
+  "level": 3,
+  "title": "0.8.9 (2011-12-28)",
+  "page": 76
+ },
+ {
+  "level": 3,
+  "title": "0.8.8 (2011-12-28)",
+  "page": 76
+ },
+ {
+  "level": 3,
+  "title": "0.8.7 (2011-12-24)",
+  "page": 77
+ },
+ {
+  "level": 3,
+  "title": "0.8.6 (2011-12-18)",
+  "page": 77
+ },
+ {
+  "level": 3,
+  "title": "0.8.5 (2011-12-14)",
+  "page": 77
+ },
+ {
+  "level": 3,
+  "title": "0.8.4 (2011-12-11)",
+  "page": 77
+ },
+ {
+  "level": 3,
+  "title": "0.8.3 (2011-11-27)",
+  "page": 77
+ },
+ {
+  "level": 3,
+  "title": "0.8.2 (2011-11-19)",
+  "page": 77
+ },
+ {
+  "level": 3,
+  "title": "0.8.1 (2011-11-15)",
+  "page": 77
+ },
+ {
+  "level": 3,
+  "title": "0.8.0 (2011-11-13)",
+  "page": 78
+ },
+ {
+  "level": 3,
+  "title": "0.7.6 (2011-11-07)",
+  "page": 78
+ },
+ {
+  "level": 3,
+  "title": "0.7.5 (2011-11-04)",
+  "page": 78
+ },
+ {
+  "level": 3,
+  "title": "0.7.4 (2011-10-26)",
+  "page": 78
+ },
+ {
+  "level": 3,
+  "title": "0.7.3 (2011-10-23)",
+  "page": 78
+ },
+ {
+  "level": 3,
+  "title": "0.7.2 (2011-10-23)",
+  "page": 78
+ },
+ {
+  "level": 3,
+  "title": "0.7.1 (2011-10-23)",
+  "page": 79
+ },
+ {
+  "level": 3,
+  "title": "0.7.0 (2011-10-22)",
+  "page": 79
+ },
+ {
+  "level": 3,
+  "title": "0.6.6 (2011-10-19)",
+  "page": 79
+ },
+ {
+  "level": 3,
+  "title": "0.6.5 (2011-10-18)",
+  "page": 79
+ },
+ {
+  "level": 3,
+  "title": "0.6.4 (2011-10-13)",
+  "page": 79
+ },
+ {
+  "level": 3,
+  "title": "0.6.3 (2011-10-13)",
+  "page": 79
+ },
+ {
+  "level": 3,
+  "title": "0.6.2 (2011-10-09)",
+  "page": 79
+ },
+ {
+  "level": 3,
+  "title": "0.6.1 (2011-08-20)",
+  "page": 80
+ },
+ {
+  "level": 3,
+  "title": "0.6.0 (2011-08-17)",
+  "page": 80
+ },
+ {
+  "level": 3,
+  "title": "0.5.1 (2011-07-23)",
+  "page": 80
+ },
+ {
+  "level": 3,
+  "title": "0.5.0 (2011-06-21)",
+  "page": 81
+ },
+ {
+  "level": 3,
+  "title": "0.4.1 (2011-05-22)",
+  "page": 81
+ },
+ {
+  "level": 3,
+  "title": "0.4.0 (2011-05-15)",
+  "page": 81
+ },
+ {
+  "level": 3,
+  "title": "0.3.4 (2011-05-14)",
+  "page": 81
+ },
+ {
+  "level": 3,
+  "title": "0.3.3 (2011-05-12)",
+  "page": 81
+ },
+ {
+  "level": 3,
+  "title": "0.3.2 (2011-04-15)",
+  "page": 82
+ },
+ {
+  "level": 3,
+  "title": "0.3.1 (2011-04-01)",
+  "page": 82
+ },
+ {
+  "level": 3,
+  "title": "0.3.0 (2011-02-25)",
+  "page": 82
+ },
+ {
+  "level": 3,
+  "title": "0.2.4 (2011-02-19)",
+  "page": 82
+ },
+ {
+  "level": 3,
+  "title": "0.2.3 (2011-02-15)",
+  "page": 82
+ },
+ {
+  "level": 3,
+  "title": "0.2.2 (2011-02-14)",
+  "page": 83
+ },
+ {
+  "level": 3,
+  "title": "0.2.1 (2011-02-14)",
+  "page": 83
+ },
+ {
+  "level": 3,
+  "title": "0.2.0 (2011-02-14)",
+  "page": 83
+ },
+ {
+  "level": 3,
+  "title": "0.0.1 (2011-02-13)",
+  "page": 83
+ },
+ {
+  "level": 1,
+  "title": "The API Documentation / Guide",
+  "page": 85
+ },
+ {
+  "level": 2,
+  "title": "Developer Interface",
+  "page": 85
+ },
+ {
+  "level": 3,
+  "title": "Main Interface",
+  "page": 85
+ },
+ {
+  "level": 3,
+  "title": "Exceptions",
+  "page": 88
+ },
+ {
+  "level": 3,
+  "title": "Request Sessions",
+  "page": 88
+ },
+ {
+  "level": 3,
+  "title": "Lower-Level Classes",
+  "page": 93
+ },
+ {
+  "level": 3,
+  "title": "Lower-Lower-Level Classes",
+  "page": 96
+ },
+ {
+  "level": 3,
+  "title": "Authentication",
+  "page": 101
+ },
+ {
+  "level": 3,
+  "title": "Encodings",
+  "page": 102
+ },
+ {
+  "level": 3,
+  "title": "Cookies",
+  "page": 102
+ },
+ {
+  "level": 3,
+  "title": "Status Code Lookup",
+  "page": 106
+ },
+ {
+  "level": 3,
+  "title": "Migrating to 1.x",
+  "page": 108
+ },
+ {
+  "level": 4,
+  "title": "API Changes",
+  "page": 108
+ },
+ {
+  "level": 4,
+  "title": "Licensing",
+  "page": 109
+ },
+ {
+  "level": 3,
+  "title": "Migrating to 2.x",
+  "page": 109
+ },
+ {
+  "level": 4,
+  "title": "API Changes",
+  "page": 109
+ },
+ {
+  "level": 4,
+  "title": "Behavioural Changes",
+  "page": 110
+ },
+ {
+  "level": 1,
+  "title": "The Contributor Guide",
+  "page": 111
+ },
+ {
+  "level": 2,
+  "title": "Contributor’s Guide",
+  "page": 111
+ },
+ {
+  "level": 3,
+  "title": "Code of Conduct",
+  "page": 111
+ },
+ {
+  "level": 3,
+  "title": "Get Early Feedback",
+  "page": 111
+ },
+ {
+  "level": 3,
+  "title": "Contribution Suitability",
+  "page": 112
+ },
+ {
+  "level": 3,
+  "title": "Code Contributions",
+  "page": 112
+ },
+ {
+  "level": 4,
+  "title": "Steps for Submitting Code",
+  "page": 112
+ },
+ {
+  "level": 4,
+  "title": "Code Review",
+  "page": 112
+ },
+ {
+  "level": 4,
+  "title": "Code Style",
+  "page": 112
+ },
+ {
+  "level": 4,
+  "title": "New Contributors",
+  "page": 113
+ },
+ {
+  "level": 3,
+  "title": "Documentation Contributions",
+  "page": 113
+ },
+ {
+  "level": 3,
+  "title": "Bug Reports",
+  "page": 113
+ },
+ {
+  "level": 3,
+  "title": "Feature Requests",
+  "page": 113
+ },
+ {
+  "level": 2,
+  "title": "Authors",
+  "page": 113
+ },
+ {
+  "level": 3,
+  "title": "Requests Maintainers",
+  "page": 113
+ },
+ {
+  "level": 3,
+  "title": "Previous Maintainers",
+  "page": 114
+ },
+ {
+  "level": 3,
+  "title": "Patches and Suggestions",
+  "page": 114
+ },
+ {
+  "level": 1,
+  "title": "Python Module Index",
+  "page": 121
+ },
+ {
+  "level": 1,
+  "title": "Index",
+  "page": 123
+ }
+]

@@ -1,0 +1,87 @@
+[
+ {
+  "level": 1,
+  "title": "Introduction",
+  "page": 1
+ },
+ {
+  "level": 1,
+  "title": "2 Related Work",
+  "page": 2
+ },
+ {
+  "level": 1,
+  "title": "3 HINTEVAL",
+  "page": 3
+ },
+ {
+  "level": 2,
+  "title": "Dataset",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "3.2 Model",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "3.3 Evaluation",
+  "page": 5
+ },
+ {
+  "level": 1,
+  "title": "4 Experiments and Results",
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "4.1 Comparing Hint Generation Strategies",
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "4.2 Analyzing Evaluation Metrics",
+  "page": 6
+ },
+ {
+  "level": 2,
+  "title": "4.3 Human Evaluation",
+  "page": 6
+ },
+ {
+  "level": 1,
+  "title": "5 Conclusion",
+  "page": 7
+ },
+ {
+  "level": 1,
+  "title": "Ethical Considerations",
+  "page": 8
+ },
+ {
+  "level": 1,
+  "title": "Limitations",
+  "page": 8
+ },
+ {
+  "level": 1,
+  "title": "Acknowledgments",
+  "page": 8
+ },
+ {
+  "level": 1,
+  "title": "A Jeopardy Dataset Construction",
+  "page": 10
+ },
+ {
+  "level": 1,
+  "title": "B Human Evaluation Protocol",
+  "page": 10
+ },
+ {
+  "level": 1,
+  "title": "C Evaluation Methods and Sub-methods",
+  "page": 10
+ }
+]

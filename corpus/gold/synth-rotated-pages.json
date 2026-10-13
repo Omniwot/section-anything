@@ -1,0 +1,212 @@
+[
+ {
+  "level": 1,
+  "title": "1 Coastal Sensor Placement",
+  "page": 1
+ },
+ {
+  "level": 2,
+  "title": "1.1 Regional Water Balance in Practice",
+  "page": 1
+ },
+ {
+  "level": 3,
+  "title": "1.1.1 Acoustic Material Selection under Load",
+  "page": 2
+ },
+ {
+  "level": 3,
+  "title": "1.1.2 Comparative Sensor Placement",
+  "page": 2
+ },
+ {
+  "level": 3,
+  "title": "1.1.3 Lateral Data Quality Revisited",
+  "page": 3
+ },
+ {
+  "level": 2,
+  "title": "1.2 Structural Fatigue",
+  "page": 3
+ },
+ {
+  "level": 3,
+  "title": "1.2.1 Structural Sampling for Small Sites",
+  "page": 3
+ },
+ {
+  "level": 3,
+  "title": "1.2.2 Regional Material Selection at Scale",
+  "page": 3
+ },
+ {
+  "level": 3,
+  "title": "1.2.3 Long-term Coverage",
+  "page": 4
+ },
+ {
+  "level": 3,
+  "title": "1.2.4 Comparative Water Balance under Load",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "1.3 Field Maintenance Revisited",
+  "page": 5
+ },
+ {
+  "level": 3,
+  "title": "1.3.1 Field Interpolation for Small Sites",
+  "page": 5
+ },
+ {
+  "level": 3,
+  "title": "1.3.2 Comparative Benchmarks",
+  "page": 6
+ },
+ {
+  "level": 3,
+  "title": "1.3.3 Statistical Load Paths at Scale",
+  "page": 7
+ },
+ {
+  "level": 1,
+  "title": "2 Residual Drift and Its Limits",
+  "page": 7
+ },
+ {
+  "level": 2,
+  "title": "2.1 Hydraulic Fatigue Revisited",
+  "page": 8
+ },
+ {
+  "level": 3,
+  "title": "2.1.1 Urban Calibration",
+  "page": 8
+ },
+ {
+  "level": 3,
+  "title": "2.1.2 Primary Calibration",
+  "page": 9
+ },
+ {
+  "level": 3,
+  "title": "2.1.3 Hydraulic Erosion",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "2.2 Hydraulic Uncertainty",
+  "page": 10
+ },
+ {
+  "level": 3,
+  "title": "2.2.1 Adaptive Load Paths",
+  "page": 11
+ },
+ {
+  "level": 3,
+  "title": "2.2.2 Statistical Material Selection",
+  "page": 12
+ },
+ {
+  "level": 3,
+  "title": "2.2.3 Long-term Interpolation Revisited",
+  "page": 12
+ },
+ {
+  "level": 2,
+  "title": "2.3 Primary Maintenance for Small Sites",
+  "page": 13
+ },
+ {
+  "level": 3,
+  "title": "2.3.1 Comparative Sampling",
+  "page": 13
+ },
+ {
+  "level": 3,
+  "title": "2.3.2 Hydraulic Retrofits",
+  "page": 14
+ },
+ {
+  "level": 3,
+  "title": "2.3.3 Residual Material Selection under Load",
+  "page": 14
+ },
+ {
+  "level": 3,
+  "title": "2.3.4 Structural Calibration under Load",
+  "page": 14
+ },
+ {
+  "level": 1,
+  "title": "3 Statistical Load Paths under Load",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "3.1 Adaptive Noise Floor",
+  "page": 15
+ },
+ {
+  "level": 3,
+  "title": "3.1.1 Thermal Coverage",
+  "page": 16
+ },
+ {
+  "level": 3,
+  "title": "3.1.2 Regional Coverage at Scale",
+  "page": 17
+ },
+ {
+  "level": 3,
+  "title": "3.1.3 Residual Interpolation at Scale",
+  "page": 17
+ },
+ {
+  "level": 2,
+  "title": "3.2 Comparative Drift and Its Limits",
+  "page": 18
+ },
+ {
+  "level": 3,
+  "title": "3.2.1 Urban Erosion and Its Limits",
+  "page": 18
+ },
+ {
+  "level": 3,
+  "title": "3.2.2 Hydraulic Maintenance for Small Sites",
+  "page": 19
+ },
+ {
+  "level": 3,
+  "title": "3.2.3 Primary Calibration in Practice",
+  "page": 20
+ },
+ {
+  "level": 3,
+  "title": "3.2.4 Primary Noise Floor and Its Limits",
+  "page": 20
+ },
+ {
+  "level": 2,
+  "title": "3.3 Statistical Maintenance for Small Sites",
+  "page": 21
+ },
+ {
+  "level": 3,
+  "title": "3.3.1 Lateral Survey Design",
+  "page": 21
+ },
+ {
+  "level": 3,
+  "title": "3.3.2 Hydraulic Calibration and Its Limits",
+  "page": 22
+ },
+ {
+  "level": 3,
+  "title": "3.3.3 Lateral Fatigue Revisited",
+  "page": 22
+ }
+]

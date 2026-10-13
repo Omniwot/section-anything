@@ -1,0 +1,157 @@
+[
+ {
+  "level": 1,
+  "title": "INTRODUCTION",
+  "page": 1
+ },
+ {
+  "level": 1,
+  "title": "2 RELATED WORK",
+  "page": 2
+ },
+ {
+  "level": 1,
+  "title": "3 BACKGROUND",
+  "page": 3
+ },
+ {
+  "level": 2,
+  "title": "3.1 PHYLOGENETIC INFERENCE",
+  "page": 3
+ },
+ {
+  "level": 3,
+  "title": "3.1.1 BAYESIAN INFERENCE",
+  "page": 3
+ },
+ {
+  "level": 3,
+  "title": "3.1.2 PARSIMONY ANALYSIS",
+  "page": 3
+ },
+ {
+  "level": 2,
+  "title": "3.2 GFLOWNETS",
+  "page": 4
+ },
+ {
+  "level": 1,
+  "title": "4 PHYLOGENETIC INFERENCE WITH GFLOWNETS",
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "4.1 GFLOWNETS FOR BAYESIAN PHYLOGENETIC INFERENCE",
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "4.2 GFLOWNETS FOR PARSIMONY ANALYSIS",
+  "page": 6
+ },
+ {
+  "level": 2,
+  "title": "4.3 MODEL ARCHITECTURE AND TRAINING",
+  "page": 7
+ },
+ {
+  "level": 2,
+  "title": "4.4 MARGINAL LOG-LIKELIHOOD ESTIMATION",
+  "page": 7
+ },
+ {
+  "level": 1,
+  "title": "5 EXPERIMENTS",
+  "page": 7
+ },
+ {
+  "level": 2,
+  "title": "5.1 BAYESIAN PHYLOGENETIC INFERENCE",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "5.2 PARSIMONY-BASED PHYLOGENETIC INFERENCE",
+  "page": 8
+ },
+ {
+  "level": 1,
+  "title": "6 DISCUSSION AND FUTURE WORK",
+  "page": 9
+ },
+ {
+  "level": 1,
+  "title": "REPRODUCIBILITY",
+  "page": 10
+ },
+ {
+  "level": 1,
+  "title": "ACKNOWLEDGMENTS",
+  "page": 10
+ },
+ {
+  "level": 1,
+  "title": "A PROOFS OF PROPOSITIONS 1 AND 2",
+  "page": 14
+ },
+ {
+  "level": 1,
+  "title": "B MARGINAL LOG-LIKELIHOOD ESTIMATION",
+  "page": 15
+ },
+ {
+  "level": 1,
+  "title": "C DATASET INFORMATION",
+  "page": 17
+ },
+ {
+  "level": 1,
+  "title": "D MODELING",
+  "page": 17
+ },
+ {
+  "level": 1,
+  "title": "E TRAINING DETAILS",
+  "page": 17
+ },
+ {
+  "level": 1,
+  "title": "F CONTINUOUS BRANCH LENGTH MODELING WITH PHYLOGFN",
+  "page": 20
+ },
+ {
+  "level": 1,
+  "title": "G RUNNING TIME AND HARDWARE REQUIREMENTS",
+  "page": 21
+ },
+ {
+  "level": 1,
+  "title": "H ABLATION STUDY",
+  "page": 21
+ },
+ {
+  "level": 1,
+  "title": "I SIGNIFICANCE OF MODELING SUBOPTIMAL TREES WELL",
+  "page": 22
+ },
+ {
+  "level": 1,
+  "title": "J REPRODUCIBILITY",
+  "page": 24
+ },
+ {
+  "level": 1,
+  "title": "K ASSESSING SAMPLING DENSITY AGAINST UNNORMALIZED POSTERIOR",
+  "page": 26
+ },
+ {
+  "level": 1,
+  "title": "L PARSIMONY ANALYSIS RESULTS",
+  "page": 29
+ },
+ {
+  "level": 1,
+  "title": "M TRAINING CURVES",
+  "page": 32
+ }
+]

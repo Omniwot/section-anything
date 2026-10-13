@@ -1,0 +1,167 @@
+[
+ {
+  "level": 1,
+  "title": "Optical Drift at Scale",
+  "page": 2
+ },
+ {
+  "level": 2,
+  "title": "Adaptive Fatigue",
+  "page": 3
+ },
+ {
+  "level": 2,
+  "title": "Coastal Uncertainty under Load",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "Residual Retrofits and Its Limits",
+  "page": 6
+ },
+ {
+  "level": 2,
+  "title": "Seasonal Fatigue for Small Sites",
+  "page": 7
+ },
+ {
+  "level": 2,
+  "title": "Coastal Interpolation",
+  "page": 9
+ },
+ {
+  "level": 2,
+  "title": "Regional Interpolation",
+  "page": 11
+ },
+ {
+  "level": 1,
+  "title": "Coastal Retrofits at Scale",
+  "page": 12
+ },
+ {
+  "level": 2,
+  "title": "Lateral Material Selection under Load",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "Long-term Material Selection in Practice",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "Field Noise Floor",
+  "page": 17
+ },
+ {
+  "level": 2,
+  "title": "Coastal Validation under Load",
+  "page": 18
+ },
+ {
+  "level": 2,
+  "title": "Hydraulic Erosion at Scale",
+  "page": 20
+ },
+ {
+  "level": 1,
+  "title": "Urban Water Balance",
+  "page": 21
+ },
+ {
+  "level": 2,
+  "title": "Coastal Validation at Scale",
+  "page": 22
+ },
+ {
+  "level": 2,
+  "title": "Field Material Selection under Load",
+  "page": 24
+ },
+ {
+  "level": 2,
+  "title": "Thermal Noise Floor",
+  "page": 26
+ },
+ {
+  "level": 1,
+  "title": "Residual Benchmarks in Practice",
+  "page": 28
+ },
+ {
+  "level": 2,
+  "title": "Thermal Load Paths at Scale",
+  "page": 29
+ },
+ {
+  "level": 2,
+  "title": "Lateral Calibration for Small Sites",
+  "page": 31
+ },
+ {
+  "level": 2,
+  "title": "Statistical Validation in Practice",
+  "page": 33
+ },
+ {
+  "level": 2,
+  "title": "Adaptive Benchmarks",
+  "page": 35
+ },
+ {
+  "level": 1,
+  "title": "Seasonal Sampling for Small Sites",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "Statistical Survey Design at Scale",
+  "page": 38
+ },
+ {
+  "level": 2,
+  "title": "Secondary Calibration",
+  "page": 39
+ },
+ {
+  "level": 2,
+  "title": "Adaptive Calibration in Practice",
+  "page": 40
+ },
+ {
+  "level": 1,
+  "title": "Coastal Coverage at Scale",
+  "page": 41
+ },
+ {
+  "level": 2,
+  "title": "Adaptive Maintenance for Small Sites",
+  "page": 42
+ },
+ {
+  "level": 2,
+  "title": "Acoustic Erosion for Small Sites",
+  "page": 43
+ },
+ {
+  "level": 2,
+  "title": "Thermal Uncertainty for Small Sites",
+  "page": 45
+ },
+ {
+  "level": 2,
+  "title": "Statistical Benchmarks",
+  "page": 46
+ },
+ {
+  "level": 2,
+  "title": "Hydraulic Fatigue",
+  "page": 48
+ },
+ {
+  "level": 2,
+  "title": "Comparative Interpolation and Its Limits",
+  "page": 49
+ }
+]

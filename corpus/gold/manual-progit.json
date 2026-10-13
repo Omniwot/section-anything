@@ -1,0 +1,282 @@
+[
+ {
+  "level": 1,
+  "title": "Pro Git",
+  "page": 2
+ },
+ {
+  "level": 1,
+  "title": "License",
+  "page": 7
+ },
+ {
+  "level": 1,
+  "title": "Preface by Scott Chacon",
+  "page": 8
+ },
+ {
+  "level": 1,
+  "title": "Preface by Ben Straub",
+  "page": 9
+ },
+ {
+  "level": 1,
+  "title": "Dedications",
+  "page": 10
+ },
+ {
+  "level": 1,
+  "title": "Contributors",
+  "page": 11
+ },
+ {
+  "level": 1,
+  "title": "Introduction",
+  "page": 14
+ },
+ {
+  "level": 1,
+  "title": "Getting Started",
+  "page": 16
+ },
+ {
+  "level": 2,
+  "title": "About Version Control",
+  "page": 16
+ },
+ {
+  "level": 2,
+  "title": "A Short History of Git",
+  "page": 20
+ },
+ {
+  "level": 2,
+  "title": "What is Git?",
+  "page": 20
+ },
+ {
+  "level": 2,
+  "title": "The Command Line",
+  "page": 24
+ },
+ {
+  "level": 2,
+  "title": "Installing Git",
+  "page": 24
+ },
+ {
+  "level": 2,
+  "title": "First-Time Git Setup",
+  "page": 27
+ },
+ {
+  "level": 2,
+  "title": "Getting Help",
+  "page": 30
+ },
+ {
+  "level": 2,
+  "title": "Summary",
+  "page": 31
+ },
+ {
+  "level": 1,
+  "title": "Git Basics",
+  "page": 32
+ },
+ {
+  "level": 2,
+  "title": "Getting a Git Repository",
+  "page": 32
+ },
+ {
+  "level": 2,
+  "title": "Recording Changes to the Repository",
+  "page": 34
+ },
+ {
+  "level": 2,
+  "title": "Viewing the Commit History",
+  "page": 46
+ },
+ {
+  "level": 2,
+  "title": "Undoing Things",
+  "page": 52
+ },
+ {
+  "level": 2,
+  "title": "Working with Remotes",
+  "page": 56
+ },
+ {
+  "level": 2,
+  "title": "Tagging",
+  "page": 61
+ },
+ {
+  "level": 2,
+  "title": "Git Aliases",
+  "page": 66
+ },
+ {
+  "level": 2,
+  "title": "Summary",
+  "page": 68
+ },
+ {
+  "level": 1,
+  "title": "Git Branching",
+  "page": 69
+ },
+ {
+  "level": 2,
+  "title": "Branches in a Nutshell",
+  "page": 69
+ },
+ {
+  "level": 2,
+  "title": "Basic Branching and Merging",
+  "page": 76
+ },
+ {
+  "level": 2,
+  "title": "Branch Management",
+  "page": 85
+ },
+ {
+  "level": 2,
+  "title": "Branching Workflows",
+  "page": 88
+ },
+ {
+  "level": 2,
+  "title": "Remote Branches",
+  "page": 91
+ },
+ {
+  "level": 2,
+  "title": "Rebasing",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "Summary",
+  "page": 110
+ },
+ {
+  "level": 1,
+  "title": "Git on the Server",
+  "page": 111
+ },
+ {
+  "level": 2,
+  "title": "The Protocols",
+  "page": 111
+ },
+ {
+  "level": 2,
+  "title": "Getting Git on a Server",
+  "page": 116
+ },
+ {
+  "level": 2,
+  "title": "Generating Your SSH Public Key",
+  "page": 118
+ },
+ {
+  "level": 2,
+  "title": "Setting Up the Server",
+  "page": 119
+ },
+ {
+  "level": 2,
+  "title": "Git Daemon",
+  "page": 122
+ },
+ {
+  "level": 2,
+  "title": "Smart HTTP",
+  "page": 123
+ },
+ {
+  "level": 2,
+  "title": "GitWeb",
+  "page": 125
+ },
+ {
+  "level": 2,
+  "title": "GitLab",
+  "page": 127
+ },
+ {
+  "level": 2,
+  "title": "Third Party Hosted Options",
+  "page": 130
+ },
+ {
+  "level": 2,
+  "title": "Summary",
+  "page": 131
+ },
+ {
+  "level": 1,
+  "title": "Distributed Git",
+  "page": 132
+ },
+ {
+  "level": 2,
+  "title": "Distributed Workflows",
+  "page": 132
+ },
+ {
+  "level": 2,
+  "title": "Contributing to a Project",
+  "page": 135
+ },
+ {
+  "level": 2,
+  "title": "Maintaining a Project",
+  "page": 156
+ },
+ {
+  "level": 2,
+  "title": "Summary",
+  "page": 171
+ },
+ {
+  "level": 1,
+  "title": "GitHub",
+  "page": 172
+ },
+ {
+  "level": 2,
+  "title": "Account Setup and Configuration",
+  "page": 172
+ },
+ {
+  "level": 2,
+  "title": "Contributing to a Project",
+  "page": 177
+ },
+ {
+  "level": 2,
+  "title": "Maintaining a Project",
+  "page": 197
+ },
+ {
+  "level": 2,
+  "title": "Managing an organization",
+  "page": 211
+ },
+ {
+  "level": 2,
+  "title": "Scripting GitHub",
+  "page": 214
+ },
+ {
+  "level": 2,
+  "title": "Summary",
+  "page": 223
+ }
+]

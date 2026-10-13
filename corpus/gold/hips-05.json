@@ -1,0 +1,797 @@
+[
+ {
+  "level": 1,
+  "title": "Table of Contents",
+  "page": 7
+ },
+ {
+  "level": 1,
+  "title": "Acknowledgments",
+  "page": 9
+ },
+ {
+  "level": 1,
+  "title": "Foreword",
+  "page": 11
+ },
+ {
+  "level": 1,
+  "title": "Prologue",
+  "page": 15
+ },
+ {
+  "level": 1,
+  "title": "1. ‘Igat fulap rod blong hem’",
+  "page": 21
+ },
+ {
+  "level": 2,
+  "title": "Brief history of Vanuatu",
+  "page": 21
+ },
+ {
+  "level": 2,
+  "title": "Place",
+  "page": 22
+ },
+ {
+  "level": 3,
+  "title": "Islandism",
+  "page": 23
+ },
+ {
+  "level": 3,
+  "title": "The urban–rural divide: which one is the ‘easy life’?",
+  "page": 24
+ },
+ {
+  "level": 3,
+  "title": "Land",
+  "page": 27
+ },
+ {
+  "level": 2,
+  "title": "Language",
+  "page": 28
+ },
+ {
+  "level": 2,
+  "title": "Politics",
+  "page": 29
+ },
+ {
+  "level": 2,
+  "title": "Religion and denomination",
+  "page": 31
+ },
+ {
+  "level": 2,
+  "title": "Gender",
+  "page": 33
+ },
+ {
+  "level": 2,
+  "title": "Age",
+  "page": 36
+ },
+ {
+  "level": 2,
+  "title": "Conclusion",
+  "page": 39
+ },
+ {
+  "level": 1,
+  "title": "2. The possibilities and limitations of legal pluralism",
+  "page": 49
+ },
+ {
+  "level": 2,
+  "title": "The positivist approach",
+  "page": 50
+ },
+ {
+  "level": 3,
+  "title": "General principles",
+  "page": 50
+ },
+ {
+  "level": 3,
+  "title": "Positivism in Melanesia",
+  "page": 50
+ },
+ {
+  "level": 2,
+  "title": "The legal anthropological approach",
+  "page": 52
+ },
+ {
+  "level": 2,
+  "title": "The legal pluralist approach",
+  "page": 56
+ },
+ {
+  "level": 3,
+  "title": "General principles",
+  "page": 56
+ },
+ {
+  "level": 3,
+  "title": "Theoretical issues",
+  "page": 58
+ },
+ {
+  "level": 4,
+  "title": "What’s in a name?",
+  "page": 58
+ },
+ {
+  "level": 4,
+  "title": "Is state law fundamentally different to non-state law?",
+  "page": 61
+ },
+ {
+  "level": 4,
+  "title": "Is it possible to have a situation of legal pluralism within a state system?",
+  "page": 63
+ },
+ {
+  "level": 3,
+  "title": "The possibilities and limitations of legal pluralism for Melanesia",
+  "page": 64
+ },
+ {
+  "level": 4,
+  "title": "The possibilities of legal pluralism",
+  "page": 64
+ },
+ {
+  "level": 4,
+  "title": "The current limitations of legal pluralism",
+  "page": 66
+ },
+ {
+  "level": 4,
+  "title": "Using legal pluralism as a normative tool",
+  "page": 68
+ },
+ {
+  "level": 2,
+  "title": "Conclusion",
+  "page": 72
+ },
+ {
+  "level": 1,
+  "title": "3. Tradition and transformation in leadership structures and conflict-management mechanisms",
+  "page": 81
+ },
+ {
+  "level": 2,
+  "title": "Leadership structures and conflict management in the nineteenth century and early twentieth century",
+  "page": 81
+ },
+ {
+  "level": 3,
+  "title": "Leadership structures",
+  "page": 82
+ },
+ {
+  "level": 4,
+  "title": "The graded system",
+  "page": 82
+ },
+ {
+  "level": 4,
+  "title": "Hereditary/mixed systems",
+  "page": 83
+ },
+ {
+  "level": 3,
+  "title": "Maintenance of law and order and conflict-management mechanisms",
+  "page": 85
+ },
+ {
+  "level": 2,
+  "title": "Leadership structures and conflict-management mechanisms during the Condominium",
+  "page": 88
+ },
+ {
+  "level": 3,
+  "title": "Leadership systems",
+  "page": 89
+ },
+ {
+  "level": 3,
+  "title": "Maintenance of law and order and conflict-management mechanisms",
+  "page": 91
+ },
+ {
+  "level": 2,
+  "title": "Leadership structures and conflict management post-independence",
+  "page": 95
+ },
+ {
+  "level": 3,
+  "title": "Kastom and the ‘invention of tradition’",
+  "page": 95
+ },
+ {
+  "level": 4,
+  "title": "What is kastom?",
+  "page": 96
+ },
+ {
+  "level": 4,
+  "title": "Kastom as ‘invention’?",
+  "page": 97
+ },
+ {
+  "level": 4,
+  "title": "The significance of kastom as invention",
+  "page": 99
+ },
+ {
+  "level": 3,
+  "title": "Leadership structures in Vanuatu today",
+  "page": 100
+ },
+ {
+  "level": 3,
+  "title": "Conflict management",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "Conclusion",
+  "page": 103
+ },
+ {
+  "level": 1,
+  "title": "4. Mat, kava, faol, pig, buluk, woman: the operation of the kastom system in Vanuatu today",
+  "page": 115
+ },
+ {
+  "level": 2,
+  "title": "The pervasiveness of the kastom system",
+  "page": 117
+ },
+ {
+  "level": 2,
+  "title": "Diversity in conflict management",
+  "page": 118
+ },
+ {
+  "level": 3,
+  "title": "The people in charge of the management of the conflict",
+  "page": 119
+ },
+ {
+  "level": 3,
+  "title": "Before the meeting",
+  "page": 119
+ },
+ {
+  "level": 3,
+  "title": "At the meeting",
+  "page": 120
+ },
+ {
+  "level": 4,
+  "title": "Who attends?",
+  "page": 120
+ },
+ {
+  "level": 4,
+  "title": "Who speaks?",
+  "page": 120
+ },
+ {
+  "level": 4,
+  "title": "How is a decision reached?",
+  "page": 121
+ },
+ {
+  "level": 3,
+  "title": "After the meeting",
+  "page": 125
+ },
+ {
+  "level": 2,
+  "title": "The restorative nature of the kastom system",
+  "page": 125
+ },
+ {
+  "level": 2,
+  "title": "Privileging the community over individuals",
+  "page": 128
+ },
+ {
+  "level": 2,
+  "title": "Kastom procedures and kastom law",
+  "page": 130
+ },
+ {
+  "level": 2,
+  "title": "The dynamism of the kastom system",
+  "page": 131
+ },
+ {
+  "level": 2,
+  "title": "Challenges for the kastom system today",
+  "page": 133
+ },
+ {
+  "level": 3,
+  "title": "Too many chiefs",
+  "page": 134
+ },
+ {
+  "level": 3,
+  "title": "‘Respek hemi lus’ (Respect has been lost)",
+  "page": 135
+ },
+ {
+  "level": 4,
+  "title": "Problems of enforcement of kastom payments",
+  "page": 136
+ },
+ {
+  "level": 4,
+  "title": "Problems of people attending meetings",
+  "page": 137
+ },
+ {
+  "level": 3,
+  "title": "Chiefly misbehaviour",
+  "page": 137
+ },
+ {
+  "level": 3,
+  "title": "Lack of disciplinary mechanisms",
+  "page": 138
+ },
+ {
+  "level": 3,
+  "title": "Chiefs and modern society",
+  "page": 139
+ },
+ {
+  "level": 2,
+  "title": "Widespread support for the continuation of the kastom system",
+  "page": 140
+ },
+ {
+  "level": 2,
+  "title": "Women and the kastom system",
+  "page": 141
+ },
+ {
+  "level": 2,
+  "title": "Youth and the kastom system",
+  "page": 144
+ },
+ {
+  "level": 2,
+  "title": "Conclusion",
+  "page": 146
+ },
+ {
+  "level": 1,
+  "title": "5. The relationship between the state and kastom systems",
+  "page": 159
+ },
+ {
+  "level": 2,
+  "title": "The courts",
+  "page": 159
+ },
+ {
+  "level": 3,
+  "title": "The current condition of the court system",
+  "page": 160
+ },
+ {
+  "level": 3,
+  "title": "The relationship between the courts and the kastom system",
+  "page": 162
+ },
+ {
+  "level": 4,
+  "title": "The relationship between customary law and state law",
+  "page": 162
+ },
+ {
+  "level": 4,
+  "title": "The relationship between the kastom system and the court system",
+  "page": 168
+ },
+ {
+  "level": 4,
+  "title": "Views of stakeholders about the relationship",
+  "page": 169
+ },
+ {
+  "level": 2,
+  "title": "The Vanuatu Police Force",
+  "page": 170
+ },
+ {
+  "level": 3,
+  "title": "The condition of the police today",
+  "page": 170
+ },
+ {
+  "level": 3,
+  "title": "The relationship between the police and the kastom system",
+  "page": 172
+ },
+ {
+  "level": 4,
+  "title": "Ways the police assist the kastom system",
+  "page": 174
+ },
+ {
+  "level": 4,
+  "title": "Ways the kastom system assists the police",
+  "page": 175
+ },
+ {
+  "level": 4,
+  "title": "View of stakeholders about the relationship",
+  "page": 175
+ },
+ {
+  "level": 2,
+  "title": "The prisons",
+  "page": 177
+ },
+ {
+  "level": 3,
+  "title": "The condition of the prisons today",
+  "page": 177
+ },
+ {
+  "level": 3,
+  "title": "The relationship between the prisons and the kastom system",
+  "page": 179
+ },
+ {
+  "level": 2,
+  "title": "The Public Prosecutor and the Public Solicitor",
+  "page": 180
+ },
+ {
+  "level": 3,
+  "title": "The condition of the prosecution and Public Solicitor",
+  "page": 180
+ },
+ {
+  "level": 3,
+  "title": "The relationship between the prosecution and the Public Solicitor with the kastom system",
+  "page": 181
+ },
+ {
+  "level": 2,
+  "title": "The Malvatumauri",
+  "page": 182
+ },
+ {
+  "level": 2,
+  "title": "Conclusion",
+  "page": 184
+ },
+ {
+  "level": 1,
+  "title": "6. The problems of the existing relationship between the state and kastom systems",
+  "page": 195
+ },
+ {
+  "level": 2,
+  "title": "The facts of the case study",
+  "page": 196
+ },
+ {
+  "level": 2,
+  "title": "Problems within the two systems demonstrated by the case study",
+  "page": 200
+ },
+ {
+  "level": 3,
+  "title": "Problems within the state system",
+  "page": 200
+ },
+ {
+  "level": 3,
+  "title": "Problems within the kastom system",
+  "page": 202
+ },
+ {
+  "level": 2,
+  "title": "Problems with the relationship between the two systems",
+  "page": 202
+ },
+ {
+  "level": 3,
+  "title": "Uncertainty about where the conflict should be dealt with puts complainants in a vulnerable situation",
+  "page": 202
+ },
+ {
+  "level": 3,
+  "title": "Dispute and confusion over jurisdiction",
+  "page": 203
+ },
+ {
+  "level": 3,
+  "title": "The problem of which system should deal with a case first",
+  "page": 206
+ },
+ {
+  "level": 4,
+  "title": "The problems with the kastom system dealing with a matter first",
+  "page": 206
+ },
+ {
+  "level": 4,
+  "title": "The problems with the state system dealing with a matter first",
+  "page": 208
+ },
+ {
+  "level": 3,
+  "title": "The problem of ‘double jeopardy’",
+  "page": 209
+ },
+ {
+  "level": 3,
+  "title": "The operation of the state system creates feelings of disempowerment among the chiefs",
+  "page": 210
+ },
+ {
+  "level": 3,
+  "title": "The state system hinders the operation of the kastom system",
+  "page": 210
+ },
+ {
+  "level": 4,
+  "title": "Direct hindering of the kastom system by the state system",
+  "page": 210
+ },
+ {
+  "level": 4,
+  "title": "Indirect hindering of the kastom system by the state system",
+  "page": 212
+ },
+ {
+  "level": 3,
+  "title": "The existence of the kastom system hinders the operation of the state system",
+  "page": 214
+ },
+ {
+  "level": 2,
+  "title": "Conclusion",
+  "page": 215
+ },
+ {
+  "level": 1,
+  "title": "7. A typology of relationships between state and non-state justice systems",
+  "page": 221
+ },
+ {
+  "level": 2,
+  "title": "A framework for analysing different types of relationship between non-state and state justice systems",
+  "page": 222
+ },
+ {
+  "level": 2,
+  "title": "Models of relationship",
+  "page": 225
+ },
+ {
+  "level": 3,
+  "title": "Model 1: Repression of a non-state justice system by the state system",
+  "page": 226
+ },
+ {
+  "level": 3,
+  "title": "Model 2: Formal independence between the systems but tacit acceptance by the State of a non-state justice system",
+  "page": 227
+ },
+ {
+  "level": 3,
+  "title": "Model 3: No formal recognition but active encouragement of a non-state justice system by the State",
+  "page": 228
+ },
+ {
+  "level": 3,
+  "title": "Model 4: Limited formal recognition by the State of the exercise of jurisdiction by a non-state justice system",
+  "page": 230
+ },
+ {
+  "level": 3,
+  "title": "Model 5: Formal recognition of exclusive jurisdiction in a defined area",
+  "page": 234
+ },
+ {
+  "level": 3,
+  "title": "Model 6: Formal recognition and the giving of state coercive powers to a non-state justice system",
+  "page": 237
+ },
+ {
+  "level": 3,
+  "title": "Model 7: Complete incorporation of the non-state justice system by the State",
+  "page": 242
+ },
+ {
+  "level": 2,
+  "title": "Mutual adaptations/innovations by state and non-state systems",
+  "page": 245
+ },
+ {
+  "level": 3,
+  "title": "Mutual learning",
+  "page": 247
+ },
+ {
+  "level": 3,
+  "title": "Sharing of procedures",
+  "page": 248
+ },
+ {
+  "level": 4,
+  "title": "Changes the state system could make to its procedures",
+  "page": 248
+ },
+ {
+  "level": 4,
+  "title": "Changes the customary justice system could make to its procedures",
+  "page": 250
+ },
+ {
+  "level": 3,
+  "title": "Sharing of substantive laws/principles",
+  "page": 252
+ },
+ {
+  "level": 4,
+  "title": "Use of substantive customary law by state courts",
+  "page": 252
+ },
+ {
+  "level": 4,
+  "title": "Use of human rights principles",
+  "page": 253
+ },
+ {
+  "level": 3,
+  "title": "Use of key players/institutions from the other system",
+  "page": 255
+ },
+ {
+  "level": 4,
+  "title": "Use by the state system",
+  "page": 255
+ },
+ {
+  "level": 4,
+  "title": "Use of key players by the customary justice system",
+  "page": 257
+ },
+ {
+  "level": 2,
+  "title": "Conclusion",
+  "page": 258
+ },
+ {
+  "level": 1,
+  "title": "8. A new method of legal pluralism",
+  "page": 269
+ },
+ {
+  "level": 2,
+  "title": "Step 1: Analyse the operation of the state and non-state systems",
+  "page": 270
+ },
+ {
+  "level": 2,
+  "title": "Step 2: Consider the aims of the overall justice system",
+  "page": 271
+ },
+ {
+  "level": 2,
+  "title": "Step 3: Examine the current positive and problematic features in the relationship between the systems",
+  "page": 273
+ },
+ {
+  "level": 2,
+  "title": "Step 4: Consider the applicability of the different models of relationship to this context",
+  "page": 275
+ },
+ {
+  "level": 2,
+  "title": "Step 5: Develop the chosen model so that it becomes one of mutual adaptation, mutual recognition and mutual regulation",
+  "page": 276
+ },
+ {
+  "level": 3,
+  "title": "Internal adaptations",
+  "page": 277
+ },
+ {
+  "level": 4,
+  "title": "The state system",
+  "page": 277
+ },
+ {
+  "level": 4,
+  "title": "The kastom system",
+  "page": 277
+ },
+ {
+  "level": 3,
+  "title": "Recognition",
+  "page": 278
+ },
+ {
+  "level": 4,
+  "title": "State recognition of the kastom system",
+  "page": 278
+ },
+ {
+  "level": 4,
+  "title": "Kastom system recognition of the state system",
+  "page": 279
+ },
+ {
+  "level": 3,
+  "title": "Regulation",
+  "page": 279
+ },
+ {
+  "level": 4,
+  "title": "State regulation of the kastom system",
+  "page": 279
+ },
+ {
+  "level": 4,
+  "title": "Kastom system regulation of the State",
+  "page": 280
+ },
+ {
+  "level": 2,
+  "title": "Step 6: Develop a method of progressive implementation and evaluation of changes",
+  "page": 281
+ },
+ {
+  "level": 2,
+  "title": "Step 7: Revise the model pluralist method",
+  "page": 282
+ },
+ {
+  "level": 2,
+  "title": "Conclusion: doing legal pluralism",
+  "page": 282
+ },
+ {
+  "level": 1,
+  "title": "Bibliography",
+  "page": 287
+ },
+ {
+  "level": 2,
+  "title": "Legal cases",
+  "page": 316
+ },
+ {
+  "level": 3,
+  "title": "Vanuatu",
+  "page": 316
+ },
+ {
+  "level": 3,
+  "title": "Other jurisdictions",
+  "page": 317
+ },
+ {
+  "level": 2,
+  "title": "Newspaper articles",
+  "page": 317
+ }
+]

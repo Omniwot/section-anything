@@ -1,0 +1,112 @@
+[
+ {
+  "level": 1,
+  "title": "Purpose and Scope",
+  "page": 10
+ },
+ {
+  "level": 1,
+  "title": "AI Bias: Context and Terminology",
+  "page": 12
+ },
+ {
+  "level": 2,
+  "title": "Characterizing AI bias",
+  "page": 12
+ },
+ {
+  "level": 3,
+  "title": "Contexts for addressing AI bias",
+  "page": 12
+ },
+ {
+  "level": 3,
+  "title": "Categories of AI bias",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "How AI bias contributes to harms",
+  "page": 18
+ },
+ {
+  "level": 2,
+  "title": "A Socio-technical Systems Approach",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "An Updated AI Lifecycle",
+  "page": 21
+ },
+ {
+  "level": 1,
+  "title": "AI Bias: Challenges and Guidance",
+  "page": 23
+ },
+ {
+  "level": 2,
+  "title": "Who is Counted? Datasets in AI Bias",
+  "page": 24
+ },
+ {
+  "level": 3,
+  "title": "Dataset Challenges",
+  "page": 24
+ },
+ {
+  "level": 3,
+  "title": "Dataset Guidance",
+  "page": 26
+ },
+ {
+  "level": 2,
+  "title": "How do we know what is right? TEVV Considerations for AI Bias",
+  "page": 29
+ },
+ {
+  "level": 3,
+  "title": "TEVV Challenges",
+  "page": 29
+ },
+ {
+  "level": 3,
+  "title": "TEVV Guidance",
+  "page": 36
+ },
+ {
+  "level": 2,
+  "title": "Who makes decisions and how do they make them? Human Factors in AI Bias",
+  "page": 41
+ },
+ {
+  "level": 3,
+  "title": "Human Factors Challenges",
+  "page": 41
+ },
+ {
+  "level": 3,
+  "title": "Human Factors Guidance",
+  "page": 44
+ },
+ {
+  "level": 2,
+  "title": "How do we manage and provide oversight? Governance and AI Bias",
+  "page": 51
+ },
+ {
+  "level": 3,
+  "title": "Governance Guidance",
+  "page": 51
+ },
+ {
+  "level": 1,
+  "title": "Conclusions",
+  "page": 56
+ },
+ {
+  "level": 1,
+  "title": "Glossary",
+  "page": 58
+ }
+]

@@ -1,0 +1,97 @@
+[
+ {
+  "level": 1,
+  "title": "1. INTRODUCTION",
+  "page": 1
+ },
+ {
+  "level": 1,
+  "title": "2. OBSERVATIONS",
+  "page": 3
+ },
+ {
+  "level": 1,
+  "title": "3. THE SOFIA/FORCAST VIEW OF SGR C",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "3.1. Overview of the Region",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "3.2. MIR Analysis",
+  "page": 4
+ },
+ {
+  "level": 3,
+  "title": "3.2.1. Extinction & Signal-to-noise Correction",
+  "page": 4
+ },
+ {
+  "level": 3,
+  "title": "3.2.2. Dust temperature map",
+  "page": 6
+ },
+ {
+  "level": 3,
+  "title": "3.2.3. Optical Depth map",
+  "page": 7
+ },
+ {
+  "level": 3,
+  "title": "3.2.4. Temperature Profile Modelling",
+  "page": 8
+ },
+ {
+  "level": 3,
+  "title": "3.2.5. Point Sources",
+  "page": 9
+ },
+ {
+  "level": 1,
+  "title": "4. MULTI-WAVELENGTH VIEWS OF SGR C",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "4.1. Assembly of Multi-wavelength Observations",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "4.2. The Sgr C H II Region",
+  "page": 11
+ },
+ {
+  "level": 3,
+  "title": "[C II] Line Analysis",
+  "page": 14
+ },
+ {
+  "level": 3,
+  "title": "4.2.2. Total IR Luminosity",
+  "page": 16
+ },
+ {
+  "level": 2,
+  "title": "4.3. EGO: G359.44-0.10",
+  "page": 18
+ },
+ {
+  "level": 2,
+  "title": "4.4. YSO Cluster: G359.43+0.02",
+  "page": 18
+ },
+ {
+  "level": 2,
+  "title": "4.5. Source C: G359.38-0.07",
+  "page": 19
+ },
+ {
+  "level": 1,
+  "title": "5. CONCLUSIONS",
+  "page": 19
+ }
+]

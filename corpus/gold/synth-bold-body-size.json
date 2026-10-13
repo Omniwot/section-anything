@@ -1,0 +1,307 @@
+[
+ {
+  "level": 1,
+  "title": "Regional Fatigue",
+  "page": 1
+ },
+ {
+  "level": 2,
+  "title": "Urban Noise Floor",
+  "page": 1
+ },
+ {
+  "level": 3,
+  "title": "Thermal Retrofits and Its Limits",
+  "page": 2
+ },
+ {
+  "level": 3,
+  "title": "Secondary Drift",
+  "page": 2
+ },
+ {
+  "level": 3,
+  "title": "Field Drift Revisited",
+  "page": 3
+ },
+ {
+  "level": 3,
+  "title": "Thermal Data Quality in Practice",
+  "page": 3
+ },
+ {
+  "level": 2,
+  "title": "Residual Maintenance in Practice",
+  "page": 4
+ },
+ {
+  "level": 3,
+  "title": "Hydraulic Validation",
+  "page": 4
+ },
+ {
+  "level": 3,
+  "title": "Primary Calibration for Small Sites",
+  "page": 5
+ },
+ {
+  "level": 3,
+  "title": "Statistical Noise Floor and Its Limits",
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "Statistical Sensor Placement",
+  "page": 6
+ },
+ {
+  "level": 3,
+  "title": "Hydraulic Survey Design for Small Sites",
+  "page": 6
+ },
+ {
+  "level": 3,
+  "title": "Coastal Load Paths under Load",
+  "page": 7
+ },
+ {
+  "level": 3,
+  "title": "Statistical Sensor Placement for Small Sites",
+  "page": 8
+ },
+ {
+  "level": 3,
+  "title": "Optical Sampling and Its Limits",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "Urban Survey Design",
+  "page": 9
+ },
+ {
+  "level": 3,
+  "title": "Field Erosion Revisited",
+  "page": 10
+ },
+ {
+  "level": 3,
+  "title": "Acoustic Fatigue at Scale",
+  "page": 11
+ },
+ {
+  "level": 3,
+  "title": "Statistical Water Balance at Scale",
+  "page": 11
+ },
+ {
+  "level": 3,
+  "title": "Optical Maintenance at Scale",
+  "page": 12
+ },
+ {
+  "level": 3,
+  "title": "Hydraulic Material Selection for Small Sites",
+  "page": 12
+ },
+ {
+  "level": 2,
+  "title": "Field Validation for Small Sites",
+  "page": 13
+ },
+ {
+  "level": 3,
+  "title": "Seasonal Validation",
+  "page": 13
+ },
+ {
+  "level": 3,
+  "title": "Lateral Sampling",
+  "page": 13
+ },
+ {
+  "level": 3,
+  "title": "Acoustic Drift and Its Limits",
+  "page": 14
+ },
+ {
+  "level": 1,
+  "title": "Structural Coverage",
+  "page": 14
+ },
+ {
+  "level": 2,
+  "title": "Seasonal Fatigue at Scale",
+  "page": 15
+ },
+ {
+  "level": 3,
+  "title": "Primary Retrofits for Small Sites",
+  "page": 15
+ },
+ {
+  "level": 3,
+  "title": "Thermal Benchmarks Revisited",
+  "page": 16
+ },
+ {
+  "level": 3,
+  "title": "Lateral Calibration and Its Limits",
+  "page": 16
+ },
+ {
+  "level": 3,
+  "title": "Hydraulic Drift in Practice",
+  "page": 17
+ },
+ {
+  "level": 2,
+  "title": "Long-term Sampling",
+  "page": 17
+ },
+ {
+  "level": 3,
+  "title": "Hydraulic Validation in Practice",
+  "page": 18
+ },
+ {
+  "level": 3,
+  "title": "Residual Data Quality",
+  "page": 19
+ },
+ {
+  "level": 3,
+  "title": "Secondary Uncertainty",
+  "page": 19
+ },
+ {
+  "level": 3,
+  "title": "Adaptive Benchmarks",
+  "page": 20
+ },
+ {
+  "level": 3,
+  "title": "Primary Survey Design Revisited",
+  "page": 20
+ },
+ {
+  "level": 2,
+  "title": "Field Sampling in Practice",
+  "page": 21
+ },
+ {
+  "level": 3,
+  "title": "Statistical Sampling Revisited",
+  "page": 22
+ },
+ {
+  "level": 3,
+  "title": "Structural Noise Floor Revisited",
+  "page": 22
+ },
+ {
+  "level": 3,
+  "title": "Urban Benchmarks at Scale",
+  "page": 23
+ },
+ {
+  "level": 3,
+  "title": "Urban Benchmarks",
+  "page": 23
+ },
+ {
+  "level": 3,
+  "title": "Secondary Scheduling",
+  "page": 23
+ },
+ {
+  "level": 1,
+  "title": "Lateral Calibration Revisited",
+  "page": 24
+ },
+ {
+  "level": 2,
+  "title": "Field Erosion",
+  "page": 24
+ },
+ {
+  "level": 3,
+  "title": "Seasonal Validation in Practice",
+  "page": 25
+ },
+ {
+  "level": 3,
+  "title": "Statistical Fatigue for Small Sites",
+  "page": 25
+ },
+ {
+  "level": 3,
+  "title": "Primary Erosion under Load",
+  "page": 26
+ },
+ {
+  "level": 2,
+  "title": "Field Calibration for Small Sites",
+  "page": 26
+ },
+ {
+  "level": 3,
+  "title": "Urban Water Balance",
+  "page": 27
+ },
+ {
+  "level": 3,
+  "title": "Urban Load Paths at Scale",
+  "page": 27
+ },
+ {
+  "level": 3,
+  "title": "Regional Fatigue for Small Sites",
+  "page": 27
+ },
+ {
+  "level": 2,
+  "title": "Structural Retrofits and Its Limits",
+  "page": 28
+ },
+ {
+  "level": 3,
+  "title": "Thermal Coverage",
+  "page": 28
+ },
+ {
+  "level": 3,
+  "title": "Structural Sampling in Practice",
+  "page": 28
+ },
+ {
+  "level": 3,
+  "title": "Hydraulic Survey Design",
+  "page": 29
+ },
+ {
+  "level": 3,
+  "title": "Residual Survey Design",
+  "page": 29
+ },
+ {
+  "level": 2,
+  "title": "Primary Validation and Its Limits",
+  "page": 30
+ },
+ {
+  "level": 3,
+  "title": "Secondary Sampling",
+  "page": 31
+ },
+ {
+  "level": 3,
+  "title": "Secondary Retrofits Revisited",
+  "page": 31
+ },
+ {
+  "level": 3,
+  "title": "Regional Interpolation under Load",
+  "page": 32
+ }
+]

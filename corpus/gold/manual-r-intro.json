@@ -1,0 +1,932 @@
+[
+ {
+  "level": 1,
+  "title": "Preface",
+  "page": 7
+ },
+ {
+  "level": 1,
+  "title": "1 Introduction and preliminaries",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "The R environment",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "Related software and documentation",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "R and statistics",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "R and the window system",
+  "page": 9
+ },
+ {
+  "level": 2,
+  "title": "Using R interactively",
+  "page": 9
+ },
+ {
+  "level": 2,
+  "title": "An introductory session",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "Getting help with functions and features",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "R commands, case sensitivity, etc.",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "Recall and correction of previous commands",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "Executing commands from or diverting output to a file",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "Data permanency and removing objects",
+  "page": 11
+ },
+ {
+  "level": 1,
+  "title": "2 Simple manipulations; numbers and vectors",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "Vectors and assignment",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "Vector arithmetic",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "Generating regular sequences",
+  "page": 14
+ },
+ {
+  "level": 2,
+  "title": "Logical vectors",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "Missing values",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "Character vectors",
+  "page": 16
+ },
+ {
+  "level": 2,
+  "title": "Index vectors; selecting and modifying subsets of a data set",
+  "page": 16
+ },
+ {
+  "level": 2,
+  "title": "Other types of objects",
+  "page": 17
+ },
+ {
+  "level": 1,
+  "title": "3 Objects, their modes and attributes",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "Intrinsic attributes: mode and length",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "Getting and setting attributes",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "The class of an object",
+  "page": 53
+ },
+ {
+  "level": 1,
+  "title": "4 Ordered and unordered factors",
+  "page": 22
+ },
+ {
+  "level": 2,
+  "title": "A specific example",
+  "page": 22
+ },
+ {
+  "level": 2,
+  "title": "The function tapply() and ragged arrays",
+  "page": 22
+ },
+ {
+  "level": 2,
+  "title": "Ordered factors",
+  "page": 23
+ },
+ {
+  "level": 1,
+  "title": "5 Arrays and matrices",
+  "page": 24
+ },
+ {
+  "level": 2,
+  "title": "Arrays",
+  "page": 24
+ },
+ {
+  "level": 2,
+  "title": "Array indexing. Subsections of an array",
+  "page": 24
+ },
+ {
+  "level": 2,
+  "title": "Index matrices",
+  "page": 25
+ },
+ {
+  "level": 2,
+  "title": "The array() function",
+  "page": 26
+ },
+ {
+  "level": 3,
+  "title": "Mixed vector and array arithmetic. The recycling rule",
+  "page": 26
+ },
+ {
+  "level": 2,
+  "title": "The outer product of two arrays",
+  "page": 27
+ },
+ {
+  "level": 2,
+  "title": "Generalized transpose of an array",
+  "page": 27
+ },
+ {
+  "level": 2,
+  "title": "Matrix facilities",
+  "page": 28
+ },
+ {
+  "level": 3,
+  "title": "Matrix multiplication",
+  "page": 28
+ },
+ {
+  "level": 3,
+  "title": "Linear equations and inversion",
+  "page": 28
+ },
+ {
+  "level": 3,
+  "title": "Eigenvalues and eigenvectors",
+  "page": 29
+ },
+ {
+  "level": 3,
+  "title": "Singular value decomposition and determinants",
+  "page": 29
+ },
+ {
+  "level": 3,
+  "title": "Least squares fitting and the QR decomposition",
+  "page": 29
+ },
+ {
+  "level": 2,
+  "title": "Forming partitioned matrices, cbind() and rbind()",
+  "page": 30
+ },
+ {
+  "level": 2,
+  "title": "The concatenation function, c(), with arrays",
+  "page": 30
+ },
+ {
+  "level": 2,
+  "title": "Frequency tables from factors",
+  "page": 31
+ },
+ {
+  "level": 1,
+  "title": "6 Lists and data frames",
+  "page": 32
+ },
+ {
+  "level": 2,
+  "title": "Lists",
+  "page": 32
+ },
+ {
+  "level": 3,
+  "title": "Concatenating lists",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "Data frames",
+  "page": 32
+ },
+ {
+  "level": 3,
+  "title": "Working with data frames",
+  "page": 34
+ },
+ {
+  "level": 3,
+  "title": "Attaching arbitrary lists",
+  "page": 34
+ },
+ {
+  "level": 3,
+  "title": "Managing the search path",
+  "page": 35
+ },
+ {
+  "level": 1,
+  "title": "7 Reading data from files",
+  "page": 36
+ },
+ {
+  "level": 2,
+  "title": "The read.table() function",
+  "page": 36
+ },
+ {
+  "level": 2,
+  "title": "The scan() function",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "Accessing builtin datasets",
+  "page": 37
+ },
+ {
+  "level": 3,
+  "title": "Loading data from other R packages",
+  "page": 38
+ },
+ {
+  "level": 2,
+  "title": "Editing data",
+  "page": 38
+ },
+ {
+  "level": 1,
+  "title": "8 Probability distributions",
+  "page": 39
+ },
+ {
+  "level": 2,
+  "title": "R as a set of statistical tables",
+  "page": 39
+ },
+ {
+  "level": 2,
+  "title": "Examining the distribution of a set of data",
+  "page": 40
+ },
+ {
+  "level": 2,
+  "title": "One- and two-sample tests",
+  "page": 42
+ },
+ {
+  "level": 1,
+  "title": "9 Grouping, loops and conditional execution",
+  "page": 45
+ },
+ {
+  "level": 2,
+  "title": "Grouped expressions",
+  "page": 45
+ },
+ {
+  "level": 2,
+  "title": "Control statements",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "Conditional execution: if statements",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "Repetitive execution: for loops, repeat and while",
+  "page": 45
+ },
+ {
+  "level": 1,
+  "title": "10 Writing your own functions",
+  "page": 47
+ },
+ {
+  "level": 2,
+  "title": "Simple examples",
+  "page": 47
+ },
+ {
+  "level": 2,
+  "title": "Defining new binary operators",
+  "page": 48
+ },
+ {
+  "level": 2,
+  "title": "Named arguments and defaults",
+  "page": 48
+ },
+ {
+  "level": 2,
+  "title": "The ... argument",
+  "page": 49
+ },
+ {
+  "level": 2,
+  "title": "Assignments within functions",
+  "page": 49
+ },
+ {
+  "level": 2,
+  "title": "More advanced examples",
+  "page": 49
+ },
+ {
+  "level": 3,
+  "title": "Efficiency factors in block designs",
+  "page": 49
+ },
+ {
+  "level": 3,
+  "title": "Dropping all names in a printed array",
+  "page": 50
+ },
+ {
+  "level": 3,
+  "title": "Recursive numerical integration",
+  "page": 50
+ },
+ {
+  "level": 2,
+  "title": "Scope",
+  "page": 51
+ },
+ {
+  "level": 2,
+  "title": "Customizing the environment",
+  "page": 53
+ },
+ {
+  "level": 2,
+  "title": "Classes, generic functions and object orientation",
+  "page": 53
+ },
+ {
+  "level": 1,
+  "title": "11 Statistical models in R",
+  "page": 56
+ },
+ {
+  "level": 2,
+  "title": "Defining statistical models; formulae",
+  "page": 56
+ },
+ {
+  "level": 3,
+  "title": "Contrasts",
+  "page": 58
+ },
+ {
+  "level": 2,
+  "title": "Linear models",
+  "page": 59
+ },
+ {
+  "level": 2,
+  "title": "Generic functions for extracting model information",
+  "page": 59
+ },
+ {
+  "level": 2,
+  "title": "Analysis of variance and model comparison",
+  "page": 60
+ },
+ {
+  "level": 3,
+  "title": "ANOVA tables",
+  "page": 60
+ },
+ {
+  "level": 2,
+  "title": "Updating fitted models",
+  "page": 60
+ },
+ {
+  "level": 2,
+  "title": "Generalized linear models",
+  "page": 61
+ },
+ {
+  "level": 3,
+  "title": "Families",
+  "page": 62
+ },
+ {
+  "level": 3,
+  "title": "The glm() function",
+  "page": 62
+ },
+ {
+  "level": 2,
+  "title": "Nonlinear least squares and maximum likelihood models",
+  "page": 64
+ },
+ {
+  "level": 3,
+  "title": "Least squares",
+  "page": 64
+ },
+ {
+  "level": 3,
+  "title": "Maximum likelihood",
+  "page": 66
+ },
+ {
+  "level": 2,
+  "title": "Some non-standard models",
+  "page": 66
+ },
+ {
+  "level": 1,
+  "title": "12 Graphical procedures",
+  "page": 68
+ },
+ {
+  "level": 2,
+  "title": "High-level plotting commands",
+  "page": 68
+ },
+ {
+  "level": 3,
+  "title": "The plot() function",
+  "page": 68
+ },
+ {
+  "level": 3,
+  "title": "Displaying multivariate data",
+  "page": 69
+ },
+ {
+  "level": 3,
+  "title": "Display graphics",
+  "page": 69
+ },
+ {
+  "level": 3,
+  "title": "Arguments to high-level plotting functions",
+  "page": 70
+ },
+ {
+  "level": 2,
+  "title": "Low-level plotting commands",
+  "page": 71
+ },
+ {
+  "level": 3,
+  "title": "Mathematical annotation",
+  "page": 72
+ },
+ {
+  "level": 3,
+  "title": "Hershey vector fonts",
+  "page": 72
+ },
+ {
+  "level": 2,
+  "title": "Interacting with graphics",
+  "page": 72
+ },
+ {
+  "level": 2,
+  "title": "Using graphics parameters",
+  "page": 73
+ },
+ {
+  "level": 3,
+  "title": "Permanent changes: The par() function",
+  "page": 73
+ },
+ {
+  "level": 3,
+  "title": "Temporary changes: Arguments to graphics functions",
+  "page": 74
+ },
+ {
+  "level": 2,
+  "title": "Graphics parameters list",
+  "page": 74
+ },
+ {
+  "level": 3,
+  "title": "Graphical elements",
+  "page": 75
+ },
+ {
+  "level": 3,
+  "title": "Axes and tick marks",
+  "page": 76
+ },
+ {
+  "level": 3,
+  "title": "Figure margins",
+  "page": 76
+ },
+ {
+  "level": 3,
+  "title": "Multiple figure environment",
+  "page": 77
+ },
+ {
+  "level": 2,
+  "title": "Device drivers",
+  "page": 78
+ },
+ {
+  "level": 3,
+  "title": "PostScript diagrams for typeset documents",
+  "page": 79
+ },
+ {
+  "level": 3,
+  "title": "Multiple graphics devices",
+  "page": 79
+ },
+ {
+  "level": 2,
+  "title": "Dynamic graphics",
+  "page": 80
+ },
+ {
+  "level": 1,
+  "title": "13 Packages",
+  "page": 81
+ },
+ {
+  "level": 2,
+  "title": "Standard packages",
+  "page": 81
+ },
+ {
+  "level": 2,
+  "title": "Contributed packages and CRAN",
+  "page": 81
+ },
+ {
+  "level": 2,
+  "title": "Namespaces",
+  "page": 81
+ },
+ {
+  "level": 1,
+  "title": "14 OS facilities",
+  "page": 83
+ },
+ {
+  "level": 2,
+  "title": "Files and directories",
+  "page": 83
+ },
+ {
+  "level": 2,
+  "title": "Filepaths",
+  "page": 83
+ },
+ {
+  "level": 2,
+  "title": "System commands",
+  "page": 84
+ },
+ {
+  "level": 2,
+  "title": "Compression and Archives",
+  "page": 84
+ },
+ {
+  "level": 1,
+  "title": "A A sample session",
+  "page": 86
+ },
+ {
+  "level": 1,
+  "title": "B Invoking R",
+  "page": 89
+ },
+ {
+  "level": 2,
+  "title": "Invoking R from the command line",
+  "page": 89
+ },
+ {
+  "level": 2,
+  "title": "Invoking R under Windows",
+  "page": 93
+ },
+ {
+  "level": 2,
+  "title": "Invoking R under macOS",
+  "page": 94
+ },
+ {
+  "level": 2,
+  "title": "Scripting with R",
+  "page": 94
+ },
+ {
+  "level": 1,
+  "title": "C The command-line editor",
+  "page": 96
+ },
+ {
+  "level": 2,
+  "title": "Preliminaries",
+  "page": 96
+ },
+ {
+  "level": 2,
+  "title": "Editing actions",
+  "page": 96
+ },
+ {
+  "level": 2,
+  "title": "Command-line editor summary",
+  "page": 96
+ },
+ {
+  "level": 1,
+  "title": "References",
+  "page": 98
+ },
+ {
+  "level": 1,
+  "title": "Function and variable index",
+  "page": 99
+ },
+ {
+  "level": 2,
+  "title": "A",
+  "page": 99
+ },
+ {
+  "level": 2,
+  "title": "B",
+  "page": 99
+ },
+ {
+  "level": 2,
+  "title": "C",
+  "page": 99
+ },
+ {
+  "level": 2,
+  "title": "D",
+  "page": 100
+ },
+ {
+  "level": 2,
+  "title": "E",
+  "page": 100
+ },
+ {
+  "level": 2,
+  "title": "F",
+  "page": 100
+ },
+ {
+  "level": 2,
+  "title": "G",
+  "page": 100
+ },
+ {
+  "level": 2,
+  "title": "H",
+  "page": 100
+ },
+ {
+  "level": 2,
+  "title": "I",
+  "page": 100
+ },
+ {
+  "level": 2,
+  "title": "J",
+  "page": 100
+ },
+ {
+  "level": 2,
+  "title": "K",
+  "page": 100
+ },
+ {
+  "level": 2,
+  "title": "L",
+  "page": 100
+ },
+ {
+  "level": 2,
+  "title": "M",
+  "page": 100
+ },
+ {
+  "level": 2,
+  "title": "N",
+  "page": 100
+ },
+ {
+  "level": 2,
+  "title": "O",
+  "page": 100
+ },
+ {
+  "level": 2,
+  "title": "P",
+  "page": 100
+ },
+ {
+  "level": 2,
+  "title": "Q",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "R",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "S",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "T",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "U",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "V",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "W",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "X",
+  "page": 101
+ },
+ {
+  "level": 1,
+  "title": "Concept index",
+  "page": 103
+ },
+ {
+  "level": 2,
+  "title": "A",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "B",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "C",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "D",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "E",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "F",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "G",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "I",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "K",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "L",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "M",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "N",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "O",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "P",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "Q",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "R",
+  "page": 101
+ },
+ {
+  "level": 2,
+  "title": "S",
+  "page": 103
+ },
+ {
+  "level": 2,
+  "title": "T",
+  "page": 103
+ },
+ {
+  "level": 2,
+  "title": "U",
+  "page": 103
+ },
+ {
+  "level": 2,
+  "title": "V",
+  "page": 103
+ },
+ {
+  "level": 2,
+  "title": "W",
+  "page": 103
+ }
+]

@@ -1,0 +1,281 @@
+[
+ {
+  "level": 1,
+  "title": "I. Field Water Balance for Small Sites",
+  "page": 1
+ },
+ {
+  "level": 3,
+  "title": "1. Optical Validation at Scale",
+  "run_in": true,
+  "page": 2
+ },
+ {
+  "level": 3,
+  "title": "3. Thermal Load Paths",
+  "run_in": true,
+  "page": 3
+ },
+ {
+  "level": 2,
+  "title": "B. Primary Drift and Its Limits",
+  "run_in": true,
+  "page": 3
+ },
+ {
+  "level": 3,
+  "title": "1. Hydraulic Sensor Placement under Load",
+  "run_in": true,
+  "page": 4
+ },
+ {
+  "level": 3,
+  "title": "2. Adaptive Water Balance under Load",
+  "run_in": true,
+  "page": 4
+ },
+ {
+  "level": 3,
+  "title": "3. Hydraulic Benchmarks Revisited",
+  "run_in": true,
+  "page": 5
+ },
+ {
+  "level": 3,
+  "title": "4. Coastal Validation Revisited",
+  "run_in": true,
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "C. Secondary Validation",
+  "run_in": true,
+  "page": 6
+ },
+ {
+  "level": 3,
+  "title": "1. Lateral Benchmarks",
+  "run_in": true,
+  "page": 7
+ },
+ {
+  "level": 3,
+  "title": "2. Optical Load Paths for Small Sites",
+  "run_in": true,
+  "page": 7
+ },
+ {
+  "level": 3,
+  "title": "3. Thermal Benchmarks Revisited",
+  "run_in": true,
+  "page": 8
+ },
+ {
+  "level": 3,
+  "title": "4. Adaptive Coverage",
+  "run_in": true,
+  "page": 8
+ },
+ {
+  "level": 1,
+  "title": "II. Primary Drift",
+  "page": 9
+ },
+ {
+  "level": 2,
+  "title": "A. Adaptive Noise Floor Revisited",
+  "run_in": true,
+  "page": 9
+ },
+ {
+  "level": 3,
+  "title": "2. Urban Sensor Placement under Load",
+  "run_in": true,
+  "page": 10
+ },
+ {
+  "level": 3,
+  "title": "3. Field Calibration at Scale",
+  "run_in": true,
+  "page": 10
+ },
+ {
+  "level": 3,
+  "title": "5. Secondary Drift Revisited",
+  "run_in": true,
+  "page": 11
+ },
+ {
+  "level": 3,
+  "title": "1. Coastal Maintenance and Its Limits",
+  "run_in": true,
+  "page": 12
+ },
+ {
+  "level": 3,
+  "title": "3. Secondary Survey Design for Small Sites",
+  "run_in": true,
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "C. Long-term Benchmarks at Scale",
+  "run_in": true,
+  "page": 14
+ },
+ {
+  "level": 3,
+  "title": "2. Residual Retrofits",
+  "run_in": true,
+  "page": 15
+ },
+ {
+  "level": 3,
+  "title": "3. Comparative Scheduling under Load",
+  "run_in": true,
+  "page": 16
+ },
+ {
+  "level": 3,
+  "title": "4. Structural Sampling at Scale",
+  "run_in": true,
+  "page": 16
+ },
+ {
+  "level": 2,
+  "title": "D. Seasonal Fatigue for Small Sites",
+  "run_in": true,
+  "page": 16
+ },
+ {
+  "level": 3,
+  "title": "1. Coastal Scheduling",
+  "run_in": true,
+  "page": 16
+ },
+ {
+  "level": 3,
+  "title": "2. Lateral Retrofits for Small Sites",
+  "run_in": true,
+  "page": 17
+ },
+ {
+  "level": 3,
+  "title": "3. Hydraulic Scheduling Revisited",
+  "run_in": true,
+  "page": 17
+ },
+ {
+  "level": 3,
+  "title": "5. Residual Sampling under Load",
+  "run_in": true,
+  "page": 18
+ },
+ {
+  "level": 2,
+  "title": "E. Primary Validation for Small Sites",
+  "run_in": true,
+  "page": 19
+ },
+ {
+  "level": 3,
+  "title": "1. Primary Calibration in Practice",
+  "run_in": true,
+  "page": 19
+ },
+ {
+  "level": 3,
+  "title": "3. Thermal Material Selection",
+  "run_in": true,
+  "page": 20
+ },
+ {
+  "level": 3,
+  "title": "4. Thermal Data Quality at Scale",
+  "run_in": true,
+  "page": 20
+ },
+ {
+  "level": 3,
+  "title": "5. Structural Interpolation",
+  "run_in": true,
+  "page": 21
+ },
+ {
+  "level": 1,
+  "title": "III. Coastal Erosion in Practice",
+  "page": 21
+ },
+ {
+  "level": 3,
+  "title": "1. Urban Sampling and Its Limits",
+  "run_in": true,
+  "page": 22
+ },
+ {
+  "level": 3,
+  "title": "2. Statistical Data Quality Revisited",
+  "run_in": true,
+  "page": 22
+ },
+ {
+  "level": 3,
+  "title": "3. Thermal Sampling",
+  "run_in": true,
+  "page": 22
+ },
+ {
+  "level": 3,
+  "title": "4. Adaptive Load Paths under Load",
+  "run_in": true,
+  "page": 23
+ },
+ {
+  "level": 2,
+  "title": "B. Statistical Material Selection for Small Sites",
+  "run_in": true,
+  "page": 23
+ },
+ {
+  "level": 3,
+  "title": "1. Urban Sensor Placement and Its Limits",
+  "run_in": true,
+  "page": 24
+ },
+ {
+  "level": 3,
+  "title": "2. Secondary Uncertainty",
+  "run_in": true,
+  "page": 24
+ },
+ {
+  "level": 3,
+  "title": "3. Urban Load Paths",
+  "run_in": true,
+  "page": 25
+ },
+ {
+  "level": 2,
+  "title": "C. Coastal Material Selection for Small Sites",
+  "run_in": true,
+  "page": 26
+ },
+ {
+  "level": 3,
+  "title": "1. Residual Noise Floor at Scale",
+  "run_in": true,
+  "page": 27
+ },
+ {
+  "level": 3,
+  "title": "2. Hydraulic Erosion Revisited",
+  "run_in": true,
+  "page": 27
+ },
+ {
+  "level": 3,
+  "title": "3. Secondary Maintenance at Scale",
+  "run_in": true,
+  "page": 27
+ }
+]

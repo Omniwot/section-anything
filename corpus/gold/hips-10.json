@@ -1,0 +1,1612 @@
+[
+ {
+  "level": 2,
+  "title": "Preface",
+  "page": 6
+ },
+ {
+  "level": 2,
+  "title": "How to Use This Book",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "Index of Authors",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "Table of Contents",
+  "page": 12
+ },
+ {
+  "level": 2,
+  "title": "Table of Contents (Detailed)",
+  "page": 14
+ },
+ {
+  "level": 2,
+  "title": "Abbreviations",
+  "page": 24
+ },
+ {
+  "level": 2,
+  "title": "Marc Thommen Swiss Legal System",
+  "page": 26
+ },
+ {
+  "level": 3,
+  "title": "I. Facts and Figures",
+  "page": 28
+ },
+ {
+  "level": 3,
+  "title": "II. History",
+  "page": 31
+ },
+ {
+  "level": 3,
+  "title": "III. Confederation",
+  "page": 33
+ },
+ {
+  "level": 4,
+  "title": "1. FEDERAL ASSEMBLY",
+  "page": 34
+ },
+ {
+  "level": 4,
+  "title": "2. FEDERAL COUNCIL",
+  "page": 35
+ },
+ {
+  "level": 4,
+  "title": "3. FEDERAL SUPREME COURT",
+  "page": 37
+ },
+ {
+  "level": 3,
+  "title": "IV. Cantons",
+  "page": 43
+ },
+ {
+  "level": 3,
+  "title": "V. Communes",
+  "page": 46
+ },
+ {
+  "level": 3,
+  "title": "VI. Direct Democracy",
+  "page": 47
+ },
+ {
+  "level": 4,
+  "title": "1. FEDERAL LEVEL",
+  "page": 47
+ },
+ {
+  "level": 4,
+  "title": "2. CANTONAL LEVEL",
+  "page": 50
+ },
+ {
+  "level": 4,
+  "title": "3. COMMUNAL LEVEL",
+  "page": 51
+ },
+ {
+  "level": 3,
+  "title": "VII. Legislative Process",
+  "page": 52
+ },
+ {
+  "level": 3,
+  "title": "VIII. Publication of Federal Laws",
+  "page": 56
+ },
+ {
+  "level": 3,
+  "title": "IX. Case Citation",
+  "page": 58
+ },
+ {
+  "level": 4,
+  "title": "1. OFFICIAL COMPILATION (BGE)",
+  "page": 58
+ },
+ {
+  "level": 4,
+  "title": "2. PUBLICATION ONLINE",
+  "page": 60
+ },
+ {
+  "level": 4,
+  "title": "3. PUBLIC PRONOUNCEMENT",
+  "page": 63
+ },
+ {
+  "level": 4,
+  "title": "4. PRESS RELEASES",
+  "page": 63
+ },
+ {
+  "level": 3,
+  "title": "Selected Bibliography",
+  "page": 64
+ },
+ {
+  "level": 2,
+  "title": "Andreas Thier Legal History",
+  "page": 66
+ },
+ {
+  "level": 3,
+  "title": "I. Plurality and the Traditions of Swiss Legal Culture",
+  "page": 68
+ },
+ {
+  "level": 3,
+  "title": "II. The Old Confederacy (13th/14th Century – 1798)",
+  "page": 70
+ },
+ {
+  "level": 4,
+  "title": "1. CONIURATIO, COVENANTS, AND CHARTERS",
+  "page": 70
+ },
+ {
+  "level": 4,
+  "title": "2. CUSTOMARY LAW, RECORDS OF LAW, AND SUMPTUARY MANDATES",
+  "page": 72
+ },
+ {
+  "level": 3,
+  "title": "III. The Rise of Modern Swiss Statehood since 1798",
+  "page": 75
+ },
+ {
+  "level": 4,
+  "title": "1. CONSTITUTIONAL DEVELOPMENTS IN EUROPE",
+  "page": 75
+ },
+ {
+  "level": 4,
+  "title": "2. CONSTITUTIONAL DEVELOPMENTS IN SWITZERLAND SINCE 1798",
+  "page": 76
+ },
+ {
+  "level": 5,
+  "title": "a) Focusing on Individual Rights: The “Bürgerliche Rechtsstaat”",
+  "page": 77
+ },
+ {
+  "level": 5,
+  "title": "b) The (Slow) Rise of the Interventionist State",
+  "page": 80
+ },
+ {
+  "level": 5,
+  "title": "c) Towards the Prevention State",
+  "page": 81
+ },
+ {
+  "level": 4,
+  "title": "3. THE RISE OF CODIFICATIONS IN SWISS LEGAL CULTURE",
+  "page": 82
+ },
+ {
+  "level": 3,
+  "title": "Selected Bibliography",
+  "page": 85
+ },
+ {
+  "level": 2,
+  "title": "Elisabetta Fiocchi Malaspina History of International Law",
+  "page": 86
+ },
+ {
+  "level": 3,
+  "title": "I. Introduction",
+  "page": 88
+ },
+ {
+  "level": 3,
+  "title": "II. Theories of Natural Law and Law of Nations",
+  "page": 89
+ },
+ {
+  "level": 4,
+  "title": "1. THE SPREAD OF THEORIES OF NATURAL LAW AND THE LAW OF NATIONS",
+  "page": 89
+ },
+ {
+  "level": 4,
+  "title": "2. EMER DE VATTEL AND HIS LAW OF NATIONS (1758)",
+  "page": 91
+ },
+ {
+  "level": 3,
+  "title": "III. The Era of International Humanitarian Law",
+  "page": 94
+ },
+ {
+  "level": 4,
+  "title": "1. HENRY DUNANT AND THE RED CROSS",
+  "page": 95
+ },
+ {
+  "level": 4,
+  "title": "2. FOUNDING OF THE INTERNATIONAL LAW INSTITUTE (1873)",
+  "page": 98
+ },
+ {
+  "level": 5,
+  "title": "a) Gustave Moynier 1826–1910",
+  "page": 99
+ },
+ {
+  "level": 5,
+  "title": "b) Johann Caspar Bluntschli (1808–1881)",
+  "page": 101
+ },
+ {
+  "level": 3,
+  "title": "Selected Bibliography",
+  "page": 105
+ },
+ {
+  "level": 2,
+  "title": "Matthias Mahlmann Legal Philosophy and Legal Theory",
+  "page": 106
+ },
+ {
+  "level": 3,
+  "title": "I. The Problems of the Philosophy of Law and Legal Theory",
+  "page": 108
+ },
+ {
+  "level": 3,
+  "title": "II. A Map of Philosophy of Law and Legal Theory",
+  "page": 110
+ },
+ {
+  "level": 4,
+  "title": "1. DESCRIPTIVE AND ANALYTICAL THEORY",
+  "page": 110
+ },
+ {
+  "level": 4,
+  "title": "2. EXPLANATORY THEORIES",
+  "page": 112
+ },
+ {
+  "level": 4,
+  "title": "3. NORMATIVE THEORY",
+  "page": 113
+ },
+ {
+  "level": 4,
+  "title": "4. THE RELATIONSHIP OF LAW AND MORALITY",
+  "page": 115
+ },
+ {
+  "level": 4,
+  "title": "5. EPISTEMOLOGY",
+  "page": 118
+ },
+ {
+  "level": 4,
+  "title": "6. ONTOLOGY",
+  "page": 118
+ },
+ {
+  "level": 4,
+  "title": "7. GROTIUS AND METHODOLOGICAL SECULARISM",
+  "page": 119
+ },
+ {
+  "level": 4,
+  "title": "8. THE QUESTION OF UNIVERSALISM",
+  "page": 120
+ },
+ {
+  "level": 3,
+  "title": "III. The Point of Philosophy of Law and Legal Theory",
+  "page": 122
+ },
+ {
+  "level": 3,
+  "title": "IV. Theory of Justice",
+  "page": 123
+ },
+ {
+  "level": 3,
+  "title": "V. A Concept of Justice",
+  "page": 125
+ },
+ {
+  "level": 3,
+  "title": "VI. The Birth of the Human Rights Idea",
+  "page": 126
+ },
+ {
+  "level": 3,
+  "title": "VII. Contemporary Human Rights Theory",
+  "page": 128
+ },
+ {
+  "level": 3,
+  "title": "Selected Bibliography",
+  "page": 130
+ },
+ {
+  "level": 2,
+  "title": "Christoph Beat Graber Legal Sociology",
+  "page": 134
+ },
+ {
+  "level": 3,
+  "title": "I. What is Legal Sociology?",
+  "page": 136
+ },
+ {
+  "level": 4,
+  "title": "1. DISCIPLINE",
+  "page": 136
+ },
+ {
+  "level": 4,
+  "title": "2. METHOD",
+  "page": 138
+ },
+ {
+  "level": 3,
+  "title": "II. Law, Society and Direct Democracy",
+  "page": 140
+ },
+ {
+  "level": 4,
+  "title": "1. POLITICAL AUTONOMY",
+  "page": 140
+ },
+ {
+  "level": 4,
+  "title": "2. DIRECT DEMOCRACY",
+  "page": 143
+ },
+ {
+  "level": 4,
+  "title": "3. PUBLIC SERVICE BROADCASTING",
+  "page": 150
+ },
+ {
+  "level": 5,
+  "title": "a) Media Consumption and the Internet",
+  "page": 150
+ },
+ {
+  "level": 5,
+  "title": "b) Personalisation Technologies",
+  "page": 152
+ },
+ {
+  "level": 3,
+  "title": "III. Summary",
+  "page": 156
+ },
+ {
+  "level": 3,
+  "title": "Selected Bibliography",
+  "page": 158
+ },
+ {
+  "level": 2,
+  "title": "Matthias Oesch Constitutional Law",
+  "page": 160
+ },
+ {
+  "level": 3,
+  "title": "I. Constitution",
+  "page": 162
+ },
+ {
+  "level": 4,
+  "title": "1. HISTORY AND OVERVIEW",
+  "page": 162
+ },
+ {
+  "level": 4,
+  "title": "2. PEOPLE",
+  "page": 165
+ },
+ {
+  "level": 5,
+  "title": "a) Citizenship",
+  "page": 165
+ },
+ {
+  "level": 5,
+  "title": "b) Foreign Nationals",
+  "page": 167
+ },
+ {
+  "level": 4,
+  "title": "3. FUNDAMENTAL RIGHTS",
+  "page": 169
+ },
+ {
+  "level": 4,
+  "title": "4. FEDERATION, CANTONS, COMMUNES",
+  "page": 170
+ },
+ {
+  "level": 4,
+  "title": "5. FEDERAL ASSEMBLY, FEDERAL COUNCIL, FEDERAL COURTS",
+  "page": 173
+ },
+ {
+  "level": 3,
+  "title": "II. Principles",
+  "page": 176
+ },
+ {
+  "level": 4,
+  "title": "1. (SEMI-) DIRECT DEMOCRACY",
+  "page": 176
+ },
+ {
+  "level": 5,
+  "title": "a) Popular Initiative",
+  "page": 176
+ },
+ {
+  "level": 5,
+  "title": "c) “Landsgemeinde” as Cantonal Particularity",
+  "page": 179
+ },
+ {
+  "level": 4,
+  "title": "2. MULTI-PARTY GOVERNMENT",
+  "page": 180
+ },
+ {
+  "level": 4,
+  "title": "3. LIMITED CONSTITUTIONAL REVIEW",
+  "page": 181
+ },
+ {
+  "level": 3,
+  "title": "III. Landmark Cases",
+  "page": 184
+ },
+ {
+  "level": 4,
+  "title": "1. WOMEN’S SUFFRAGE",
+  "page": 184
+ },
+ {
+  "level": 4,
+  "title": "2. NATURALISATION AND FUNDAMENTAL RIGHTS",
+  "page": 185
+ },
+ {
+  "level": 3,
+  "title": "Selected Bibliography",
+  "page": 187
+ },
+ {
+  "level": 2,
+  "title": "Matthias Oesch International Relations",
+  "page": 188
+ },
+ {
+  "level": 3,
+  "title": "I. Treaties",
+  "page": 190
+ },
+ {
+  "level": 4,
+  "title": "1. UNITED NATIONS AND SPECIALISED AGENCIES",
+  "page": 190
+ },
+ {
+  "level": 4,
+  "title": "2. TRADE AND INVESTMENT",
+  "page": 192
+ },
+ {
+  "level": 4,
+  "title": "3. SWITZERLAND AND EUROPE",
+  "page": 194
+ },
+ {
+  "level": 5,
+  "title": "a) General Framework",
+  "page": 194
+ },
+ {
+  "level": 5,
+  "title": "b) Bilateral Agreements",
+  "page": 194
+ },
+ {
+  "level": 5,
+  "title": "c) Autonomous Adaptation of Swiss Law to EU Law",
+  "page": 197
+ },
+ {
+  "level": 3,
+  "title": "II. Constitution",
+  "page": 198
+ },
+ {
+  "level": 4,
+  "title": "1. GOALS AND MEANS",
+  "page": 198
+ },
+ {
+  "level": 4,
+  "title": "2. COMPETENCES",
+  "page": 199
+ },
+ {
+  "level": 5,
+  "title": "a) Federation and Cantons",
+  "page": 199
+ },
+ {
+  "level": 5,
+  "title": "b) Federal Council, Federal Assembly, Federal Courts",
+  "page": 200
+ },
+ {
+  "level": 5,
+  "title": "c) Direct Democracy",
+  "page": 201
+ },
+ {
+  "level": 4,
+  "title": "3. RELATIONSHIP BETWEEN INTERNATIONAL LAW AND SWISS LAW",
+  "page": 204
+ },
+ {
+  "level": 3,
+  "title": "III. Landmark Cases",
+  "page": 206
+ },
+ {
+  "level": 4,
+  "title": "1. SUPREMACY OF THE AGREEMENT ON THE FREE MOVEMENT OF PERSONS",
+  "page": 206
+ },
+ {
+  "level": 4,
+  "title": "2. US SAFEGUARD MEASURES ON STEEL PRODUCTS",
+  "page": 208
+ },
+ {
+  "level": 3,
+  "title": "Selected Bibliography",
+  "page": 211
+ },
+ {
+  "level": 2,
+  "title": "Felix Uhlmann Administrative Law",
+  "page": 212
+ },
+ {
+  "level": 3,
+  "title": "I. Codes",
+  "page": 214
+ },
+ {
+  "level": 3,
+  "title": "II. Principles of Administrative Action",
+  "page": 215
+ },
+ {
+  "level": 4,
+  "title": "1. CONSTITUTIONAL PRINCIPLES IN ADMINISTRATIVE LAW",
+  "page": 215
+ },
+ {
+  "level": 4,
+  "title": "2. PRINCIPLE OF LEGALITY",
+  "page": 215
+ },
+ {
+  "level": 5,
+  "title": "a) Legal Basis for Administrative Action",
+  "page": 215
+ },
+ {
+  "level": 5,
+  "title": "b) Legality of the Law",
+  "page": 216
+ },
+ {
+  "level": 5,
+  "title": "c) Delegated Legislation",
+  "page": 217
+ },
+ {
+  "level": 5,
+  "title": "d) Judicial Review",
+  "page": 218
+ },
+ {
+  "level": 4,
+  "title": "3. PUBLIC INTEREST",
+  "page": 218
+ },
+ {
+  "level": 4,
+  "title": "4. PROPORTIONALITY",
+  "page": 219
+ },
+ {
+  "level": 4,
+  "title": "5. LEGITIMATE EXPECTATIONS",
+  "page": 219
+ },
+ {
+  "level": 5,
+  "title": "a) Basis",
+  "page": 219
+ },
+ {
+  "level": 5,
+  "title": "b) Legitimacy of Expectations",
+  "page": 221
+ },
+ {
+  "level": 5,
+  "title": "c) Private Arrangements",
+  "page": 221
+ },
+ {
+  "level": 5,
+  "title": "d) Causality",
+  "page": 222
+ },
+ {
+  "level": 5,
+  "title": "e) Balancing Test",
+  "page": 222
+ },
+ {
+  "level": 5,
+  "title": "f) Special Doctrines: Administrative Practice and Retroactivity",
+  "page": 223
+ },
+ {
+  "level": 4,
+  "title": "6. GOOD FAITH",
+  "page": 225
+ },
+ {
+  "level": 4,
+  "title": "7. PROHIBITION OF ARBITRARINESS (REASONABLENESS)",
+  "page": 226
+ },
+ {
+  "level": 3,
+  "title": "III. Forms of Administrative Action",
+  "page": 227
+ },
+ {
+  "level": 4,
+  "title": "1. Administrative Decisions",
+  "page": 227
+ },
+ {
+  "level": 5,
+  "title": "a) Omnipresence of Administrative Decisions",
+  "page": 227
+ },
+ {
+  "level": 5,
+  "title": "b) Definition of Administrative Decisions",
+  "page": 228
+ },
+ {
+  "level": 5,
+  "title": "c) Administrative Decisions Determining Rights and Obligations",
+  "page": 229
+ },
+ {
+  "level": 5,
+  "title": "d) Administrative Decisions as Individual Acts",
+  "page": 230
+ },
+ {
+  "level": 5,
+  "title": "e) Administrative Decisions as Unilateral Acts",
+  "page": 231
+ },
+ {
+  "level": 5,
+  "title": "f) Administrative Decisions as Acts Under Public Law",
+  "page": 232
+ },
+ {
+  "level": 5,
+  "title": "g) Form",
+  "page": 233
+ },
+ {
+  "level": 4,
+  "title": "2. ADMINISTRATIVE LAW CONTRACTS",
+  "page": 233
+ },
+ {
+  "level": 4,
+  "title": "3. PRIVATE LAW CONTRACTS",
+  "page": 235
+ },
+ {
+  "level": 4,
+  "title": "4. INFORMAL ACTS AND STATE LIABILITY",
+  "page": 235
+ },
+ {
+  "level": 4,
+  "title": "5. ADMINISTRATIVE RULEMAKING",
+  "page": 236
+ },
+ {
+  "level": 3,
+  "title": "IV. Landmark Cases",
+  "page": 237
+ },
+ {
+  "level": 4,
+  "title": "1. STATE LIABILITY: VACHERIN MONT D’OR",
+  "page": 237
+ },
+ {
+  "level": 4,
+  "title": "2. PROTECTION OF LEGITIMATE EXPECTATIONS: PIANO TEACHER",
+  "page": 238
+ },
+ {
+  "level": 4,
+  "title": "3. PRINCIPLE OF LEGALITY: HEADSCARF",
+  "page": 239
+ },
+ {
+  "level": 4,
+  "title": "4. PRINCIPLE OF PROPORTIONALITY: HOOLIGANS",
+  "page": 240
+ },
+ {
+  "level": 3,
+  "title": "Selected Bibliography",
+  "page": 242
+ },
+ {
+  "level": 2,
+  "title": "Felix Uhlmann Administrative Procedure",
+  "page": 244
+ },
+ {
+  "level": 3,
+  "title": "I. Legal Sources",
+  "page": 246
+ },
+ {
+  "level": 4,
+  "title": "1. HISTORICAL DEVELOPMENTS",
+  "page": 246
+ },
+ {
+  "level": 4,
+  "title": "2. CONSTITUTIONAL FRAMEWORK",
+  "page": 247
+ },
+ {
+  "level": 4,
+  "title": "3. FEDERAL ACT ON ADMINISTRATIVE PROCEDURE AND CANTONAL LAWS",
+  "page": 248
+ },
+ {
+  "level": 3,
+  "title": "II. Procedural Rights and Principles",
+  "page": 250
+ },
+ {
+  "level": 4,
+  "title": "1. ADMINISTRATIVE ACTION",
+  "page": 250
+ },
+ {
+  "level": 4,
+  "title": "2. RIGHT TO BE HEARD",
+  "page": 251
+ },
+ {
+  "level": 4,
+  "title": "3. RIGHT TO A DECISION WITHIN REASONABLE TIME",
+  "page": 253
+ },
+ {
+  "level": 4,
+  "title": "4. RIGHT TO LEGAL AID AND TO COUNSEL",
+  "page": 253
+ },
+ {
+  "level": 4,
+  "title": "5. RIGHT TO APPEAL",
+  "page": 254
+ },
+ {
+  "level": 4,
+  "title": "6. RIGHT TO CHALLENGE LEGISLATION",
+  "page": 255
+ },
+ {
+  "level": 3,
+  "title": "III. Institutional Framework",
+  "page": 257
+ },
+ {
+  "level": 4,
+  "title": "1. ADMINISTRATIVE AUTHORITIES",
+  "page": 257
+ },
+ {
+  "level": 4,
+  "title": "3. OTHER BODIES AND PROCEDURES",
+  "page": 261
+ },
+ {
+  "level": 4,
+  "title": "4. EUROPEAN PERSPECTIVE",
+  "page": 262
+ },
+ {
+  "level": 3,
+  "title": "IV. Landmark Cases",
+  "page": 263
+ },
+ {
+  "level": 4,
+  "title": "1. NECESSITY OF ISSUING AN ADMINISTRATIVE DECISION: IWB",
+  "page": 263
+ },
+ {
+  "level": 4,
+  "title": "2. PROCEDURAL FAIRNESS: NATURALISATION",
+  "page": 264
+ },
+ {
+  "level": 4,
+  "title": "3. DIRECT CHALLENGE OF LEGISLATION: POLICE ACT OF ZURICH",
+  "page": 265
+ },
+ {
+  "level": 4,
+  "title": "4. “LEGAL SAUSAGE SALAD” OR THE IMPORTANCE OF THE ECHR",
+  "page": 267
+ },
+ {
+  "level": 3,
+  "title": "Selected Bibliography",
+  "page": 269
+ },
+ {
+  "level": 2,
+  "title": "Madeleine Simonek Martina Becker Tax Law",
+  "page": 270
+ },
+ {
+  "level": 3,
+  "title": "I. Fiscal Sovereignty and Constitutional Principles",
+  "page": 272
+ },
+ {
+  "level": 4,
+  "title": "1. FEDERALISM AND FISCAL SOVEREIGNTY",
+  "page": 272
+ },
+ {
+  "level": 5,
+  "title": "a) Distribution of Fiscal Sovereignty",
+  "page": 272
+ },
+ {
+  "level": 5,
+  "title": "b) Federal Tax Harmonisation Act",
+  "page": 273
+ },
+ {
+  "level": 4,
+  "title": "2. MAIN (CONSTITUTIONAL) PRINCIPLES",
+  "page": 274
+ },
+ {
+  "level": 5,
+  "title": "a) Principle of Legality",
+  "page": 274
+ },
+ {
+  "level": 5,
+  "title": "b) Principle of Universality",
+  "page": 274
+ },
+ {
+  "level": 5,
+  "title": "c) Principle of Uniformity and Ability-To-Pay Principle",
+  "page": 275
+ },
+ {
+  "level": 5,
+  "title": "d) Prohibition of Inter-Cantonal Double Taxation",
+  "page": 275
+ },
+ {
+  "level": 5,
+  "title": "e) Principle of Good Faith",
+  "page": 276
+ },
+ {
+  "level": 3,
+  "title": "II. Most Important Taxes and Tax Codes",
+  "page": 278
+ },
+ {
+  "level": 4,
+  "title": "1. FEDERAL TAXES",
+  "page": 278
+ },
+ {
+  "level": 5,
+  "title": "a) Federal Direct Taxes",
+  "page": 278
+ },
+ {
+  "level": 6,
+  "title": "aa) Introduction",
+  "page": 278
+ },
+ {
+  "level": 6,
+  "title": "bb) Federal Individual Income Tax",
+  "page": 279
+ },
+ {
+  "level": 6,
+  "title": "cc) Federal Corporate Income Tax",
+  "page": 281
+ },
+ {
+  "level": 6,
+  "title": "dd) Source Tax Levied on Income of Certain Individuals and Legal Entities",
+  "page": 282
+ },
+ {
+  "level": 5,
+  "title": "b) Withholding (Anticipatory) Tax",
+  "page": 282
+ },
+ {
+  "level": 5,
+  "title": "c) Federal Value Added Tax",
+  "page": 283
+ },
+ {
+  "level": 5,
+  "title": "d) Other Taxes",
+  "page": 284
+ },
+ {
+  "level": 4,
+  "title": "2. CANTONAL AND COMMUNAL TAXES",
+  "page": 285
+ },
+ {
+  "level": 5,
+  "title": "a) Taxes on Income and Net Wealth",
+  "page": 285
+ },
+ {
+  "level": 6,
+  "title": "aa) Individual Income Tax",
+  "page": 285
+ },
+ {
+  "level": 6,
+  "title": "bb) Net Wealth Tax for Individuals",
+  "page": 286
+ },
+ {
+  "level": 5,
+  "title": "b) Taxes on Net Profit and Capital of Legal Entities",
+  "page": 286
+ },
+ {
+  "level": 6,
+  "title": "aa) Net-Profit Tax of Legal Entities",
+  "page": 286
+ },
+ {
+  "level": 6,
+  "title": "bb) Capital Tax",
+  "page": 287
+ },
+ {
+  "level": 5,
+  "title": "c) Further Cantonal Taxes",
+  "page": 287
+ },
+ {
+  "level": 6,
+  "title": "aa) Inheritance and Gift Taxes",
+  "page": 287
+ },
+ {
+  "level": 6,
+  "title": "bb) Real Estate Capital Gains Tax",
+  "page": 287
+ },
+ {
+  "level": 6,
+  "title": "cc) Other Property and Expenditure Taxes",
+  "page": 288
+ },
+ {
+  "level": 4,
+  "title": "3. INTERNATIONAL TAX AGREEMENTS",
+  "page": 288
+ },
+ {
+  "level": 5,
+  "title": "a) Multilateral Conventions",
+  "page": 288
+ },
+ {
+  "level": 5,
+  "title": "b) Double Taxation Treaties",
+  "page": 289
+ },
+ {
+  "level": 5,
+  "title": "c) Bilateral Agreements with the European Union",
+  "page": 289
+ },
+ {
+  "level": 3,
+  "title": "III. Landmark Cases",
+  "page": 290
+ },
+ {
+  "level": 4,
+  "title": "1. PRINCIPLE OF EQUALITY: TAXATION OF MARRIED AND NON-MARRIED COUPLES",
+  "page": 290
+ },
+ {
+  "level": 4,
+  "title": "2. ABILITY-TO-PAY PRINCIPLE: DEGRESSIVE INCOME TAX RATES",
+  "page": 291
+ },
+ {
+  "level": 4,
+  "title": "3. PRINCIPLE OF GOOD FAITH: SWISS RULING PRACTICE",
+  "page": 292
+ },
+ {
+  "level": 4,
+  "title": "4. PRINCIPLE OF NON-DISCRIMINATION: SALARY WITHHOLDING TAX",
+  "page": 293
+ },
+ {
+  "level": 3,
+  "title": "Selected Bibliography",
+  "page": 294
+ },
+ {
+  "level": 2,
+  "title": "Peter Georg Picht Goran Studen Civil Law",
+  "page": 296
+ },
+ {
+  "level": 3,
+  "title": "I. Swiss Civil Code",
+  "page": 298
+ },
+ {
+  "level": 4,
+  "title": "1. HISTORY",
+  "page": 298
+ },
+ {
+  "level": 4,
+  "title": "2. LEGISLATION",
+  "page": 300
+ },
+ {
+  "level": 4,
+  "title": "3. CONTENT",
+  "page": 301
+ },
+ {
+  "level": 4,
+  "title": "4. MARITAL PROPERTY LAW",
+  "page": 302
+ },
+ {
+  "level": 4,
+  "title": "5. PROHIBITION OF MAINTENANCE FOUNDATIONS AND FEE TAILS",
+  "page": 304
+ },
+ {
+  "level": 4,
+  "title": "6. INHERITANCE LAW",
+  "page": 305
+ },
+ {
+  "level": 3,
+  "title": "II. Principles",
+  "page": 308
+ },
+ {
+  "level": 4,
+  "title": "1. APPLICATION AND INTERPRETATION OF THE LAW",
+  "page": 308
+ },
+ {
+  "level": 4,
+  "title": "2. GOOD FAITH",
+  "page": 310
+ },
+ {
+  "level": 4,
+  "title": "3. PUBLICITY, POSSESSION, AND THE LAND REGISTER",
+  "page": 313
+ },
+ {
+  "level": 4,
+  "title": "4. RULES OF EVIDENCE",
+  "page": 317
+ },
+ {
+  "level": 4,
+  "title": "5. PRESUMED CAPACITY OF JUDGEMENT",
+  "page": 318
+ },
+ {
+  "level": 4,
+  "title": "6. SEPARATION PRINCIPLE",
+  "page": 320
+ },
+ {
+  "level": 3,
+  "title": "III. Landmark Cases",
+  "page": 321
+ },
+ {
+  "level": 4,
+  "title": "1. LEGACY HUNTER",
+  "page": 321
+ },
+ {
+  "level": 4,
+  "title": "2. CAPACITY TO MARRY",
+  "page": 324
+ },
+ {
+  "level": 4,
+  "title": "3. FOOTMAN WITH SAMOVAR",
+  "page": 325
+ },
+ {
+  "level": 3,
+  "title": "Selected Bibliography",
+  "page": 328
+ },
+ {
+  "level": 2,
+  "title": "Tina Huber-Purtschert Law of Obligations",
+  "page": 330
+ },
+ {
+  "level": 3,
+  "title": "I. Contract and Tort Law",
+  "page": 334
+ },
+ {
+  "level": 4,
+  "title": "1.CODES",
+  "page": 334
+ },
+ {
+  "level": 5,
+  "title": "a) Conclusion of a Contract",
+  "page": 338
+ },
+ {
+  "level": 5,
+  "title": "b) Interpretation of a Contract",
+  "page": 339
+ },
+ {
+  "level": 5,
+  "title": "c) Defects in the Conclusion of a Contract",
+  "page": 340
+ },
+ {
+  "level": 5,
+  "title": "d) Defects in Consent",
+  "page": 340
+ },
+ {
+  "level": 5,
+  "title": "e) Unfair Advantage",
+  "page": 341
+ },
+ {
+  "level": 5,
+  "title": "f) Claims According to the General Provisions of the Code of Obligations",
+  "page": 342
+ },
+ {
+  "level": 5,
+  "title": "i) Types of Contractual Relationship",
+  "page": 346
+ },
+ {
+  "level": 5,
+  "title": "j) Innominate Contracts",
+  "page": 347
+ },
+ {
+  "level": 4,
+  "title": "3. LANDMARK CASES",
+  "page": 348
+ },
+ {
+  "level": 5,
+  "title": "a) Swissair-Case",
+  "page": 348
+ },
+ {
+  "level": 5,
+  "title": "b) Market Value Estimate-Case",
+  "page": 348
+ },
+ {
+  "level": 5,
+  "title": "c) Revocability of Simple Agency Contracts-Case",
+  "page": 349
+ },
+ {
+  "level": 3,
+  "title": "II. Company Law",
+  "page": 350
+ },
+ {
+  "level": 4,
+  "title": "1. CODES",
+  "page": 350
+ },
+ {
+  "level": 4,
+  "title": "2. PRINCIPLES",
+  "page": 350
+ },
+ {
+  "level": 5,
+  "title": "a) Company Forms",
+  "page": 350
+ },
+ {
+  "level": 5,
+  "title": "b) Sole Proprietorship",
+  "page": 351
+ },
+ {
+  "level": 5,
+  "title": "c) Company Limited by Shares",
+  "page": 352
+ },
+ {
+  "level": 5,
+  "title": "d) Limited Liability Company",
+  "page": 353
+ },
+ {
+  "level": 4,
+  "title": "3. LANDMARK CASES",
+  "page": 354
+ },
+ {
+  "level": 5,
+  "title": "a) Breakthrough-Case I",
+  "page": 355
+ },
+ {
+  "level": 5,
+  "title": "b) Breakthrough-Case II",
+  "page": 355
+ },
+ {
+  "level": 3,
+  "title": "Selected Bibliography",
+  "page": 356
+ },
+ {
+  "level": 2,
+  "title": "Sophie-Katharina Matjaz Civil Procedure",
+  "page": 358
+ },
+ {
+  "level": 3,
+  "title": "I. Swiss Civil Procedure Code",
+  "page": 360
+ },
+ {
+  "level": 4,
+  "title": "1. CONSTITUTIONAL FRAMEWORK",
+  "page": 360
+ },
+ {
+  "level": 4,
+  "title": "2. LEGISLATION",
+  "page": 365
+ },
+ {
+  "level": 4,
+  "title": "3. CONTENT",
+  "page": 369
+ },
+ {
+  "level": 3,
+  "title": "II. Principles",
+  "page": 378
+ },
+ {
+  "level": 4,
+  "title": "1. THE PRINCIPLE OF PARTY DISPOSITION AS A RULE",
+  "page": 378
+ },
+ {
+  "level": 4,
+  "title": "2. THE PRINCIPLE OF EX-OFFICIO ASSESSMENT AS AN EXCEPTION",
+  "page": 379
+ },
+ {
+  "level": 4,
+  "title": "3. THE PRINCIPLE OF PARTY REPRESENTATION AS A RULE",
+  "page": 379
+ },
+ {
+  "level": 4,
+  "title": "4. THE PRINCIPLE OF EX-OFFICIO INVESTIGATION AS AN EXCEPTION",
+  "page": 380
+ },
+ {
+  "level": 3,
+  "title": "III. Institutions and Procedure",
+  "page": 382
+ },
+ {
+  "level": 4,
+  "title": "1. ATTEMPT AT CONCILIATION",
+  "page": 382
+ },
+ {
+  "level": 4,
+  "title": "2. ORDINARY PROCEEDINGS",
+  "page": 383
+ },
+ {
+  "level": 4,
+  "title": "3. OTHER TYPES OF PROCEEDINGS",
+  "page": 386
+ },
+ {
+  "level": 4,
+  "title": "4. APPELLATE PROCEEDINGS",
+  "page": 386
+ },
+ {
+  "level": 3,
+  "title": "IV. Landmark Cases",
+  "page": 388
+ },
+ {
+  "level": 4,
+  "title": "1. INTERNATIONAL CASE",
+  "page": 388
+ },
+ {
+  "level": 4,
+  "title": "2. DÜRRENMATT’S HEIRS",
+  "page": 388
+ },
+ {
+  "level": 4,
+  "title": "3. AGREEMENT ON JURISDICTION",
+  "page": 389
+ },
+ {
+  "level": 4,
+  "title": "4. FILING AN APPEAL WITH AN INCOMPETENT COURT",
+  "page": 390
+ },
+ {
+  "level": 4,
+  "title": "5. INCORRECT INSTRUCTIONS ON OBJECTION REMEDIES",
+  "page": 391
+ },
+ {
+  "level": 3,
+  "title": "Selected Bibliography",
+  "page": 392
+ },
+ {
+  "level": 2,
+  "title": "Marc Thommen Criminal Law",
+  "page": 394
+ },
+ {
+  "level": 3,
+  "title": "I. Criminal Code",
+  "page": 396
+ },
+ {
+  "level": 4,
+  "title": "1. HISTORY",
+  "page": 396
+ },
+ {
+  "level": 4,
+  "title": "2. LEGISLATION",
+  "page": 398
+ },
+ {
+  "level": 4,
+  "title": "3. CONTENT",
+  "page": 399
+ },
+ {
+  "level": 4,
+  "title": "4. DUALISM OF SANCTIONS",
+  "page": 402
+ },
+ {
+  "level": 4,
+  "title": "5. DEATH PENALTY",
+  "page": 404
+ },
+ {
+  "level": 4,
+  "title": "6. EUTHANASIA / ASSISTED SUICIDE",
+  "page": 407
+ },
+ {
+  "level": 3,
+  "title": "II. Principles",
+  "page": 410
+ },
+ {
+  "level": 4,
+  "title": "1. NULLA POENA SINE LEGE",
+  "page": 410
+ },
+ {
+  "level": 4,
+  "title": "2. NULLA POENA SINE CULPA",
+  "page": 412
+ },
+ {
+  "level": 3,
+  "title": "III. Landmark Cases",
+  "page": 415
+ },
+ {
+  "level": 4,
+  "title": "1. ROLLING STONES",
+  "page": 415
+ },
+ {
+  "level": 4,
+  "title": "2. DOMESTIC TYRANT",
+  "page": 416
+ },
+ {
+  "level": 4,
+  "title": "3. DEADLY CAR RACE",
+  "page": 416
+ },
+ {
+  "level": 4,
+  "title": "4. HIKING IN THE NUDE",
+  "page": 417
+ },
+ {
+  "level": 3,
+  "title": "Selected Bibliography",
+  "page": 419
+ },
+ {
+  "level": 2,
+  "title": "Marc Thommen Criminal Procedure",
+  "page": 420
+ },
+ {
+  "level": 3,
+  "title": "I. Criminal Procedure Code",
+  "page": 422
+ },
+ {
+  "level": 4,
+  "title": "1. CONSTITUTIONAL FRAMEWORK",
+  "page": 422
+ },
+ {
+  "level": 4,
+  "title": "2. LEGISLATION",
+  "page": 424
+ },
+ {
+  "level": 4,
+  "title": "3. CONTENT",
+  "page": 427
+ },
+ {
+  "level": 3,
+  "title": "II. Principles",
+  "page": 435
+ },
+ {
+  "level": 4,
+  "title": "1. EX OFFICIO INVESTIGATION",
+  "page": 435
+ },
+ {
+  "level": 4,
+  "title": "2. MANDATORY INVESTIGATION",
+  "page": 436
+ },
+ {
+  "level": 4,
+  "title": "3. NEMO TENETUR SE IPSUM ACCUSARE",
+  "page": 437
+ },
+ {
+  "level": 3,
+  "title": "III. Institutions and Procedure",
+  "page": 439
+ },
+ {
+  "level": 3,
+  "title": "IV. Landmark Cases",
+  "page": 445
+ },
+ {
+  "level": 4,
+  "title": "1. SCHENK V.SWITZERLAND",
+  "page": 445
+ },
+ {
+  "level": 4,
+  "title": "2. HUBER V.SWITZERLAND",
+  "page": 447
+ },
+ {
+  "level": 4,
+  "title": "3. CHAMP-DOLLON",
+  "page": 448
+ },
+ {
+  "level": 4,
+  "title": "4. KRISTALLNACHT",
+  "page": 449
+ },
+ {
+  "level": 3,
+  "title": "Selected Bibliography",
+  "page": 451
+ }
+]

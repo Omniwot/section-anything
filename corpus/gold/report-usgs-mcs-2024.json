@@ -1,0 +1,587 @@
+[
+ {
+  "level": 1,
+  "title": "Introduction",
+  "page": 7
+ },
+ {
+  "level": 1,
+  "title": "Figure 1.—The Role of Nonfuel Mineral Commodities in the U.S. Economy",
+  "page": 8
+ },
+ {
+  "level": 1,
+  "title": "Significant Events, Trends, and Issues",
+  "page": 9
+ },
+ {
+  "level": 1,
+  "title": "Figure 2.—2023 U.S. Net Import Reliance",
+  "page": 11
+ },
+ {
+  "level": 1,
+  "title": "Figure 3.—Leading Import Sources (2019–22) of Nonfuel Mineral Commodities for Which the United States Was Greater Than 50% Net Import Reliant",
+  "page": 12
+ },
+ {
+  "level": 1,
+  "title": "Table 1.—U.S. Mineral Industry Trends",
+  "page": 13
+ },
+ {
+  "level": 1,
+  "title": "Table 2.—U.S. Mineral-Related Economic Trends",
+  "page": 13
+ },
+ {
+  "level": 1,
+  "title": "Table 3.—Value of Nonfuel Mineral Production in the United States and Principal Nonfuel Mineral Commodities Produced in 2023",
+  "page": 14
+ },
+ {
+  "level": 1,
+  "title": "Figure 4.—Value of Nonfuel Mineral Commodities Produced in 2023, by State",
+  "page": 16
+ },
+ {
+  "level": 1,
+  "title": "Figure 5.—Value of Metals and Metallic Minerals Produced in 2023, by Region",
+  "page": 17
+ },
+ {
+  "level": 1,
+  "title": "Figure 6.—Value of Other Industrial Minerals Produced in 2023, by Region",
+  "page": 18
+ },
+ {
+  "level": 1,
+  "title": "Figure 7.—Value of Crushed Stone Produced in 2023, by State",
+  "page": 19
+ },
+ {
+  "level": 1,
+  "title": "Figure 8.—Value of Construction Sand and Gravel Produced in 2023, by State",
+  "page": 20
+ },
+ {
+  "level": 1,
+  "title": "Table 4.—The 2022 U.S. Critical Minerals List",
+  "page": 21
+ },
+ {
+  "level": 1,
+  "title": "U.S. Critical Minerals Update",
+  "page": 22
+ },
+ {
+  "level": 1,
+  "title": "Table 5.—Estimated Salient Critical Minerals Statistics in 2023",
+  "page": 27
+ },
+ {
+  "level": 1,
+  "title": "Figure 9.—20-Year Trend of U.S. Net Import Reliance for Critical Minerals",
+  "page": 28
+ },
+ {
+  "level": 1,
+  "title": "Figure 10.—Estimated 1-Year Percent Change and 5-Year Compound Annual Growth Rate (CAGR) in Prices of Critical Minerals",
+  "page": 29
+ },
+ {
+  "level": 1,
+  "title": "Figure 11.—Change in U.S. Consumption of Nonfuel Mineral Commodities From 2022 to 2023",
+  "page": 30
+ },
+ {
+  "level": 1,
+  "title": "Figure 12.—Change in U.S. Consumption of Nonfuel Mineral Commodities From 2019 to 2023",
+  "page": 31
+ },
+ {
+  "level": 1,
+  "title": "Figure 13.—Value of Old Scrap Domestically Recycled, Imported, and Exported, as a Percentage of Total Old Scrap Value",
+  "page": 32
+ },
+ {
+  "level": 1,
+  "title": "Figure 14.—Relation Between Byproduct Elements and Host Metals",
+  "page": 33
+ },
+ {
+  "level": 1,
+  "title": "Mineral Commodities",
+  "page": 31
+ },
+ {
+  "level": 2,
+  "title": "Abrasives (Manufactured)",
+  "page": 34
+ },
+ {
+  "level": 2,
+  "title": "Aluminum",
+  "page": 36
+ },
+ {
+  "level": 2,
+  "title": "Antimony",
+  "page": 38
+ },
+ {
+  "level": 2,
+  "title": "Arsenic",
+  "page": 40
+ },
+ {
+  "level": 2,
+  "title": "Asbestos",
+  "page": 42
+ },
+ {
+  "level": 2,
+  "title": "Barite",
+  "page": 44
+ },
+ {
+  "level": 2,
+  "title": "Bauxite and alumina",
+  "page": 46
+ },
+ {
+  "level": 2,
+  "title": "Beryllium",
+  "page": 48
+ },
+ {
+  "level": 2,
+  "title": "Bismuth",
+  "page": 50
+ },
+ {
+  "level": 2,
+  "title": "Boron",
+  "page": 52
+ },
+ {
+  "level": 2,
+  "title": "Bromine",
+  "page": 54
+ },
+ {
+  "level": 2,
+  "title": "Cadmium",
+  "page": 56
+ },
+ {
+  "level": 2,
+  "title": "Cement",
+  "page": 58
+ },
+ {
+  "level": 2,
+  "title": "Cesium",
+  "page": 60
+ },
+ {
+  "level": 2,
+  "title": "Chromium",
+  "page": 62
+ },
+ {
+  "level": 2,
+  "title": "Clays",
+  "page": 64
+ },
+ {
+  "level": 2,
+  "title": "Cobalt",
+  "page": 66
+ },
+ {
+  "level": 2,
+  "title": "Copper",
+  "page": 68
+ },
+ {
+  "level": 2,
+  "title": "Diamond (Industrial)",
+  "page": 70
+ },
+ {
+  "level": 2,
+  "title": "Diatomite",
+  "page": 72
+ },
+ {
+  "level": 2,
+  "title": "Feldspar",
+  "page": 74
+ },
+ {
+  "level": 2,
+  "title": "Fluorspar",
+  "page": 76
+ },
+ {
+  "level": 2,
+  "title": "Gallium",
+  "page": 78
+ },
+ {
+  "level": 2,
+  "title": "Garnet (Industrial)",
+  "page": 80
+ },
+ {
+  "level": 2,
+  "title": "Gemstones",
+  "page": 82
+ },
+ {
+  "level": 2,
+  "title": "Germanium",
+  "page": 84
+ },
+ {
+  "level": 2,
+  "title": "Gold",
+  "page": 86
+ },
+ {
+  "level": 2,
+  "title": "Graphite",
+  "page": 88
+ },
+ {
+  "level": 2,
+  "title": "Gypsum",
+  "page": 90
+ },
+ {
+  "level": 2,
+  "title": "Helium",
+  "page": 92
+ },
+ {
+  "level": 2,
+  "title": "Indium",
+  "page": 94
+ },
+ {
+  "level": 2,
+  "title": "Iodine",
+  "page": 96
+ },
+ {
+  "level": 2,
+  "title": "Iron and steel",
+  "page": 98
+ },
+ {
+  "level": 2,
+  "title": "Iron and steel scrap",
+  "page": 100
+ },
+ {
+  "level": 2,
+  "title": "Iron and steel slag",
+  "page": 102
+ },
+ {
+  "level": 2,
+  "title": "Iron ore",
+  "page": 104
+ },
+ {
+  "level": 2,
+  "title": "Iron oxide pigments",
+  "page": 106
+ },
+ {
+  "level": 2,
+  "title": "Kyanite and related minerals",
+  "page": 108
+ },
+ {
+  "level": 2,
+  "title": "Lead",
+  "page": 110
+ },
+ {
+  "level": 2,
+  "title": "Lime",
+  "page": 112
+ },
+ {
+  "level": 2,
+  "title": "Lithium",
+  "page": 114
+ },
+ {
+  "level": 2,
+  "title": "Magnesium compounds",
+  "page": 116
+ },
+ {
+  "level": 2,
+  "title": "Magnesium metal",
+  "page": 118
+ },
+ {
+  "level": 2,
+  "title": "Manganese",
+  "page": 120
+ },
+ {
+  "level": 2,
+  "title": "Mercury",
+  "page": 122
+ },
+ {
+  "level": 2,
+  "title": "Mica (Natural)",
+  "page": 124
+ },
+ {
+  "level": 2,
+  "title": "Molybdenum",
+  "page": 126
+ },
+ {
+  "level": 2,
+  "title": "Nickel",
+  "page": 128
+ },
+ {
+  "level": 2,
+  "title": "Niobium (columbium)",
+  "page": 130
+ },
+ {
+  "level": 2,
+  "title": "Nitrogen",
+  "page": 132
+ },
+ {
+  "level": 2,
+  "title": "Peat",
+  "page": 134
+ },
+ {
+  "level": 2,
+  "title": "Perlite",
+  "page": 136
+ },
+ {
+  "level": 2,
+  "title": "Phosphate Rock",
+  "page": 138
+ },
+ {
+  "level": 2,
+  "title": "Platinum-group metals",
+  "page": 140
+ },
+ {
+  "level": 2,
+  "title": "Potash",
+  "page": 142
+ },
+ {
+  "level": 2,
+  "title": "Pumice and pumicite",
+  "page": 144
+ },
+ {
+  "level": 2,
+  "title": "Quartz",
+  "page": 146
+ },
+ {
+  "level": 2,
+  "title": "Rare Earths",
+  "page": 148
+ },
+ {
+  "level": 2,
+  "title": "Rhenium",
+  "page": 150
+ },
+ {
+  "level": 2,
+  "title": "Rubidium",
+  "page": 152
+ },
+ {
+  "level": 2,
+  "title": "Salt",
+  "page": 154
+ },
+ {
+  "level": 2,
+  "title": "Sand and gravel (construction)",
+  "page": 156
+ },
+ {
+  "level": 2,
+  "title": "Sand and gravel (industrial)",
+  "page": 158
+ },
+ {
+  "level": 2,
+  "title": "Scandium",
+  "page": 160
+ },
+ {
+  "level": 2,
+  "title": "Selenium",
+  "page": 162
+ },
+ {
+  "level": 2,
+  "title": "Silicon",
+  "page": 164
+ },
+ {
+  "level": 2,
+  "title": "Silver",
+  "page": 166
+ },
+ {
+  "level": 2,
+  "title": "Soda Ash",
+  "page": 168
+ },
+ {
+  "level": 2,
+  "title": "Stone (Crushed)",
+  "page": 170
+ },
+ {
+  "level": 2,
+  "title": "Stone (Dimension)",
+  "page": 172
+ },
+ {
+  "level": 2,
+  "title": "Strontium",
+  "page": 174
+ },
+ {
+  "level": 2,
+  "title": "Sulfur",
+  "page": 176
+ },
+ {
+  "level": 2,
+  "title": "Talc",
+  "page": 178
+ },
+ {
+  "level": 2,
+  "title": "Tantalum",
+  "page": 180
+ },
+ {
+  "level": 2,
+  "title": "Tellurium",
+  "page": 182
+ },
+ {
+  "level": 2,
+  "title": "Thallium",
+  "page": 184
+ },
+ {
+  "level": 2,
+  "title": "Thorium",
+  "page": 186
+ },
+ {
+  "level": 2,
+  "title": "Tin",
+  "page": 188
+ },
+ {
+  "level": 2,
+  "title": "Titanium and titanium dioxide",
+  "page": 190
+ },
+ {
+  "level": 2,
+  "title": "Titanium mineral concentrates",
+  "page": 192
+ },
+ {
+  "level": 2,
+  "title": "Tungsten",
+  "page": 194
+ },
+ {
+  "level": 2,
+  "title": "Vanadium",
+  "page": 196
+ },
+ {
+  "level": 2,
+  "title": "Vermiculite",
+  "page": 198
+ },
+ {
+  "level": 2,
+  "title": "Wollastonite",
+  "page": 200
+ },
+ {
+  "level": 2,
+  "title": "Yttrium",
+  "page": 202
+ },
+ {
+  "level": 2,
+  "title": "Zeolites",
+  "page": 204
+ },
+ {
+  "level": 2,
+  "title": "Zinc",
+  "page": 206
+ },
+ {
+  "level": 2,
+  "title": "Zirconium and hafnium",
+  "page": 208
+ },
+ {
+  "level": 1,
+  "title": "Appendix A. Abbreviations and Units of Measure",
+  "page": 210
+ },
+ {
+  "level": 1,
+  "title": "Appendix B. Definitions of Selected Terms Used in This Report",
+  "page": 210
+ },
+ {
+  "level": 1,
+  "title": "Appendix C. Reserves and Resources",
+  "page": 211
+ },
+ {
+  "level": 2,
+  "title": "Part A—Resource and Reserve Classification for Minerals",
+  "page": 211
+ },
+ {
+  "level": 2,
+  "title": "Part B—Sources of Reserves Data",
+  "page": 214
+ },
+ {
+  "level": 1,
+  "title": "Appendix D. Country Specialists Directory",
+  "page": 215
+ }
+]

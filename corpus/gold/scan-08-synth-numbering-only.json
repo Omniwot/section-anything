@@ -1,0 +1,368 @@
+[
+ {
+  "level": 1,
+  "title": "1 Regional Load Paths for Small Sites",
+  "page": 1,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "1.1 Primary Fatigue in Practice",
+  "page": 1,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.1.1 Hydraulic Sensor Placement at Scale",
+  "page": 1,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.1.2 Statistical Fatigue",
+  "page": 2,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.1.3 Acoustic Interpolation Revisited",
+  "page": 2,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "1.2 Field Survey Design in Practice",
+  "page": 2,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.2.1 Secondary Survey Design",
+  "page": 3,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.2.2 Field Survey Design under Load",
+  "page": 4,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.2.3 Coastal Scheduling for Small Sites",
+  "page": 4,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "1.3 Urban Retrofits at Scale",
+  "page": 5,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.3.1 Optical Data Quality at Scale",
+  "page": 5,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.3.2 Acoustic Maintenance at Scale",
+  "page": 6,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.3.3 Residual Interpolation",
+  "page": 6,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.3.4 Primary Data Quality at Scale",
+  "page": 7,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "1.4 Hydraulic Benchmarks in Practice",
+  "page": 8,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.4.1 Regional Interpolation",
+  "page": 8,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.4.2 Structural Sampling",
+  "page": 9,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.4.3 Structural Data Quality",
+  "page": 9,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.4.4 Adaptive Uncertainty",
+  "page": 10,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.4.5 Coastal Survey Design in Practice",
+  "page": 10,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "1.5 Regional Drift",
+  "page": 11,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.5.1 Seasonal Survey Design at Scale",
+  "page": 11,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.5.2 Adaptive Erosion",
+  "page": 12,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "1.5.3 Coastal Coverage",
+  "page": 13,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "2 Thermal Benchmarks under Load",
+  "page": 13,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "2.1 Urban Coverage",
+  "page": 14,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "2.1.1 Secondary Calibration",
+  "page": 14,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "2.1.2 Urban Material Selection at Scale",
+  "page": 15,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "2.1.3 Lateral Fatigue Revisited",
+  "page": 15,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "2.1.4 Long-term Sampling and Its Limits",
+  "page": 16,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "2.1.5 Seasonal Survey Design",
+  "page": 16,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "2.2 Statistical Sampling in Practice",
+  "page": 17,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "2.2.1 Regional Fatigue",
+  "page": 17,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "2.2.2 Coastal Fatigue Revisited",
+  "page": 18,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "2.2.3 Thermal Water Balance",
+  "page": 18,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "2.2.4 Structural Data Quality",
+  "page": 19,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "2.3 Structural Drift",
+  "page": 19,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "2.3.1 Thermal Data Quality under Load",
+  "page": 20,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "2.3.2 Urban Noise Floor in Practice",
+  "page": 20,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "2.3.3 Thermal Scheduling",
+  "page": 21,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "2.4 Seasonal Calibration under Load",
+  "page": 22,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "2.4.1 Coastal Benchmarks for Small Sites",
+  "page": 22,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "2.4.2 Hydraulic Calibration",
+  "page": 23,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "2.4.3 Thermal Retrofits",
+  "page": 23,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "3 Acoustic Noise Floor",
+  "page": 23,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "3.1 Coastal Benchmarks",
+  "page": 24,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "3.1.1 Comparative Calibration for Small Sites",
+  "page": 24,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "3.1.2 Long-term Maintenance Revisited",
+  "page": 24,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "3.1.3 Structural Calibration",
+  "page": 24,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "3.1.4 Comparative Calibration",
+  "page": 25,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "3.2 Optical Benchmarks for Small Sites",
+  "page": 26,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "3.2.1 Optical Data Quality under Load",
+  "page": 27,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "3.2.2 Primary Sensor Placement in Practice",
+  "page": 27,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "3.2.3 Lateral Validation Revisited",
+  "page": 28,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "3.2.4 Structural Load Paths for Small Sites",
+  "page": 29,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "3.3 Long-term Uncertainty",
+  "page": 29,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "3.3.1 Adaptive Water Balance and Its Limits",
+  "page": 29,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "3.3.2 Secondary Retrofits",
+  "page": 30,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "3.3.3 Field Uncertainty",
+  "page": 30,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "3.3.4 Statistical Fatigue",
+  "page": 31,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "3.3.5 Residual Sensor Placement for Small Sites",
+  "page": 31,
+  "image_only": true
+ }
+]

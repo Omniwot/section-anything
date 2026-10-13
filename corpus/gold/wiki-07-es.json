@@ -1,0 +1,87 @@
+[
+ {
+  "level": 1,
+  "title": "Sistema solar",
+  "page": 1
+ },
+ {
+  "level": 2,
+  "title": "Descubrimientos y exploración",
+  "page": 2
+ },
+ {
+  "level": 2,
+  "title": "Características generales",
+  "page": 3
+ },
+ {
+  "level": 2,
+  "title": "Formación y evolución",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "Objetos del sistema solar",
+  "page": 5
+ },
+ {
+  "level": 3,
+  "title": "Estrella central",
+  "page": 5
+ },
+ {
+  "level": 3,
+  "title": "Planetas",
+  "page": 5
+ },
+ {
+  "level": 4,
+  "title": "Distancias de los planetas",
+  "page": 6
+ },
+ {
+  "level": 4,
+  "title": "Características principales",
+  "page": 6
+ },
+ {
+  "level": 3,
+  "title": "Planetas enanos",
+  "page": 7
+ },
+ {
+  "level": 3,
+  "title": "Grandes satélites del sistema solar",
+  "page": 8
+ },
+ {
+  "level": 3,
+  "title": "Cuerpos menores",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "La dimensión astronómica de las distancias en el espacio",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "Véase también",
+  "page": 12
+ },
+ {
+  "level": 2,
+  "title": "Referencias",
+  "page": 12
+ },
+ {
+  "level": 2,
+  "title": "Bibliografía",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "Enlaces externos",
+  "page": 16
+ }
+]

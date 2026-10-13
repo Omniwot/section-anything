@@ -1,0 +1,342 @@
+[
+ {
+  "level": 2,
+  "title": "Table of Provisions",
+  "page": 3
+ },
+ {
+  "level": 2,
+  "title": "1 Short Title",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "2 Purpose of Act",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "3 Interpretation",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "3.1 Designation",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "4 Collection, Retention and Disposal of Personal Information",
+  "page": 12
+ },
+ {
+  "level": 2,
+  "title": "7 Protection of Personal Information",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "10 Personal Information Banks",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "11 Personal Information Index",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "12 Access to Personal Information",
+  "page": 21
+ },
+ {
+  "level": 3,
+  "title": "12 Right of Access",
+  "page": 21
+ },
+ {
+  "level": 3,
+  "title": "13 Requests for Access",
+  "page": 22
+ },
+ {
+  "level": 2,
+  "title": "18 Exemptions",
+  "page": 24
+ },
+ {
+  "level": 3,
+  "title": "18 Exempt Banks",
+  "page": 24
+ },
+ {
+  "level": 3,
+  "title": "19 Responsibilities of Government",
+  "page": 25
+ },
+ {
+  "level": 3,
+  "title": "26 Personal Information",
+  "page": 30
+ },
+ {
+  "level": 3,
+  "title": "27 Privilege and Professional Secrecy",
+  "page": 30
+ },
+ {
+  "level": 3,
+  "title": "28 Medical Records",
+  "page": 30
+ },
+ {
+  "level": 2,
+  "title": "29 Complaints",
+  "page": 31
+ },
+ {
+  "level": 2,
+  "title": "31 Investigations",
+  "page": 32
+ },
+ {
+  "level": 2,
+  "title": "36 Review of Exempt Banks",
+  "page": 36
+ },
+ {
+  "level": 2,
+  "title": "37 Review of Compliance with Sections 4 to 8",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "38 Reports to Parliament",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "41 Review by the Federal Court",
+  "page": 38
+ },
+ {
+  "level": 2,
+  "title": "53 Office of the Privacy Commissioner",
+  "page": 42
+ },
+ {
+  "level": 3,
+  "title": "53 Privacy Commissioner",
+  "page": 42
+ },
+ {
+  "level": 3,
+  "title": "56 Assistant Privacy Commissioner",
+  "page": 44
+ },
+ {
+  "level": 3,
+  "title": "59 Delegation",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "60 Special Studies",
+  "page": 46
+ },
+ {
+  "level": 2,
+  "title": "68 Offences",
+  "page": 49
+ },
+ {
+  "level": 2,
+  "title": "69 Exclusions",
+  "page": 50
+ },
+ {
+  "level": 2,
+  "title": "SCHEDULE Government Institutions",
+  "page": 59
+ },
+ {
+  "level": 2,
+  "title": "Table analytique",
+  "page": 3
+ },
+ {
+  "level": 2,
+  "title": "1 Titre abrégé",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "2 Objet de la loi",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "3 Définitions",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "3.1 Désignation",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "4 Collecte, conservation et retrait des renseignements personnels",
+  "page": 12
+ },
+ {
+  "level": 2,
+  "title": "7 Protection des renseignements personnels",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "10 Fichiers de renseignements personnels",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "11 Répertoire de renseignements personnels",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "12 Accès aux renseignements personnels",
+  "page": 21
+ },
+ {
+  "level": 3,
+  "title": "12 Droit d’accès",
+  "page": 21
+ },
+ {
+  "level": 3,
+  "title": "13 Demandes de communication",
+  "page": 22
+ },
+ {
+  "level": 3,
+  "title": "17 Exercice de l’accès",
+  "page": 23
+ },
+ {
+  "level": 2,
+  "title": "18 Exceptions",
+  "page": 24
+ },
+ {
+  "level": 3,
+  "title": "18 Fichiers inconsultables",
+  "page": 24
+ },
+ {
+  "level": 3,
+  "title": "19 Responsabilités de l’État",
+  "page": 25
+ },
+ {
+  "level": 3,
+  "title": "26 Renseignements personnels",
+  "page": 30
+ },
+ {
+  "level": 3,
+  "title": "27 Secret professionnel et privilège",
+  "page": 30
+ },
+ {
+  "level": 3,
+  "title": "28 Dossiers médicaux",
+  "page": 30
+ },
+ {
+  "level": 2,
+  "title": "29 Plaintes",
+  "page": 31
+ },
+ {
+  "level": 2,
+  "title": "31 Enquêtes",
+  "page": 32
+ },
+ {
+  "level": 2,
+  "title": "36 Examen des fichiers inconsultables",
+  "page": 36
+ },
+ {
+  "level": 2,
+  "title": "37 Contrôle d’application des articles 4 à 8",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "38 Rapports au Parlement",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "41 Révision par la Cour fédérale",
+  "page": 38
+ },
+ {
+  "level": 2,
+  "title": "53 Commissariat à la protection de la vie privée",
+  "page": 42
+ },
+ {
+  "level": 3,
+  "title": "53 Commissaire à la protection de la vie privée",
+  "page": 42
+ },
+ {
+  "level": 3,
+  "title": "56 Commissaires adjoints à la protection de la vie privée",
+  "page": 44
+ },
+ {
+  "level": 3,
+  "title": "58 Personnel",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "59 Délégation",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "60 Études spéciales",
+  "page": 46
+ },
+ {
+  "level": 3,
+  "title": "61 Dispositions générales",
+  "page": 47
+ },
+ {
+  "level": 2,
+  "title": "68 Infractions",
+  "page": 49
+ },
+ {
+  "level": 2,
+  "title": "69 Exclusions",
+  "page": 50
+ },
+ {
+  "level": 2,
+  "title": "71 Dispositions générales",
+  "page": 52
+ },
+ {
+  "level": 2,
+  "title": "ANNEXE Institutions fédérales",
+  "page": 59
+ }
+]

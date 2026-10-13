@@ -1,0 +1,172 @@
+[
+ {
+  "level": 1,
+  "title": "Changes to This Year’s Edition",
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "Combination cases",
+  "page": 6
+ },
+ {
+  "level": 2,
+  "title": "Visualizing uncertainty",
+  "page": 6
+ },
+ {
+  "level": 2,
+  "title": "Technical notes",
+  "page": 6
+ },
+ {
+  "level": 1,
+  "title": "Future Work",
+  "page": 6
+ },
+ {
+  "level": 2,
+  "title": "Open-source code",
+  "page": 6
+ },
+ {
+  "level": 2,
+  "title": "Expanded scenario range",
+  "page": 6
+ },
+ {
+  "level": 1,
+  "title": "In Closing",
+  "page": 7
+ },
+ {
+  "level": 1,
+  "title": "By 2030, energy-related CO2 emissions fall 25% to 38% below 2005 levels, depending on case assumptions",
+  "page": 11
+ },
+ {
+  "level": 1,
+  "title": "The Electricity Mix in the United States Shifts from Fossil Fuels to Renewables",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "Renewables displace fossil fuels in the electric power sector due to declining renewable technology costs and rising subsidies for renewable power",
+  "page": 13
+ },
+ {
+  "level": 1,
+  "title": "Technological Advancements and Electrification Decrease Demand-Side Energy Intensity",
+  "page": 18
+ },
+ {
+  "level": 2,
+  "title": "U.S. energy consumption increases through 2050, and electricity plays an increasingly large role",
+  "page": 18
+ },
+ {
+  "level": 2,
+  "title": "Greater heating equipment efficiency reduces fossil fuel use in buildings",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "Electricity increasingly powers production in the iron and steel industry, decreasing energy intensity and CO2 emissions",
+  "page": 21
+ },
+ {
+  "level": 2,
+  "title": "Technological advancements, including electrification, for light-duty vehicles reduce energy intensity and fossil fuel use",
+  "page": 22
+ },
+ {
+  "level": 1,
+  "title": "International Demand for Petroleum and Natural Gas Drives U.S. Production, While Domestic Consumption Either Grows Slowly or Decreases",
+  "page": 26
+ },
+ {
+  "level": 2,
+  "title": "International demand drives petroleum and other liquids production",
+  "page": 27
+ },
+ {
+  "level": 2,
+  "title": "Natural gas consumption in end-use sectors is variable",
+  "page": 29
+ },
+ {
+  "level": 2,
+  "title": "Under favorable economic, supply, and oil price assumptions, U.S. natural gas production continues to grow",
+  "page": 31
+ },
+ {
+  "level": 2,
+  "title": "Associated natural gas is a major source of natural gas production",
+  "page": 33
+ },
+ {
+  "level": 2,
+  "title": "Sources of uncertainty",
+  "page": 34
+ },
+ {
+  "level": 3,
+  "title": "Policy",
+  "page": 34
+ },
+ {
+  "level": 3,
+  "title": "Geopolitical events",
+  "page": 34
+ },
+ {
+  "level": 3,
+  "title": "Rapid technology innovation",
+  "page": 34
+ },
+ {
+  "level": 2,
+  "title": "Quantifying uncertainty using statistical errors from past projections",
+  "page": 34
+ },
+ {
+  "level": 1,
+  "title": "Case Descriptions",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "AEO2023 Reference Case",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "High and Low Oil Price cases",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "High and Low Oil and Gas Supply cases",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "High and Low Zero-Carbon Technology Cost cases",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "High and Low Economic Growth cases",
+  "page": 38
+ },
+ {
+  "level": 2,
+  "title": "Economic Growth and Zero-Carbon Technology Cost Combination cases",
+  "page": 38
+ },
+ {
+  "level": 1,
+  "title": "Inflation Reduction Act assumptions in the Reference case and core side cases",
+  "page": 39
+ }
+]

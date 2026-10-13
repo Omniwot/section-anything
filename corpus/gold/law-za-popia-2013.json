@@ -1,0 +1,662 @@
+[
+ {
+  "level": 1,
+  "title": "DEFINITIONS AND PURPOSE",
+  "page": 7
+ },
+ {
+  "level": 4,
+  "title": "Deﬁnitions",
+  "page": 7
+ },
+ {
+  "level": 4,
+  "title": "Purpose of Act",
+  "page": 9
+ },
+ {
+  "level": 1,
+  "title": "APPLICATION PROVISIONS",
+  "page": 9
+ },
+ {
+  "level": 4,
+  "title": "Application and interpretation of Act",
+  "page": 9
+ },
+ {
+  "level": 4,
+  "title": "Lawful processing of personal information",
+  "page": 10
+ },
+ {
+  "level": 4,
+  "title": "Rights of data subjects",
+  "page": 11
+ },
+ {
+  "level": 4,
+  "title": "Exclusions",
+  "page": 11
+ },
+ {
+  "level": 4,
+  "title": "Exclusion for journalistic, literary or artistic purposes",
+  "page": 12
+ },
+ {
+  "level": 1,
+  "title": "CONDITIONS FOR LAWFUL PROCESSING OF PERSONAL INFORMATION",
+  "page": 12
+ },
+ {
+  "level": 3,
+  "title": "Condition 1",
+  "page": 12
+ },
+ {
+  "level": 4,
+  "title": "Responsible party to ensure conditions for lawful processing",
+  "page": 12
+ },
+ {
+  "level": 3,
+  "title": "Condition 2",
+  "page": 13
+ },
+ {
+  "level": 4,
+  "title": "Lawfulness of processing",
+  "page": 13
+ },
+ {
+  "level": 4,
+  "title": "Minimality",
+  "page": 13
+ },
+ {
+  "level": 4,
+  "title": "Consent, justiﬁcation and objection",
+  "page": 13
+ },
+ {
+  "level": 4,
+  "title": "Collection directly from data subject",
+  "page": 13
+ },
+ {
+  "level": 3,
+  "title": "Condition 3",
+  "page": 14
+ },
+ {
+  "level": 4,
+  "title": "Collection for speciﬁc purpose",
+  "page": 14
+ },
+ {
+  "level": 4,
+  "title": "Retention and restriction of records",
+  "page": 14
+ },
+ {
+  "level": 3,
+  "title": "Condition 4",
+  "page": 15
+ },
+ {
+  "level": 4,
+  "title": "Further processing to be compatible with purpose of collection",
+  "page": 15
+ },
+ {
+  "level": 3,
+  "title": "Condition 5",
+  "page": 16
+ },
+ {
+  "level": 4,
+  "title": "Quality of information",
+  "page": 16
+ },
+ {
+  "level": 3,
+  "title": "Condition 6",
+  "page": 16
+ },
+ {
+  "level": 4,
+  "title": "Documentation",
+  "page": 16
+ },
+ {
+  "level": 4,
+  "title": "Notiﬁcation to data subject when collecting personal information",
+  "page": 16
+ },
+ {
+  "level": 3,
+  "title": "Condition 7",
+  "page": 17
+ },
+ {
+  "level": 4,
+  "title": "Security measures on integrity and conﬁdentiality of personal information",
+  "page": 17
+ },
+ {
+  "level": 4,
+  "title": "Information processed by operator or person acting under authority",
+  "page": 18
+ },
+ {
+  "level": 4,
+  "title": "Security measures regarding information processed by operator",
+  "page": 18
+ },
+ {
+  "level": 4,
+  "title": "Notiﬁcation of security compromises",
+  "page": 18
+ },
+ {
+  "level": 3,
+  "title": "Condition 8",
+  "page": 19
+ },
+ {
+  "level": 4,
+  "title": "Access to personal information",
+  "page": 19
+ },
+ {
+  "level": 4,
+  "title": "Correction of personal information",
+  "page": 19
+ },
+ {
+  "level": 4,
+  "title": "Prohibition on processing of special personal information",
+  "page": 20
+ },
+ {
+  "level": 4,
+  "title": "General authorisation concerning special personal information",
+  "page": 20
+ },
+ {
+  "level": 4,
+  "title": "Authorisation concerning data subject’s religious or philosophical beliefs",
+  "page": 21
+ },
+ {
+  "level": 4,
+  "title": "Authorisation concerning data subject’s race or ethnic origin",
+  "page": 21
+ },
+ {
+  "level": 4,
+  "title": "Authorisation concerning data subject’s trade union membership",
+  "page": 21
+ },
+ {
+  "level": 4,
+  "title": "Authorisation concerning data subject’s political persuasion",
+  "page": 21
+ },
+ {
+  "level": 4,
+  "title": "Authorisation concerning data subject’s health or sex life",
+  "page": 22
+ },
+ {
+  "level": 4,
+  "title": "Authorisation concerning data subject’s criminal behaviour or biometric informa-",
+  "page": 23
+ },
+ {
+  "level": 1,
+  "title": "Part C",
+  "page": 23
+ },
+ {
+  "level": 4,
+  "title": "Prohibition on processing personal information of children",
+  "page": 23
+ },
+ {
+  "level": 4,
+  "title": "General authorisation concerning personal information of children",
+  "page": 23
+ },
+ {
+  "level": 1,
+  "title": "EXEMPTION FROM CONDITIONS FOR PROCESSING OF",
+  "page": 24
+ },
+ {
+  "level": 4,
+  "title": "General",
+  "page": 24
+ },
+ {
+  "level": 4,
+  "title": "Regulator may exempt processing of personal information",
+  "page": 24
+ },
+ {
+  "level": 4,
+  "title": "Exemption in respect of certain functions",
+  "page": 24
+ },
+ {
+  "level": 1,
+  "title": "SUPERVISION",
+  "page": 25
+ },
+ {
+  "level": 4,
+  "title": "Establishment of Information Regulator",
+  "page": 25
+ },
+ {
+  "level": 4,
+  "title": "Powers, duties and functions of Regulator",
+  "page": 25
+ },
+ {
+  "level": 4,
+  "title": "Appointment, term of office and removal of members of Regulator",
+  "page": 27
+ },
+ {
+  "level": 4,
+  "title": "Vacancies",
+  "page": 28
+ },
+ {
+  "level": 4,
+  "title": "Powers, duties and functions of Chairperson and other members",
+  "page": 29
+ },
+ {
+  "level": 4,
+  "title": "Regulator to have regard to certain matters",
+  "page": 29
+ },
+ {
+  "level": 4,
+  "title": "Conﬂict of interest",
+  "page": 30
+ },
+ {
+  "level": 4,
+  "title": "Remuneration, allowances, beneﬁts and privileges of members",
+  "page": 30
+ },
+ {
+  "level": 4,
+  "title": "Staff",
+  "page": 30
+ },
+ {
+  "level": 4,
+  "title": "Powers, duties and functions of chief executive officer",
+  "page": 31
+ },
+ {
+  "level": 4,
+  "title": "Committees of Regulator",
+  "page": 32
+ },
+ {
+  "level": 4,
+  "title": "Establishment of Enforcement Committee",
+  "page": 32
+ },
+ {
+  "level": 4,
+  "title": "Meetings of Regulator",
+  "page": 32
+ },
+ {
+  "level": 4,
+  "title": "Funds",
+  "page": 33
+ },
+ {
+  "level": 4,
+  "title": "Protection of Regulator",
+  "page": 33
+ },
+ {
+  "level": 4,
+  "title": "Duties and responsibilities of Information Officer",
+  "page": 33
+ },
+ {
+  "level": 4,
+  "title": "Designation and delegation of deputy information officers",
+  "page": 34
+ },
+ {
+  "level": 1,
+  "title": "PRIOR AUTHORISATION",
+  "page": 34
+ },
+ {
+  "level": 4,
+  "title": "Processing subject to prior authorisation",
+  "page": 34
+ },
+ {
+  "level": 4,
+  "title": "Responsible party to notify Regulator if processing is subject to prior authorisation",
+  "page": 34
+ },
+ {
+  "level": 4,
+  "title": "Failure to notify processing subject to prior authorisation",
+  "page": 35
+ },
+ {
+  "level": 1,
+  "title": "CODES OF CONDUCT",
+  "page": 35
+ },
+ {
+  "level": 4,
+  "title": "Issuing of codes of conduct",
+  "page": 35
+ },
+ {
+  "level": 4,
+  "title": "Process for issuing codes of conduct",
+  "page": 35
+ },
+ {
+  "level": 4,
+  "title": "Notiﬁcation, availability and commencement of code of conduct",
+  "page": 36
+ },
+ {
+  "level": 4,
+  "title": "Procedure for dealing with complaints",
+  "page": 36
+ },
+ {
+  "level": 4,
+  "title": "Amendment and revocation of codes of conduct",
+  "page": 37
+ },
+ {
+  "level": 4,
+  "title": "Guidelines about codes of conduct",
+  "page": 37
+ },
+ {
+  "level": 4,
+  "title": "Register of approved codes of conduct",
+  "page": 37
+ },
+ {
+  "level": 4,
+  "title": "Review of operation of approved code of conduct",
+  "page": 37
+ },
+ {
+  "level": 4,
+  "title": "Effect of failure to comply with code of conduct",
+  "page": 38
+ },
+ {
+  "level": 1,
+  "title": "RIGHTS OF DATA SUBJECTS REGARDING DIRECT MARKETING",
+  "page": 38
+ },
+ {
+  "level": 4,
+  "title": "Direct marketing by means of unsolicited electronic communications",
+  "page": 38
+ },
+ {
+  "level": 4,
+  "title": "Directories",
+  "page": 38
+ },
+ {
+  "level": 4,
+  "title": "Automated decision making",
+  "page": 39
+ },
+ {
+  "level": 1,
+  "title": "TRANSBORDER INFORMATION FLOWS",
+  "page": 39
+ },
+ {
+  "level": 4,
+  "title": "Transfers of personal information outside Republic",
+  "page": 39
+ },
+ {
+  "level": 1,
+  "title": "ENFORCEMENT",
+  "page": 40
+ },
+ {
+  "level": 4,
+  "title": "Interference with protection of personal information of data subject",
+  "page": 40
+ },
+ {
+  "level": 4,
+  "title": "Complaints",
+  "page": 40
+ },
+ {
+  "level": 4,
+  "title": "Mode of complaints to Regulator",
+  "page": 40
+ },
+ {
+  "level": 4,
+  "title": "Action on receipt of complaint",
+  "page": 40
+ },
+ {
+  "level": 4,
+  "title": "Regulator may decide to take no action on complaint",
+  "page": 41
+ },
+ {
+  "level": 4,
+  "title": "Referral of complaint to regulatory body",
+  "page": 41
+ },
+ {
+  "level": 4,
+  "title": "Pre-investigation proceedings of Regulator",
+  "page": 41
+ },
+ {
+  "level": 4,
+  "title": "Settlement of complaints",
+  "page": 42
+ },
+ {
+  "level": 4,
+  "title": "Investigation proceedings of Regulator",
+  "page": 42
+ },
+ {
+  "level": 4,
+  "title": "Issue of warrants",
+  "page": 42
+ },
+ {
+  "level": 4,
+  "title": "Requirements for issuing of warrant",
+  "page": 43
+ },
+ {
+  "level": 4,
+  "title": "Execution of warrants",
+  "page": 43
+ },
+ {
+  "level": 4,
+  "title": "Matters exempt from search and seizure",
+  "page": 44
+ },
+ {
+  "level": 4,
+  "title": "Communication between legal adviser and client exempt",
+  "page": 44
+ },
+ {
+  "level": 4,
+  "title": "Objection to search and seizure",
+  "page": 44
+ },
+ {
+  "level": 4,
+  "title": "Return of warrants",
+  "page": 44
+ },
+ {
+  "level": 4,
+  "title": "Assessment",
+  "page": 45
+ },
+ {
+  "level": 4,
+  "title": "Information notice",
+  "page": 45
+ },
+ {
+  "level": 4,
+  "title": "Parties to be informed of result of assessment",
+  "page": 46
+ },
+ {
+  "level": 4,
+  "title": "Matters referred to Enforcement Committee",
+  "page": 46
+ },
+ {
+  "level": 4,
+  "title": "Functions of Enforcement Committee",
+  "page": 47
+ },
+ {
+  "level": 4,
+  "title": "Parties to be informed of developments during and result of investigation",
+  "page": 47
+ },
+ {
+  "level": 4,
+  "title": "enforcement notice;",
+  "page": 47
+ },
+ {
+  "level": 4,
+  "title": "Cancellation of enforcement notice",
+  "page": 48
+ },
+ {
+  "level": 4,
+  "title": "Right of appeal",
+  "page": 48
+ },
+ {
+  "level": 4,
+  "title": "Consideration of appeal",
+  "page": 48
+ },
+ {
+  "level": 1,
+  "title": "OFFENCES, PENALTIES AND ADMINISTRATIVE FINES",
+  "page": 49
+ },
+ {
+  "level": 4,
+  "title": "Obstruction of Regulator",
+  "page": 49
+ },
+ {
+  "level": 4,
+  "title": "Breach of conﬁdentiality",
+  "page": 49
+ },
+ {
+  "level": 4,
+  "title": "Obstruction of execution of warrant",
+  "page": 49
+ },
+ {
+  "level": 4,
+  "title": "Failure to comply with enforcement or information notices",
+  "page": 49
+ },
+ {
+  "level": 4,
+  "title": "Offences by witnesses",
+  "page": 50
+ },
+ {
+  "level": 4,
+  "title": "Unlawful acts by responsible party in connection with account number",
+  "page": 50
+ },
+ {
+  "level": 4,
+  "title": "Unlawful acts by third parties in connection with account number",
+  "page": 50
+ },
+ {
+  "level": 4,
+  "title": "Penalties",
+  "page": 51
+ },
+ {
+  "level": 4,
+  "title": "Magistrate’s Court jurisdiction to impose penalties",
+  "page": 51
+ },
+ {
+  "level": 4,
+  "title": "Administrative ﬁnes",
+  "page": 51
+ },
+ {
+  "level": 1,
+  "title": "GENERAL PROVISIONS",
+  "page": 52
+ },
+ {
+  "level": 4,
+  "title": "Amendment of laws",
+  "page": 52
+ },
+ {
+  "level": 4,
+  "title": "Fees",
+  "page": 52
+ },
+ {
+  "level": 4,
+  "title": "Regulations",
+  "page": 53
+ },
+ {
+  "level": 4,
+  "title": "Procedure for making regulations",
+  "page": 53
+ },
+ {
+  "level": 4,
+  "title": "Transitional arrangements",
+  "page": 54
+ }
+]

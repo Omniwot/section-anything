@@ -1,0 +1,62 @@
+[
+ {
+  "level": 1,
+  "title": "1. Introduction",
+  "page": 1
+ },
+ {
+  "level": 1,
+  "title": "2. Weak Lyapunov functions",
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "2.1. Preliminaries",
+  "page": 5,
+  "run_in": true
+ },
+ {
+  "level": 2,
+  "title": "2.2. Sub-Gaussian local equilibrium",
+  "page": 7,
+  "run_in": true
+ },
+ {
+  "level": 2,
+  "title": "2.3. Fat-tailed local equilibrium.",
+  "page": 8
+ },
+ {
+  "level": 1,
+  "title": "3. About the positivity condition",
+  "page": 10
+ },
+ {
+  "level": 1,
+  "title": "5. Numerical results",
+  "page": 12
+ },
+ {
+  "level": 2,
+  "title": "5.1. Description of the algorithm",
+  "page": 12,
+  "run_in": true
+ },
+ {
+  "level": 2,
+  "title": "5.2. Plot of the density of the steady state",
+  "page": 13,
+  "run_in": true
+ },
+ {
+  "level": 2,
+  "title": "5.3. Level plots of the steady state",
+  "page": 13,
+  "run_in": true
+ },
+ {
+  "level": 1,
+  "title": "6. Acknowledgments",
+  "page": 15
+ }
+]

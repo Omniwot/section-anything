@@ -1,0 +1,1017 @@
+[
+ {
+  "level": 1,
+  "title": "Introduction",
+  "page": 18
+ },
+ {
+  "level": 2,
+  "title": "Why Use the Command Line?",
+  "page": 18
+ },
+ {
+  "level": 2,
+  "title": "What This Book Is About",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "Who Should Read This Book",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "What's in This Book",
+  "page": 20
+ },
+ {
+  "level": 2,
+  "title": "How To Read This Book",
+  "page": 21
+ },
+ {
+  "level": 3,
+  "title": "Prerequisites",
+  "page": 21
+ },
+ {
+  "level": 2,
+  "title": "What's New in the Fifth Internet Edition",
+  "page": 22
+ },
+ {
+  "level": 2,
+  "title": "Acknowledgments",
+  "page": 22
+ },
+ {
+  "level": 3,
+  "title": "First Internet Edition",
+  "page": 22
+ },
+ {
+  "level": 3,
+  "title": "Second Internet Edition",
+  "page": 23
+ },
+ {
+  "level": 3,
+  "title": "Third Internet Edition",
+  "page": 23
+ },
+ {
+  "level": 3,
+  "title": "Fourth Internet Edition",
+  "page": 23
+ },
+ {
+  "level": 3,
+  "title": "Fifth Internet Edition",
+  "page": 23
+ },
+ {
+  "level": 2,
+  "title": "Your Feedback Is Needed!",
+  "page": 23
+ },
+ {
+  "level": 2,
+  "title": "Further Reading",
+  "page": 23
+ },
+ {
+  "level": 2,
+  "title": "Colophon",
+  "page": 24
+ },
+ {
+  "level": 1,
+  "title": "Part 1 – Learning the Shell",
+  "page": 25
+ },
+ {
+  "level": 2,
+  "title": "1 – What Is the Shell?",
+  "page": 26
+ },
+ {
+  "level": 3,
+  "title": "Terminal Emulators",
+  "page": 26
+ },
+ {
+  "level": 3,
+  "title": "Making Your First Keystrokes",
+  "page": 26
+ },
+ {
+  "level": 4,
+  "title": "Command History",
+  "page": 27
+ },
+ {
+  "level": 4,
+  "title": "Cursor Movement",
+  "page": 27
+ },
+ {
+  "level": 3,
+  "title": "Try Some Simple Commands",
+  "page": 28
+ },
+ {
+  "level": 3,
+  "title": "Ending a Terminal Session",
+  "page": 29
+ },
+ {
+  "level": 3,
+  "title": "Summing Up",
+  "page": 29
+ },
+ {
+  "level": 3,
+  "title": "Further Reading",
+  "page": 30
+ },
+ {
+  "level": 2,
+  "title": "2 – Navigation",
+  "page": 31
+ },
+ {
+  "level": 3,
+  "title": "Understanding the File System Tree",
+  "page": 31
+ },
+ {
+  "level": 3,
+  "title": "The Current Working Directory",
+  "page": 31
+ },
+ {
+  "level": 3,
+  "title": "Listing the Contents of a Directory",
+  "page": 32
+ },
+ {
+  "level": 3,
+  "title": "Changing the Current Working Directory",
+  "page": 33
+ },
+ {
+  "level": 4,
+  "title": "Absolute Pathnames",
+  "page": 33
+ },
+ {
+  "level": 4,
+  "title": "Relative Pathnames",
+  "page": 33
+ },
+ {
+  "level": 4,
+  "title": "Some Helpful Shortcuts",
+  "page": 35
+ },
+ {
+  "level": 3,
+  "title": "Summing Up",
+  "page": 36
+ },
+ {
+  "level": 2,
+  "title": "3 – Exploring the System",
+  "page": 37
+ },
+ {
+  "level": 3,
+  "title": "Having More Fun with ls",
+  "page": 37
+ },
+ {
+  "level": 4,
+  "title": "Options and Arguments",
+  "page": 38
+ },
+ {
+  "level": 4,
+  "title": "A Longer Look at Long Format",
+  "page": 40
+ },
+ {
+  "level": 3,
+  "title": "Determining a File's Type with file",
+  "page": 41
+ },
+ {
+  "level": 3,
+  "title": "Viewing File Contents with less",
+  "page": 41
+ },
+ {
+  "level": 3,
+  "title": "Taking a Guided Tour",
+  "page": 43
+ },
+ {
+  "level": 3,
+  "title": "Symbolic Links",
+  "page": 47
+ },
+ {
+  "level": 3,
+  "title": "Hard Links",
+  "page": 48
+ },
+ {
+  "level": 3,
+  "title": "Summing Up",
+  "page": 48
+ },
+ {
+  "level": 3,
+  "title": "Further Reading",
+  "page": 48
+ },
+ {
+  "level": 2,
+  "title": "4 – Manipulating Files and Directories",
+  "page": 49
+ },
+ {
+  "level": 3,
+  "title": "Wildcards",
+  "page": 49
+ },
+ {
+  "level": 3,
+  "title": "mkdir – Create Directories",
+  "page": 52
+ },
+ {
+  "level": 3,
+  "title": "cp – Copy Files and Directories",
+  "page": 52
+ },
+ {
+  "level": 4,
+  "title": "Useful Options and Examples",
+  "page": 53
+ },
+ {
+  "level": 3,
+  "title": "mv – Move and Rename Files",
+  "page": 54
+ },
+ {
+  "level": 4,
+  "title": "Useful Options and Examples",
+  "page": 54
+ },
+ {
+  "level": 3,
+  "title": "rm – Remove Files and Directories",
+  "page": 55
+ },
+ {
+  "level": 4,
+  "title": "Useful Options and Examples",
+  "page": 56
+ },
+ {
+  "level": 3,
+  "title": "ln – Create Links",
+  "page": 57
+ },
+ {
+  "level": 4,
+  "title": "Hard Links",
+  "page": 57
+ },
+ {
+  "level": 4,
+  "title": "Symbolic Links",
+  "page": 58
+ },
+ {
+  "level": 3,
+  "title": "Let's Build a Playground",
+  "page": 58
+ },
+ {
+  "level": 4,
+  "title": "Creating Directories",
+  "page": 58
+ },
+ {
+  "level": 4,
+  "title": "Copying Files",
+  "page": 59
+ },
+ {
+  "level": 4,
+  "title": "Moving and Renaming Files",
+  "page": 60
+ },
+ {
+  "level": 4,
+  "title": "Creating Hard Links",
+  "page": 61
+ },
+ {
+  "level": 4,
+  "title": "Creating Symbolic Links",
+  "page": 62
+ },
+ {
+  "level": 4,
+  "title": "Removing Files and Directories",
+  "page": 63
+ },
+ {
+  "level": 3,
+  "title": "Summing Up",
+  "page": 65
+ },
+ {
+  "level": 3,
+  "title": "Further Reading",
+  "page": 65
+ },
+ {
+  "level": 2,
+  "title": "5 – Working with Commands",
+  "page": 66
+ },
+ {
+  "level": 3,
+  "title": "What Exactly Are Commands?",
+  "page": 66
+ },
+ {
+  "level": 3,
+  "title": "Identifying Commands",
+  "page": 67
+ },
+ {
+  "level": 4,
+  "title": "type – Display a Command's Type",
+  "page": 67
+ },
+ {
+  "level": 4,
+  "title": "which – Display an Executable's Location",
+  "page": 67
+ },
+ {
+  "level": 3,
+  "title": "Getting a Command's Documentation",
+  "page": 68
+ },
+ {
+  "level": 4,
+  "title": "help – Get Help for Shell Builtins",
+  "page": 68
+ },
+ {
+  "level": 4,
+  "title": "--help – Display Usage Information",
+  "page": 69
+ },
+ {
+  "level": 4,
+  "title": "man – Display a Program's Manual Page",
+  "page": 70
+ },
+ {
+  "level": 4,
+  "title": "apropos – Display Appropriate Commands",
+  "page": 71
+ },
+ {
+  "level": 4,
+  "title": "whatis – Display One-line Manual Page Descriptions",
+  "page": 72
+ },
+ {
+  "level": 4,
+  "title": "info – Display a Program's Info Entry",
+  "page": 72
+ },
+ {
+  "level": 4,
+  "title": "README and Other Program Documentation Files",
+  "page": 74
+ },
+ {
+  "level": 3,
+  "title": "Creating Our Own Commands with alias",
+  "page": 74
+ },
+ {
+  "level": 3,
+  "title": "Summing Up",
+  "page": 76
+ },
+ {
+  "level": 3,
+  "title": "Further Reading",
+  "page": 76
+ },
+ {
+  "level": 2,
+  "title": "6 – Redirection",
+  "page": 78
+ },
+ {
+  "level": 3,
+  "title": "Standard Input, Output, and Error",
+  "page": 78
+ },
+ {
+  "level": 3,
+  "title": "Redirecting Standard Output",
+  "page": 79
+ },
+ {
+  "level": 3,
+  "title": "Redirecting Standard Error",
+  "page": 81
+ },
+ {
+  "level": 4,
+  "title": "Redirecting Standard Output and Standard Error to One File",
+  "page": 81
+ },
+ {
+  "level": 4,
+  "title": "Disposing of Unwanted Output",
+  "page": 82
+ },
+ {
+  "level": 3,
+  "title": "Redirecting Standard Input",
+  "page": 82
+ },
+ {
+  "level": 4,
+  "title": "cat – Concatenate Files",
+  "page": 83
+ },
+ {
+  "level": 3,
+  "title": "Pipelines",
+  "page": 85
+ },
+ {
+  "level": 4,
+  "title": "Filters",
+  "page": 86
+ },
+ {
+  "level": 4,
+  "title": "uniq - Report or Omit Repeated Lines",
+  "page": 86
+ },
+ {
+  "level": 4,
+  "title": "wc – Print Line, Word, and Byte Counts",
+  "page": 87
+ },
+ {
+  "level": 4,
+  "title": "grep – Print Lines Matching a Pattern",
+  "page": 87
+ },
+ {
+  "level": 4,
+  "title": "head / tail – Print First / Last Part of Files",
+  "page": 88
+ },
+ {
+  "level": 4,
+  "title": "tee – Read from Stdin and Output to Stdout and Files",
+  "page": 89
+ },
+ {
+  "level": 3,
+  "title": "Summing Up",
+  "page": 90
+ },
+ {
+  "level": 2,
+  "title": "7 – Seeing the World as the Shell Sees It",
+  "page": 92
+ },
+ {
+  "level": 3,
+  "title": "Expansion",
+  "page": 92
+ },
+ {
+  "level": 4,
+  "title": "Pathname Expansion",
+  "page": 93
+ },
+ {
+  "level": 4,
+  "title": "Tilde Expansion",
+  "page": 94
+ },
+ {
+  "level": 4,
+  "title": "Arithmetic Expansion",
+  "page": 95
+ },
+ {
+  "level": 4,
+  "title": "Brace Expansion",
+  "page": 96
+ },
+ {
+  "level": 4,
+  "title": "Parameter Expansion",
+  "page": 97
+ },
+ {
+  "level": 4,
+  "title": "Command Substitution",
+  "page": 98
+ },
+ {
+  "level": 3,
+  "title": "Quoting",
+  "page": 99
+ },
+ {
+  "level": 4,
+  "title": "Double Quotes",
+  "page": 100
+ },
+ {
+  "level": 4,
+  "title": "Single Quotes",
+  "page": 102
+ },
+ {
+  "level": 4,
+  "title": "Escaping Characters",
+  "page": 102
+ },
+ {
+  "level": 3,
+  "title": "Summing Up",
+  "page": 103
+ },
+ {
+  "level": 3,
+  "title": "Further Reading",
+  "page": 104
+ },
+ {
+  "level": 2,
+  "title": "8 – Advanced Keyboard Tricks",
+  "page": 105
+ },
+ {
+  "level": 3,
+  "title": "Command Line Editing",
+  "page": 105
+ },
+ {
+  "level": 4,
+  "title": "Cursor Movement",
+  "page": 105
+ },
+ {
+  "level": 4,
+  "title": "Modifying Text",
+  "page": 106
+ },
+ {
+  "level": 4,
+  "title": "Cutting and Pasting (Killing and Yanking) Text",
+  "page": 106
+ },
+ {
+  "level": 3,
+  "title": "Completion",
+  "page": 107
+ },
+ {
+  "level": 3,
+  "title": "Using History",
+  "page": 109
+ },
+ {
+  "level": 4,
+  "title": "Searching History",
+  "page": 110
+ },
+ {
+  "level": 4,
+  "title": "History Expansion",
+  "page": 112
+ },
+ {
+  "level": 3,
+  "title": "Summing Up",
+  "page": 113
+ },
+ {
+  "level": 3,
+  "title": "Further Reading",
+  "page": 113
+ },
+ {
+  "level": 2,
+  "title": "9 – Permissions",
+  "page": 114
+ },
+ {
+  "level": 3,
+  "title": "Owners, Group Members, and Everybody Else",
+  "page": 115
+ },
+ {
+  "level": 3,
+  "title": "Reading, Writing, and Executing",
+  "page": 116
+ },
+ {
+  "level": 4,
+  "title": "chmod – Change File Mode",
+  "page": 118
+ },
+ {
+  "level": 4,
+  "title": "Setting File Mode with the GUI",
+  "page": 122
+ },
+ {
+  "level": 4,
+  "title": "umask – Set Default Permissions",
+  "page": 122
+ },
+ {
+  "level": 3,
+  "title": "Changing Identities",
+  "page": 125
+ },
+ {
+  "level": 4,
+  "title": "su – Run a Shell with Substitute User and Group IDs",
+  "page": 126
+ },
+ {
+  "level": 4,
+  "title": "sudo – Execute a Command as Another User",
+  "page": 127
+ },
+ {
+  "level": 4,
+  "title": "chown – Change File Owner and Group",
+  "page": 128
+ },
+ {
+  "level": 4,
+  "title": "chgrp – Change Group Ownership",
+  "page": 130
+ },
+ {
+  "level": 3,
+  "title": "Exercising Our Privileges",
+  "page": 130
+ },
+ {
+  "level": 3,
+  "title": "Changing Your Password",
+  "page": 132
+ },
+ {
+  "level": 3,
+  "title": "Summing Up",
+  "page": 133
+ },
+ {
+  "level": 3,
+  "title": "Further Reading",
+  "page": 133
+ },
+ {
+  "level": 2,
+  "title": "10 – Processes",
+  "page": 134
+ },
+ {
+  "level": 3,
+  "title": "How a Process Works",
+  "page": 134
+ },
+ {
+  "level": 3,
+  "title": "Viewing Processes",
+  "page": 135
+ },
+ {
+  "level": 4,
+  "title": "Viewing Processes Dynamically with top",
+  "page": 137
+ },
+ {
+  "level": 3,
+  "title": "Controlling Processes",
+  "page": 140
+ },
+ {
+  "level": 4,
+  "title": "Interrupting a Process",
+  "page": 140
+ },
+ {
+  "level": 4,
+  "title": "Putting a Process in the Background",
+  "page": 141
+ },
+ {
+  "level": 4,
+  "title": "Returning a Process to the Foreground",
+  "page": 142
+ },
+ {
+  "level": 4,
+  "title": "Stopping (Pausing) a Process",
+  "page": 142
+ },
+ {
+  "level": 3,
+  "title": "Signals",
+  "page": 143
+ },
+ {
+  "level": 4,
+  "title": "Sending Signals to Processes with kill",
+  "page": 144
+ },
+ {
+  "level": 4,
+  "title": "Sending Signals to Multiple Processes with killall",
+  "page": 146
+ },
+ {
+  "level": 3,
+  "title": "Shutting Down the System",
+  "page": 147
+ },
+ {
+  "level": 3,
+  "title": "More Process-Related Commands",
+  "page": 148
+ },
+ {
+  "level": 3,
+  "title": "Summing Up",
+  "page": 148
+ },
+ {
+  "level": 1,
+  "title": "Part 2 – Configuration and the Environment",
+  "page": 151
+ },
+ {
+  "level": 2,
+  "title": "11 – The Environment",
+  "page": 152
+ },
+ {
+  "level": 3,
+  "title": "What is Stored in the Environment?",
+  "page": 152
+ },
+ {
+  "level": 4,
+  "title": "Examining The Environment",
+  "page": 152
+ },
+ {
+  "level": 4,
+  "title": "Some Interesting Variables",
+  "page": 154
+ },
+ {
+  "level": 3,
+  "title": "How Is The Environment Established?",
+  "page": 155
+ },
+ {
+  "level": 4,
+  "title": "What's in a Startup File?",
+  "page": 156
+ },
+ {
+  "level": 3,
+  "title": "Modifying the Environment",
+  "page": 158
+ },
+ {
+  "level": 4,
+  "title": "Which Files Should We Modify?",
+  "page": 159
+ },
+ {
+  "level": 4,
+  "title": "Text Editors",
+  "page": 159
+ },
+ {
+  "level": 4,
+  "title": "Using a Text Editor",
+  "page": 160
+ },
+ {
+  "level": 4,
+  "title": "Activating Our Changes",
+  "page": 164
+ },
+ {
+  "level": 3,
+  "title": "Summing Up",
+  "page": 164
+ },
+ {
+  "level": 3,
+  "title": "Further Reading",
+  "page": 164
+ },
+ {
+  "level": 2,
+  "title": "12 – A Gentle Introduction to vi",
+  "page": 165
+ },
+ {
+  "level": 3,
+  "title": "Why We Should Learn vi",
+  "page": 165
+ },
+ {
+  "level": 3,
+  "title": "A Little Background",
+  "page": 166
+ },
+ {
+  "level": 3,
+  "title": "Starting and Stopping vi",
+  "page": 166
+ },
+ {
+  "level": 3,
+  "title": "Editing Modes",
+  "page": 168
+ },
+ {
+  "level": 4,
+  "title": "Entering Insert Mode",
+  "page": 169
+ },
+ {
+  "level": 4,
+  "title": "Saving Our Work",
+  "page": 169
+ },
+ {
+  "level": 3,
+  "title": "Moving the Cursor Around",
+  "page": 170
+ },
+ {
+  "level": 3,
+  "title": "Basic Editing",
+  "page": 171
+ },
+ {
+  "level": 4,
+  "title": "Appending Text",
+  "page": 171
+ },
+ {
+  "level": 4,
+  "title": "Opening a Line",
+  "page": 172
+ },
+ {
+  "level": 4,
+  "title": "Deleting Text",
+  "page": 173
+ },
+ {
+  "level": 4,
+  "title": "Cutting, Copying, and Pasting Text",
+  "page": 174
+ },
+ {
+  "level": 4,
+  "title": "Joining Lines",
+  "page": 176
+ },
+ {
+  "level": 3,
+  "title": "Search-and-Replace",
+  "page": 176
+ },
+ {
+  "level": 4,
+  "title": "Searching Within a Line",
+  "page": 176
+ },
+ {
+  "level": 4,
+  "title": "Searching the Entire File",
+  "page": 176
+ },
+ {
+  "level": 4,
+  "title": "Global Search-and-Replace",
+  "page": 177
+ },
+ {
+  "level": 3,
+  "title": "Editing Multiple Files",
+  "page": 179
+ },
+ {
+  "level": 4,
+  "title": "Switching Between Files",
+  "page": 180
+ },
+ {
+  "level": 4,
+  "title": "Opening Additional Files for Editing",
+  "page": 181
+ },
+ {
+  "level": 4,
+  "title": "Copying Content from One File into Another",
+  "page": 181
+ },
+ {
+  "level": 4,
+  "title": "Inserting an Entire File into Another",
+  "page": 182
+ },
+ {
+  "level": 3,
+  "title": "Saving Our Work",
+  "page": 183
+ },
+ {
+  "level": 3,
+  "title": "Summing Up",
+  "page": 184
+ },
+ {
+  "level": 3,
+  "title": "Further Reading",
+  "page": 184
+ },
+ {
+  "level": 2,
+  "title": "13 – Customizing the Prompt",
+  "page": 186
+ },
+ {
+  "level": 3,
+  "title": "Anatomy of a Prompt",
+  "page": 186
+ },
+ {
+  "level": 3,
+  "title": "Trying Some Alternative Prompt Designs",
+  "page": 188
+ },
+ {
+  "level": 3,
+  "title": "Adding Color",
+  "page": 189
+ },
+ {
+  "level": 3,
+  "title": "Moving the Cursor",
+  "page": 192
+ },
+ {
+  "level": 3,
+  "title": "Saving the Prompt",
+  "page": 193
+ },
+ {
+  "level": 3,
+  "title": "Summing Up",
+  "page": 193
+ },
+ {
+  "level": 3,
+  "title": "Further Reading",
+  "page": 194
+ }
+]

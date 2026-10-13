@@ -1,0 +1,852 @@
+[
+ {
+  "level": 1,
+  "title": "1 Overview of make",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "How to Read This Manual",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "Problems and Bugs",
+  "page": 13
+ },
+ {
+  "level": 1,
+  "title": "2 An Introduction to Makefiles",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "What a Rule Looks Like",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "A Simple Makefile",
+  "page": 16
+ },
+ {
+  "level": 2,
+  "title": "How make Processes a Makefile",
+  "page": 17
+ },
+ {
+  "level": 2,
+  "title": "Variables Make Makefiles Simpler",
+  "page": 18
+ },
+ {
+  "level": 2,
+  "title": "Letting make Deduce the Recipes",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "Another Style of Makefile",
+  "page": 20
+ },
+ {
+  "level": 2,
+  "title": "Rules for Cleaning the Directory",
+  "page": 21
+ },
+ {
+  "level": 1,
+  "title": "3 Writing Makefiles",
+  "page": 23
+ },
+ {
+  "level": 2,
+  "title": "What Makefiles Contain",
+  "page": 23
+ },
+ {
+  "level": 3,
+  "title": "Splitting Long Lines",
+  "page": 24
+ },
+ {
+  "level": 2,
+  "title": "What Name to Give Your Makefile",
+  "page": 24
+ },
+ {
+  "level": 2,
+  "title": "Including Other Makefiles",
+  "page": 25
+ },
+ {
+  "level": 2,
+  "title": "The Variable MAKEFILES",
+  "page": 26
+ },
+ {
+  "level": 2,
+  "title": "How Makefiles Are Remade",
+  "page": 27
+ },
+ {
+  "level": 2,
+  "title": "Overriding Part of Another Makefile",
+  "page": 28
+ },
+ {
+  "level": 2,
+  "title": "How make Reads a Makefile",
+  "page": 29
+ },
+ {
+  "level": 2,
+  "title": "How Makefiles Are Parsed",
+  "page": 31
+ },
+ {
+  "level": 2,
+  "title": "Secondary Expansion",
+  "page": 31
+ },
+ {
+  "level": 1,
+  "title": "4 Writing Rules",
+  "page": 35
+ },
+ {
+  "level": 2,
+  "title": "Rule Syntax",
+  "page": 35
+ },
+ {
+  "level": 2,
+  "title": "Types of Prerequisites",
+  "page": 36
+ },
+ {
+  "level": 2,
+  "title": "Using Wildcard Characters in File Names",
+  "page": 37
+ },
+ {
+  "level": 3,
+  "title": "Wildcard Examples",
+  "page": 37
+ },
+ {
+  "level": 3,
+  "title": "Pitfalls of Using Wildcards",
+  "page": 38
+ },
+ {
+  "level": 3,
+  "title": "The Function wildcard",
+  "page": 38
+ },
+ {
+  "level": 2,
+  "title": "Searching Directories for Prerequisites",
+  "page": 39
+ },
+ {
+  "level": 3,
+  "title": "VPATH: Search Path for All Prerequisites",
+  "page": 39
+ },
+ {
+  "level": 3,
+  "title": "The vpath Directive",
+  "page": 40
+ },
+ {
+  "level": 3,
+  "title": "How Directory Searches are Performed",
+  "page": 41
+ },
+ {
+  "level": 3,
+  "title": "Writing Recipes with Directory Search",
+  "page": 42
+ },
+ {
+  "level": 3,
+  "title": "Directory Search and Implicit Rules",
+  "page": 42
+ },
+ {
+  "level": 3,
+  "title": "Directory Search for Link Libraries",
+  "page": 42
+ },
+ {
+  "level": 2,
+  "title": "Phony Targets",
+  "page": 43
+ },
+ {
+  "level": 2,
+  "title": "Rules without Recipes or Prerequisites",
+  "page": 45
+ },
+ {
+  "level": 2,
+  "title": "Empty Target Files to Record Events",
+  "page": 46
+ },
+ {
+  "level": 2,
+  "title": "Special Built-in Target Names",
+  "page": 46
+ },
+ {
+  "level": 2,
+  "title": "Multiple Targets in a Rule",
+  "page": 49
+ },
+ {
+  "level": 2,
+  "title": "Multiple Rules for One Target",
+  "page": 51
+ },
+ {
+  "level": 2,
+  "title": "Static Pattern Rules",
+  "page": 52
+ },
+ {
+  "level": 3,
+  "title": "Syntax of Static Pattern Rules",
+  "page": 52
+ },
+ {
+  "level": 3,
+  "title": "Static Pattern Rules versus Implicit Rules",
+  "page": 53
+ },
+ {
+  "level": 2,
+  "title": "Double-Colon Rules",
+  "page": 54
+ },
+ {
+  "level": 2,
+  "title": "Generating Prerequisites Automatically",
+  "page": 54
+ },
+ {
+  "level": 1,
+  "title": "5 Writing Recipes in Rules",
+  "page": 57
+ },
+ {
+  "level": 2,
+  "title": "Recipe Syntax",
+  "page": 57
+ },
+ {
+  "level": 3,
+  "title": "Splitting Recipe Lines",
+  "page": 57
+ },
+ {
+  "level": 3,
+  "title": "Using Variables in Recipes",
+  "page": 59
+ },
+ {
+  "level": 2,
+  "title": "Recipe Echoing",
+  "page": 59
+ },
+ {
+  "level": 2,
+  "title": "Recipe Execution",
+  "page": 60
+ },
+ {
+  "level": 3,
+  "title": "Using One Shell",
+  "page": 60
+ },
+ {
+  "level": 3,
+  "title": "Choosing the Shell",
+  "page": 61
+ },
+ {
+  "level": 2,
+  "title": "Parallel Execution",
+  "page": 63
+ },
+ {
+  "level": 3,
+  "title": "Disabling Parallel Execution",
+  "page": 63
+ },
+ {
+  "level": 3,
+  "title": "Output During Parallel Execution",
+  "page": 65
+ },
+ {
+  "level": 3,
+  "title": "Input During Parallel Execution",
+  "page": 66
+ },
+ {
+  "level": 2,
+  "title": "Errors in Recipes",
+  "page": 66
+ },
+ {
+  "level": 2,
+  "title": "Interrupting or Killing make",
+  "page": 67
+ },
+ {
+  "level": 2,
+  "title": "Recursive Use of make",
+  "page": 68
+ },
+ {
+  "level": 3,
+  "title": "How the MAKE Variable Works",
+  "page": 68
+ },
+ {
+  "level": 3,
+  "title": "Communicating Variables to a Sub-make",
+  "page": 69
+ },
+ {
+  "level": 3,
+  "title": "Communicating Options to a Sub-make",
+  "page": 71
+ },
+ {
+  "level": 3,
+  "title": "The --print-directory Option",
+  "page": 73
+ },
+ {
+  "level": 2,
+  "title": "Defining Canned Recipes",
+  "page": 73
+ },
+ {
+  "level": 2,
+  "title": "Using Empty Recipes",
+  "page": 74
+ },
+ {
+  "level": 1,
+  "title": "6 How to Use Variables",
+  "page": 77
+ },
+ {
+  "level": 2,
+  "title": "Basics of Variable References",
+  "page": 77
+ },
+ {
+  "level": 2,
+  "title": "The Two Flavors of Variables",
+  "page": 78
+ },
+ {
+  "level": 3,
+  "title": "Recursively Expanded Variable Assignment",
+  "page": 78
+ },
+ {
+  "level": 3,
+  "title": "Simply Expanded Variable Assignment",
+  "page": 79
+ },
+ {
+  "level": 3,
+  "title": "Immediately Expanded Variable Assignment",
+  "page": 80
+ },
+ {
+  "level": 3,
+  "title": "Conditional Variable Assignment",
+  "page": 81
+ },
+ {
+  "level": 2,
+  "title": "Advanced Features for Reference to Variables",
+  "page": 81
+ },
+ {
+  "level": 3,
+  "title": "Substitution References",
+  "page": 81
+ },
+ {
+  "level": 3,
+  "title": "Computed Variable Names",
+  "page": 82
+ },
+ {
+  "level": 2,
+  "title": "How Variables Get Their Values",
+  "page": 84
+ },
+ {
+  "level": 2,
+  "title": "Setting Variables",
+  "page": 84
+ },
+ {
+  "level": 2,
+  "title": "Appending More Text to Variables",
+  "page": 86
+ },
+ {
+  "level": 2,
+  "title": "The override Directive",
+  "page": 87
+ },
+ {
+  "level": 2,
+  "title": "Defining Multi-Line Variables",
+  "page": 88
+ },
+ {
+  "level": 2,
+  "title": "Undefining Variables",
+  "page": 89
+ },
+ {
+  "level": 2,
+  "title": "Variables from the Environment",
+  "page": 89
+ },
+ {
+  "level": 2,
+  "title": "Target-specific Variable Values",
+  "page": 90
+ },
+ {
+  "level": 2,
+  "title": "Pattern-specific Variable Values",
+  "page": 91
+ },
+ {
+  "level": 2,
+  "title": "Suppressing Inheritance",
+  "page": 91
+ },
+ {
+  "level": 2,
+  "title": "Other Special Variables",
+  "page": 92
+ },
+ {
+  "level": 1,
+  "title": "7 Conditional Parts of Makefiles",
+  "page": 97
+ },
+ {
+  "level": 2,
+  "title": "Example of a Conditional",
+  "page": 97
+ },
+ {
+  "level": 2,
+  "title": "Syntax of Conditionals",
+  "page": 98
+ },
+ {
+  "level": 2,
+  "title": "Conditionals that Test Flags",
+  "page": 100
+ },
+ {
+  "level": 1,
+  "title": "8 Functions for Transforming Text",
+  "page": 103
+ },
+ {
+  "level": 2,
+  "title": "Function Call Syntax",
+  "page": 103
+ },
+ {
+  "level": 2,
+  "title": "Functions for String Substitution and Analysis",
+  "page": 104
+ },
+ {
+  "level": 2,
+  "title": "Functions for File Names",
+  "page": 107
+ },
+ {
+  "level": 2,
+  "title": "Functions for Conditionals",
+  "page": 109
+ },
+ {
+  "level": 2,
+  "title": "The let Function",
+  "page": 110
+ },
+ {
+  "level": 2,
+  "title": "The foreach Function",
+  "page": 111
+ },
+ {
+  "level": 2,
+  "title": "The file Function",
+  "page": 112
+ },
+ {
+  "level": 2,
+  "title": "The call Function",
+  "page": 113
+ },
+ {
+  "level": 2,
+  "title": "The value Function",
+  "page": 114
+ },
+ {
+  "level": 2,
+  "title": "The eval Function",
+  "page": 115
+ },
+ {
+  "level": 2,
+  "title": "The origin Function",
+  "page": 116
+ },
+ {
+  "level": 2,
+  "title": "The flavor Function",
+  "page": 117
+ },
+ {
+  "level": 2,
+  "title": "Functions That Control Make",
+  "page": 118
+ },
+ {
+  "level": 2,
+  "title": "The shell Function",
+  "page": 119
+ },
+ {
+  "level": 2,
+  "title": "The guile Function",
+  "page": 120
+ },
+ {
+  "level": 1,
+  "title": "9 How to Run make",
+  "page": 121
+ },
+ {
+  "level": 2,
+  "title": "Arguments to Specify the Makefile",
+  "page": 121
+ },
+ {
+  "level": 2,
+  "title": "Arguments to Specify the Goals",
+  "page": 121
+ },
+ {
+  "level": 2,
+  "title": "Instead of Executing Recipes",
+  "page": 123
+ },
+ {
+  "level": 2,
+  "title": "Avoiding Recompilation of Some Files",
+  "page": 124
+ },
+ {
+  "level": 2,
+  "title": "Overriding Variables",
+  "page": 125
+ },
+ {
+  "level": 2,
+  "title": "Testing the Compilation of a Program",
+  "page": 126
+ },
+ {
+  "level": 2,
+  "title": "Temporary Files",
+  "page": 126
+ },
+ {
+  "level": 2,
+  "title": "Summary of Options",
+  "page": 126
+ },
+ {
+  "level": 1,
+  "title": "10 Using Implicit Rules",
+  "page": 133
+ },
+ {
+  "level": 2,
+  "title": "Using Implicit Rules",
+  "page": 133
+ },
+ {
+  "level": 2,
+  "title": "Catalogue of Built-In Rules",
+  "page": 134
+ },
+ {
+  "level": 2,
+  "title": "Variables Used by Implicit Rules",
+  "page": 137
+ },
+ {
+  "level": 2,
+  "title": "Chains of Implicit Rules",
+  "page": 139
+ },
+ {
+  "level": 2,
+  "title": "Defining and Redefining Pattern Rules",
+  "page": 141
+ },
+ {
+  "level": 3,
+  "title": "Introduction to Pattern Rules",
+  "page": 141
+ },
+ {
+  "level": 3,
+  "title": "Pattern Rule Examples",
+  "page": 142
+ },
+ {
+  "level": 3,
+  "title": "Automatic Variables",
+  "page": 142
+ },
+ {
+  "level": 3,
+  "title": "How Patterns Match",
+  "page": 145
+ },
+ {
+  "level": 3,
+  "title": "Match-Anything Pattern Rules",
+  "page": 146
+ },
+ {
+  "level": 3,
+  "title": "Canceling Implicit Rules",
+  "page": 147
+ },
+ {
+  "level": 2,
+  "title": "Defining Last-Resort Default Rules",
+  "page": 147
+ },
+ {
+  "level": 2,
+  "title": "Old-Fashioned Suffix Rules",
+  "page": 148
+ },
+ {
+  "level": 2,
+  "title": "Implicit Rule Search Algorithm",
+  "page": 149
+ },
+ {
+  "level": 1,
+  "title": "11 Using make to Update Archive Files",
+  "page": 151
+ },
+ {
+  "level": 2,
+  "title": "Archive Members as Targets",
+  "page": 151
+ },
+ {
+  "level": 2,
+  "title": "Implicit Rule for Archive Member Targets",
+  "page": 151
+ },
+ {
+  "level": 3,
+  "title": "Updating Archive Symbol Directories",
+  "page": 152
+ },
+ {
+  "level": 2,
+  "title": "Dangers When Using Archives",
+  "page": 152
+ },
+ {
+  "level": 2,
+  "title": "Suffix Rules for Archive Files",
+  "page": 153
+ },
+ {
+  "level": 1,
+  "title": "12 Extending GNU make",
+  "page": 155
+ },
+ {
+  "level": 2,
+  "title": "GNU Guile Integration",
+  "page": 155
+ },
+ {
+  "level": 3,
+  "title": "Conversion of Guile Types",
+  "page": 155
+ },
+ {
+  "level": 3,
+  "title": "Interfaces from Guile to make",
+  "page": 156
+ },
+ {
+  "level": 3,
+  "title": "Example Using Guile in make",
+  "page": 156
+ },
+ {
+  "level": 2,
+  "title": "Loading Dynamic Objects",
+  "page": 157
+ },
+ {
+  "level": 3,
+  "title": "The load Directive",
+  "page": 158
+ },
+ {
+  "level": 3,
+  "title": "How Loaded Objects Are Remade",
+  "page": 159
+ },
+ {
+  "level": 3,
+  "title": "Loaded Object Interface",
+  "page": 159
+ },
+ {
+  "level": 3,
+  "title": "Example Loaded Object",
+  "page": 161
+ },
+ {
+  "level": 1,
+  "title": "13 Integrating GNU make",
+  "page": 165
+ },
+ {
+  "level": 2,
+  "title": "Sharing Job Slots with GNU make",
+  "page": 165
+ },
+ {
+  "level": 3,
+  "title": "POSIX Jobserver Interaction",
+  "page": 166
+ },
+ {
+  "level": 3,
+  "title": "Windows Jobserver Interaction",
+  "page": 167
+ },
+ {
+  "level": 2,
+  "title": "Synchronized Terminal Output",
+  "page": 167
+ },
+ {
+  "level": 1,
+  "title": "14 Features of GNU make",
+  "page": 169
+ },
+ {
+  "level": 1,
+  "title": "15 Incompatibilities and Missing Features",
+  "page": 173
+ },
+ {
+  "level": 1,
+  "title": "16 Makefile Conventions",
+  "page": 175
+ },
+ {
+  "level": 2,
+  "title": "General Conventions for Makefiles",
+  "page": 175
+ },
+ {
+  "level": 2,
+  "title": "Utilities in Makefiles",
+  "page": 176
+ },
+ {
+  "level": 2,
+  "title": "Variables for Specifying Commands",
+  "page": 177
+ },
+ {
+  "level": 2,
+  "title": "DESTDIR: Support for Staged Installs",
+  "page": 178
+ },
+ {
+  "level": 2,
+  "title": "Variables for Installation Directories",
+  "page": 178
+ },
+ {
+  "level": 2,
+  "title": "Standard Targets for Users",
+  "page": 183
+ },
+ {
+  "level": 2,
+  "title": "Install Command Categories",
+  "page": 188
+ },
+ {
+  "level": 1,
+  "title": "A Quick Reference",
+  "page": 191
+ },
+ {
+  "level": 1,
+  "title": "B Errors Generated by Make",
+  "page": 199
+ },
+ {
+  "level": 1,
+  "title": "C Complex Makefile Example",
+  "page": 203
+ },
+ {
+  "level": 1,
+  "title": "D GNU Free Documentation License",
+  "page": 209
+ },
+ {
+  "level": 1,
+  "title": "Index of Concepts",
+  "page": 217
+ },
+ {
+  "level": 1,
+  "title": "Index of Functions, Variables, & Directives",
+  "page": 227
+ }
+]

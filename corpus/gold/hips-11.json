@@ -1,0 +1,732 @@
+[
+ {
+  "level": 1,
+  "title": "Preface and Acknowledgements",
+  "page": 5
+ },
+ {
+  "level": 1,
+  "title": "Introduction",
+  "page": 17
+ },
+ {
+  "level": 2,
+  "title": "I. Approach and Conceptual Framework",
+  "page": 17
+ },
+ {
+  "level": 3,
+  "title": "1. Overview of the Research Topic",
+  "page": 17
+ },
+ {
+  "level": 3,
+  "title": "2. Approach and Demand for Research",
+  "page": 21
+ },
+ {
+  "level": 2,
+  "title": "II. Scope and Methodology",
+  "page": 22
+ },
+ {
+  "level": 1,
+  "title": "Part One: The Relationship between International Criminal Law and Human Rights",
+  "page": 30
+ },
+ {
+  "level": 2,
+  "title": "Chapter One: Introduction",
+  "page": 31
+ },
+ {
+  "level": 2,
+  "title": "Chapter Two: Human Rights Law and Procedural International Criminal Law",
+  "page": 33
+ },
+ {
+  "level": 3,
+  "title": "I. Ad Hoc Tribunals",
+  "page": 35
+ },
+ {
+  "level": 4,
+  "title": "1. Art. 21 (3) ICC",
+  "page": 39
+ },
+ {
+  "level": 4,
+  "title": "2. What are ‘internationally recognized human rights’?",
+  "page": 42
+ },
+ {
+  "level": 2,
+  "title": "Chapter Three: Human Rights Law and Substantive International Criminal Law",
+  "page": 47
+ },
+ {
+  "level": 3,
+  "title": "I. Relationship ICL – Substantive HR:",
+  "page": 46
+ },
+ {
+  "level": 4,
+  "title": "1. Hierarchy vs Horizontal Completion",
+  "page": 50
+ },
+ {
+  "level": 4,
+  "title": "2. Structural Differences vs Universality",
+  "page": 55
+ },
+ {
+  "level": 3,
+  "title": "II. Legal Basis for the Application of Extra-Statutory Substantive Law",
+  "page": 60
+ },
+ {
+  "level": 4,
+  "title": "1. Ad Hoc Tribunals",
+  "page": 61
+ },
+ {
+  "level": 4,
+  "title": "2. ICC",
+  "page": 54
+ },
+ {
+  "level": 5,
+  "title": "a. Art. 21 (3) Rome Statute",
+  "page": 63
+ },
+ {
+  "level": 5,
+  "title": "b. Art. 21 (1) (b) Rome Statute",
+  "page": 64
+ },
+ {
+  "level": 5,
+  "title": "c. Guidance and Interpretational Aid",
+  "page": 68
+ },
+ {
+  "level": 3,
+  "title": "III. Application of Substantive Extra-Statutory Human Rights Law and the Principle of Nullum Crimen Sine Lege",
+  "page": 69
+ },
+ {
+  "level": 4,
+  "title": "1. The concept of nullum crimen sine lege?",
+  "page": 69
+ },
+ {
+  "level": 4,
+  "title": "2. Nullum Crimen Sine Lege in International Criminal Law",
+  "page": 70
+ },
+ {
+  "level": 4,
+  "title": "3. How is this area of conflict solved in international criminal jurisprudence?",
+  "page": 76
+ },
+ {
+  "level": 2,
+  "title": "Chapter Four: Concluding Remarks",
+  "page": 81
+ },
+ {
+  "level": 1,
+  "title": "Part Two: How are Different Areas of Human Rights Law Referred to in International Criminal Jurisprudence?",
+  "page": 84
+ },
+ {
+  "level": 2,
+  "title": "Chapter One: Prohibition of Torture and ‘Other Inhumane Acts’",
+  "page": 85
+ },
+ {
+  "level": 3,
+  "title": "I. Where was the Prohibition of Torture Referred to at Ad Hoc Tribunals?",
+  "page": 84
+ },
+ {
+  "level": 4,
+  "title": "1. The Specific Elements in the Definition of Torture as a Crime against Humanity",
+  "page": 84
+ },
+ {
+  "level": 5,
+  "title": "a. Akayesu",
+  "page": 85
+ },
+ {
+  "level": 5,
+  "title": "b. Delalić and others (Čelebići)",
+  "page": 86
+ },
+ {
+  "level": 5,
+  "title": "c. Furundžija",
+  "page": 90
+ },
+ {
+  "level": 5,
+  "title": "d. Kvočka",
+  "page": 94
+ },
+ {
+  "level": 5,
+  "title": "e. Krnojelac",
+  "page": 97
+ },
+ {
+  "level": 5,
+  "title": "f. Kunarac and others",
+  "page": 97
+ },
+ {
+  "level": 5,
+  "title": "g. Brđanin",
+  "page": 104
+ },
+ {
+  "level": 4,
+  "title": "2. The Definition of ‘Other Inhumane Acts’",
+  "page": 105
+ },
+ {
+  "level": 3,
+  "title": "II. Where Could the Prohibition of Torture Have Been Referred to?",
+  "page": 107
+ },
+ {
+  "level": 4,
+  "title": "1. State Obligations Regarding the Prohibition of Torture under Human Rights Law",
+  "page": 108
+ },
+ {
+  "level": 5,
+  "title": "a) CAT",
+  "page": 96
+ },
+ {
+  "level": 5,
+  "title": "b) Universal Declaration of Human Rights",
+  "page": 109
+ },
+ {
+  "level": 5,
+  "title": "c) International Covenant on Civil and Political Rights",
+  "page": 110
+ },
+ {
+  "level": 5,
+  "title": "d) Other Instruments Prohibiting Torture",
+  "page": 111
+ },
+ {
+  "level": 4,
+  "title": "2. The Prohibition of Torture under International Criminal Law",
+  "page": 112
+ },
+ {
+  "level": 5,
+  "title": "a) Genocide",
+  "page": 112
+ },
+ {
+  "level": 6,
+  "title": "(1) Causing serious bodily or mental harm (Art. 6 (b) Rome Statute)",
+  "page": 112
+ },
+ {
+  "level": 6,
+  "title": "(2) Deliberately inflicting on the group conditions of life calculated to bring about its physical destruction in whole or in part (Art. 6 (c) Rome Statute)",
+  "page": 114
+ },
+ {
+  "level": 6,
+  "title": "(3) Imposing measures intended to prevent births within the group (Art. 6 (d) Rome Statute)",
+  "page": 115
+ },
+ {
+  "level": 5,
+  "title": "b) Crimes against Humanity",
+  "page": 116
+ },
+ {
+  "level": 6,
+  "title": "(1) Torture (Art. 7 (1) (f) Rome Statute)",
+  "page": 116
+ },
+ {
+  "level": 6,
+  "title": "(2) Rape, sexual slavery, enforced prostitution, forced pregnancy, enforced sterilization, or any other form of sexual violence of comparable gravity (Art. 7 (1) (g) Rome Statute)",
+  "page": 118
+ },
+ {
+  "level": 6,
+  "title": "(3) Enforced disappearance of persons (Art. 7 (1) (i) Rome Statute)",
+  "page": 118
+ },
+ {
+  "level": 6,
+  "title": "(5) Other inhumane acts of a similar character intentionally causing great suffering, or serious injury to body or to mental or physical health (Art. 7 (1) (k) Rome Statute)",
+  "page": 121
+ },
+ {
+  "level": 5,
+  "title": "c) War Crimes",
+  "page": 122
+ },
+ {
+  "level": 6,
+  "title": "(1) Grave breaches of the Geneva Conventions",
+  "page": 122
+ },
+ {
+  "level": 6,
+  "title": "(2) Other serious violations of the laws and customs applicable in international armed conflict",
+  "page": 122
+ },
+ {
+  "level": 6,
+  "title": "(3) In the case of an armed conflict not of an international character, serious violations of article 3 common to the four Geneva Conventions",
+  "page": 123
+ },
+ {
+  "level": 6,
+  "title": "(4) Other serious violations of the laws and customs applicable in armed conflicts not of an international character, within the established framework of international law",
+  "page": 123
+ },
+ {
+  "level": 3,
+  "title": "IV. Concluding Remarks",
+  "page": 123
+ },
+ {
+  "level": 2,
+  "title": "Chapter Two: Minority Rights Law",
+  "page": 125
+ },
+ {
+  "level": 3,
+  "title": "I. What is a Minority in the Context of Crimes under International Law?",
+  "page": 124
+ },
+ {
+  "level": 3,
+  "title": "II. Where Has Minority Rights Law Been Referred to?",
+  "page": 127
+ },
+ {
+  "level": 3,
+  "title": "III. Where Could Minority Right Law Have Been Referred to?",
+  "page": 129
+ },
+ {
+  "level": 4,
+  "title": "1. The Categorization of Groups Falling under the Ambit of Protected Groups Within the Definition of Genocide",
+  "page": 130
+ },
+ {
+  "level": 4,
+  "title": "2. The Definition of Persecution",
+  "page": 132
+ },
+ {
+  "level": 4,
+  "title": "3. The Definition of a Stigmatised Group within the Crime of Persecution",
+  "page": 134
+ },
+ {
+  "level": 3,
+  "title": "IV. Where is the Link?",
+  "page": 135
+ },
+ {
+  "level": 4,
+  "title": "1. State Obligations regarding the Protection of Minorities from Crimes under International Law",
+  "page": 135
+ },
+ {
+  "level": 5,
+  "title": "a) Charter of the United Nations",
+  "page": 137
+ },
+ {
+  "level": 5,
+  "title": "b) International Covenant on Civil and Political Rights",
+  "page": 139
+ },
+ {
+  "level": 5,
+  "title": "c) United Nations Declaration on the Rights of Persons belonging to National or Ethnic, Religious and Linguistic Minorities",
+  "page": 141
+ },
+ {
+  "level": 5,
+  "title": "d) Responsibility to Protect",
+  "page": 144
+ },
+ {
+  "level": 5,
+  "title": "e) International Convention on the Elimination of All Forms of Racial Discrimination",
+  "page": 145
+ },
+ {
+  "level": 5,
+  "title": "f) Council of Europe Framework Convention for the Protection of National Minorities",
+  "page": 146
+ },
+ {
+  "level": 5,
+  "title": "g) Other Instruments Relevant to the Protection of Minorities from Crimes under International Law",
+  "page": 147
+ },
+ {
+  "level": 4,
+  "title": "2. Protection of Minorities under International Criminal Law",
+  "page": 149
+ },
+ {
+  "level": 5,
+  "title": "a) Genocide (Art. 6 Rome Statute)",
+  "page": 149
+ },
+ {
+  "level": 5,
+  "title": "b) Crimes against Humanity/Persecution",
+  "page": 153
+ },
+ {
+  "level": 6,
+  "title": "(1) Important Developments in Terms of Minority Protection",
+  "page": 153
+ },
+ {
+  "level": 7,
+  "title": "(1.1) Crimes against Humanity and Armed Conflict",
+  "page": 154
+ },
+ {
+  "level": 7,
+  "title": "(1.2) Crimes Against Humanity and Non-State Actors",
+  "page": 156
+ },
+ {
+  "level": 6,
+  "title": "(2) Specific Crimes and Their inherent Minority Element",
+  "page": 157
+ },
+ {
+  "level": 7,
+  "title": "(2.1) Murder/Extermination",
+  "page": 157
+ },
+ {
+  "level": 7,
+  "title": "(2.2) Deportation or Forcible Transfer of Population",
+  "page": 158
+ },
+ {
+  "level": 7,
+  "title": "(2.3) Rape, Sexual Slavery, Enforced Prostitution, Forced Pregnancy, Enforced Sterilisation, or any other Form of Sexual Violence of Comparable Gravity",
+  "page": 158
+ },
+ {
+  "level": 7,
+  "title": "(2.4) Persecution as a Crime against Humanity with a Particularly Prominent Minority Element",
+  "page": 159
+ },
+ {
+  "level": 7,
+  "title": "(2.5) Enforced Disappearance of Persons",
+  "page": 162
+ },
+ {
+  "level": 7,
+  "title": "(2.5) The Crime of Apartheid",
+  "page": 162
+ },
+ {
+  "level": 5,
+  "title": "c) ‘Ethnic Cleansing’ in International Criminal Law",
+  "page": 163
+ },
+ {
+  "level": 5,
+  "title": "d) War Crimes (Art. 8 Rome Statute)",
+  "page": 166
+ },
+ {
+  "level": 6,
+  "title": "(1) International Armed Conflicts",
+  "page": 168
+ },
+ {
+  "level": 7,
+  "title": "(1.1) Article 8 (2) (a) Rome Statute: Grave Breaches of the Fourth Geneva Convention Protecting Civilian Persons in Times of War:",
+  "page": 168
+ },
+ {
+  "level": 7,
+  "title": "(1.2) Article 8 (2) (b) Rome Statute: Other serious violations of the Laws and Customs Applicable in International Armed Conflict, within the Established Framework of International Law:",
+  "page": 169
+ },
+ {
+  "level": 6,
+  "title": "(2) Non- International Armed Conflicts",
+  "page": 169
+ },
+ {
+  "level": 7,
+  "title": "(2.1) Article 8 (2) (c) Rome Statute: Serious Violations of Article 3 Common to the four Geneva Conventions of 12 August 1949",
+  "page": 169
+ },
+ {
+  "level": 7,
+  "title": "(2.2) Article 8 (2) (e) Rome Statute : Other Serious Violations of the Laws and Customs Applicable in Armed Conflicts not of an International Character, within the Established Framework of International Law:",
+  "page": 170
+ },
+ {
+  "level": 3,
+  "title": "V. Concluding Remarks",
+  "page": 170
+ },
+ {
+  "level": 2,
+  "title": "Chapter Three: Women’s Rights/The Prohibition of Gender-Based Violence",
+  "page": 171
+ },
+ {
+  "level": 3,
+  "title": "I. Where Were Women’s Human Rights Referred to?",
+  "page": 175
+ },
+ {
+  "level": 4,
+  "title": "1. Sexual Assault as Persecution",
+  "page": 175
+ },
+ {
+  "level": 4,
+  "title": "2. Rape as Torture",
+  "page": 177
+ },
+ {
+  "level": 3,
+  "title": "II. Where Could Women’s Human Rights Have Been Referred to?",
+  "page": 183
+ },
+ {
+  "level": 4,
+  "title": "1. Genocide",
+  "page": 183
+ },
+ {
+  "level": 4,
+  "title": "2. Definition of Rape",
+  "page": 185
+ },
+ {
+  "level": 4,
+  "title": "3. Persecution",
+  "page": 192
+ },
+ {
+  "level": 3,
+  "title": "III. Where is the Link?",
+  "page": 196
+ },
+ {
+  "level": 4,
+  "title": "1. State Obligations regarding Violence against Women",
+  "page": 197
+ },
+ {
+  "level": 5,
+  "title": "a. International Covenant on Civil and Political Rights",
+  "page": 199
+ },
+ {
+  "level": 5,
+  "title": "b. International Covenant on Economic, Social and Cultural Rights",
+  "page": 202
+ },
+ {
+  "level": 5,
+  "title": "c. Convention on the Elimination of All Forms of Discrimination against Women and the Committee on the Elimination of Discrimination against Women",
+  "page": 206
+ },
+ {
+  "level": 5,
+  "title": "d. International Convention on the Elimination of all Forms of Racial Discrimination",
+  "page": 210
+ },
+ {
+  "level": 5,
+  "title": "e. UNGA Declaration on the Elimination of Violence against Women",
+  "page": 210
+ },
+ {
+  "level": 5,
+  "title": "f. African Charter on Human and Peoples Rights (Banjul Charter)",
+  "page": 211
+ },
+ {
+  "level": 5,
+  "title": "g. Beijing Declaration and Platform for Action",
+  "page": 212
+ },
+ {
+  "level": 4,
+  "title": "2. Protection of Women against Gender-Based Violence in International Criminal Law",
+  "page": 213
+ },
+ {
+  "level": 5,
+  "title": "a. Genocide",
+  "page": 214
+ },
+ {
+  "level": 5,
+  "title": "b. Crimes against Humanity",
+  "page": 216
+ },
+ {
+  "level": 6,
+  "title": "(1) Sexual Violence",
+  "page": 216
+ },
+ {
+  "level": 6,
+  "title": "(2) Persecution",
+  "page": 216
+ },
+ {
+  "level": 6,
+  "title": "(3) Enslavement/ Sexual Slavery",
+  "page": 220
+ },
+ {
+  "level": 5,
+  "title": "c. War Crimes",
+  "page": 221
+ },
+ {
+  "level": 3,
+  "title": "IV. Concluding Remarks",
+  "page": 226
+ },
+ {
+  "level": 2,
+  "title": "Chapter Four: Conclusions Drawn from Case-Law Analysis",
+  "page": 229
+ },
+ {
+  "level": 1,
+  "title": "Part Three: Perception of the Value of Human Rights Law from the View of Practitioners",
+  "page": 234
+ },
+ {
+  "level": 3,
+  "title": "I. Safeguarding Professional Diversity on the Bench at the ICC and the ICTY",
+  "page": 239
+ },
+ {
+  "level": 4,
+  "title": "1. General attitude of judges towards the importance of HRL in ICL",
+  "page": 243
+ },
+ {
+  "level": 4,
+  "title": "2. Specific relevance of the recourse to human rights law in substantive international criminal law",
+  "page": 245
+ },
+ {
+  "level": 3,
+  "title": "II. Professional and Personal Factors Contributing to the Attitude towards International Human Rights Law",
+  "page": 247
+ },
+ {
+  "level": 4,
+  "title": "1. Public International Law Experts/(National) Criminal Law Experts",
+  "page": 247
+ },
+ {
+  "level": 4,
+  "title": "2. Common Law/Civil Law",
+  "page": 249
+ },
+ {
+  "level": 4,
+  "title": "3. Academics/Practitioners",
+  "page": 250
+ },
+ {
+  "level": 4,
+  "title": "4. Developing Country/Industrialized Country",
+  "page": 250
+ },
+ {
+  "level": 2,
+  "title": "Chapter Two: Concluding Remarks",
+  "page": 253
+ },
+ {
+  "level": 1,
+  "title": "Conclusion",
+  "page": 255
+ },
+ {
+  "level": 1,
+  "title": "Annex",
+  "page": 265
+ },
+ {
+  "level": 2,
+  "title": "Questions for ICC/ICTY Judges",
+  "page": 265
+ },
+ {
+  "level": 3,
+  "title": "1- General Questions:",
+  "page": 265
+ },
+ {
+  "level": 3,
+  "title": "2- General questions regarding the relationship between international criminal law and human rights law",
+  "page": 265
+ },
+ {
+  "level": 3,
+  "title": "3- Specific areas of human rights law and their influence on international criminal law",
+  "page": 265
+ },
+ {
+  "level": 3,
+  "title": "4- Question regarding the Rome Statute",
+  "page": 266
+ },
+ {
+  "level": 1,
+  "title": "Bibliography",
+  "page": 267
+ },
+ {
+  "level": 2,
+  "title": "Cases",
+  "page": 267
+ },
+ {
+  "level": 2,
+  "title": "Documents",
+  "page": 273
+ },
+ {
+  "level": 2,
+  "title": "Literature",
+  "page": 284
+ }
+]

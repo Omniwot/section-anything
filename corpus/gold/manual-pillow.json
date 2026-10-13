@@ -1,0 +1,1497 @@
+[
+ {
+  "level": 1,
+  "title": "Overview",
+  "page": 7
+ },
+ {
+  "level": 2,
+  "title": "Installation",
+  "page": 7
+ },
+ {
+  "level": 3,
+  "title": "Basic installation",
+  "page": 7
+ },
+ {
+  "level": 3,
+  "title": "Python support",
+  "page": 8
+ },
+ {
+  "level": 3,
+  "title": "Platform support",
+  "page": 9
+ },
+ {
+  "level": 4,
+  "title": "Continuous integration targets",
+  "page": 9
+ },
+ {
+  "level": 4,
+  "title": "Other platforms",
+  "page": 9
+ },
+ {
+  "level": 3,
+  "title": "Building from source",
+  "page": 11
+ },
+ {
+  "level": 4,
+  "title": "External libraries",
+  "page": 11
+ },
+ {
+  "level": 4,
+  "title": "Installing",
+  "page": 14
+ },
+ {
+  "level": 5,
+  "title": "Build options",
+  "page": 15
+ },
+ {
+  "level": 3,
+  "title": "Old versions",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "Handbook",
+  "page": 15
+ },
+ {
+  "level": 3,
+  "title": "Overview",
+  "page": 15
+ },
+ {
+  "level": 4,
+  "title": "Image archives",
+  "page": 16
+ },
+ {
+  "level": 4,
+  "title": "Image display",
+  "page": 16
+ },
+ {
+  "level": 4,
+  "title": "Image processing",
+  "page": 16
+ },
+ {
+  "level": 3,
+  "title": "Tutorial",
+  "page": 16
+ },
+ {
+  "level": 4,
+  "title": "Using the Image class",
+  "page": 16
+ },
+ {
+  "level": 4,
+  "title": "Reading and writing images",
+  "page": 17
+ },
+ {
+  "level": 5,
+  "title": "Convert files to JPEG",
+  "page": 17
+ },
+ {
+  "level": 5,
+  "title": "Create JPEG thumbnails",
+  "page": 17
+ },
+ {
+  "level": 5,
+  "title": "Identify image files",
+  "page": 18
+ },
+ {
+  "level": 4,
+  "title": "Cutting, pasting, and merging images",
+  "page": 18
+ },
+ {
+  "level": 5,
+  "title": "Copying a subrectangle from an image",
+  "page": 18
+ },
+ {
+  "level": 5,
+  "title": "Processing a subrectangle, and pasting it back",
+  "page": 19
+ },
+ {
+  "level": 5,
+  "title": "Rolling an image",
+  "page": 19
+ },
+ {
+  "level": 5,
+  "title": "Merging images",
+  "page": 19
+ },
+ {
+  "level": 5,
+  "title": "Splitting and merging bands",
+  "page": 20
+ },
+ {
+  "level": 4,
+  "title": "Geometrical transforms",
+  "page": 20
+ },
+ {
+  "level": 5,
+  "title": "Simple geometry transforms",
+  "page": 20
+ },
+ {
+  "level": 5,
+  "title": "Transposing an image",
+  "page": 20
+ },
+ {
+  "level": 4,
+  "title": "Color transforms",
+  "page": 19
+ },
+ {
+  "level": 4,
+  "title": "Image enhancement",
+  "page": 22
+ },
+ {
+  "level": 5,
+  "title": "Filters",
+  "page": 29
+ },
+ {
+  "level": 5,
+  "title": "Point operations",
+  "page": 22
+ },
+ {
+  "level": 6,
+  "title": "Applying point transforms",
+  "page": 22
+ },
+ {
+  "level": 6,
+  "title": "Processing individual bands",
+  "page": 22
+ },
+ {
+  "level": 5,
+  "title": "Enhancement",
+  "page": 22
+ },
+ {
+  "level": 6,
+  "title": "Enhancing images",
+  "page": 23
+ },
+ {
+  "level": 4,
+  "title": "Image sequences",
+  "page": 23
+ },
+ {
+  "level": 5,
+  "title": "Reading sequences",
+  "page": 23
+ },
+ {
+  "level": 5,
+  "title": "Writing sequences",
+  "page": 23
+ },
+ {
+  "level": 5,
+  "title": "Using the Iterator class",
+  "page": 24
+ },
+ {
+  "level": 4,
+  "title": "PostScript printing",
+  "page": 24
+ },
+ {
+  "level": 5,
+  "title": "Drawing PostScript",
+  "page": 24
+ },
+ {
+  "level": 4,
+  "title": "More on reading images",
+  "page": 25
+ },
+ {
+  "level": 5,
+  "title": "Reading from an open file",
+  "page": 25
+ },
+ {
+  "level": 5,
+  "title": "Reading from binary data",
+  "page": 26
+ },
+ {
+  "level": 5,
+  "title": "Reading from URL",
+  "page": 26
+ },
+ {
+  "level": 5,
+  "title": "Reading from a tar archive",
+  "page": 26
+ },
+ {
+  "level": 5,
+  "title": "Batch processing",
+  "page": 26
+ },
+ {
+  "level": 4,
+  "title": "Controlling the decoder",
+  "page": 27
+ },
+ {
+  "level": 5,
+  "title": "Reading in draft mode",
+  "page": 27
+ },
+ {
+  "level": 3,
+  "title": "Concepts",
+  "page": 27
+ },
+ {
+  "level": 4,
+  "title": "Bands",
+  "page": 27
+ },
+ {
+  "level": 4,
+  "title": "Modes",
+  "page": 27
+ },
+ {
+  "level": 4,
+  "title": "Size",
+  "page": 28
+ },
+ {
+  "level": 4,
+  "title": "Coordinate system",
+  "page": 28
+ },
+ {
+  "level": 4,
+  "title": "Palette",
+  "page": 29
+ },
+ {
+  "level": 4,
+  "title": "Colors",
+  "page": 29
+ },
+ {
+  "level": 4,
+  "title": "Info",
+  "page": 29
+ },
+ {
+  "level": 4,
+  "title": "Transparency",
+  "page": 29
+ },
+ {
+  "level": 4,
+  "title": "Orientation",
+  "page": 29
+ },
+ {
+  "level": 4,
+  "title": "Filters",
+  "page": 29
+ },
+ {
+  "level": 5,
+  "title": "Filters comparison table",
+  "page": 30
+ },
+ {
+  "level": 3,
+  "title": "Appendices",
+  "page": 30
+ },
+ {
+  "level": 4,
+  "title": "Image file formats",
+  "page": 30
+ },
+ {
+  "level": 5,
+  "title": "Fully supported formats",
+  "page": 31
+ },
+ {
+  "level": 6,
+  "title": "AVIF",
+  "page": 31
+ },
+ {
+  "level": 6,
+  "title": "Saving sequences",
+  "page": 32
+ },
+ {
+  "level": 6,
+  "title": "BLP",
+  "page": 32
+ },
+ {
+  "level": 6,
+  "title": "Saving",
+  "page": 32
+ },
+ {
+  "level": 6,
+  "title": "BMP",
+  "page": 32
+ },
+ {
+  "level": 6,
+  "title": "Opening",
+  "page": 32
+ },
+ {
+  "level": 6,
+  "title": "DDS",
+  "page": 32
+ },
+ {
+  "level": 6,
+  "title": "DIB",
+  "page": 33
+ },
+ {
+  "level": 6,
+  "title": "EPS",
+  "page": 33
+ },
+ {
+  "level": 6,
+  "title": "Loading",
+  "page": 33
+ },
+ {
+  "level": 6,
+  "title": "GIF",
+  "page": 33
+ },
+ {
+  "level": 6,
+  "title": "Opening",
+  "page": 34
+ },
+ {
+  "level": 6,
+  "title": "Reading sequences",
+  "page": 34
+ },
+ {
+  "level": 6,
+  "title": "Saving",
+  "page": 34
+ },
+ {
+  "level": 6,
+  "title": "Reading local images",
+  "page": 35
+ },
+ {
+  "level": 6,
+  "title": "ICNS",
+  "page": 36
+ },
+ {
+  "level": 6,
+  "title": "Loading",
+  "page": 36
+ },
+ {
+  "level": 6,
+  "title": "Saving",
+  "page": 36
+ },
+ {
+  "level": 6,
+  "title": "ICO",
+  "page": 36
+ },
+ {
+  "level": 6,
+  "title": "Saving",
+  "page": 36
+ },
+ {
+  "level": 6,
+  "title": "IM",
+  "page": 37
+ },
+ {
+  "level": 6,
+  "title": "JPEG",
+  "page": 37
+ },
+ {
+  "level": 6,
+  "title": "Opening",
+  "page": 37
+ },
+ {
+  "level": 6,
+  "title": "Saving",
+  "page": 38
+ },
+ {
+  "level": 6,
+  "title": "JPEG 2000",
+  "page": 39
+ },
+ {
+  "level": 6,
+  "title": "Saving",
+  "page": 40
+ },
+ {
+  "level": 6,
+  "title": "MPO",
+  "page": 41
+ },
+ {
+  "level": 6,
+  "title": "Saving",
+  "page": 41
+ },
+ {
+  "level": 6,
+  "title": "MSP",
+  "page": 41
+ },
+ {
+  "level": 6,
+  "title": "PCX",
+  "page": 41
+ },
+ {
+  "level": 6,
+  "title": "Opening",
+  "page": 42
+ },
+ {
+  "level": 6,
+  "title": "PNG",
+  "page": 42
+ },
+ {
+  "level": 6,
+  "title": "Opening",
+  "page": 42
+ },
+ {
+  "level": 6,
+  "title": "Saving",
+  "page": 42
+ },
+ {
+  "level": 6,
+  "title": "APNG sequences",
+  "page": 43
+ },
+ {
+  "level": 6,
+  "title": "Saving",
+  "page": 44
+ },
+ {
+  "level": 6,
+  "title": "PPM",
+  "page": 45
+ },
+ {
+  "level": 6,
+  "title": "QOI",
+  "page": 45
+ },
+ {
+  "level": 6,
+  "title": "Saving",
+  "page": 45
+ },
+ {
+  "level": 6,
+  "title": "SGI",
+  "page": 45
+ },
+ {
+  "level": 6,
+  "title": "SPIDER",
+  "page": 45
+ },
+ {
+  "level": 6,
+  "title": "Opening",
+  "page": 45
+ },
+ {
+  "level": 6,
+  "title": "Saving",
+  "page": 46
+ },
+ {
+  "level": 6,
+  "title": "TGA",
+  "page": 46
+ },
+ {
+  "level": 6,
+  "title": "Saving",
+  "page": 46
+ },
+ {
+  "level": 6,
+  "title": "TIFF",
+  "page": 46
+ },
+ {
+  "level": 6,
+  "title": "Opening",
+  "page": 47
+ },
+ {
+  "level": 6,
+  "title": "Reading multi-frame TIFF images",
+  "page": 47
+ },
+ {
+  "level": 6,
+  "title": "Saving",
+  "page": 47
+ },
+ {
+  "level": 6,
+  "title": "WebP",
+  "page": 49
+ },
+ {
+  "level": 6,
+  "title": "Saving",
+  "page": 49
+ },
+ {
+  "level": 6,
+  "title": "Saving sequences",
+  "page": 49
+ },
+ {
+  "level": 6,
+  "title": "XBM",
+  "page": 50
+ },
+ {
+  "level": 5,
+  "title": "Read-only formats",
+  "page": 50
+ },
+ {
+  "level": 6,
+  "title": "CUR",
+  "page": 50
+ },
+ {
+  "level": 6,
+  "title": "DCX",
+  "page": 50
+ },
+ {
+  "level": 6,
+  "title": "FITS",
+  "page": 50
+ },
+ {
+  "level": 6,
+  "title": "FLI, FLC",
+  "page": 50
+ },
+ {
+  "level": 6,
+  "title": "FPX",
+  "page": 50
+ },
+ {
+  "level": 6,
+  "title": "FTEX",
+  "page": 51
+ },
+ {
+  "level": 6,
+  "title": "GBR",
+  "page": 51
+ },
+ {
+  "level": 6,
+  "title": "Opening",
+  "page": 51
+ },
+ {
+  "level": 6,
+  "title": "GD",
+  "page": 51
+ },
+ {
+  "level": 6,
+  "title": "Opening",
+  "page": 51
+ },
+ {
+  "level": 6,
+  "title": "IMT",
+  "page": 51
+ },
+ {
+  "level": 6,
+  "title": "IPTC/NAA",
+  "page": 51
+ },
+ {
+  "level": 6,
+  "title": "MCIDAS",
+  "page": 51
+ },
+ {
+  "level": 6,
+  "title": "MIC",
+  "page": 51
+ },
+ {
+  "level": 6,
+  "title": "PCD",
+  "page": 52
+ },
+ {
+  "level": 6,
+  "title": "PIXAR",
+  "page": 52
+ },
+ {
+  "level": 6,
+  "title": "PSD",
+  "page": 52
+ },
+ {
+  "level": 6,
+  "title": "SUN",
+  "page": 52
+ },
+ {
+  "level": 6,
+  "title": "WAL",
+  "page": 52
+ },
+ {
+  "level": 6,
+  "title": "WMF, EMF",
+  "page": 52
+ },
+ {
+  "level": 6,
+  "title": "XPM",
+  "page": 53
+ },
+ {
+  "level": 6,
+  "title": "Opening",
+  "page": 53
+ },
+ {
+  "level": 6,
+  "title": "XV thumbnails",
+  "page": 53
+ },
+ {
+  "level": 5,
+  "title": "Write-only formats",
+  "page": 53
+ },
+ {
+  "level": 6,
+  "title": "PALM",
+  "page": 53
+ },
+ {
+  "level": 6,
+  "title": "PDF",
+  "page": 53
+ },
+ {
+  "level": 6,
+  "title": "Saving",
+  "page": 53
+ },
+ {
+  "level": 5,
+  "title": "Identify-only formats",
+  "page": 55
+ },
+ {
+  "level": 6,
+  "title": "BUFR",
+  "page": 55
+ },
+ {
+  "level": 6,
+  "title": "GRIB",
+  "page": 55
+ },
+ {
+  "level": 6,
+  "title": "HDF5",
+  "page": 55
+ },
+ {
+  "level": 6,
+  "title": "MPEG",
+  "page": 55
+ },
+ {
+  "level": 4,
+  "title": "Text anchors",
+  "page": 55
+ },
+ {
+  "level": 5,
+  "title": "Specifying an anchor",
+  "page": 55
+ },
+ {
+  "level": 5,
+  "title": "Quick reference",
+  "page": 56
+ },
+ {
+  "level": 5,
+  "title": "Horizontal anchor alignment",
+  "page": 56
+ },
+ {
+  "level": 5,
+  "title": "Vertical anchor alignment",
+  "page": 57
+ },
+ {
+  "level": 5,
+  "title": "Examples",
+  "page": 57
+ },
+ {
+  "level": 4,
+  "title": "Third-party plugins",
+  "page": 57
+ },
+ {
+  "level": 4,
+  "title": "Writing your own image plugin",
+  "page": 58
+ },
+ {
+  "level": 5,
+  "title": "Example",
+  "page": 58
+ },
+ {
+  "level": 5,
+  "title": "The tile attribute",
+  "page": 60
+ },
+ {
+  "level": 4,
+  "title": "Decoders",
+  "page": 60
+ },
+ {
+  "level": 5,
+  "title": "The raw decoder",
+  "page": 60
+ },
+ {
+  "level": 5,
+  "title": "Decoding floating point data",
+  "page": 61
+ },
+ {
+  "level": 5,
+  "title": "The bit decoder",
+  "page": 62
+ },
+ {
+  "level": 4,
+  "title": "Writing your own file codec in C",
+  "page": 63
+ },
+ {
+  "level": 5,
+  "title": "Setup",
+  "page": 63
+ },
+ {
+  "level": 5,
+  "title": "Transforming",
+  "page": 64
+ },
+ {
+  "level": 5,
+  "title": "Cleanup",
+  "page": 64
+ },
+ {
+  "level": 4,
+  "title": "Writing your own file codec in Python",
+  "page": 64
+ },
+ {
+  "level": 3,
+  "title": "Security",
+  "page": 64
+ },
+ {
+  "level": 4,
+  "title": "Threat model (STRIDE)",
+  "page": 65
+ },
+ {
+  "level": 5,
+  "title": "Spoofing",
+  "page": 65
+ },
+ {
+  "level": 5,
+  "title": "Tampering",
+  "page": 65
+ },
+ {
+  "level": 5,
+  "title": "Repudiation",
+  "page": 66
+ },
+ {
+  "level": 5,
+  "title": "Information disclosure",
+  "page": 66
+ },
+ {
+  "level": 5,
+  "title": "Denial of service",
+  "page": 66
+ },
+ {
+  "level": 5,
+  "title": "Elevation of privilege",
+  "page": 67
+ },
+ {
+  "level": 4,
+  "title": "Recommendations",
+  "page": 67
+ },
+ {
+  "level": 4,
+  "title": "Reporting a vulnerability",
+  "page": 68
+ },
+ {
+  "level": 2,
+  "title": "Reference",
+  "page": 68
+ },
+ {
+  "level": 3,
+  "title": "Image module",
+  "page": 68
+ },
+ {
+  "level": 4,
+  "title": "Examples",
+  "page": 68
+ },
+ {
+  "level": 5,
+  "title": "Open, rotate, and display an image (using the default viewer)",
+  "page": 68
+ },
+ {
+  "level": 5,
+  "title": "Create thumbnails",
+  "page": 68
+ },
+ {
+  "level": 4,
+  "title": "Functions",
+  "page": 69
+ },
+ {
+  "level": 5,
+  "title": "Image processing",
+  "page": 69
+ },
+ {
+  "level": 5,
+  "title": "Constructing images",
+  "page": 71
+ },
+ {
+  "level": 5,
+  "title": "Generating images",
+  "page": 73
+ },
+ {
+  "level": 5,
+  "title": "Registering plugins",
+  "page": 74
+ },
+ {
+  "level": 4,
+  "title": "The Image class",
+  "page": 75
+ },
+ {
+  "level": 4,
+  "title": "Image attributes",
+  "page": 90
+ },
+ {
+  "level": 4,
+  "title": "Classes",
+  "page": 91
+ },
+ {
+  "level": 4,
+  "title": "Protocols",
+  "page": 92
+ },
+ {
+  "level": 4,
+  "title": "Constants",
+  "page": 92
+ },
+ {
+  "level": 5,
+  "title": "Transpose methods",
+  "page": 92
+ },
+ {
+  "level": 5,
+  "title": "Transform methods",
+  "page": 93
+ },
+ {
+  "level": 5,
+  "title": "Resampling filters",
+  "page": 93
+ },
+ {
+  "level": 5,
+  "title": "Dither modes",
+  "page": 93
+ },
+ {
+  "level": 5,
+  "title": "Palettes",
+  "page": 94
+ },
+ {
+  "level": 5,
+  "title": "Quantization methods",
+  "page": 94
+ },
+ {
+  "level": 3,
+  "title": "ImageChops (“channel operations”) module",
+  "page": 94
+ },
+ {
+  "level": 4,
+  "title": "Functions",
+  "page": 94
+ },
+ {
+  "level": 3,
+  "title": "ImageCms module",
+  "page": 98
+ },
+ {
+  "level": 4,
+  "title": "Constants",
+  "page": 98
+ },
+ {
+  "level": 4,
+  "title": "Functions",
+  "page": 100
+ },
+ {
+  "level": 4,
+  "title": "CmsProfile",
+  "page": 110
+ },
+ {
+  "level": 3,
+  "title": "ImageColor module",
+  "page": 113
+ },
+ {
+  "level": 4,
+  "title": "Color names",
+  "page": 113
+ },
+ {
+  "level": 4,
+  "title": "Functions",
+  "page": 114
+ },
+ {
+  "level": 3,
+  "title": "ImageDraw module",
+  "page": 114
+ },
+ {
+  "level": 4,
+  "title": "Example: Draw a gray cross over an image",
+  "page": 114
+ },
+ {
+  "level": 4,
+  "title": "Concepts",
+  "page": 114
+ },
+ {
+  "level": 5,
+  "title": "Coordinates",
+  "page": 114
+ },
+ {
+  "level": 5,
+  "title": "Colors",
+  "page": 115
+ },
+ {
+  "level": 5,
+  "title": "Color names",
+  "page": 115
+ },
+ {
+  "level": 5,
+  "title": "Alpha channel",
+  "page": 115
+ },
+ {
+  "level": 5,
+  "title": "Fonts",
+  "page": 115
+ },
+ {
+  "level": 4,
+  "title": "Example: Draw partial opacity text",
+  "page": 116
+ },
+ {
+  "level": 4,
+  "title": "Example: Draw multiline text",
+  "page": 116
+ },
+ {
+  "level": 4,
+  "title": "Functions",
+  "page": 116
+ },
+ {
+  "level": 4,
+  "title": "Attributes",
+  "page": 117
+ },
+ {
+  "level": 4,
+  "title": "Methods",
+  "page": 117
+ },
+ {
+  "level": 3,
+  "title": "ImageEnhance module",
+  "page": 127
+ },
+ {
+  "level": 4,
+  "title": "Example: Vary the sharpness of an image",
+  "page": 127
+ },
+ {
+  "level": 4,
+  "title": "Classes",
+  "page": 127
+ },
+ {
+  "level": 3,
+  "title": "ImageFile module",
+  "page": 128
+ },
+ {
+  "level": 4,
+  "title": "Example: Parse an image",
+  "page": 128
+ },
+ {
+  "level": 4,
+  "title": "Classes",
+  "page": 128
+ },
+ {
+  "level": 4,
+  "title": "Constants",
+  "page": 132
+ },
+ {
+  "level": 3,
+  "title": "ImageFilter module",
+  "page": 132
+ },
+ {
+  "level": 4,
+  "title": "Example: Filter an image",
+  "page": 132
+ },
+ {
+  "level": 4,
+  "title": "Filters",
+  "page": 132
+ },
+ {
+  "level": 3,
+  "title": "ImageFont module",
+  "page": 135
+ },
+ {
+  "level": 4,
+  "title": "Example",
+  "page": 136
+ },
+ {
+  "level": 4,
+  "title": "Functions",
+  "page": 136
+ },
+ {
+  "level": 4,
+  "title": "Methods",
+  "page": 138
+ },
+ {
+  "level": 4,
+  "title": "Constants",
+  "page": 144
+ },
+ {
+  "level": 4,
+  "title": "Dictionaries",
+  "page": 144
+ },
+ {
+  "level": 3,
+  "title": "ImageGrab module",
+  "page": 144
+ },
+ {
+  "level": 3,
+  "title": "ImageMath module",
+  "page": 145
+ },
+ {
+  "level": 4,
+  "title": "Example: Using the ImageMath module",
+  "page": 145
+ },
+ {
+  "level": 4,
+  "title": "Expression syntax",
+  "page": 147
+ },
+ {
+  "level": 5,
+  "title": "Standard operators",
+  "page": 147
+ },
+ {
+  "level": 5,
+  "title": "Bitwise operators",
+  "page": 147
+ },
+ {
+  "level": 5,
+  "title": "Logical operators",
+  "page": 147
+ },
+ {
+  "level": 5,
+  "title": "Built-in functions",
+  "page": 147
+ },
+ {
+  "level": 3,
+  "title": "ImageMorph module",
+  "page": 148
+ },
+ {
+  "level": 3,
+  "title": "ImageOps module",
+  "page": 150
+ },
+ {
+  "level": 4,
+  "title": "Resize relative to a given size",
+  "page": 154
+ },
+ {
+  "level": 3,
+  "title": "ImagePalette module",
+  "page": 155
+ },
+ {
+  "level": 3,
+  "title": "ImagePath module",
+  "page": 157
+ },
+ {
+  "level": 3,
+  "title": "ImageQt module",
+  "page": 158
+ },
+ {
+  "level": 3,
+  "title": "ImageSequence module",
+  "page": 158
+ },
+ {
+  "level": 4,
+  "title": "Extracting frames from an animation",
+  "page": 158
+ },
+ {
+  "level": 4,
+  "title": "The Iterator class",
+  "page": 158
+ },
+ {
+  "level": 4,
+  "title": "Functions",
+  "page": 158
+ },
+ {
+  "level": 3,
+  "title": "ImageShow module",
+  "page": 159
+ },
+ {
+  "level": 3,
+  "title": "ImageStat module",
+  "page": 160
+ },
+ {
+  "level": 3,
+  "title": "ImageText module",
+  "page": 161
+ },
+ {
+  "level": 4,
+  "title": "Example",
+  "page": 161
+ },
+ {
+  "level": 4,
+  "title": "Comparison",
+  "page": 162
+ },
+ {
+  "level": 4,
+  "title": "Methods",
+  "page": 162
+ },
+ {
+  "level": 3,
+  "title": "ImageTk module",
+  "page": 164
+ },
+ {
+  "level": 3,
+  "title": "ImageTransform module",
+  "page": 165
+ },
+ {
+  "level": 3,
+  "title": "ImageWin module (Windows-only)",
+  "page": 166
+ },
+ {
+  "level": 3,
+  "title": "ExifTags module",
+  "page": 168
+ },
+ {
+  "level": 3,
+  "title": "TiffTags module",
+  "page": 169
+ },
+ {
+  "level": 3,
+  "title": "JpegPresets module",
+  "page": 170
+ },
+ {
+  "level": 4,
+  "title": "Subsampling",
+  "page": 171
+ },
+ {
+  "level": 4,
+  "title": "Quantization tables",
+  "page": 171
+ },
+ {
+  "level": 3,
+  "title": "PSDraw module",
+  "page": 171
+ },
+ {
+  "level": 3,
+  "title": "PixelAccess class",
+  "page": 172
+ },
+ {
+  "level": 4,
+  "title": "Example",
+  "page": 172
+ },
+ {
+  "level": 4,
+  "title": "PixelAccess class",
+  "page": 172
+ },
+ {
+  "level": 3,
+  "title": "features module",
+  "page": 173
+ },
+ {
+  "level": 4,
+  "title": "Modules",
+  "page": 173
+ },
+ {
+  "level": 4,
+  "title": "Codecs",
+  "page": 174
+ },
+ {
+  "level": 4,
+  "title": "Features",
+  "page": 175
+ },
+ {
+  "level": 3,
+  "title": "PIL package (autodoc of remaining modules)",
+  "page": 176
+ },
+ {
+  "level": 4,
+  "title": "PIL module",
+  "page": 176
+ },
+ {
+  "level": 4,
+  "title": "BdfFontFile module",
+  "page": 176
+ },
+ {
+  "level": 4,
+  "title": "ContainerIO module",
+  "page": 176
+ },
+ {
+  "level": 4,
+  "title": "FontFile module",
+  "page": 177
+ },
+ {
+  "level": 4,
+  "title": "GdImageFile module",
+  "page": 178
+ },
+ {
+  "level": 4,
+  "title": "GimpGradientFile module",
+  "page": 178
+ },
+ {
+  "level": 4,
+  "title": "GimpPaletteFile module",
+  "page": 179
+ },
+ {
+  "level": 4,
+  "title": "ImageDraw2 module",
+  "page": 179
+ },
+ {
+  "level": 4,
+  "title": "ImageMode module",
+  "page": 181
+ },
+ {
+  "level": 4,
+  "title": "PaletteFile module",
+  "page": 182
+ },
+ {
+  "level": 4,
+  "title": "PcfFontFile module",
+  "page": 182
+ },
+ {
+  "level": 4,
+  "title": "PngImagePlugin.iTXt class",
+  "page": 182
+ },
+ {
+  "level": 4,
+  "title": "PngImagePlugin.PngInfo class",
+  "page": 183
+ },
+ {
+  "level": 4,
+  "title": "TarIO module",
+  "page": 183
+ },
+ {
+  "level": 4,
+  "title": "WalImageFile module",
+  "page": 183
+ }
+]

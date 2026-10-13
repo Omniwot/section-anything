@@ -1,0 +1,200 @@
+[
+ {
+  "level": 1,
+  "title": "Photosynthesis",
+  "page": 1,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Overview",
+  "page": 2,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Photosynthetic membranes and organelles",
+  "page": 4,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Light-dependent reactions",
+  "page": 5,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Z scheme",
+  "page": 6,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Water photolysis",
+  "page": 6,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Light-independent reactions",
+  "page": 7,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Calvin cycle",
+  "page": 7,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Carbon concentrating mechanisms",
+  "page": 8,
+  "image_only": true
+ },
+ {
+  "level": 4,
+  "title": "On land",
+  "page": 8,
+  "image_only": true
+ },
+ {
+  "level": 4,
+  "title": "In water",
+  "page": 9,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Order and kinetics",
+  "page": 9,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Efficiency",
+  "page": 10,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Evolution",
+  "page": 11,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Symbiosis and the origin of chloroplasts",
+  "page": 12,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Photosynthetic eukaryotic lineages",
+  "page": 13,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Photosynthetic prokaryotic lineages",
+  "page": 13,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Cyanobacteria and the evolution of photosynthesis",
+  "page": 14,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Experimental history",
+  "page": 14,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Discovery",
+  "page": 14,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Refinements",
+  "page": 15,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Development of the concept",
+  "page": 16,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "C3 : C4 photosynthesis research",
+  "page": 16,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Factors",
+  "page": 17,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Light intensity (irradiance), wavelength and temperature",
+  "page": 18,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Carbon dioxide levels and photorespiration",
+  "page": 18,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "See also",
+  "page": 19,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Notes",
+  "page": 19,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "References",
+  "page": 19,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Further reading",
+  "page": 32,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Books",
+  "page": 32,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Papers",
+  "page": 32,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "External links",
+  "page": 32,
+  "image_only": true
+ }
+]

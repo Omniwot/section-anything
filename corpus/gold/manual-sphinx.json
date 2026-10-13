@@ -1,0 +1,1407 @@
+[
+ {
+  "level": 1,
+  "title": "Installing Sphinx",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "PyPI package",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "Conda package",
+  "page": 14
+ },
+ {
+  "level": 2,
+  "title": "OS-specific package manager",
+  "page": 14
+ },
+ {
+  "level": 3,
+  "title": "Linux",
+  "page": 14
+ },
+ {
+  "level": 4,
+  "title": "Debian/Ubuntu",
+  "page": 14
+ },
+ {
+  "level": 4,
+  "title": "RHEL, CentOS",
+  "page": 15
+ },
+ {
+  "level": 4,
+  "title": "Other distributions",
+  "page": 15
+ },
+ {
+  "level": 3,
+  "title": "macOS",
+  "page": 15
+ },
+ {
+  "level": 4,
+  "title": "Homebrew",
+  "page": 15
+ },
+ {
+  "level": 4,
+  "title": "MacPorts",
+  "page": 15
+ },
+ {
+  "level": 3,
+  "title": "Windows",
+  "page": 15
+ },
+ {
+  "level": 4,
+  "title": "Chocolatey",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "Docker",
+  "page": 16
+ },
+ {
+  "level": 2,
+  "title": "Installation of the latest development release",
+  "page": 16
+ },
+ {
+  "level": 2,
+  "title": "Installation from source",
+  "page": 16
+ },
+ {
+  "level": 1,
+  "title": "Getting started",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "Setting up the documentation sources",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "Defining document structure",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "Adding content",
+  "page": 20
+ },
+ {
+  "level": 2,
+  "title": "Running the build",
+  "page": 21
+ },
+ {
+  "level": 2,
+  "title": "Documenting objects",
+  "page": 21
+ },
+ {
+  "level": 2,
+  "title": "Basic configuration",
+  "page": 22
+ },
+ {
+  "level": 2,
+  "title": "Autodoc",
+  "page": 22
+ },
+ {
+  "level": 2,
+  "title": "Intersphinx",
+  "page": 23
+ },
+ {
+  "level": 2,
+  "title": "More topics to be covered",
+  "page": 23
+ },
+ {
+  "level": 1,
+  "title": "Build your first project",
+  "page": 25
+ },
+ {
+  "level": 2,
+  "title": "Getting started",
+  "page": 25
+ },
+ {
+  "level": 3,
+  "title": "Setting up your project and development environment",
+  "page": 25
+ },
+ {
+  "level": 3,
+  "title": "Creating the documentation layout",
+  "page": 26
+ },
+ {
+  "level": 2,
+  "title": "First steps to document your project using Sphinx",
+  "page": 27
+ },
+ {
+  "level": 3,
+  "title": "Building your HTML documentation",
+  "page": 27
+ },
+ {
+  "level": 3,
+  "title": "Building your documentation in other formats",
+  "page": 28
+ },
+ {
+  "level": 2,
+  "title": "More Sphinx customization",
+  "page": 28
+ },
+ {
+  "level": 3,
+  "title": "Enabling a built-in extension",
+  "page": 28
+ },
+ {
+  "level": 3,
+  "title": "Using a third-party HTML theme",
+  "page": 29
+ },
+ {
+  "level": 2,
+  "title": "Narrative documentation in Sphinx",
+  "page": 29
+ },
+ {
+  "level": 3,
+  "title": "Structuring your documentation across multiple pages",
+  "page": 29
+ },
+ {
+  "level": 3,
+  "title": "Adding cross-references",
+  "page": 31
+ },
+ {
+  "level": 2,
+  "title": "Describing code in Sphinx",
+  "page": 32
+ },
+ {
+  "level": 3,
+  "title": "Python",
+  "page": 32
+ },
+ {
+  "level": 4,
+  "title": "Documenting Python objects",
+  "page": 32
+ },
+ {
+  "level": 4,
+  "title": "Cross-referencing Python objects",
+  "page": 33
+ },
+ {
+  "level": 4,
+  "title": "Including doctests in your documentation",
+  "page": 34
+ },
+ {
+  "level": 3,
+  "title": "Other languages (C, C++, others)",
+  "page": 36
+ },
+ {
+  "level": 4,
+  "title": "Documenting and cross-referencing objects",
+  "page": 36
+ },
+ {
+  "level": 2,
+  "title": "Automatic documentation generation from code",
+  "page": 37
+ },
+ {
+  "level": 3,
+  "title": "Reusing signatures and docstrings with autodoc",
+  "page": 37
+ },
+ {
+  "level": 3,
+  "title": "Generating comprehensive API references",
+  "page": 38
+ },
+ {
+  "level": 2,
+  "title": "Appendix: Deploying a Sphinx project online",
+  "page": 39
+ },
+ {
+  "level": 3,
+  "title": "Sphinx-friendly deployment options",
+  "page": 40
+ },
+ {
+  "level": 3,
+  "title": "Embracing the “Docs as Code” philosophy",
+  "page": 40
+ },
+ {
+  "level": 3,
+  "title": "Publishing your documentation sources",
+  "page": 40
+ },
+ {
+  "level": 4,
+  "title": "GitHub",
+  "page": 40
+ },
+ {
+  "level": 4,
+  "title": "GitLab",
+  "page": 41
+ },
+ {
+  "level": 3,
+  "title": "Publishing your HTML documentation",
+  "page": 41
+ },
+ {
+  "level": 4,
+  "title": "Read the Docs",
+  "page": 41
+ },
+ {
+  "level": 4,
+  "title": "GitHub Pages",
+  "page": 42
+ },
+ {
+  "level": 4,
+  "title": "GitLab Pages",
+  "page": 43
+ },
+ {
+  "level": 2,
+  "title": "Where to go from here",
+  "page": 44
+ },
+ {
+  "level": 1,
+  "title": "Using Sphinx",
+  "page": 45
+ },
+ {
+  "level": 2,
+  "title": "reStructuredText",
+  "page": 45
+ },
+ {
+  "level": 3,
+  "title": "reStructuredText Primer",
+  "page": 45
+ },
+ {
+  "level": 4,
+  "title": "Paragraphs",
+  "page": 45
+ },
+ {
+  "level": 4,
+  "title": "Inline markup",
+  "page": 45
+ },
+ {
+  "level": 4,
+  "title": "Lists and Quote-like blocks",
+  "page": 46
+ },
+ {
+  "level": 4,
+  "title": "Literal blocks",
+  "page": 47
+ },
+ {
+  "level": 4,
+  "title": "Doctest blocks",
+  "page": 47
+ },
+ {
+  "level": 4,
+  "title": "Tables",
+  "page": 48
+ },
+ {
+  "level": 4,
+  "title": "Hyperlinks",
+  "page": 48
+ },
+ {
+  "level": 5,
+  "title": "External links",
+  "page": 48
+ },
+ {
+  "level": 5,
+  "title": "Internal links",
+  "page": 49
+ },
+ {
+  "level": 4,
+  "title": "Sections",
+  "page": 49
+ },
+ {
+  "level": 4,
+  "title": "Field Lists",
+  "page": 49
+ },
+ {
+  "level": 4,
+  "title": "Roles",
+  "page": 50
+ },
+ {
+  "level": 4,
+  "title": "Explicit Markup",
+  "page": 50
+ },
+ {
+  "level": 4,
+  "title": "Directives",
+  "page": 50
+ },
+ {
+  "level": 4,
+  "title": "Images",
+  "page": 53
+ },
+ {
+  "level": 4,
+  "title": "Footnotes",
+  "page": 54
+ },
+ {
+  "level": 4,
+  "title": "Citations",
+  "page": 54
+ },
+ {
+  "level": 4,
+  "title": "Substitutions",
+  "page": 54
+ },
+ {
+  "level": 4,
+  "title": "Comments",
+  "page": 54
+ },
+ {
+  "level": 4,
+  "title": "HTML Metadata",
+  "page": 55
+ },
+ {
+  "level": 4,
+  "title": "Source encoding",
+  "page": 55
+ },
+ {
+  "level": 4,
+  "title": "Gotchas",
+  "page": 55
+ },
+ {
+  "level": 3,
+  "title": "Roles",
+  "page": 56
+ },
+ {
+  "level": 4,
+  "title": "Cross-references",
+  "page": 56
+ },
+ {
+  "level": 4,
+  "title": "Inline code highlighting",
+  "page": 56
+ },
+ {
+  "level": 4,
+  "title": "Math",
+  "page": 57
+ },
+ {
+  "level": 4,
+  "title": "Other semantic markup",
+  "page": 57
+ },
+ {
+  "level": 4,
+  "title": "Substitutions",
+  "page": 60
+ },
+ {
+  "level": 3,
+  "title": "Directives",
+  "page": 60
+ },
+ {
+  "level": 4,
+  "title": "Table of contents",
+  "page": 60
+ },
+ {
+  "level": 5,
+  "title": "Special names",
+  "page": 63
+ },
+ {
+  "level": 4,
+  "title": "Paragraph-level markup",
+  "page": 64
+ },
+ {
+  "level": 5,
+  "title": "Admonitions, messages, and warnings",
+  "page": 64
+ },
+ {
+  "level": 5,
+  "title": "Describing changes between versions",
+  "page": 68
+ },
+ {
+  "level": 5,
+  "title": "Presentational",
+  "page": 69
+ },
+ {
+  "level": 4,
+  "title": "Showing code examples",
+  "page": 70
+ },
+ {
+  "level": 4,
+  "title": "Glossary",
+  "page": 76
+ },
+ {
+  "level": 4,
+  "title": "Meta-information markup",
+  "page": 77
+ },
+ {
+  "level": 4,
+  "title": "Index-generating markup",
+  "page": 77
+ },
+ {
+  "level": 4,
+  "title": "Including content based on tags",
+  "page": 79
+ },
+ {
+  "level": 4,
+  "title": "Tables",
+  "page": 80
+ },
+ {
+  "level": 4,
+  "title": "Math",
+  "page": 82
+ },
+ {
+  "level": 4,
+  "title": "Grammar production displays",
+  "page": 83
+ },
+ {
+  "level": 3,
+  "title": "Field Lists",
+  "page": 84
+ },
+ {
+  "level": 4,
+  "title": "File-wide metadata",
+  "page": 84
+ },
+ {
+  "level": 4,
+  "title": "Special metadata fields",
+  "page": 85
+ },
+ {
+  "level": 3,
+  "title": "MOVED: Domains",
+  "page": 85
+ },
+ {
+  "level": 4,
+  "title": "MOVED: Basic Markup",
+  "page": 85
+ },
+ {
+  "level": 2,
+  "title": "Markdown",
+  "page": 87
+ },
+ {
+  "level": 3,
+  "title": "Configuration",
+  "page": 90
+ },
+ {
+  "level": 2,
+  "title": "Cross-references",
+  "page": 87
+ },
+ {
+  "level": 3,
+  "title": "Syntax",
+  "page": 87
+ },
+ {
+  "level": 3,
+  "title": "Cross-referencing objects",
+  "page": 87
+ },
+ {
+  "level": 3,
+  "title": "Cross-referencing arbitrary locations",
+  "page": 88
+ },
+ {
+  "level": 3,
+  "title": "Cross-referencing documents",
+  "page": 89
+ },
+ {
+  "level": 3,
+  "title": "Referencing downloadable files",
+  "page": 89
+ },
+ {
+  "level": 3,
+  "title": "Cross-referencing figures by figure number",
+  "page": 89
+ },
+ {
+  "level": 3,
+  "title": "Cross-referencing other items of interest",
+  "page": 90
+ },
+ {
+  "level": 3,
+  "title": "Cross-referencing anything",
+  "page": 90
+ },
+ {
+  "level": 2,
+  "title": "Configuration",
+  "page": 91
+ },
+ {
+  "level": 3,
+  "title": "Project tags",
+  "page": 91
+ },
+ {
+  "level": 3,
+  "title": "Project information",
+  "page": 92
+ },
+ {
+  "level": 3,
+  "title": "General configuration",
+  "page": 93
+ },
+ {
+  "level": 4,
+  "title": "Options for figure numbering",
+  "page": 95
+ },
+ {
+  "level": 4,
+  "title": "Options for highlighting",
+  "page": 96
+ },
+ {
+  "level": 4,
+  "title": "Options for HTTP requests",
+  "page": 97
+ },
+ {
+  "level": 4,
+  "title": "Options for internationalisation",
+  "page": 98
+ },
+ {
+  "level": 4,
+  "title": "Options for markup",
+  "page": 103
+ },
+ {
+  "level": 4,
+  "title": "Options for Maths",
+  "page": 105
+ },
+ {
+  "level": 4,
+  "title": "Options for the nitpicky mode",
+  "page": 106
+ },
+ {
+  "level": 4,
+  "title": "Options for object signatures",
+  "page": 107
+ },
+ {
+  "level": 4,
+  "title": "Options for source files",
+  "page": 109
+ },
+ {
+  "level": 4,
+  "title": "Options for smart quotes",
+  "page": 111
+ },
+ {
+  "level": 4,
+  "title": "Options for templating",
+  "page": 112
+ },
+ {
+  "level": 4,
+  "title": "Options for warning control",
+  "page": 113
+ },
+ {
+  "level": 3,
+  "title": "Builder options",
+  "page": 115
+ },
+ {
+  "level": 4,
+  "title": "Options for HTML output",
+  "page": 115
+ },
+ {
+  "level": 4,
+  "title": "Options for Single HTML output",
+  "page": 129
+ },
+ {
+  "level": 4,
+  "title": "Options for HTML help output",
+  "page": 129
+ },
+ {
+  "level": 4,
+  "title": "Options for Apple Help output",
+  "page": 129
+ },
+ {
+  "level": 4,
+  "title": "Options for EPUB output",
+  "page": 133
+ },
+ {
+  "level": 4,
+  "title": "Options for LaTeX output",
+  "page": 139
+ },
+ {
+  "level": 4,
+  "title": "Options for text output",
+  "page": 147
+ },
+ {
+  "level": 4,
+  "title": "Options for manual page output",
+  "page": 148
+ },
+ {
+  "level": 4,
+  "title": "Options for Texinfo output",
+  "page": 149
+ },
+ {
+  "level": 4,
+  "title": "Options for QtHelp output",
+  "page": 151
+ },
+ {
+  "level": 4,
+  "title": "Options for XML output",
+  "page": 152
+ },
+ {
+  "level": 4,
+  "title": "Options for the linkcheck builder",
+  "page": 152
+ },
+ {
+  "level": 5,
+  "title": "Filtering",
+  "page": 152
+ },
+ {
+  "level": 5,
+  "title": "HTTP Requests",
+  "page": 154
+ },
+ {
+  "level": 3,
+  "title": "Domain options",
+  "page": 157
+ },
+ {
+  "level": 4,
+  "title": "Options for the C domain",
+  "page": 157
+ },
+ {
+  "level": 4,
+  "title": "Options for the C++ domain",
+  "page": 159
+ },
+ {
+  "level": 4,
+  "title": "Options for the Javascript domain",
+  "page": 160
+ },
+ {
+  "level": 4,
+  "title": "Options for the Python domain",
+  "page": 160
+ },
+ {
+  "level": 5,
+  "title": "Examples",
+  "page": 161
+ },
+ {
+  "level": 3,
+  "title": "Extension options",
+  "page": 163
+ },
+ {
+  "level": 3,
+  "title": "Example configuration file",
+  "page": 163
+ },
+ {
+  "level": 2,
+  "title": "Builders",
+  "page": 163
+ },
+ {
+  "level": 3,
+  "title": "Serialization builder details",
+  "page": 173
+ },
+ {
+  "level": 2,
+  "title": "Domains",
+  "page": 174
+ },
+ {
+  "level": 3,
+  "title": "Built-in domains",
+  "page": 174
+ },
+ {
+  "level": 4,
+  "title": "The Standard Domain",
+  "page": 174
+ },
+ {
+  "level": 4,
+  "title": "The C Domain",
+  "page": 176
+ },
+ {
+  "level": 5,
+  "title": "Cross-referencing C constructs",
+  "page": 178
+ },
+ {
+  "level": 5,
+  "title": "Anonymous Entities",
+  "page": 178
+ },
+ {
+  "level": 5,
+  "title": "Aliasing Declarations",
+  "page": 179
+ },
+ {
+  "level": 5,
+  "title": "Inline Expressions and Types",
+  "page": 180
+ },
+ {
+  "level": 5,
+  "title": "Namespacing",
+  "page": 180
+ },
+ {
+  "level": 5,
+  "title": "Configuration Variables",
+  "page": 181
+ },
+ {
+  "level": 4,
+  "title": "The C++ Domain",
+  "page": 181
+ },
+ {
+  "level": 5,
+  "title": "Directives for Declaring Entities",
+  "page": 181
+ },
+ {
+  "level": 6,
+  "title": "Options",
+  "page": 185
+ },
+ {
+  "level": 5,
+  "title": "Anonymous Entities",
+  "page": 185
+ },
+ {
+  "level": 5,
+  "title": "Aliasing Declarations",
+  "page": 186
+ },
+ {
+  "level": 5,
+  "title": "Constrained Templates",
+  "page": 187
+ },
+ {
+  "level": 6,
+  "title": "Placeholders",
+  "page": 187
+ },
+ {
+  "level": 6,
+  "title": "Template Introductions",
+  "page": 187
+ },
+ {
+  "level": 5,
+  "title": "Inline Expressions and Types",
+  "page": 188
+ },
+ {
+  "level": 5,
+  "title": "Namespacing",
+  "page": 188
+ },
+ {
+  "level": 5,
+  "title": "Info field lists",
+  "page": 189
+ },
+ {
+  "level": 5,
+  "title": "Cross-referencing",
+  "page": 190
+ },
+ {
+  "level": 6,
+  "title": "Declarations without template parameters and template arguments",
+  "page": 190
+ },
+ {
+  "level": 6,
+  "title": "Overloaded (member) functions",
+  "page": 190
+ },
+ {
+  "level": 6,
+  "title": "Templated declarations",
+  "page": 191
+ },
+ {
+  "level": 6,
+  "title": "(Full) Template Specialisations",
+  "page": 191
+ },
+ {
+  "level": 6,
+  "title": "Partial Template Specialisations",
+  "page": 182
+ },
+ {
+  "level": 5,
+  "title": "Configuration Variables",
+  "page": 181
+ },
+ {
+  "level": 4,
+  "title": "The JavaScript Domain",
+  "page": 160
+ },
+ {
+  "level": 4,
+  "title": "The Mathematics Domain",
+  "page": 194
+ },
+ {
+  "level": 4,
+  "title": "The Python Domain",
+  "page": 194
+ },
+ {
+  "level": 5,
+  "title": "Python Signatures",
+  "page": 201
+ },
+ {
+  "level": 5,
+  "title": "Info field lists",
+  "page": 202
+ },
+ {
+  "level": 5,
+  "title": "Cross-referencing Python objects",
+  "page": 204
+ },
+ {
+  "level": 6,
+  "title": "Target specification",
+  "page": 205
+ },
+ {
+  "level": 6,
+  "title": "Target resolution",
+  "page": 205
+ },
+ {
+  "level": 4,
+  "title": "The reStructuredText Domain",
+  "page": 205
+ },
+ {
+  "level": 3,
+  "title": "Third-party domains",
+  "page": 207
+ },
+ {
+  "level": 3,
+  "title": "Basic Markup",
+  "page": 208
+ },
+ {
+  "level": 4,
+  "title": "Cross-referencing syntax",
+  "page": 209
+ },
+ {
+  "level": 2,
+  "title": "Extensions",
+  "page": 210
+ },
+ {
+  "level": 3,
+  "title": "Built-in extensions",
+  "page": 210
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.apidoc – Generate API documentation from Python packages",
+  "page": 210
+ },
+ {
+  "level": 5,
+  "title": "Configuration",
+  "page": 210
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.autodoc – Include documentation from docstrings",
+  "page": 213
+ },
+ {
+  "level": 5,
+  "title": "Getting started",
+  "page": 213
+ },
+ {
+  "level": 6,
+  "title": "Setup",
+  "page": 213
+ },
+ {
+  "level": 6,
+  "title": "Ensuring the code can be imported",
+  "page": 214
+ },
+ {
+  "level": 6,
+  "title": "Usage",
+  "page": 214
+ },
+ {
+  "level": 6,
+  "title": "Marking objects as public or private",
+  "page": 214
+ },
+ {
+  "level": 6,
+  "title": "Doc comments and docstrings",
+  "page": 215
+ },
+ {
+  "level": 5,
+  "title": "Directives",
+  "page": 216
+ },
+ {
+  "level": 6,
+  "title": "Default directive options",
+  "page": 216
+ },
+ {
+  "level": 6,
+  "title": "Automatically document modules",
+  "page": 217
+ },
+ {
+  "level": 6,
+  "title": "Automatically document classes or exceptions",
+  "page": 220
+ },
+ {
+  "level": 6,
+  "title": "Automatically document function-like objects",
+  "page": 223
+ },
+ {
+  "level": 6,
+  "title": "Automatically document attributes or data",
+  "page": 224
+ },
+ {
+  "level": 6,
+  "title": "Automatically document type aliases",
+  "page": 225
+ },
+ {
+  "level": 5,
+  "title": "Configuration",
+  "page": 226
+ },
+ {
+  "level": 5,
+  "title": "Docstring preprocessing",
+  "page": 232
+ },
+ {
+  "level": 5,
+  "title": "Skipping members",
+  "page": 234
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.autosectionlabel – Allow referencing sections by their title",
+  "page": 234
+ },
+ {
+  "level": 5,
+  "title": "Configuration",
+  "page": 235
+ },
+ {
+  "level": 5,
+  "title": "Debugging",
+  "page": 235
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.autosummary – Generate autodoc summaries",
+  "page": 235
+ },
+ {
+  "level": 5,
+  "title": "sphinx-autogen – generate autodoc stub pages",
+  "page": 237
+ },
+ {
+  "level": 5,
+  "title": "Generating stub pages automatically",
+  "page": 238
+ },
+ {
+  "level": 5,
+  "title": "Customizing templates",
+  "page": 239
+ },
+ {
+  "level": 5,
+  "title": "Autolink role",
+  "page": 241
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.coverage – Collect doc coverage stats",
+  "page": 241
+ },
+ {
+  "level": 5,
+  "title": "Builder",
+  "page": 242
+ },
+ {
+  "level": 5,
+  "title": "Configuration",
+  "page": 242
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.doctest – Test snippets in the documentation",
+  "page": 245
+ },
+ {
+  "level": 5,
+  "title": "Directives",
+  "page": 245
+ },
+ {
+  "level": 5,
+  "title": "Skipping tests conditionally",
+  "page": 248
+ },
+ {
+  "level": 5,
+  "title": "Configuration",
+  "page": 249
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.duration – Measure durations of Sphinx processing",
+  "page": 252
+ },
+ {
+  "level": 5,
+  "title": "Configuration",
+  "page": 252
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.extlinks – Markup to shorten external links",
+  "page": 253
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.githubpages – Publish HTML docs in GitHub Pages",
+  "page": 254
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.graphviz – Add Graphviz graphs",
+  "page": 254
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.ifconfig – Include content based on configuration",
+  "page": 258
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.imgconverter – A reference image converter using Imagemagick",
+  "page": 258
+ },
+ {
+  "level": 5,
+  "title": "Configuration",
+  "page": 259
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.inheritance_diagram – Include inheritance diagrams",
+  "page": 259
+ },
+ {
+  "level": 5,
+  "title": "Examples",
+  "page": 261
+ },
+ {
+  "level": 5,
+  "title": "Configuration",
+  "page": 262
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.intersphinx – Link to other projects’ documentation",
+  "page": 263
+ },
+ {
+  "level": 5,
+  "title": "Configuration",
+  "page": 263
+ },
+ {
+  "level": 5,
+  "title": "Explicitly Reference External Objects",
+  "page": 266
+ },
+ {
+  "level": 5,
+  "title": "Showing all links of an Intersphinx mapping file",
+  "page": 266
+ },
+ {
+  "level": 5,
+  "title": "Using Intersphinx with inventory file under Basic Authorization",
+  "page": 266
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.linkcode – Add external links to source code",
+  "page": 266
+ },
+ {
+  "level": 5,
+  "title": "Configuration",
+  "page": 266
+ },
+ {
+  "level": 5,
+  "title": "Third-party domains",
+  "page": 267
+ },
+ {
+  "level": 4,
+  "title": "Math support for HTML outputs in Sphinx",
+  "page": 267
+ },
+ {
+  "level": 5,
+  "title": "sphinx.ext.imgmath – Render math as images",
+  "page": 268
+ },
+ {
+  "level": 5,
+  "title": "sphinx.ext.mathjax – Render math via JavaScript",
+  "page": 271
+ },
+ {
+  "level": 5,
+  "title": "sphinxcontrib.jsmath – Render math via JavaScript",
+  "page": 274
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.napoleon – Support for NumPy and Google style docstrings",
+  "page": 274
+ },
+ {
+  "level": 5,
+  "title": "Overview",
+  "page": 274
+ },
+ {
+  "level": 6,
+  "title": "Getting Started",
+  "page": 275
+ },
+ {
+  "level": 6,
+  "title": "Docstrings",
+  "page": 275
+ },
+ {
+  "level": 6,
+  "title": "Docstring Sections",
+  "page": 276
+ },
+ {
+  "level": 6,
+  "title": "Google vs NumPy",
+  "page": 277
+ },
+ {
+  "level": 6,
+  "title": "Type Annotations",
+  "page": 278
+ },
+ {
+  "level": 5,
+  "title": "Configuration",
+  "page": 279
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.todo – Support for todo items",
+  "page": 286
+ },
+ {
+  "level": 5,
+  "title": "Configuration",
+  "page": 286
+ },
+ {
+  "level": 4,
+  "title": "sphinx.ext.viewcode – Add links to highlighted source code",
+  "page": 287
+ },
+ {
+  "level": 5,
+  "title": "Configuration",
+  "page": 287
+ },
+ {
+  "level": 3,
+  "title": "Third-party extensions",
+  "page": 288
+ },
+ {
+  "level": 4,
+  "title": "Where to put your own extensions?",
+  "page": 289
+ },
+ {
+  "level": 2,
+  "title": "HTML theming",
+  "page": 289
+ },
+ {
+  "level": 3,
+  "title": "Builders",
+  "page": 289
+ },
+ {
+  "level": 3,
+  "title": "Themes",
+  "page": 289
+ },
+ {
+  "level": 4,
+  "title": "Using a theme",
+  "page": 289
+ },
+ {
+  "level": 4,
+  "title": "Builtin themes",
+  "page": 290
+ }
+]

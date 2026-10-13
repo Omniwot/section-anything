@@ -1,0 +1,177 @@
+[
+ {
+  "level": 1,
+  "title": "1 Lateral Maintenance at Scale",
+  "page": 1
+ },
+ {
+  "level": 2,
+  "title": "1.1 Adaptive Survey Design",
+  "page": 1
+ },
+ {
+  "level": 2,
+  "title": "1.2 Field Calibration in Practice",
+  "page": 1
+ },
+ {
+  "level": 2,
+  "title": "1.3 Hydraulic Fatigue",
+  "page": 2
+ },
+ {
+  "level": 2,
+  "title": "1.4 Acoustic Water Balance",
+  "page": 2
+ },
+ {
+  "level": 2,
+  "title": "1.5 Comparative Survey Design",
+  "page": 3
+ },
+ {
+  "level": 2,
+  "title": "1.6 Comparative Survey Design in Practice",
+  "page": 3
+ },
+ {
+  "level": 1,
+  "title": "2 Hydraulic Survey Design",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "2.1 Thermal Coverage for Small Sites",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "2.2 Primary Material Selection for Small Sites",
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "2.3 Seasonal Sampling and Its Limits",
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "2.4 Urban Drift at Scale",
+  "page": 6
+ },
+ {
+  "level": 2,
+  "title": "2.5 Thermal Retrofits",
+  "page": 6
+ },
+ {
+  "level": 2,
+  "title": "2.6 Residual Retrofits for Small Sites",
+  "page": 7
+ },
+ {
+  "level": 1,
+  "title": "3 Structural Scheduling for Small Sites",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "3.1 Secondary Data Quality for Small Sites",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "3.2 Field Load Paths and Its Limits",
+  "page": 8
+ },
+ {
+  "level": 2,
+  "title": "3.3 Long-term Benchmarks under Load",
+  "page": 9
+ },
+ {
+  "level": 2,
+  "title": "3.4 Regional Coverage at Scale",
+  "page": 9
+ },
+ {
+  "level": 1,
+  "title": "4 Coastal Fatigue under Load",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "4.1 Optical Interpolation in Practice",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "4.2 Long-term Uncertainty",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "4.3 Long-term Sampling Revisited",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "4.4 Seasonal Data Quality under Load",
+  "page": 12
+ },
+ {
+  "level": 1,
+  "title": "5 Optical Fatigue and Its Limits",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "5.1 Field Survey Design under Load",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "5.2 Lateral Data Quality at Scale",
+  "page": 14
+ },
+ {
+  "level": 2,
+  "title": "5.3 Adaptive Benchmarks for Small Sites",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "5.4 Lateral Benchmarks for Small Sites",
+  "page": 15
+ },
+ {
+  "level": 2,
+  "title": "5.5 Field Fatigue for Small Sites",
+  "page": 16
+ },
+ {
+  "level": 1,
+  "title": "6 Coastal Maintenance and Its Limits",
+  "page": 17
+ },
+ {
+  "level": 2,
+  "title": "6.1 Acoustic Maintenance for Small Sites",
+  "page": 17
+ },
+ {
+  "level": 2,
+  "title": "6.2 Coastal Material Selection and Its Limits",
+  "page": 18
+ },
+ {
+  "level": 2,
+  "title": "6.3 Hydraulic Survey Design at Scale",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "6.4 Lateral Drift in Practice",
+  "page": 20
+ }
+]

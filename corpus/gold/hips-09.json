@@ -1,0 +1,1022 @@
+[
+ {
+  "level": 2,
+  "title": "Chapter 1 Study Structure",
+  "page": 13
+ },
+ {
+  "level": 3,
+  "title": "A. Project Summary",
+  "page": 13
+ },
+ {
+  "level": 3,
+  "title": "B. Research Activities",
+  "page": 15
+ },
+ {
+  "level": 3,
+  "title": "C. General Overview of the Study",
+  "page": 16
+ },
+ {
+  "level": 2,
+  "title": "Chapter 2 Country Studies on Consumer Data Protection (Brazil, China, Germany) and International Initiatives",
+  "page": 19
+ },
+ {
+  "level": 3,
+  "title": "A. Consumer Data Protection in Brazil (Prof. Dr. Danilo Doneda)",
+  "page": 19
+ },
+ {
+  "level": 4,
+  "title": "I. Introduction",
+  "page": 19
+ },
+ {
+  "level": 4,
+  "title": "II. Overview and scope of legislation addressing consumer data protection",
+  "page": 20
+ },
+ {
+  "level": 5,
+  "title": "1. Character of legislation",
+  "page": 20
+ },
+ {
+  "level": 5,
+  "title": "2. General legal framework for consumer data protection",
+  "page": 23
+ },
+ {
+  "level": 5,
+  "title": "3. Telecommunication",
+  "page": 23
+ },
+ {
+  "level": 5,
+  "title": "4. Banks",
+  "page": 24
+ },
+ {
+  "level": 5,
+  "title": "5. Media-related acts",
+  "page": 24
+ },
+ {
+  "level": 5,
+  "title": "6. Specific acts for e-commerce",
+  "page": 24
+ },
+ {
+  "level": 4,
+  "title": "III. Applicability of data protection acts",
+  "page": 25
+ },
+ {
+  "level": 4,
+  "title": "IV. Definitions of consumer and data",
+  "page": 26
+ },
+ {
+  "level": 4,
+  "title": "V. General guiding principles",
+  "page": 28
+ },
+ {
+  "level": 4,
+  "title": "VI. Collecting, storing and processing consumer data",
+  "page": 30
+ },
+ {
+  "level": 4,
+  "title": "VII. Approaches to consent",
+  "page": 30
+ },
+ {
+  "level": 4,
+  "title": "VIII. Publicity and transparency",
+  "page": 31
+ },
+ {
+  "level": 4,
+  "title": "IX. Data security",
+  "page": 32
+ },
+ {
+  "level": 4,
+  "title": "X. Data control, data portability and the right to access, modify and delete collected data",
+  "page": 32
+ },
+ {
+  "level": 4,
+  "title": "XI. Roles and responsibilities of intermediaries",
+  "page": 33
+ },
+ {
+  "level": 4,
+  "title": "XII. Access to user data by third parties",
+  "page": 34
+ },
+ {
+  "level": 4,
+  "title": "XIII. Provisions on data retention",
+  "page": 34
+ },
+ {
+  "level": 4,
+  "title": "XIV. Transfer of data on an international scale, transfer to third countries and requirements for data transfer outside the country",
+  "page": 36
+ },
+ {
+  "level": 4,
+  "title": "XV. Enforcement",
+  "page": 36
+ },
+ {
+  "level": 5,
+  "title": "1. Civil law",
+  "page": 38
+ },
+ {
+  "level": 5,
+  "title": "2. Criminal law",
+  "page": 39
+ },
+ {
+  "level": 5,
+  "title": "3. Administrative law",
+  "page": 39
+ },
+ {
+  "level": 4,
+  "title": "XVI. Role of self-regulation and co-regulation",
+  "page": 40
+ },
+ {
+  "level": 3,
+  "title": "B. Consumer Data Protection in China (Prof. Dr. Zhou Hanhua)",
+  "page": 41
+ },
+ {
+  "level": 4,
+  "title": "I. Introduction",
+  "page": 41
+ },
+ {
+  "level": 4,
+  "title": "II. Overview and scope of legislation addressing consumer data protection",
+  "page": 42
+ },
+ {
+  "level": 5,
+  "title": "1. Character of the legislation",
+  "page": 42
+ },
+ {
+  "level": 5,
+  "title": "2. General legal framework for consumer data protection",
+  "page": 47
+ },
+ {
+  "level": 5,
+  "title": "3. Telecommunication",
+  "page": 50
+ },
+ {
+  "level": 5,
+  "title": "4. Banks",
+  "page": 51
+ },
+ {
+  "level": 5,
+  "title": "5. Media-related acts",
+  "page": 53
+ },
+ {
+  "level": 5,
+  "title": "6. Specific acts for e-commerce",
+  "page": 54
+ },
+ {
+  "level": 4,
+  "title": "III. Applicability of data protection acts",
+  "page": 55
+ },
+ {
+  "level": 4,
+  "title": "IV. Definition of consumer and data",
+  "page": 56
+ },
+ {
+  "level": 4,
+  "title": "V. General guiding principles",
+  "page": 57
+ },
+ {
+  "level": 4,
+  "title": "VI. Collecting, storing and processing consumer data",
+  "page": 59
+ },
+ {
+  "level": 4,
+  "title": "VII. Approaches to consent",
+  "page": 60
+ },
+ {
+  "level": 4,
+  "title": "VIII. Publicity and transparency",
+  "page": 62
+ },
+ {
+  "level": 4,
+  "title": "IX. Data security",
+  "page": 63
+ },
+ {
+  "level": 4,
+  "title": "X. Data control, data portability and the right to access, modify and delete collected data",
+  "page": 64
+ },
+ {
+  "level": 4,
+  "title": "XI. Roles and responsibilities of intermediaries",
+  "page": 65
+ },
+ {
+  "level": 4,
+  "title": "XII. Access to user data by third parties",
+  "page": 68
+ },
+ {
+  "level": 4,
+  "title": "XIII. Provisions on data retention",
+  "page": 69
+ },
+ {
+  "level": 4,
+  "title": "XIV. Transfer of data on an international scale, transfer to third countries and requirements for data transfer outside the country",
+  "page": 70
+ },
+ {
+  "level": 4,
+  "title": "XV. Enforcement",
+  "page": 70
+ },
+ {
+  "level": 5,
+  "title": "1. Civil law",
+  "page": 70
+ },
+ {
+  "level": 5,
+  "title": "2. Criminal law",
+  "page": 72
+ },
+ {
+  "level": 5,
+  "title": "3. Administrative law",
+  "page": 74
+ },
+ {
+  "level": 4,
+  "title": "XVI. Role of self-regulation and co-regulation",
+  "page": 76
+ },
+ {
+  "level": 3,
+  "title": "C. Consumer Data Protection in Germany (Prof. Dr. Gerald Spindler)",
+  "page": 77
+ },
+ {
+  "level": 4,
+  "title": "I. Introduction",
+  "page": 77
+ },
+ {
+  "level": 4,
+  "title": "II. Overview and scope of legislation addressing consumer data protection",
+  "page": 78
+ },
+ {
+  "level": 5,
+  "title": "1. Character of the legislation",
+  "page": 78
+ },
+ {
+  "level": 5,
+  "title": "2. General legal framework for consumer data protection",
+  "page": 82
+ },
+ {
+  "level": 5,
+  "title": "3. Telecommunication",
+  "page": 82
+ },
+ {
+  "level": 5,
+  "title": "4. Specific acts for e-commerce",
+  "page": 82
+ },
+ {
+  "level": 4,
+  "title": "III. Applicability of data protection acts",
+  "page": 83
+ },
+ {
+  "level": 4,
+  "title": "IV. Definitions of consumer and data",
+  "page": 87
+ },
+ {
+  "level": 5,
+  "title": "1. Personal data under the Data Protection Directive",
+  "page": 88
+ },
+ {
+  "level": 6,
+  "title": "a. Definition of personal data",
+  "page": 88
+ },
+ {
+  "level": 6,
+  "title": "b. Anonymized, pseudonymized and encrypted data",
+  "page": 88
+ },
+ {
+  "level": 6,
+  "title": "c. Absolute and relative approach to the identifiablity of persons",
+  "page": 89
+ },
+ {
+  "level": 5,
+  "title": "2. Personal data under the General Data Protection Regulation",
+  "page": 94
+ },
+ {
+  "level": 4,
+  "title": "V. Basic concepts",
+  "page": 97
+ },
+ {
+  "level": 4,
+  "title": "VI. Collecting, storing and processing consumer data",
+  "page": 100
+ },
+ {
+  "level": 4,
+  "title": "VII. Approaches to consent",
+  "page": 101
+ },
+ {
+  "level": 5,
+  "title": "1. Informed consent according to the Data Protection Directive",
+  "page": 102
+ },
+ {
+  "level": 5,
+  "title": "2. Informed consent and obligation of transparency under the General Data Protection Regulation",
+  "page": 103
+ },
+ {
+  "level": 4,
+  "title": "VIII. Publicity and transparency",
+  "page": 105
+ },
+ {
+  "level": 5,
+  "title": "1. Information",
+  "page": 105
+ },
+ {
+  "level": 5,
+  "title": "2. Notification",
+  "page": 106
+ },
+ {
+  "level": 5,
+  "title": "3. Privacy by design and default",
+  "page": 106
+ },
+ {
+  "level": 5,
+  "title": "4. Privacy seal",
+  "page": 107
+ },
+ {
+  "level": 4,
+  "title": "IX. Data security",
+  "page": 108
+ },
+ {
+  "level": 4,
+  "title": "X. Data control, data portability and the right to access, modify and delete data collected",
+  "page": 109
+ },
+ {
+  "level": 4,
+  "title": "XI. Roles and responsibilities of intermediaries",
+  "page": 110
+ },
+ {
+  "level": 5,
+  "title": "1. Controller and processor under the Data Protection Directive",
+  "page": 111
+ },
+ {
+  "level": 6,
+  "title": "a. The controller",
+  "page": 111
+ },
+ {
+  "level": 6,
+  "title": "b. Joint controlling",
+  "page": 111
+ },
+ {
+  "level": 6,
+  "title": "c. Processing on behalf of the controller",
+  "page": 113
+ },
+ {
+  "level": 5,
+  "title": "2. Controller and processor under the General Data Protection Regulation",
+  "page": 118
+ },
+ {
+  "level": 6,
+  "title": "a. Rules for the controller",
+  "page": 118
+ },
+ {
+  "level": 6,
+  "title": "b. Joint controllers",
+  "page": 119
+ },
+ {
+  "level": 6,
+  "title": "c. Rules regarding the processor",
+  "page": 119
+ },
+ {
+  "level": 4,
+  "title": "XII. Access to user data by third parties",
+  "page": 121
+ },
+ {
+  "level": 4,
+  "title": "XIII. Provisions on data retention",
+  "page": 121
+ },
+ {
+  "level": 4,
+  "title": "XIV. Transfer of data on an international scale, transfer to third countries and requirements for data transfer outside the country",
+  "page": 122
+ },
+ {
+  "level": 5,
+  "title": "1. By processor outside the EU/European Economic Area (EEA)",
+  "page": 122
+ },
+ {
+  "level": 5,
+  "title": "2. Data transfer to third countries",
+  "page": 122
+ },
+ {
+  "level": 6,
+  "title": "a. Data Protection Directive",
+  "page": 122
+ },
+ {
+  "level": 6,
+  "title": "b. General Data Protection Regulation",
+  "page": 126
+ },
+ {
+  "level": 6,
+  "title": "c. Place of jurisdiction",
+  "page": 129
+ },
+ {
+  "level": 6,
+  "title": "d. Third-country actions against data controllers",
+  "page": 129
+ },
+ {
+  "level": 4,
+  "title": "XV. Enforcement",
+  "page": 131
+ },
+ {
+  "level": 5,
+  "title": "1. Civil law",
+  "page": 131
+ },
+ {
+  "level": 5,
+  "title": "2. Criminal law",
+  "page": 132
+ },
+ {
+  "level": 5,
+  "title": "3. Administrative law",
+  "page": 133
+ },
+ {
+  "level": 5,
+  "title": "4. The Data Protection Officer",
+  "page": 134
+ },
+ {
+  "level": 6,
+  "title": "a. The position of the Data Protection Officer",
+  "page": 135
+ },
+ {
+  "level": 6,
+  "title": "b. Rights and powers of the Data Protection Officer",
+  "page": 136
+ },
+ {
+  "level": 6,
+  "title": "c. Independence of the Data Protection Officer and the special dismissal protection",
+  "page": 136
+ },
+ {
+  "level": 6,
+  "title": "d. Status and duties of the Data Protection Officer towards the data protection supervisory authority",
+  "page": 137
+ },
+ {
+  "level": 6,
+  "title": "e. The Data Protection Officer and the proposal for a General Data Protection Regulation",
+  "page": 138
+ },
+ {
+  "level": 4,
+  "title": "XVI. Role of self-regulation and co-regulation",
+  "page": 139
+ },
+ {
+  "level": 3,
+  "title": "D. Review of International Initiatives on Consumer Data Protection (Consumers International)",
+  "page": 140
+ },
+ {
+  "level": 4,
+  "title": "I. UN Guidelines for Consumer Protection",
+  "page": 140
+ },
+ {
+  "level": 4,
+  "title": "II. OECD Guidelines",
+  "page": 141
+ },
+ {
+  "level": 4,
+  "title": "III. The Global Privacy Enforcement Network (GPEN)",
+  "page": 147
+ },
+ {
+  "level": 4,
+  "title": "IV. Convention 108",
+  "page": 151
+ },
+ {
+  "level": 4,
+  "title": "V. Regional Initiatives",
+  "page": 153
+ },
+ {
+  "level": 5,
+  "title": "1. Asia Pacific Economic Cooperation (APEC)",
+  "page": 153
+ },
+ {
+  "level": 5,
+  "title": "2. Association of South East Asian Nations (ASEAN)",
+  "page": 155
+ },
+ {
+  "level": 5,
+  "title": "3. Economic Commission for Latin America and the Caribbean (ECLAC)",
+  "page": 156
+ },
+ {
+  "level": 2,
+  "title": "Chapter 3 Law in Practice: Current Issues, Challenges and Case-Law for the Enforcement of Laws and Regulations on Consumer Data Protection",
+  "page": 159
+ },
+ {
+  "level": 3,
+  "title": "A. Current Judicial and Administrative Issues of Consumer Data Protection in Brazil (Prof. Dr. Danilo Doneda)",
+  "page": 159
+ },
+ {
+  "level": 4,
+  "title": "I. Credit scoring",
+  "page": 159
+ },
+ {
+  "level": 5,
+  "title": "1. Case",
+  "page": 160
+ },
+ {
+  "level": 5,
+  "title": "2. Concept of credit scoring",
+  "page": 161
+ },
+ {
+  "level": 5,
+  "title": "3. Credit risk assessment in general contracts",
+  "page": 162
+ },
+ {
+  "level": 5,
+  "title": "4. Regulation of consumer credit databases in the Consumer Defense Code",
+  "page": 162
+ },
+ {
+  "level": 5,
+  "title": "5. Positive Credit Information Law (Law No. 12.414 of 2011)",
+  "page": 163
+ },
+ {
+  "level": 5,
+  "title": "6. Legality of the credit scoring system",
+  "page": 165
+ },
+ {
+  "level": 5,
+  "title": "7. Limitation: privacy and transparency",
+  "page": 165
+ },
+ {
+  "level": 5,
+  "title": "8. Moral damages",
+  "page": 166
+ },
+ {
+  "level": 4,
+  "title": "II. Consumer rights violations databases",
+  "page": 166
+ },
+ {
+  "level": 5,
+  "title": "1. Sindec",
+  "page": 166
+ },
+ {
+  "level": 5,
+  "title": "2. Consumidor.gov.br",
+  "page": 167
+ },
+ {
+  "level": 6,
+  "title": "a. Wal-Mart",
+  "page": 167
+ },
+ {
+  "level": 6,
+  "title": "b. Internet connection services",
+  "page": 168
+ },
+ {
+  "level": 3,
+  "title": "B. Current Consumer Data Protection Issues Before Chinese Tribunals (Prof. Dr. Zhou Hanhua)",
+  "page": 169
+ },
+ {
+  "level": 4,
+  "title": "I. Civil claims",
+  "page": 169
+ },
+ {
+  "level": 5,
+  "title": "1. Illegal collection and use of personal information",
+  "page": 169
+ },
+ {
+  "level": 5,
+  "title": "2. Disclosure and illegal release of customers’ personal information",
+  "page": 170
+ },
+ {
+  "level": 6,
+  "title": "Sun Weiguo v. China United Network Communications Limited Shanghai Branch",
+  "page": 170
+ },
+ {
+  "level": 6,
+  "title": "Zheng Yang v. Tianjin Airline Ltd. and Zhejiang Taobao Ltd.",
+  "page": 171
+ },
+ {
+  "level": 6,
+  "title": "Wang Jinlong v. Hanting Hotel Management Co. Ltd.",
+  "page": 172
+ },
+ {
+  "level": 6,
+  "title": "Yan v. Sina and Baidu",
+  "page": 173
+ },
+ {
+  "level": 5,
+  "title": "3. Sending electronic advertisements without customers’ prior consent",
+  "page": 174
+ },
+ {
+  "level": 5,
+  "title": "4. The boundaries of the legal protection of privacy",
+  "page": 175
+ },
+ {
+  "level": 4,
+  "title": "II. Criminal justice",
+  "page": 176
+ },
+ {
+  "level": 5,
+  "title": "1. Acquiring personal information",
+  "page": 176
+ },
+ {
+  "level": 6,
+  "title": "The Case of Lai Illegally Acquiring the Personal Information of Others",
+  "page": 176
+ },
+ {
+  "level": 6,
+  "title": "The Case of Xu Zeru Illegally Providing Citizens’ Personal Information",
+  "page": 177
+ },
+ {
+  "level": 6,
+  "title": "The Case of Tan Haodong Illegally Acquiring Citizens’ Personal Information",
+  "page": 178
+ },
+ {
+  "level": 6,
+  "title": "Analysis and Conclusion of Cases",
+  "page": 178
+ },
+ {
+  "level": 5,
+  "title": "2. Selling and illegally providing citizens’ personal information",
+  "page": 179
+ },
+ {
+  "level": 6,
+  "title": "The Case of Zhong Donghang Illegally Acquiring Citizens’ Personal Information",
+  "page": 180
+ },
+ {
+  "level": 6,
+  "title": "The Case of Wang Selling Citizens’ Personal Information",
+  "page": 180
+ },
+ {
+  "level": 6,
+  "title": "The Case of Chen Selling Citizens’ Personal Information",
+  "page": 180
+ },
+ {
+  "level": 6,
+  "title": "Analysis and Conclusion of Cases",
+  "page": 181
+ },
+ {
+  "level": 5,
+  "title": "3. Criminal means of illegally acquiring citizens’ personal information",
+  "page": 181
+ },
+ {
+  "level": 6,
+  "title": "The Case of Zhang and Yang Illegally Acquiring Citizens’ Personal Information",
+  "page": 182
+ },
+ {
+  "level": 6,
+  "title": "The Case of Wen Tao Illegally Acquiring Citizens’ Personal Information",
+  "page": 182
+ },
+ {
+  "level": 6,
+  "title": "The Case of Yang and Xiao Illegally Acquiring Citizens’ Personal Information",
+  "page": 182
+ },
+ {
+  "level": 6,
+  "title": "Analysis and Conclusion of Cases",
+  "page": 183
+ },
+ {
+  "level": 5,
+  "title": "4. “Aggravated circumstances”",
+  "page": 183
+ },
+ {
+  "level": 4,
+  "title": "III. Administrative enforcement of law",
+  "page": 185
+ },
+ {
+  "level": 3,
+  "title": "C. Current Issues and Case Law Concerning Consumer Data Protection in Germany and Europe (Prof. Dr. Gerald Spindler)",
+  "page": 187
+ },
+ {
+  "level": 4,
+  "title": "I. Data protection in social networks",
+  "page": 187
+ },
+ {
+  "level": 4,
+  "title": "II. Credit scoring",
+  "page": 187
+ },
+ {
+  "level": 4,
+  "title": "III. Cloud computing",
+  "page": 190
+ },
+ {
+  "level": 4,
+  "title": "IV. “Big data”",
+  "page": 191
+ },
+ {
+  "level": 4,
+  "title": "V. Profiling",
+  "page": 192
+ },
+ {
+  "level": 4,
+  "title": "VI. Unsolicited e-mails",
+  "page": 195
+ },
+ {
+  "level": 4,
+  "title": "VII. Rating platforms",
+  "page": 196
+ },
+ {
+  "level": 4,
+  "title": "VIII. The right to be forgotten",
+  "page": 198
+ },
+ {
+  "level": 4,
+  "title": "IX. Data Retention",
+  "page": 199
+ },
+ {
+  "level": 3,
+  "title": "D. Challenges of New Technologies for Consumer Data Protection (Privacy International with Consumers International)",
+  "page": 201
+ },
+ {
+  "level": 4,
+  "title": "I. Cloud Storage",
+  "page": 202
+ },
+ {
+  "level": 4,
+  "title": "II. Cloud Computing",
+  "page": 203
+ },
+ {
+  "level": 4,
+  "title": "III. Big data",
+  "page": 203
+ },
+ {
+  "level": 4,
+  "title": "IV. Social Media",
+  "page": 204
+ },
+ {
+  "level": 4,
+  "title": "V. Internet of Things",
+  "page": 204
+ },
+ {
+  "level": 4,
+  "title": "VI. Smart Cities, Buildings and People",
+  "page": 204
+ },
+ {
+  "level": 4,
+  "title": "VII. Privacy friendly technologies",
+  "page": 205
+ },
+ {
+  "level": 4,
+  "title": "VIII. Disk encryption",
+  "page": 205
+ },
+ {
+  "level": 4,
+  "title": "IX. Browse configurations and Ad-blocks",
+  "page": 205
+ },
+ {
+  "level": 4,
+  "title": "X. HTTPS/TLS",
+  "page": 206
+ },
+ {
+  "level": 4,
+  "title": "XI. Virtual Private Networks (VPNs)",
+  "page": 206
+ },
+ {
+  "level": 4,
+  "title": "XII. The Onion Router (TOR)",
+  "page": 206
+ },
+ {
+  "level": 4,
+  "title": "XIII. Off the Record (OTR)",
+  "page": 207
+ },
+ {
+  "level": 2,
+  "title": "Chapter 4 Comparative Thematic Issues of Consumer Data Protection",
+  "page": 209
+ },
+ {
+  "level": 3,
+  "title": "I. Fundamentals and the existing legal framework",
+  "page": 209
+ },
+ {
+  "level": 3,
+  "title": "II. Applicability of data protection acts",
+  "page": 210
+ },
+ {
+  "level": 4,
+  "title": "1. Applicability to cross-border cases",
+  "page": 211
+ },
+ {
+  "level": 4,
+  "title": "2. Applicability on the national level",
+  "page": 212
+ },
+ {
+  "level": 3,
+  "title": "III. Personal data",
+  "page": 212
+ },
+ {
+  "level": 3,
+  "title": "IV. General guiding principles",
+  "page": 213
+ },
+ {
+  "level": 3,
+  "title": "V. Restrictions to the collection, processing and transfer of (consumer) data",
+  "page": 217
+ },
+ {
+  "level": 3,
+  "title": "VI. Approaches towards the principle of consent",
+  "page": 218
+ },
+ {
+  "level": 3,
+  "title": "VII. Transparency",
+  "page": 219
+ },
+ {
+  "level": 3,
+  "title": "VIII. Responsibility",
+  "page": 221
+ },
+ {
+  "level": 3,
+  "title": "IX. International transfer of data",
+  "page": 224
+ },
+ {
+  "level": 3,
+  "title": "X. Data retention",
+  "page": 224
+ },
+ {
+  "level": 3,
+  "title": "XI. Enforcement",
+  "page": 225
+ },
+ {
+  "level": 3,
+  "title": "XII. Self-regulation and co-regulation",
+  "page": 227
+ }
+]

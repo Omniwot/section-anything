@@ -1,0 +1,142 @@
+[
+ {
+  "level": 1,
+  "title": "Introduction",
+  "page": 1
+ },
+ {
+  "level": 1,
+  "title": "2 Related Work",
+  "page": 2
+ },
+ {
+  "level": 2,
+  "title": "2.1 Federated Learning and Its Limitations in Real-World IoT Scenarios",
+  "page": 2
+ },
+ {
+  "level": 2,
+  "title": "2.2 Hierarchical Federated Learning (HFL)",
+  "page": 2
+ },
+ {
+  "level": 2,
+  "title": "2.3 Communication Efficiency in FL and HFL",
+  "page": 3
+ },
+ {
+  "level": 1,
+  "title": "3 H-FedSN Design",
+  "page": 3
+ },
+ {
+  "level": 2,
+  "title": "3.1 Overview",
+  "page": 3
+ },
+ {
+  "level": 2,
+  "title": "3.2 Local Training in Client",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "3.3 Bayesian Aggregation in HFL",
+  "page": 5
+ },
+ {
+  "level": 3,
+  "title": "3.3.1 Edge Server Bayesian Aggregation",
+  "page": 5,
+  "run_in": true
+ },
+ {
+  "level": 3,
+  "title": "3.3.2 Cloud Server Bayesian Aggregation",
+  "page": 5,
+  "run_in": true
+ },
+ {
+  "level": 1,
+  "title": "4 EXPERIMENTS",
+  "page": 6
+ },
+ {
+  "level": 2,
+  "title": "4.1 Datasets Setting",
+  "page": 6
+ },
+ {
+  "level": 3,
+  "title": "4.1.1 Datasets and Preprocessing",
+  "page": 6,
+  "run_in": true
+ },
+ {
+  "level": 2,
+  "title": "4.2 Experimental Design",
+  "page": 7
+ },
+ {
+  "level": 3,
+  "title": "4.2.1 H-FedSN and Baselines Setting",
+  "page": 7,
+  "run_in": true
+ },
+ {
+  "level": 3,
+  "title": "4.2.2 Performance Metrics",
+  "page": 7,
+  "run_in": true
+ },
+ {
+  "level": 3,
+  "title": "4.2.3 Experimental Setting",
+  "page": 7,
+  "run_in": true
+ },
+ {
+  "level": 2,
+  "title": "4.3 Results and Analysis",
+  "page": 7
+ },
+ {
+  "level": 3,
+  "title": "4.3.1 E2C5 Configuration",
+  "page": 7,
+  "run_in": true
+ },
+ {
+  "level": 3,
+  "title": "4.3.2 Imbalanced E5C50 Configuration",
+  "page": 8,
+  "run_in": true
+ },
+ {
+  "level": 3,
+  "title": "4.3.3 E20C50 Configuration",
+  "page": 9,
+  "run_in": true
+ },
+ {
+  "level": 3,
+  "title": "4.3.4 E2C50 Configuration",
+  "page": 9,
+  "run_in": true
+ },
+ {
+  "level": 1,
+  "title": "6 Acknowledgements",
+  "page": 9
+ },
+ {
+  "level": 1,
+  "title": "Supplementary Material",
+  "page": 11
+ },
+ {
+  "level": 1,
+  "title": "A Experimental Details",
+  "page": 11
+ }
+]

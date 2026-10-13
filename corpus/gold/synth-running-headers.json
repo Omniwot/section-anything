@@ -1,0 +1,217 @@
+[
+ {
+  "level": 1,
+  "title": "Long-term Sensor Placement",
+  "page": 1
+ },
+ {
+  "level": 2,
+  "title": "Adaptive Data Quality in Practice",
+  "page": 2
+ },
+ {
+  "level": 2,
+  "title": "Regional Erosion",
+  "page": 2
+ },
+ {
+  "level": 2,
+  "title": "Adaptive Scheduling Revisited",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "Long-term Benchmarks Revisited",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "Field Survey Design",
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "Regional Scheduling",
+  "page": 6
+ },
+ {
+  "level": 2,
+  "title": "Secondary Retrofits under Load",
+  "page": 7
+ },
+ {
+  "level": 1,
+  "title": "Regional Scheduling and Its Limits",
+  "page": 9
+ },
+ {
+  "level": 2,
+  "title": "Statistical Uncertainty",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "Regional Validation for Small Sites",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "Acoustic Load Paths",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "Primary Scheduling under Load",
+  "page": 14
+ },
+ {
+  "level": 2,
+  "title": "Acoustic Maintenance",
+  "page": 15
+ },
+ {
+  "level": 1,
+  "title": "Primary Water Balance in Practice",
+  "page": 16
+ },
+ {
+  "level": 2,
+  "title": "Lateral Water Balance Revisited",
+  "page": 17
+ },
+ {
+  "level": 2,
+  "title": "Residual Water Balance",
+  "page": 18
+ },
+ {
+  "level": 2,
+  "title": "Thermal Material Selection",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "Coastal Coverage for Small Sites",
+  "page": 20
+ },
+ {
+  "level": 2,
+  "title": "Adaptive Retrofits at Scale",
+  "page": 21
+ },
+ {
+  "level": 2,
+  "title": "Urban Sampling in Practice",
+  "page": 23
+ },
+ {
+  "level": 2,
+  "title": "Structural Interpolation",
+  "page": 24
+ },
+ {
+  "level": 1,
+  "title": "Field Calibration for Small Sites",
+  "page": 25
+ },
+ {
+  "level": 2,
+  "title": "Long-term Fatigue for Small Sites",
+  "page": 26
+ },
+ {
+  "level": 2,
+  "title": "Optical Material Selection and Its Limits",
+  "page": 27
+ },
+ {
+  "level": 2,
+  "title": "Secondary Fatigue under Load",
+  "page": 28
+ },
+ {
+  "level": 2,
+  "title": "Coastal Water Balance at Scale",
+  "page": 29
+ },
+ {
+  "level": 2,
+  "title": "Regional Fatigue at Scale",
+  "page": 29
+ },
+ {
+  "level": 2,
+  "title": "Statistical Interpolation in Practice",
+  "page": 31
+ },
+ {
+  "level": 1,
+  "title": "Comparative Data Quality under Load",
+  "page": 32
+ },
+ {
+  "level": 2,
+  "title": "Comparative Coverage for Small Sites",
+  "page": 33
+ },
+ {
+  "level": 2,
+  "title": "Residual Material Selection in Practice",
+  "page": 34
+ },
+ {
+  "level": 2,
+  "title": "Optical Maintenance",
+  "page": 35
+ },
+ {
+  "level": 2,
+  "title": "Comparative Material Selection",
+  "page": 36
+ },
+ {
+  "level": 2,
+  "title": "Urban Load Paths",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "Acoustic Water Balance under Load",
+  "page": 38
+ },
+ {
+  "level": 1,
+  "title": "Thermal Calibration at Scale",
+  "page": 40
+ },
+ {
+  "level": 2,
+  "title": "Comparative Benchmarks at Scale",
+  "page": 41
+ },
+ {
+  "level": 2,
+  "title": "Hydraulic Water Balance",
+  "page": 42
+ },
+ {
+  "level": 2,
+  "title": "Statistical Water Balance at Scale",
+  "page": 43
+ },
+ {
+  "level": 2,
+  "title": "Seasonal Coverage",
+  "page": 44
+ },
+ {
+  "level": 2,
+  "title": "Structural Validation",
+  "page": 45
+ },
+ {
+  "level": 2,
+  "title": "Structural Validation",
+  "page": 46
+ }
+]

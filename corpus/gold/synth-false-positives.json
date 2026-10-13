@@ -1,0 +1,232 @@
+[
+ {
+  "level": 1,
+  "title": "Optical Fatigue",
+  "page": 1
+ },
+ {
+  "level": 2,
+  "title": "Coastal Interpolation",
+  "page": 2
+ },
+ {
+  "level": 3,
+  "title": "Field Validation",
+  "page": 3
+ },
+ {
+  "level": 3,
+  "title": "Lateral Coverage",
+  "page": 4
+ },
+ {
+  "level": 3,
+  "title": "Hydraulic Fatigue under Load",
+  "page": 5
+ },
+ {
+  "level": 3,
+  "title": "Primary Calibration",
+  "page": 6
+ },
+ {
+  "level": 2,
+  "title": "Optical Noise Floor at Scale",
+  "page": 7
+ },
+ {
+  "level": 3,
+  "title": "Hydraulic Benchmarks for Small Sites",
+  "page": 8
+ },
+ {
+  "level": 3,
+  "title": "Statistical Noise Floor",
+  "page": 9
+ },
+ {
+  "level": 3,
+  "title": "Urban Material Selection in Practice",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "Statistical Drift in Practice",
+  "page": 11
+ },
+ {
+  "level": 3,
+  "title": "Field Coverage and Its Limits",
+  "page": 11
+ },
+ {
+  "level": 3,
+  "title": "Primary Water Balance under Load",
+  "page": 13
+ },
+ {
+  "level": 3,
+  "title": "Urban Calibration under Load",
+  "page": 13
+ },
+ {
+  "level": 3,
+  "title": "Acoustic Retrofits Revisited",
+  "page": 14
+ },
+ {
+  "level": 2,
+  "title": "Optical Benchmarks Revisited",
+  "page": 15
+ },
+ {
+  "level": 3,
+  "title": "Acoustic Material Selection",
+  "page": 15
+ },
+ {
+  "level": 3,
+  "title": "Structural Fatigue for Small Sites",
+  "page": 16
+ },
+ {
+  "level": 3,
+  "title": "Acoustic Interpolation at Scale",
+  "page": 17
+ },
+ {
+  "level": 3,
+  "title": "Optical Fatigue under Load",
+  "page": 18
+ },
+ {
+  "level": 1,
+  "title": "Urban Material Selection and Its Limits",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "Urban Coverage and Its Limits",
+  "page": 21
+ },
+ {
+  "level": 3,
+  "title": "Primary Validation",
+  "page": 22
+ },
+ {
+  "level": 3,
+  "title": "Structural Maintenance for Small Sites",
+  "page": 23
+ },
+ {
+  "level": 3,
+  "title": "Long-term Fatigue",
+  "page": 24
+ },
+ {
+  "level": 2,
+  "title": "Optical Erosion",
+  "page": 25
+ },
+ {
+  "level": 3,
+  "title": "Secondary Water Balance",
+  "page": 26
+ },
+ {
+  "level": 3,
+  "title": "Adaptive Material Selection under Load",
+  "page": 27
+ },
+ {
+  "level": 3,
+  "title": "Field Water Balance",
+  "page": 28
+ },
+ {
+  "level": 2,
+  "title": "Lateral Retrofits under Load",
+  "page": 29
+ },
+ {
+  "level": 3,
+  "title": "Acoustic Material Selection under Load",
+  "page": 30
+ },
+ {
+  "level": 3,
+  "title": "Regional Benchmarks for Small Sites",
+  "page": 31
+ },
+ {
+  "level": 3,
+  "title": "Statistical Fatigue and Its Limits",
+  "page": 32
+ },
+ {
+  "level": 1,
+  "title": "Coastal Sampling",
+  "page": 33
+ },
+ {
+  "level": 2,
+  "title": "Field Sampling",
+  "page": 34
+ },
+ {
+  "level": 3,
+  "title": "Hydraulic Interpolation",
+  "page": 35
+ },
+ {
+  "level": 3,
+  "title": "Structural Sensor Placement at Scale",
+  "page": 36
+ },
+ {
+  "level": 3,
+  "title": "Optical Load Paths",
+  "page": 37
+ },
+ {
+  "level": 2,
+  "title": "Thermal Survey Design at Scale",
+  "page": 38
+ },
+ {
+  "level": 3,
+  "title": "Statistical Scheduling Revisited",
+  "page": 39
+ },
+ {
+  "level": 3,
+  "title": "Long-term Uncertainty",
+  "page": 40
+ },
+ {
+  "level": 3,
+  "title": "Thermal Scheduling Revisited",
+  "page": 41
+ },
+ {
+  "level": 2,
+  "title": "Statistical Retrofits",
+  "page": 42
+ },
+ {
+  "level": 3,
+  "title": "Residual Validation for Small Sites",
+  "page": 43
+ },
+ {
+  "level": 3,
+  "title": "Seasonal Water Balance Revisited",
+  "page": 44
+ },
+ {
+  "level": 3,
+  "title": "Adaptive Material Selection",
+  "page": 45
+ }
+]
