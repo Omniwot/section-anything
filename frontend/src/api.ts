@@ -48,7 +48,7 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
   return (await res.json()) as T;
 }
 
-export type Progress = { fraction: number; message: string } | null;
+export type Progress = { fraction: number; message: string; cost_usd?: number; calls?: number } | null;
 
 export type DocumentInfo = {
   id: number;
@@ -60,6 +60,9 @@ export type DocumentInfo = {
   error: string | null;
   progress: Progress;
   has_gold: boolean;
+  extractor_version: number | null;
+  spent_usd: number;
+  llm_calls: number;
   created_at: string;
 };
 
@@ -77,6 +80,8 @@ export type Estimate = {
   input_tokens: number;
   output_tokens: number;
   cost_usd: Record<string, number>;
+  /** Estimate is over the per-run cost cap: the run would be refused. */
+  blocked: Record<string, boolean>;
 };
 
 export type Section = {
@@ -102,23 +107,28 @@ export type Section = {
 };
 
 export type Metrics = {
-  sections: number;
-  max_depth: number;
-  coverage: number;
-  start_marker_exact: number | null;
-  start_marker_found: number | null;
-  end_marker_found: number | null;
-  end_agreement: number | null;
-  title_verified: number | null;
-  flagged: number;
-  seconds: number;
+  sections?: number;
+  max_depth?: number;
+  coverage?: number;
+  start_marker_exact?: number | null;
+  start_marker_found?: number | null;
+  end_marker_found?: number | null;
+  end_agreement?: number | null;
+  title_verified?: number | null;
+  flagged?: number;
+  seconds?: number;
   calls: number;
   input_tokens: number;
   cached_tokens: number;
   output_tokens: number;
   reasoning_tokens: number;
   cost_usd: number | null;
+  cost_by_step?: Record<string, number>;
+  /** Set on failed runs: totals up to the point the run stopped. */
+  partial?: boolean;
 };
+
+export type RunEstimate = { calls: number; input_tokens: number; output_tokens: number; cost_usd: number };
 
 export type Accuracy = {
   gold_headings: number;
@@ -138,11 +148,51 @@ export type RunInfo = {
   status: "queued" | "running" | "done" | "failed";
   error: string | null;
   metrics: Metrics | null;
+  estimate: RunEstimate | null;
+  extractor_version: number | null;
+  /** Sections refer to an older extraction whose text differs from the current one. */
+  stale: boolean;
   accuracy: Accuracy | null;
   progress: Progress;
   created_at: string;
   sections?: Section[];
 };
 
-/** [line index, char start, x0, y0, x1, y1] in PDF user space. */
-export type LineBox = [number, number, number, number, number, number];
+export type LlmCallInfo = {
+  id: number;
+  created_at: string;
+  run_id: number;
+  seq: number;
+  step: string;
+  attempt: number;
+  model: string;
+  reasoning_effort: string | null;
+  status: "ok" | "refused" | "invalid" | "error";
+  error: string | null;
+  input_tokens: number;
+  cached_tokens: number;
+  output_tokens: number;
+  reasoning_tokens: number;
+  cost_usd: number | null;
+  latency_ms: number;
+  prompt_sha256: string;
+  prompt_chars: number;
+  images: number;
+};
+
+export type AuditEventInfo = {
+  id: number;
+  created_at: string;
+  kind: string;
+  document_id: number | null;
+  run_id: number | null;
+  details: Record<string, unknown>;
+};
+
+export type UsageInfo = { spent_usd: number; llm_calls: number; runs: number };
+
+/**
+ * [line index, char start, char end, x0, y0, x1, y1, words] in PDF user space.
+ * `words` is flat [start, end, x0, x1, ...] with char offsets relative to the line start.
+ */
+export type LineBox = [number, number, number, number, number, number, number, number[]];

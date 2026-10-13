@@ -16,11 +16,20 @@ import json
 import re
 import statistics
 from collections.abc import Callable
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 import pdfplumber
 from pdfminer.layout import LTChar, LTTextBox, LTTextLine
+
+# Bump when the canonical text or the saved geometry changes. Documents
+# extracted with an older version are re-extracted, and runs record the version
+# their character offsets refer to.
+EXTRACTOR_VERSION = 2
+# Oldest version whose canonical text is identical to the current one. Runs
+# from that version on still map onto the page; older runs are stale. Raise it
+# only when `Extraction.text` changes (version 2 added word boxes only).
+TEXT_COMPATIBLE_SINCE = 1
 
 LAPARAMS = {
     "line_overlap": 0.5,
@@ -61,6 +70,10 @@ class Line:
     bold: bool
     start: int  # char range in Extraction.text
     end: int
+    # Flat [start, end, x0, x1, ...] per word: char offsets within `text` and
+    # the word's horizontal extent in PDF user space. Lets a highlight start or
+    # stop mid-line.
+    words: list[float] = field(default_factory=list)
 
 
 @dataclass
@@ -68,6 +81,7 @@ class Extraction:
     pages: list[Page]
     lines: list[Line]
     text: str
+    version: int = EXTRACTOR_VERSION
 
     def body_size(self) -> float:
         """The most common font size weighted by characters: the body text."""
@@ -80,6 +94,7 @@ class Extraction:
         path.write_text(
             json.dumps(
                 {
+                    "version": self.version,
                     "pages": [asdict(p) for p in self.pages],
                     "lines": [asdict(ln) for ln in self.lines],
                 },
@@ -91,11 +106,47 @@ class Extraction:
     def load(cls, path: Path) -> Extraction:
         raw = json.loads(path.read_text())
         lines = [Line(**ln) for ln in raw["lines"]]
-        return cls([Page(**p) for p in raw["pages"]], lines, "\n".join(ln.text for ln in lines))
+        return cls(
+            [Page(**p) for p in raw["pages"]], lines, "\n".join(ln.text for ln in lines), raw.get("version", 1)
+        )
 
 
-def _clean(text: str) -> str:
-    return re.sub(r"\s+", " ", CONTROL.sub("", text)).strip()
+def _line_text_and_words(tl: LTTextLine, dx: float) -> tuple[str, list[float]]:
+    """The line's cleaned text (whitespace collapsed, control chars dropped) and
+    its words' char ranges and x-extents. Built from the line's own glyphs so
+    each output character keeps the box of the glyph it came from."""
+    raw: list[tuple[str, tuple[float, float] | None]] = []
+    for obj in tl:
+        box = (obj.x0 + dx, obj.x1 + dx) if isinstance(obj, LTChar) else None
+        for ch in obj.get_text():
+            raw.append((ch, box))
+    chars: list[tuple[str, tuple[float, float] | None]] = []
+    for ch, box in raw:
+        if CONTROL.match(ch):
+            continue
+        if ch.isspace():
+            if chars and chars[-1][0] != " ":
+                chars.append((" ", None))
+            continue
+        chars.append((ch, box))
+    while chars and chars[-1][0] == " ":
+        chars.pop()
+    text = "".join(ch for ch, _ in chars)
+
+    words: list[float] = []
+    i = 0
+    while i < len(chars):
+        if chars[i][0] == " ":
+            i += 1
+            continue
+        j = i
+        while j < len(chars) and chars[j][0] != " ":
+            j += 1
+        xs = [b for _, b in chars[i:j] if b]
+        if xs:
+            words += [i, j, round(min(b[0] for b in xs), 2), round(max(b[1] for b in xs), 2)]
+        i = j
+    return text, words
 
 
 def extract(path: Path, on_page: Callable[[int, int], None] | None = None) -> Extraction:
@@ -113,7 +164,7 @@ def extract(path: Path, on_page: Callable[[int, int], None] | None = None) -> Ex
                 for tl in box:
                     if not isinstance(tl, LTTextLine):
                         continue
-                    text = _clean(tl.get_text())
+                    text, words = _line_text_and_words(tl, mb[0])
                     if not text:
                         continue
                     chars = [c for c in tl if isinstance(c, LTChar)]
@@ -124,7 +175,7 @@ def extract(path: Path, on_page: Callable[[int, int], None] | None = None) -> Ex
                             i=len(lines), page=n, text=text,
                             x0=round(tl.x0 + mb[0], 2), y0=round(tl.y0 + mb[1], 2),
                             x1=round(tl.x1 + mb[0], 2), y1=round(tl.y1 + mb[1], 2),
-                            size=size, bold=bold, start=cursor, end=cursor + len(text),
+                            size=size, bold=bold, start=cursor, end=cursor + len(text), words=words,
                         )
                     )
                     cursor += len(text) + 1  # lines are joined with "\n"

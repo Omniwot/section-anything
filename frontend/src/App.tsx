@@ -1,8 +1,9 @@
 import { type FormEvent, useEffect, useState } from "react";
 
-import { ApiError, API_URL, api, getToken, setToken, type Catalog, type DocumentInfo } from "./api";
+import { ApiError, API_URL, api, getToken, setToken, type Catalog, type DocumentInfo, type UsageInfo } from "./api";
 import Library from "./components/Library";
 import Workspace from "./components/Workspace";
+import { usd } from "./format";
 import "./App.css";
 
 function BetaBanner() {
@@ -77,6 +78,7 @@ export default function App() {
   const [token, setTok] = useState<string | null>(() => getToken());
   const [catalog, setCatalog] = useState<Catalog | null>(null);
   const [doc, setDoc] = useState<DocumentInfo | null>(null);
+  const [usage, setUsage] = useState<UsageInfo | null>(null);
 
   useEffect(() => {
     setToken(token);
@@ -86,6 +88,14 @@ export default function App() {
       .catch((e) => e instanceof ApiError && e.status === 401 && setTok(null));
   }, [token]);
 
+  useEffect(() => {
+    if (!token) return setUsage(null);
+    const load = () => void api<UsageInfo>("/usage").then(setUsage).catch(() => undefined);
+    load();
+    const t = window.setInterval(load, 10_000);
+    return () => window.clearInterval(t);
+  }, [token, doc]);
+
   return (
     <div className="app">
       <BetaBanner />
@@ -93,6 +103,11 @@ export default function App() {
         <h1>
           Section <span>Anything</span>
         </h1>
+        {token && usage && (
+          <span className="usage small muted" title="Total model cost across all your documents and runs">
+            Spent {usd(usage.spent_usd)} · {usage.runs} runs · {usage.llm_calls} model calls
+          </span>
+        )}
         {token && (
           <button
             className="ghost"

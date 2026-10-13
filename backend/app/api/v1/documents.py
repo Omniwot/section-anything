@@ -6,19 +6,21 @@ import pypdfium2 as pdfium
 from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, status
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-from sqlalchemy import select
+from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app import audit
 from app.api.deps import get_current_user
 from app.core.config import settings
 from app.db.session import get_db
-from app.models import Document, Run, User
+from app.models import AuditEvent, Document, LlmCall, Run, User
 from app.sectioning import jobs, pipeline
+from app.sectioning.extract import TEXT_COMPATIBLE_SINCE
 
 router = APIRouter(tags=["documents"])
 
 
-def _doc_out(doc: Document) -> dict:
+def _doc_out(doc: Document, spent: dict | None = None) -> dict:
     p = jobs.PROGRESS.get(f"doc:{doc.id}")
     return {
         "id": doc.id,
@@ -30,6 +32,9 @@ def _doc_out(doc: Document) -> dict:
         "error": doc.error,
         "progress": p,
         "has_gold": jobs.corpus_gold(doc.sha256) is not None,
+        "extractor_version": doc.extractor_version,
+        "spent_usd": round((spent or {}).get("cost", 0.0), 4),
+        "llm_calls": (spent or {}).get("calls", 0),
         "created_at": doc.created_at.isoformat() if doc.created_at else None,
     }
 
@@ -43,6 +48,9 @@ def _run_out(run: Run, full: bool) -> dict:
         "status": run.status,
         "error": run.error,
         "metrics": run.metrics,
+        "estimate": run.estimate,
+        "extractor_version": run.extractor_version,
+        "stale": (run.extractor_version or 1) < TEXT_COMPATIBLE_SINCE,
         "accuracy": {k: v for k, v in (run.accuracy or {}).items() if full or k not in ("missed", "extra")} or None,
         "progress": jobs.PROGRESS.get(f"run:{run.id}"),
         "created_at": run.created_at.isoformat() if run.created_at else None,
@@ -52,11 +60,70 @@ def _run_out(run: Run, full: bool) -> dict:
     return out
 
 
+def _event_out(e: AuditEvent) -> dict:
+    return {
+        "id": e.id,
+        "created_at": e.created_at.isoformat() if e.created_at else None,
+        "kind": e.kind,
+        "document_id": e.document_id,
+        "run_id": e.run_id,
+        "details": e.details,
+    }
+
+
+def _call_out(c: LlmCall) -> dict:
+    return {
+        "id": c.id,
+        "created_at": c.created_at.isoformat() if c.created_at else None,
+        "run_id": c.run_id,
+        "seq": c.seq,
+        "step": c.step,
+        "attempt": c.attempt,
+        "model": c.model,
+        "reasoning_effort": c.reasoning_effort,
+        "status": c.status,
+        "error": c.error,
+        "input_tokens": c.input_tokens,
+        "cached_tokens": c.cached_tokens,
+        "output_tokens": c.output_tokens,
+        "reasoning_tokens": c.reasoning_tokens,
+        "cost_usd": c.cost_usd,
+        "latency_ms": c.latency_ms,
+        "prompt_sha256": c.prompt_sha256,
+        "prompt_chars": c.prompt_chars,
+        "images": c.images,
+    }
+
+
+# Spend comes from each run's metrics (failed runs store partial metrics), so
+# runs from before the call log existed still count.
+_RUN_COST = func.coalesce(func.sum(Run.metrics["cost_usd"].as_float()), 0.0)
+_RUN_CALLS = func.coalesce(func.sum(Run.metrics["calls"].as_integer()), 0)
+
+
+async def _spent_by_doc(db: AsyncSession, user_id: int, doc_ids: list[int]) -> dict[int, dict]:
+    if not doc_ids:
+        return {}
+    rows = await db.execute(
+        select(Run.document_id, _RUN_COST, _RUN_CALLS)
+        .where(Run.user_id == user_id, Run.document_id.in_(doc_ids))
+        .group_by(Run.document_id)
+    )
+    return {d: {"cost": float(c), "calls": int(n)} for d, c, n in rows}
+
+
 async def _own_doc(doc_id: int, db: AsyncSession, user: User) -> Document:
     doc = await db.get(Document, doc_id)
     if doc is None or doc.user_id != user.id:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Document not found")
     return doc
+
+
+async def _own_run(run_id: int, db: AsyncSession, user: User) -> Run:
+    run = await db.get(Run, run_id)
+    if run is None or run.user_id != user.id:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Run not found")
+    return run
 
 
 @router.get("/catalog")
@@ -78,34 +145,41 @@ async def upload(
     db: AsyncSession = Depends(get_db),
     user: User = Depends(get_current_user),
 ) -> dict:
+    filename = (file.filename or "document.pdf")[:255]
     limit = settings.MAX_UPLOAD_MB * 1024 * 1024
     data = await file.read(limit + 1)
+
+    async def reject(code: int, reason: str, **details) -> HTTPException:
+        await audit.record_now("upload_rejected", user_id=user.id, filename=filename,
+                               size_bytes=len(data), reason=reason, **details)
+        return HTTPException(code, reason)
+
     if len(data) > limit:
-        raise HTTPException(status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, f"File exceeds {settings.MAX_UPLOAD_MB} MB")
+        raise await reject(status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, f"File exceeds {settings.MAX_UPLOAD_MB} MB")
     # Trust the bytes, not the filename or Content-Type.
     if not data.startswith(b"%PDF-"):
-        raise HTTPException(status.HTTP_415_UNSUPPORTED_MEDIA_TYPE, "Not a PDF file")
+        raise await reject(status.HTTP_415_UNSUPPORTED_MEDIA_TYPE, "Not a PDF file")
     try:
         pdf = pdfium.PdfDocument(data)
         n_pages = len(pdf)
         pdf.close()
     except pdfium.PdfiumError as exc:
         msg = "PDF is password-protected" if "password" in str(exc).lower() else "PDF could not be opened"
-        raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, msg) from exc
+        raise await reject(status.HTTP_422_UNPROCESSABLE_ENTITY, msg) from exc
     if n_pages == 0:
-        raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, "PDF has no pages")
+        raise await reject(status.HTTP_422_UNPROCESSABLE_ENTITY, "PDF has no pages")
     if n_pages > settings.MAX_PAGES:
-        raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, f"PDF has {n_pages} pages; the limit is {settings.MAX_PAGES}")
+        raise await reject(
+            status.HTTP_422_UNPROCESSABLE_ENTITY, f"PDF has {n_pages} pages; the limit is {settings.MAX_PAGES}",
+            pages=n_pages,
+        )
 
-    doc = Document(
-        user_id=user.id,
-        filename=(file.filename or "document.pdf")[:255],
-        sha256=hashlib.sha256(data).hexdigest(),
-        size_bytes=len(data),
-        n_pages=n_pages,
-        status="extracting",
-    )
+    sha = hashlib.sha256(data).hexdigest()
+    doc = Document(user_id=user.id, filename=filename, sha256=sha, size_bytes=len(data), n_pages=n_pages, status="extracting")
     db.add(doc)
+    await db.flush()
+    audit.record(db, "upload", user_id=user.id, document_id=doc.id, filename=filename,
+                 sha256=sha, size_bytes=len(data), pages=n_pages)
     await db.commit()
     await db.refresh(doc)
     (jobs.doc_dir(doc.id) / "original.pdf").write_bytes(data)
@@ -115,13 +189,19 @@ async def upload(
 
 @router.get("/documents")
 async def list_documents(db: AsyncSession = Depends(get_db), user: User = Depends(get_current_user)) -> list[dict]:
-    rows = await db.scalars(select(Document).where(Document.user_id == user.id).order_by(Document.id.desc()))
-    return [_doc_out(d) for d in rows]
+    docs = list(await db.scalars(select(Document).where(Document.user_id == user.id).order_by(Document.id.desc())))
+    for d in docs:
+        await jobs.refresh_if_stale(db, d)
+    spent = await _spent_by_doc(db, user.id, [d.id for d in docs])
+    return [_doc_out(d, spent.get(d.id)) for d in docs]
 
 
 @router.get("/documents/{doc_id}")
 async def get_document(doc_id: int, db: AsyncSession = Depends(get_db), user: User = Depends(get_current_user)) -> dict:
-    return _doc_out(await _own_doc(doc_id, db, user))
+    doc = await _own_doc(doc_id, db, user)
+    await jobs.refresh_if_stale(db, doc)
+    spent = await _spent_by_doc(db, user.id, [doc.id])
+    return _doc_out(doc, spent.get(doc.id))
 
 
 @router.get("/documents/{doc_id}/file")
@@ -136,13 +216,19 @@ async def get_lines(
     page: int = Query(ge=1),
     db: AsyncSession = Depends(get_db),
     user: User = Depends(get_current_user),
-) -> list[list[float]]:
-    """Line boxes for one page: [line index, char start, x0, y0, x1, y1] in PDF user space."""
+) -> list[list]:
+    """Line boxes for one page, in PDF user space:
+    [line index, char start, char end, x0, y0, x1, y1, words], where words is
+    flat [start, end, x0, x1, ...] with offsets relative to the line start."""
     doc = await _own_doc(doc_id, db, user)
     if doc.status != "ready":
         raise HTTPException(status.HTTP_409_CONFLICT, "Document is not ready")
     ext = jobs.load_extraction(doc_id)
-    return [[ln.i, ln.start, ln.x0, ln.y0, ln.x1, ln.y1] for ln in ext.lines if ln.page == page]
+    return [[ln.i, ln.start, ln.end, ln.x0, ln.y0, ln.x1, ln.y1, ln.words] for ln in ext.lines if ln.page == page]
+
+
+def _prices() -> dict[str, dict[str, float]]:
+    return {m: p for m, p in settings.model_prices.items() if m in settings.allowed_models_list}
 
 
 @router.get("/documents/{doc_id}/estimates")
@@ -150,8 +236,7 @@ async def get_estimates(doc_id: int, db: AsyncSession = Depends(get_db), user: U
     doc = await _own_doc(doc_id, db, user)
     if doc.status != "ready":
         raise HTTPException(status.HTTP_409_CONFLICT, "Document is not ready")
-    prices = {m: p for m, p in settings.model_prices.items() if m in settings.allowed_models_list}
-    return pipeline.estimates(jobs.load_extraction(doc_id), prices)
+    return pipeline.estimates(jobs.load_extraction(doc_id), _prices(), settings.RUN_COST_CAP_USD)
 
 
 class RunRequest(BaseModel):
@@ -170,8 +255,22 @@ async def create_run(
         raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, "Unknown strategy")
     if body.model not in settings.allowed_models_list or body.model not in settings.model_prices:
         raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, "Model not allowed")
-    run = Run(document_id=doc.id, user_id=user.id, strategy=body.strategy, model=body.model, status="queued")
+    est = next(e for e in pipeline.estimates(jobs.load_extraction(doc_id), _prices(), settings.RUN_COST_CAP_USD)
+               if e["strategy"] == body.strategy)
+    estimate = {k: est[k] for k in ("calls", "input_tokens", "output_tokens")} | {"cost_usd": est["cost_usd"][body.model]}
+    if est["blocked"][body.model]:
+        await audit.record_now("run_blocked_cost_cap", user_id=user.id, document_id=doc.id, strategy=body.strategy,
+                               model=body.model, estimate_usd=estimate["cost_usd"], cap_usd=settings.RUN_COST_CAP_USD)
+        raise HTTPException(
+            status.HTTP_422_UNPROCESSABLE_ENTITY,
+            f"Estimated ${estimate['cost_usd']:.2f} is over the ${settings.RUN_COST_CAP_USD:.2f} run cap",
+        )
+    run = Run(document_id=doc.id, user_id=user.id, strategy=body.strategy, model=body.model, status="queued",
+              estimate=estimate)
     db.add(run)
+    await db.flush()
+    audit.record(db, "run_started", user_id=user.id, document_id=doc.id, run_id=run.id,
+                 strategy=body.strategy, model=body.model, estimate_usd=estimate["cost_usd"])
     await db.commit()
     await db.refresh(run)
     jobs.start_run(run.id)
@@ -187,7 +286,48 @@ async def list_runs(doc_id: int, db: AsyncSession = Depends(get_db), user: User 
 
 @router.get("/runs/{run_id}")
 async def get_run(run_id: int, db: AsyncSession = Depends(get_db), user: User = Depends(get_current_user)) -> dict:
-    run = await db.get(Run, run_id)
-    if run is None or run.user_id != user.id:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "Run not found")
-    return _run_out(run, full=True)
+    return _run_out(await _own_run(run_id, db, user), full=True)
+
+
+@router.get("/runs/{run_id}/calls")
+async def get_run_calls(run_id: int, db: AsyncSession = Depends(get_db), user: User = Depends(get_current_user)) -> list[dict]:
+    """Every model request the run made, in order, including retries."""
+    await _own_run(run_id, db, user)
+    rows = await db.scalars(select(LlmCall).where(LlmCall.run_id == run_id).order_by(LlmCall.seq))
+    return [_call_out(c) for c in rows]
+
+
+@router.get("/documents/{doc_id}/audit")
+async def get_document_audit(doc_id: int, db: AsyncSession = Depends(get_db), user: User = Depends(get_current_user)) -> list[dict]:
+    await _own_doc(doc_id, db, user)
+    rows = await db.scalars(
+        select(AuditEvent)
+        .where(AuditEvent.user_id == user.id, AuditEvent.document_id == doc_id)
+        .order_by(AuditEvent.id.desc())
+    )
+    return [_event_out(e) for e in rows]
+
+
+@router.get("/audit")
+async def get_audit(
+    limit: int = Query(200, ge=1, le=2000),
+    kind: str | None = None,
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user),
+) -> list[dict]:
+    """The caller's own events, newest first. Includes rejected uploads, which
+    have no document."""
+    q = select(AuditEvent).where(AuditEvent.user_id == user.id)
+    if kind:
+        q = q.where(or_(*[AuditEvent.kind == k for k in kind.split(",")]))
+    rows = await db.scalars(q.order_by(AuditEvent.id.desc()).limit(limit))
+    return [_event_out(e) for e in rows]
+
+
+@router.get("/usage")
+async def get_usage(db: AsyncSession = Depends(get_db), user: User = Depends(get_current_user)) -> dict:
+    """Total model spend for the caller, all documents and runs."""
+    cost, calls, runs = (
+        await db.execute(select(_RUN_COST, _RUN_CALLS, func.count(Run.id)).where(Run.user_id == user.id))
+    ).one()
+    return {"spent_usd": round(float(cost), 4), "llm_calls": int(calls), "runs": runs}

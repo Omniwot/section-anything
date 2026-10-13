@@ -49,6 +49,9 @@ class Settings(BaseSettings):
     MAX_UPLOAD_MB: int = 100
     MAX_PAGES: int = 500
     RUN_COST_CAP_USD: float = 5.0
+    # Store full prompt text in the LLM call log. Off by default: the prompt
+    # is the document text; the log keeps a SHA-256 and length instead.
+    AUDIT_STORE_PROMPTS: bool = False
     SECTIONING_LLM_TIMEOUT_SECONDS: int = 600
     ALLOWED_MODELS: str = "gpt-5.5,gpt-5"
     # USD per 1M tokens. Keep in config so cost readouts track price changes.

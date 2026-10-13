@@ -24,6 +24,25 @@ function toViewportRect(vp: pdfjs.PageViewport, x0: number, y0: number, x1: numb
   return [ax, ay, bx, by];
 }
 
+/**
+ * x-extent of chars [a, b) of a line (offsets relative to the line start),
+ * from its word boxes. A boundary inside a word is interpolated across it;
+ * one in the gap between words snaps to the nearer word edge.
+ */
+function spanX(words: number[], a: number, b: number, lineX0: number, lineX1: number): [number, number] | null {
+  if (!words.length) return [lineX0, lineX1];
+  let left: number | null = null;
+  let right: number | null = null;
+  for (let k = 0; k < words.length; k += 4) {
+    const [ws, we, wx0, wx1] = [words[k], words[k + 1], words[k + 2], words[k + 3]];
+    if (we <= a || ws >= b) continue;
+    const per = (wx1 - wx0) / Math.max(1, we - ws);
+    if (left === null) left = a > ws ? wx0 + (a - ws) * per : wx0;
+    right = b < we ? wx0 + (b - ws) * per : wx1;
+  }
+  return left === null || right === null ? null : [left, right];
+}
+
 /** Index of the last section starting at or before `pos`, or -1 (preamble). */
 function sectionIndexAt(starts: number[], pos: number): number {
   let lo = 0;
@@ -107,7 +126,7 @@ export default function PdfPane({ docId, sections, activeId, onSelect, handleRef
         const line = lines.find((l) => l[0] === s.first_line);
         if (!line) return;
         const vp = page.getViewport({ scale });
-        const [, y1, , y2] = toViewportRect(vp, line[2], line[3], line[4], line[5]);
+        const [, y1, , y2] = toViewportRect(vp, line[3], line[4], line[5], line[6]);
         container.scrollTo({ top: pageEl.offsetTop + Math.min(y1, y2) - 48, behavior: "smooth" });
       },
     }),
@@ -212,21 +231,38 @@ function PageView({ n, pdf, scale, placeholder, root, getLines, sections, starts
     return () => task?.cancel();
   }, [visible, page, viewport]);
 
+  // One box per stretch of a line that belongs to one section. A line is cut
+  // where a section starts inside it, and where a section's model-given end
+  // falls inside it (the remainder is drawn as trailing material).
   const boxes = useMemo(() => {
     if (!viewport) return [];
-    return lines.map((l) => {
-      const [x1, y1, x2, y2] = toViewportRect(viewport, l[2], l[3], l[4], l[5]);
-      const idx = sectionIndexAt(starts, l[1]);
-      return {
-        i: l[0],
-        start: l[1],
-        left: Math.min(x1, x2),
-        top: Math.min(y1, y2),
-        width: Math.abs(x2 - x1),
-        height: Math.abs(y2 - y1),
-        section: idx >= 0 ? sections[idx] : null,
-      };
-    });
+    const out = [];
+    for (const [i, start, end, lx0, ly0, lx1, ly1, words] of lines) {
+      const cuts = new Set<number>([start, end]);
+      for (const s of sections) {
+        if (s.start > start && s.start < end) cuts.add(s.start);
+        if (s.model_end !== null && s.model_end > start && s.model_end < end) cuts.add(s.model_end);
+      }
+      const points = [...cuts].sort((a, b) => a - b);
+      for (let k = 0; k + 1 < points.length; k++) {
+        const [a, b] = [points[k], points[k + 1]];
+        const idx = sectionIndexAt(starts, a);
+        if (idx < 0) continue;
+        const xs = spanX(words, a - start, b - start, lx0, lx1);
+        if (!xs) continue;
+        const [x1, y1, x2, y2] = toViewportRect(viewport, xs[0], ly0, xs[1], ly1);
+        out.push({
+          key: `${i}:${a}`,
+          start: a,
+          left: Math.min(x1, x2),
+          top: Math.min(y1, y2),
+          width: Math.abs(x2 - x1),
+          height: Math.abs(y2 - y1),
+          section: sections[idx],
+        });
+      }
+    }
+    return out;
   }, [lines, viewport, starts, sections]);
 
   const w = viewport?.width ?? placeholder.w;
@@ -245,14 +281,13 @@ function PageView({ n, pdf, scale, placeholder, root, getLines, sections, starts
       {visible && <canvas ref={canvasRef} style={{ width: w, height: h }} />}
       {visible &&
         boxes.map((b) => {
-          if (!b.section) return null;
           const s = b.section;
           const inActive = active !== null && b.start >= active.start && b.start < active.span_end;
           const trailing = s.model_end !== null && b.start >= s.model_end;
-          const isStart = b.i === s.first_line;
+          const isStart = b.start === s.start;
           return (
             <div
-              key={b.i}
+              key={b.key}
               className={`hl${inActive ? " hl-active" : ""}${trailing ? " hl-trailing" : ""}${isStart ? " hl-start" : ""}`}
               style={{
                 left: b.left - 3,

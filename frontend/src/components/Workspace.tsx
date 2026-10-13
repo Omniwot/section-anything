@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { api, type Catalog, type DocumentInfo, type Estimate, type RunInfo, type Section } from "../api";
+import { usd } from "../format";
+import Activity from "./Activity";
 import PdfPane, { type PdfPaneHandle } from "./PdfPane";
+import RunCalls from "./RunCalls";
 import RunsTable from "./RunsTable";
 import SectionList from "./SectionList";
 import StrategyBar from "./StrategyBar";
@@ -16,10 +19,17 @@ export default function Workspace({ doc, catalog, onBack }: Props) {
   const [model, setModel] = useState(catalog.models[0] ?? "");
   const [activeId, setActiveId] = useState<number | null>(null);
   const [error, setError] = useState("");
+  const [callsFor, setCallsFor] = useState<number | null>(null);
   const pane = useRef<PdfPaneHandle>(null);
 
   const sections: Section[] = useMemo(() => current?.sections ?? [], [current]);
   const busy = runs.some((r) => r.status === "queued" || r.status === "running");
+  const spent = runs.reduce(
+    (a, r) => a + ((r.status === "queued" || r.status === "running" ? r.progress?.cost_usd : r.metrics?.cost_usd) ?? 0),
+    0,
+  );
+  const runStates = runs.map((r) => `${r.id}:${r.status}`).join(",");
+  const callsRun = runs.find((r) => r.id === callsFor) ?? null;
 
   const loadRun = useCallback(async (id: number) => {
     const full = await api<RunInfo>(`/runs/${id}`);
@@ -63,6 +73,7 @@ export default function Workspace({ doc, catalog, onBack }: Props) {
       await refreshRuns();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Run failed to start");
+      await refreshRuns().catch(() => undefined);
     }
   }
 
@@ -85,6 +96,10 @@ export default function Workspace({ doc, catalog, onBack }: Props) {
             {doc.has_gold ? " · in golden corpus: runs are scored for accuracy" : ""}
           </span>
         </div>
+        <div className="ws-spent" title="Total model cost of every run on this document">
+          <span className="eyebrow">Spent on this document</span>
+          <strong>{usd(spent)}</strong>
+        </div>
       </header>
 
       <StrategyBar
@@ -98,7 +113,16 @@ export default function Workspace({ doc, catalog, onBack }: Props) {
         onRun={onRun}
       />
       {error && <p className="error">{error}</p>}
-      <RunsTable runs={runs} catalog={catalog} selectedId={current?.id ?? null} hasGold={doc.has_gold} onSelect={(r) => void loadRun(r.id)} />
+      <RunsTable
+        runs={runs}
+        catalog={catalog}
+        selectedId={current?.id ?? null}
+        hasGold={doc.has_gold}
+        onSelect={(r) => void loadRun(r.id)}
+        onCalls={(r) => setCallsFor(r.id)}
+      />
+      {callsRun && <RunCalls run={callsRun} onClose={() => setCallsFor(null)} />}
+      <Activity docId={doc.id} refreshKey={runStates} />
 
       <div className="split">
         <section className="left" aria-label="Document">

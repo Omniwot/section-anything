@@ -163,9 +163,10 @@ async def run(
     model: str,
     cost_cap_usd: float,
     progress: Callable[[float, str], None] | None = None,
+    usage: Usage | None = None,
 ) -> tuple[list[dict], dict]:
     strategy = BY_ID[strategy_id]
-    usage = Usage()
+    usage = usage or Usage()
     t0 = time.monotonic()
     ctx = Context(model=model, usage=usage, cost_cap_usd=cost_cap_usd, progress=progress or (lambda _f, _m: None))
     raw = await strategy.run(ext, ctx)
@@ -173,12 +174,19 @@ async def run(
     return sections, metrics(sections, ext, usage, time.monotonic() - t0)
 
 
-def estimates(ext: Extraction, prices: dict[str, dict[str, float]]) -> list[dict]:
+def estimates(ext: Extraction, prices: dict[str, dict[str, float]], cap_usd: float) -> list[dict]:
+    """Per strategy and model: expected calls, tokens and cost. A run whose
+    estimate is over the cap is blocked (owner decision: no override)."""
     out = []
     for s in STRATEGIES:
         e = s.estimate(ext)
-        row = {"strategy": s.id, "calls": e.calls, "input_tokens": e.input_tokens, "output_tokens": e.output_tokens, "cost_usd": {}}
+        row = {
+            "strategy": s.id, "calls": e.calls, "input_tokens": e.input_tokens, "output_tokens": e.output_tokens,
+            "cost_usd": {}, "blocked": {},
+        }
         for model, p in prices.items():
-            row["cost_usd"][model] = round((e.input_tokens * p["input"] + e.output_tokens * p["output"]) / 1e6, 4) if s.uses_llm else 0.0
+            cost = round((e.input_tokens * p["input"] + e.output_tokens * p["output"]) / 1e6, 4) if s.uses_llm else 0.0
+            row["cost_usd"][model] = cost
+            row["blocked"][model] = cost > cap_usd
         out.append(row)
     return out

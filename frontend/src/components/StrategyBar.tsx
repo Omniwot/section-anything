@@ -17,6 +17,7 @@ export default function StrategyBar({ catalog, estimates, strategyIndex, model, 
   const s = catalog.strategies[strategyIndex];
   const est = estimates.find((e) => e.strategy === s.id);
   const cost = est ? est.cost_usd[model] : undefined;
+  const blocked = s.uses_llm && !!est?.blocked[model];
 
   return (
     <div className="strategy-bar">
@@ -57,11 +58,17 @@ export default function StrategyBar({ catalog, estimates, strategyIndex, model, 
               </option>
             ))}
           </select>
-          <button className="primary" onClick={onRun} disabled={busy}>
+          <button className="primary" onClick={onRun} disabled={busy || blocked}>
             {busy ? "Running…" : `Run${s.uses_llm && cost !== undefined ? ` · ≈ ${usd(cost)}` : " · free"}`}
           </button>
         </div>
-        {s.uses_llm && est && (
+        {blocked && (
+          <p className="error small">
+            Estimated {usd(cost)} is over the {usd(catalog.limits.run_cost_cap_usd)} per-run cap, so this run is unavailable. Pick a
+            cheaper strategy or model, or raise RUN_COST_CAP_USD.
+          </p>
+        )}
+        {s.uses_llm && est && !blocked && (
           <p className="muted small">
             Estimate: {est.calls} call{est.calls === 1 ? "" : "s"}, ~{Math.round(est.input_tokens / 1000)}k tokens in. Runs stop at{" "}
             {usd(catalog.limits.run_cost_cap_usd)}.

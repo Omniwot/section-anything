@@ -113,6 +113,7 @@ class LlmTextStrategy(Strategy):
             res = await structured(
                 model=ctx.model, system=TEXT_SYSTEM, user=user, schema=TextResult,
                 usage=ctx.usage, cost_cap_usd=ctx.cost_cap_usd, effort=self.effort,
+                step=f"read window {k + 1}/{len(windows)}",
             )
             for s in res.sections:
                 if not (a <= s.start_line < b):
@@ -194,6 +195,7 @@ class LlmReviewStrategy(Strategy):
             res = await structured(
                 model=ctx.model, system=REVIEW_SYSTEM, user=user, schema=ReviewResult,
                 usage=ctx.usage, cost_cap_usd=ctx.cost_cap_usd, effort=self.effort,
+                step=f"review batch {k + 1}/{len(batches)}",
             )
             valid = {i for i, _ in batch}
             for it in sorted(res.items, key=lambda x: x.id):

@@ -1,4 +1,4 @@
-"""OpenAI calls with schema-validated output and cost accounting.
+"""OpenAI calls with schema-validated output, cost accounting and a call log.
 
 Separate from app.core.llm: sectioning needs structured outputs, usage for
 cost, and GPT-5 parameters (no temperature, max_completion_tokens,
@@ -7,7 +7,10 @@ reasoning_effort) that the template's generic LiteLLM wrapper doesn't pass.
 
 from __future__ import annotations
 
+import hashlib
 import logging
+import time
+from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
 from typing import TypeVar
 
@@ -18,13 +21,25 @@ from app.core.config import settings
 logger = logging.getLogger(__name__)
 T = TypeVar("T", bound=BaseModel)
 
+CallSink = Callable[[dict], Awaitable[None]]
+
 
 class CostCapExceeded(RuntimeError):
     pass
 
 
+def price_of(model: str, inp: int, cached: int, out: int) -> float | None:
+    price = settings.model_prices.get(model)
+    if not price:
+        return None
+    return ((inp - cached) * price["input"] + cached * price["cached"] + out * price["output"]) / 1e6
+
+
 @dataclass
 class Usage:
+    """Running totals for one run. Every attempt is also handed to `sink`
+    (the audit log) as soon as it finishes."""
+
     calls: int = 0
     input_tokens: int = 0
     cached_tokens: int = 0
@@ -32,27 +47,41 @@ class Usage:
     reasoning_tokens: int = 0
     cost_usd: float = 0.0
     priced: bool = True
-    per_call: list[dict] = field(default_factory=list)
+    sink: CallSink | None = None
+    seq: int = 0
+    by_step: dict[str, float] = field(default_factory=dict)
 
-    def add(self, model: str, usage) -> None:
+    def add(self, model: str, usage) -> dict:
+        tokens = {"input_tokens": 0, "cached_tokens": 0, "output_tokens": 0, "reasoning_tokens": 0, "cost_usd": 0.0}
         if usage is None:
-            return
+            return tokens
         cached = getattr(getattr(usage, "prompt_tokens_details", None), "cached_tokens", 0) or 0
         reasoning = getattr(getattr(usage, "completion_tokens_details", None), "reasoning_tokens", 0) or 0
         inp, out = usage.prompt_tokens or 0, usage.completion_tokens or 0
-        price = settings.model_prices.get(model)
-        cost = 0.0
-        if price:
-            cost = ((inp - cached) * price["input"] + cached * price["cached"] + out * price["output"]) / 1e6
-        else:
+        cost = price_of(model, inp, cached, out)
+        if cost is None:
             self.priced = False
         self.calls += 1
         self.input_tokens += inp
         self.cached_tokens += cached
         self.output_tokens += out
         self.reasoning_tokens += reasoning
-        self.cost_usd += cost
-        self.per_call.append({"input": inp, "cached": cached, "output": out, "reasoning": reasoning, "cost": round(cost, 5)})
+        self.cost_usd += cost or 0.0
+        return {
+            "input_tokens": inp, "cached_tokens": cached, "output_tokens": out,
+            "reasoning_tokens": reasoning, "cost_usd": None if cost is None else round(cost, 6),
+        }
+
+    async def record(self, entry: dict) -> None:
+        self.seq += 1
+        entry["seq"] = self.seq
+        step = entry.get("step", "")
+        self.by_step[step] = self.by_step.get(step, 0.0) + (entry.get("cost_usd") or 0.0)
+        if self.sink:
+            try:
+                await self.sink(entry)
+            except Exception:  # noqa: BLE001 — logging must never fail a run
+                logger.exception("could not record LLM call")
 
     def summary(self) -> dict:
         return {
@@ -62,6 +91,7 @@ class Usage:
             "output_tokens": self.output_tokens,
             "reasoning_tokens": self.reasoning_tokens,
             "cost_usd": round(self.cost_usd, 4) if self.priced else None,
+            "cost_by_step": {k: round(v, 4) for k, v in self.by_step.items()},
         }
 
 
@@ -82,6 +112,7 @@ async def structured(
     schema: type[T],
     usage: Usage,
     cost_cap_usd: float,
+    step: str,
     effort: str | None = "low",
     max_output_tokens: int = 32_000,
     attempts: int = 2,
@@ -104,21 +135,38 @@ async def structured(
     }
     if effort:
         kwargs["reasoning_effort"] = effort
+    prompt = f"{system}\n\n{user}"
+    base = {
+        "step": step,
+        "model": model,
+        "reasoning_effort": effort,
+        "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest(),
+        "prompt_chars": len(prompt),
+        "images": len(images or []),
+        "prompt_text": prompt if settings.AUDIT_STORE_PROMPTS else None,
+    }
     client = _client()
     last: Exception | None = None
     for attempt in range(1, attempts + 1):
+        t0 = time.monotonic()
+        entry = {**base, "attempt": attempt, "status": "error", "error": None, "response": None}
         try:
             resp = await client.chat.completions.parse(**kwargs)
-            usage.add(model, resp.usage)
+            entry.update(usage.add(model, resp.usage))
             msg = resp.choices[0].message
             if msg.refusal:
+                entry["status"] = "refused"
                 raise ValueError(f"model refused: {msg.refusal[:200]}")
             if msg.parsed is None:
+                entry["status"] = "invalid"
                 raise ValueError(f"unparsable response (finish={resp.choices[0].finish_reason})")
+            entry["status"], entry["response"] = "ok", msg.parsed.model_dump()
             return msg.parsed
-        except CostCapExceeded:
-            raise
         except Exception as exc:  # noqa: BLE001 — retried, then surfaced
             last = exc
+            entry["error"] = f"{type(exc).__name__}: {exc}"[:2000]
             logger.warning("sectioning LLM attempt %s failed: %s", attempt, exc)
+        finally:
+            entry["latency_ms"] = int((time.monotonic() - t0) * 1000)
+            await usage.record(entry)
     raise RuntimeError(f"LLM call failed after {attempts} attempts: {last}")

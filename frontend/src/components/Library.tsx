@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { api, type Catalog, type DocumentInfo } from "../api";
+import { usd } from "../format";
 
 type Props = { catalog: Catalog; onOpen: (d: DocumentInfo) => void };
 
@@ -89,7 +90,7 @@ export default function Library({ catalog, onOpen }: Props) {
                 <span className="doc-name">{d.filename}</span>
                 <span className="muted small">
                   {d.status === "ready" &&
-                    `${d.n_pages} pages${d.pages_without_text ? ` · ${d.pages_without_text} without text` : ""}${d.has_gold ? " · golden corpus" : ""}`}
+                    `${d.n_pages} pages${d.pages_without_text ? ` · ${d.pages_without_text} without text` : ""}${d.has_gold ? " · golden corpus" : ""}${d.spent_usd ? ` · ${usd(d.spent_usd)} spent` : ""}`}
                   {d.status === "extracting" &&
                     (d.progress ? `${d.progress.message} (${Math.round(d.progress.fraction * 100)}%)` : "Reading…")}
                   {d.status === "failed" && <span className="err">{d.error}</span>}
