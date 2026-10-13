@@ -25,10 +25,10 @@ from pdfminer.layout import LTChar, LTTextBox, LTTextLine
 # Bump when the canonical text or the saved geometry changes. Documents
 # extracted with an older version are re-extracted, and runs record the version
 # their character offsets refer to.
-EXTRACTOR_VERSION = 2
+EXTRACTOR_VERSION = 3
 # Oldest version whose canonical text is identical to the current one. Runs
 # from that version on still map onto the page; older runs are stale. Raise it
-# only when `Extraction.text` changes (version 2 added word boxes only).
+# only when `Extraction.text` changes (2 added word boxes, 3 the PDF outline).
 TEXT_COMPATIBLE_SINCE = 1
 
 LAPARAMS = {
@@ -77,11 +77,23 @@ class Line:
 
 
 @dataclass
+class OutlineItem:
+    """A PDF bookmark: 1-based level and page, and the target's y in PDF user
+    space when the bookmark gives one."""
+
+    level: int
+    title: str
+    page: int
+    y: float | None = None
+
+
+@dataclass
 class Extraction:
     pages: list[Page]
     lines: list[Line]
     text: str
     version: int = EXTRACTOR_VERSION
+    outline: list[OutlineItem] = field(default_factory=list)
 
     def body_size(self) -> float:
         """The most common font size weighted by characters: the body text."""
@@ -97,6 +109,7 @@ class Extraction:
                     "version": self.version,
                     "pages": [asdict(p) for p in self.pages],
                     "lines": [asdict(ln) for ln in self.lines],
+                    "outline": [asdict(o) for o in self.outline],
                 },
                 separators=(",", ":"),
             )
@@ -107,8 +120,40 @@ class Extraction:
         raw = json.loads(path.read_text())
         lines = [Line(**ln) for ln in raw["lines"]]
         return cls(
-            [Page(**p) for p in raw["pages"]], lines, "\n".join(ln.text for ln in lines), raw.get("version", 1)
+            [Page(**p) for p in raw["pages"]], lines, "\n".join(ln.text for ln in lines), raw.get("version", 1),
+            [OutlineItem(**o) for o in raw.get("outline", [])],
         )
+
+
+def read_outline(path: Path, max_items: int = 5000) -> list[OutlineItem]:
+    """The PDF's bookmarks via pypdfium2 (Apache/BSD). Empty when there are
+    none or the outline can't be read."""
+    import pypdfium2 as pdfium
+
+    out: list[OutlineItem] = []
+    try:
+        pdf = pdfium.PdfDocument(str(path))
+        try:
+            for b in pdf.get_toc(max_depth=8):
+                dest = b.get_dest()
+                if dest is None or dest.get_index() is None:
+                    continue
+                y = None
+                try:
+                    _mode, pos = dest.get_view()
+                    y = float(pos[1]) if len(pos) > 1 and pos[1] is not None else None
+                except Exception:  # noqa: BLE001 — position is optional
+                    y = None
+                title = re.sub(r"\s+", " ", b.get_title() or "").strip()
+                if title:
+                    out.append(OutlineItem(level=b.level + 1, title=title, page=dest.get_index() + 1, y=y))
+                if len(out) >= max_items:
+                    break
+        finally:
+            pdf.close()
+    except Exception:  # noqa: BLE001 — a broken outline must not fail extraction
+        return []
+    return out
 
 
 def _line_text_and_words(tl: LTTextLine, dx: float) -> tuple[str, list[float]]:
@@ -189,4 +234,4 @@ def extract(path: Path, on_page: Callable[[int, int], None] | None = None) -> Ex
             page.close()  # drop pdfplumber's per-page caches; matters at 500 pages
             if on_page:
                 on_page(n, total)
-    return Extraction(pages, lines, "\n".join(ln.text for ln in lines))
+    return Extraction(pages, lines, "\n".join(ln.text for ln in lines), outline=read_outline(path))

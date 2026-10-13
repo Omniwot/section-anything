@@ -7,6 +7,14 @@ held to the same contract:
 - A section's start is located by finding its start marker in the text (near
   the strategy's line hint). A marker that can't be found is flagged, never
   silently trusted; the hint is used only as a fallback and is flagged too.
+- Marker hits inside a table of contents are rejected when the marker also
+  occurs in the body, and a proposal that only resolves into the TOC is
+  dropped: TOC lines are never section starts.
+- Each start offset belongs to one section. Proposals with the fewest
+  candidate positions choose first, so a repeated heading ("10.1 Cell
+  Division" in an outline, the body and a summary) can't steal another
+  section's spot.
+- Text before the first heading becomes an explicit "Front matter" section.
 - Sections are ordered and non-overlapping. A section's own text runs to the
   next section of any level ("segment"); its full span, including
   subsections, runs to the next section at the same or a higher level.
@@ -26,6 +34,9 @@ from app.sectioning.markers import Locator, canon
 from app.sectioning.strategies.base import Context, RawSection, Strategy
 from app.sectioning.strategies.llm_text import LlmReviewStrategy, LlmTextStrategy
 from app.sectioning.strategies.rules import RulesStrategy
+from app.sectioning.structure import Toc, toc_of
+
+FRONT_MATTER_MIN_CHARS = 300
 
 # Ordered cheapest → most thorough; the UI slider follows this order.
 STRATEGIES: list[Strategy] = [RulesStrategy(), LlmReviewStrategy(), LlmTextStrategy()]
@@ -37,42 +48,74 @@ def _line_at(ext: Extraction, pos: int) -> int:
     return max(0, bisect.bisect_right(starts, pos) - 1)
 
 
-def resolve(raw: list[RawSection], ext: Extraction, loc: Locator) -> list[dict]:
-    text, lines = ext.text, ext.lines
-    placed = []
-    for r in raw:
-        hint_line = r.start_line if r.start_line is not None and 0 <= r.start_line < len(lines) else None
-        hint = lines[hint_line].start if hint_line is not None else None
-        flags: list[str] = []
-        hit = None
-        if r.start_marker:
-            if hint is not None:
-                lo = lines[max(0, hint_line - 3)].start
-                hi = lines[min(len(lines) - 1, hint_line + 8)].end
-                hit = loc.find(r.start_marker, near=hint, lo=lo, hi=hi)
-            hit = hit or loc.find(r.start_marker, near=hint)
-        if hit:
-            start = hit.start
-            if hit.method == "fuzzy":
-                flags.append("start_marker_fuzzy")
-        elif hint is not None:
-            start = hint
-            flags.append("start_marker_not_found")
-        else:
-            continue  # nothing to anchor on: drop rather than guess
-        # Snap to the start of the line when only a short prefix (a number the
-        # marker omitted, a bullet) sits before the match.
-        li = _line_at(ext, start)
-        if start - lines[li].start <= 6:
-            start = lines[li].start
-        placed.append((start, r, flags))
+def _snap(ext: Extraction, start: int) -> int:
+    """Snap to the start of the line when only a short prefix (a number the
+    marker omitted, a bullet) sits before the match."""
+    li = _line_at(ext, start)
+    return ext.lines[li].start if start - ext.lines[li].start <= 6 else start
 
-    placed.sort(key=lambda t: t[0])
-    deduped = []
-    for start, r, flags in placed:
-        if deduped and start - deduped[-1][0] <= 3:
+
+def _candidates(r: RawSection, ext: Extraction, loc: Locator, toc: Toc) -> list[tuple[int, list[str]]]:
+    """Possible start offsets for one proposal, best first, with their flags."""
+    lines = ext.lines
+    hint_line = r.start_line if r.start_line is not None and 0 <= r.start_line < len(lines) else None
+    hint = lines[hint_line].start if hint_line is not None else None
+    out: list[tuple[int, list[str]]] = []
+    if r.start_marker:
+        window = None
+        if hint_line is not None:
+            window = (lines[max(0, hint_line - 3)].start, lines[min(len(lines) - 1, hint_line + 8)].end)
+        hits = loc.find_all(r.start_marker, *window) if window else []
+        hits = hits or loc.find_all(r.start_marker)
+        body = [h for h in hits if not toc.contains(h.start)]
+        hits = body or hits
+        ref = hint if hint is not None else (hits[0].start if hits else 0)
+        hits.sort(key=lambda h: abs(h.start - ref))
+        out = [(_snap(ext, h.start), []) for h in hits]
+        if not out:
+            fuzzy = (loc.find(r.start_marker, near=hint, lo=window[0], hi=window[1]) if window else None) or loc.find(
+                r.start_marker, near=hint
+            )
+            if fuzzy:
+                out = [(_snap(ext, fuzzy.start), ["start_marker_fuzzy"] if fuzzy.method == "fuzzy" else [])]
+    if not out and hint is not None:
+        out = [(_snap(ext, hint), ["start_marker_not_found"])]
+    return out
+
+
+def _assign(raw: list[RawSection], ext: Extraction, loc: Locator, toc: Toc) -> tuple[list, dict]:
+    """Give each proposal one start offset no other proposal holds."""
+    cands = [_candidates(r, ext, loc, toc) for r in raw]
+    dropped = {"toc": 0, "duplicate": 0, "unanchored": 0}
+    claimed: list[int] = []
+    placed = []
+    for i in sorted(range(len(raw)), key=lambda k: (len(cands[k]) or 10**9, k)):
+        if not cands[i]:
+            dropped["unanchored"] += 1  # nothing to anchor on: drop rather than guess
             continue
-        deduped.append((start, r, flags))
+        free = [(s, f) for s, f in cands[i] if not toc.contains(s)]
+        if not free:
+            dropped["toc"] += 1
+            continue
+        pick = next(((s, f) for s, f in free if all(abs(s - c) > 3 for c in claimed)), None)
+        if pick is None:
+            dropped["duplicate"] += 1
+            continue
+        claimed.append(pick[0])
+        placed.append((pick[0], raw[i], list(pick[1])))
+    placed.sort(key=lambda t: t[0])
+    return placed, dropped
+
+
+def resolve(raw: list[RawSection], ext: Extraction, loc: Locator, toc: Toc | None = None) -> tuple[list[dict], dict]:
+    text, lines = ext.text, ext.lines
+    toc = toc if toc is not None else toc_of(ext)
+    deduped, dropped = _assign(raw, ext, loc, toc)
+
+    if deduped and deduped[0][0] >= FRONT_MATTER_MIN_CHARS and text[: deduped[0][0]].strip():
+        top = min(r.level for _, r, _ in deduped)
+        front = RawSection(title="Front matter", level=top, title_from_text=False, start_line=0)
+        deduped.insert(0, (0, front, ["front_matter"]))
 
     out = []
     n = len(text)
@@ -131,7 +174,12 @@ def resolve(raw: list[RawSection], ext: Extraction, loc: Locator) -> list[dict]:
                 "flags": flags,
             }
         )
-    return out
+    return out, {"dropped": dropped, "toc_lines": len(toc.lines)}
+
+
+def finish(raw: list[RawSection], ext: Extraction, loc: Locator) -> list[dict]:
+    """Resolve proposals into sections (no metrics); used for replays."""
+    return resolve(raw, ext, loc)[0]
 
 
 def _rate(xs: list[bool | None]) -> float | None:
@@ -139,10 +187,11 @@ def _rate(xs: list[bool | None]) -> float | None:
     return round(sum(vals) / len(vals), 3) if vals else None
 
 
-def metrics(sections: list[dict], ext: Extraction, usage: Usage, seconds: float) -> dict:
+def metrics(sections: list[dict], ext: Extraction, usage: Usage, seconds: float, extra: dict | None = None) -> dict:
     n = len(ext.text) or 1
     covered = n - sections[0]["start"] if sections else 0
     return {
+        **(extra or {}),
         "sections": len(sections),
         "max_depth": max((s["level"] for s in sections), default=0),
         "coverage": round(covered / n, 4),
@@ -164,14 +213,16 @@ async def run(
     cost_cap_usd: float,
     progress: Callable[[float, str], None] | None = None,
     usage: Usage | None = None,
-) -> tuple[list[dict], dict]:
+) -> tuple[list[RawSection], list[dict], dict]:
+    """Returns the strategy's raw proposals (saved for replay), the resolved
+    sections and the run metrics."""
     strategy = BY_ID[strategy_id]
     usage = usage or Usage()
     t0 = time.monotonic()
     ctx = Context(model=model, usage=usage, cost_cap_usd=cost_cap_usd, progress=progress or (lambda _f, _m: None))
     raw = await strategy.run(ext, ctx)
-    sections = resolve(raw, ext, Locator(ext.text))
-    return sections, metrics(sections, ext, usage, time.monotonic() - t0)
+    sections, extra = resolve(raw, ext, Locator(ext.text))
+    return raw, sections, metrics(sections, ext, usage, time.monotonic() - t0, extra)
 
 
 def estimates(ext: Extraction, prices: dict[str, dict[str, float]], cap_usd: float) -> list[dict]:

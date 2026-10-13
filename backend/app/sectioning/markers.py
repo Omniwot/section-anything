@@ -68,6 +68,20 @@ class Locator:
     def _to_canon(self, pos: int) -> int:
         return min(bisect.bisect_left(self.origin, pos), len(self.s))
 
+    def find_all(self, marker: str, lo: int = 0, hi: int | None = None, limit: int = 50) -> list[Hit]:
+        """Every exact (canonical) occurrence of `marker` in [lo, hi), in order."""
+        m = canon(marker)
+        if len(m) < 3:
+            return []
+        hi = len(self.text) if hi is None else hi
+        clo, chi = self._to_canon(lo), self._to_canon(hi)
+        out: list[Hit] = []
+        k = self.s.find(m, clo, chi)
+        while k != -1 and len(out) < limit:
+            out.append(Hit(self.origin[k], self.origin[k + len(m) - 1] + 1, 100.0, "exact"))
+            k = self.s.find(m, k + 1, chi)
+        return out
+
     def find(self, marker: str, near: int | None = None, lo: int = 0, hi: int | None = None) -> Hit | None:
         """Locate `marker` within original-text range [lo, hi), preferring the
         occurrence closest to `near`."""

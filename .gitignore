@@ -44,3 +44,6 @@ Thumbs.db
 .pgdata/
 backend/data/
 *.log
+
+# Corpus PDFs are downloaded by scripts, not committed; manifest and gold files are.
+corpus/files/

@@ -12,6 +12,7 @@ import asyncio
 import json
 import logging
 import time
+from dataclasses import asdict
 from pathlib import Path
 
 from app import audit
@@ -60,6 +61,15 @@ def corpus_gold(sha256: str) -> list[dict] | None:
             path = manifest.parent / entry["gold"]
             return json.loads(path.read_text()) if path.exists() else None
     return None
+
+
+def save_raw(doc_id: int, run_id: int, strategy: str, raw: list) -> None:
+    """Keep a run's unresolved proposals, so resolver changes can be replayed
+    against them without new model calls (scripts/evaluate_corpus.py)."""
+    d = doc_dir(doc_id) / "runs"
+    d.mkdir(exist_ok=True)
+    payload = {"strategy": strategy, "raw": [asdict(r) for r in raw]}
+    (d / f"{run_id}.raw.json").write_text(json.dumps(payload, separators=(",", ":")))
 
 
 def is_stale(doc: Document) -> bool:
@@ -144,9 +154,10 @@ def start_run(run_id: int) -> None:
             try:
                 ext = load_extraction(doc_id)
                 run.extractor_version = ext.version
-                sections, metrics = await pipeline.run(
+                raw, sections, metrics = await pipeline.run(
                     ext, run.strategy, run.model, settings.RUN_COST_CAP_USD, progress, usage=usage
                 )
+                save_raw(doc_id, run_id, run.strategy, raw)
                 gold = corpus_gold(doc.sha256)
                 run.sections, run.metrics = sections, metrics
                 run.accuracy = score(gold, sections) if gold else None

@@ -35,6 +35,7 @@ def score(gold: list[dict], sections: list[dict]) -> dict:
     pred = [
         {"title": f"{s.get('number', '')} {s['title']}".strip(), "level": s["level"], "page": s["page_start"]}
         for s in sections
+        if "front_matter" not in s.get("flags", [])  # a container, not a heading
     ]
     cands = []
     for gi, g in enumerate(gold):
