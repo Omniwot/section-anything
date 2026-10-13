@@ -55,7 +55,7 @@ def score(gold: list[dict], sections: list[dict]) -> dict:
 
     order = sorted(pairs)
     agree = total = 0
-    for a, b in zip(order, order[1:]):
+    for a, b in zip(order, order[1:], strict=False):
         g = (gold[b]["level"] > gold[a]["level"]) - (gold[b]["level"] < gold[a]["level"])
         p = (pred[pairs[b]]["level"] > pred[pairs[a]]["level"]) - (pred[pairs[b]]["level"] < pred[pairs[a]]["level"])
         agree += g == p

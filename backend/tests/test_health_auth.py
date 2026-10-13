@@ -33,9 +33,9 @@ def test_jwt_roundtrip() -> None:
 
 
 @pytest.mark.asyncio
-async def test_generate_requires_auth() -> None:
+async def test_documents_require_auth() -> None:
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
-        res = await client.post("/api/v1/generate", json={"prompt": "hi"})
+        res = await client.get("/api/v1/documents")
     assert res.status_code in {401, 403}
 

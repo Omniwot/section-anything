@@ -1,210 +1,123 @@
+import { type FormEvent, useEffect, useState } from "react";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
-
+import { ApiError, API_URL, api, getToken, setToken, type Catalog, type DocumentInfo } from "./api";
+import Library from "./components/Library";
+import Workspace from "./components/Workspace";
 import "./App.css";
 
-const API_URL = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
-
-type GenerateResponse = {
-  result: string;
-  job_id: number;
-};
-
-type ApiError = {
-  detail?: string | { msg?: string }[];
-};
-
-async function readError(res: Response): Promise<string> {
-  try {
-    const data = (await res.json()) as ApiError;
-    if (typeof data.detail === "string") return data.detail;
-    if (Array.isArray(data.detail)) {
-      return data.detail.map((d) => d.msg || JSON.stringify(d)).join("; ");
-    }
-  } catch {
-    /* ignore */
-  }
-  return `Request failed (${res.status})`;
+function BetaBanner() {
+  return (
+    <div className="beta" role="note">
+      <strong>Beta</strong>
+      <span>
+        Section Anything is an experimental application for testing approaches to parsing and sectioning documents. Results can be
+        wrong; don't rely on them.
+      </span>
+    </div>
+  );
 }
 
-
-const TOKEN_KEY = "section-anything_token";
-
-function getToken(): string | null {
-  return localStorage.getItem(TOKEN_KEY);
-}
-
-function setToken(token: string | null) {
-  if (token) localStorage.setItem(TOKEN_KEY, token);
-  else localStorage.removeItem(TOKEN_KEY);
-}
-
-
-export default function App() {
-  const [prompt, setPrompt] = useState("");
-  const [result, setResult] = useState("");
-  const [jobId, setJobId] = useState<number | null>(null);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
+function Login({ onToken }: { onToken: (t: string) => void }) {
+  const [mode, setMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setTokenState] = useState<string | null>(() => getToken());
-  const [authMode, setAuthMode] = useState<"login" | "register">("login");
-  const [authLoading, setAuthLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
-  useEffect(() => {
-    setToken(token);
-  }, [token]);
-
-  const authed = useMemo(() => Boolean(token), [token]);
-
-  async function onAuth(e: FormEvent) {
+  async function submit(e: FormEvent) {
     e.preventDefault();
-    setAuthLoading(true);
+    setBusy(true);
     setError("");
     try {
-      const path = authMode === "login" ? "/api/v1/auth/login" : "/api/v1/auth/register";
-      const res = await fetch(`${API_URL}${path}`, {
+      const res = await fetch(`${API_URL}/api/v1/auth/${mode}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-      if (!res.ok) throw new Error(await readError(res));
-      const data = (await res.json()) as { access_token: string };
-      setTokenState(data.access_token);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(typeof data.detail === "string" ? data.detail : `Request failed (${res.status})`);
+      onToken(data.access_token);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Auth failed");
+      setError(err instanceof Error ? err.message : "Sign-in failed");
     } finally {
-      setAuthLoading(false);
-    }
-  }
-
-
-  async function onSubmit(e: FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    setResult("");
-    setJobId(null);
-    const controller = new AbortController();
-    const timer = window.setTimeout(() => controller.abort(), 120_000);
-    try {
-      const headers: Record<string, string> = { "Content-Type": "application/json" };
-
-      if (!token) throw new Error("Sign in first");
-      headers.Authorization = `Bearer ${token}`;
-
-      const res = await fetch(`${API_URL}/api/v1/generate`, {
-        method: "POST",
-        headers,
-        body: JSON.stringify({ prompt }),
-        signal: controller.signal,
-      });
-      if (!res.ok) throw new Error(await readError(res));
-      const data = (await res.json()) as GenerateResponse;
-      setResult(data.result);
-      setJobId(data.job_id);
-    } catch (err) {
-      if (err instanceof DOMException && err.name === "AbortError") {
-        setError("Request timed out");
-      } else {
-        setError(err instanceof Error ? err.message : "Request failed");
-      }
-    } finally {
-      window.clearTimeout(timer);
-      setLoading(false);
+      setBusy(false);
     }
   }
 
   return (
-    <div className="shell">
-      <header className="hero">
-        <p className="brand">section-anything</p>
-        <h1>Ask anything.</h1>
-        <p className="lede">
-          FastAPI + LiteLLM, with Langfuse tracing and Sentry error reporting.
-        </p>
-      </header>
+    <form className="login" onSubmit={submit}>
+      <h2>{mode === "login" ? "Sign in" : "Create an account"}</h2>
+      <label>
+        Email
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" />
+      </label>
+      <label>
+        Password
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          minLength={8}
+          autoComplete={mode === "login" ? "current-password" : "new-password"}
+        />
+      </label>
+      {error && <p className="error">{error}</p>}
+      <button className="primary" disabled={busy}>
+        {busy ? "…" : mode === "login" ? "Sign in" : "Create account"}
+      </button>
+      <button type="button" className="ghost" onClick={() => setMode(mode === "login" ? "register" : "login")}>
+        {mode === "login" ? "New here? Create an account" : "Have an account? Sign in"}
+      </button>
+    </form>
+  );
+}
 
+export default function App() {
+  const [token, setTok] = useState<string | null>(() => getToken());
+  const [catalog, setCatalog] = useState<Catalog | null>(null);
+  const [doc, setDoc] = useState<DocumentInfo | null>(null);
 
-      {!authed ? (
-        <form className="panel auth" onSubmit={onAuth}>
-          <div className="auth-toggle">
-            <button
-              type="button"
-              className={authMode === "login" ? "active" : ""}
-              onClick={() => setAuthMode("login")}
-            >
-              Sign in
-            </button>
-            <button
-              type="button"
-              className={authMode === "register" ? "active" : ""}
-              onClick={() => setAuthMode("register")}
-            >
-              Create account
-            </button>
-          </div>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoComplete="email"
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={8}
-            autoComplete={authMode === "login" ? "current-password" : "new-password"}
-          />
-          <button type="submit" disabled={authLoading}>
-            {authLoading ? "Please wait…" : authMode === "login" ? "Sign in" : "Register"}
-          </button>
-        </form>
-      ) : (
-        <div className="session">
-          <span>Signed in</span>
-          <button type="button" className="ghost" onClick={() => setTokenState(null)}>
+  useEffect(() => {
+    setToken(token);
+    if (!token) return;
+    api<Catalog>("/catalog")
+      .then(setCatalog)
+      .catch((e) => e instanceof ApiError && e.status === 401 && setTok(null));
+  }, [token]);
+
+  return (
+    <div className="app">
+      <BetaBanner />
+      <header className="top">
+        <h1>
+          Section <span>Anything</span>
+        </h1>
+        {token && (
+          <button
+            className="ghost"
+            onClick={() => {
+              setTok(null);
+              setDoc(null);
+            }}
+          >
             Sign out
           </button>
-        </div>
-      )}
-
-
-      <form className="panel" onSubmit={onSubmit}>
-        <label htmlFor="prompt">Prompt</label>
-        <textarea
-          id="prompt"
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          rows={5}
-          placeholder="Describe what you need…"
-          required
-          maxLength={20000}
-
-          disabled={!authed}
-
-        />
-        <button type="submit" disabled={loading || !authed}>
-          {loading ? "Generating…" : "Generate"}
-        </button>
-      </form>
-
-      {error ? <p className="error" role="alert">{error}</p> : null}
-      {result ? (
-        <section className="result">
-          <h2>Result{jobId != null ? ` · job #${jobId}` : ""}</h2>
-          <pre>{result}</pre>
-        </section>
-      ) : null}
+        )}
+      </header>
+      <main>
+        {!token && <Login onToken={setTok} />}
+        {token && catalog && !doc && (
+          <>
+            <p className="lede">
+              Upload a PDF. Pick a strategy on the slider, run it, and see each section highlighted on the page, with its cost and,
+              for golden-corpus documents, its accuracy.
+            </p>
+            <Library catalog={catalog} onOpen={setDoc} />
+          </>
+        )}
+        {token && catalog && doc && <Workspace doc={doc} catalog={catalog} onBack={() => setDoc(null)} />}
+      </main>
     </div>
   );
 }
