@@ -753,14 +753,40 @@ measured on harder documents. MinerU's LLM levelling failed on one filing in 6 o
 is a model and was not checked by hand. TODO: human spot-check of judge decisions.
 <!-- src: HANDOFF L698-705. -->
 
-### 6.2 Qasper (TODO)
+### 6.2 Qasper
 
-> **Placeholder — experiment in progress; no results yet.** Planned: Qasper [@dasigi2021qasper]
-> (5,049 questions over 1,585 NLP papers), where answers can be paired with gold sections and
-> MinerU's headings are known to be weaker, with an arm using gold headings as an upper bound,
-> answer F1 without a judge, and enough questions for useful statistical power. TODO: protocol,
-> sample size, cost, results.
-<!-- src: plan — HANDOFF L714-716; PLAN L106-126 (arms incl. gold headings on Qasper, answer F1). No numbers exist yet. -->
+We sampled 200 of the 415 Qasper test papers with at least one answerable question (fixed seed;
+707 questions) [@dasigi2021qasper]. Every arm used our extraction, the same embeddings, answer
+model (gpt-6-luna) and context budget; only the chunk boundaries and section-path prefixes came
+from different headings: fixed 1,200-token chunks (A), Section Anything Standard (C), the papers'
+gold section names (D, an upper bound) and Quick check (E). Docling (B) finished only 52 papers
+before the laptop ran short of memory, so it is reported separately. Answers were scored with
+Qasper's official answer F1, so no model judge was needed.
+<!-- src: docs/rag-qasper.md; raw outputs .tmp/qasper-rag/out/rag/ (answers.jsonl, retrieval.jsonl, report.txt). -->
+
+**Table 9b.** Qasper, 200 papers, 707 questions (answer F1) and 653 questions with gold evidence
+(evidence recall).
+
+| Context budget | Answer F1: A fixed | C Standard | D gold | E Quick | Evidence recall: A | C |
+|---|---|---|---|---|---|---|
+| 6,000 tokens | 0.541 | 0.534 | 0.535 | 0.537 | 0.933 | 0.965 |
+| 2,400 tokens | 0.511 | 0.513 | 0.513 | 0.514 | 0.703 | 0.799 |
+| 1,200 tokens | — | — | — | — | 0.496 | 0.649 |
+
+Section-aware chunks retrieved the gold evidence significantly more often (McNemar p = 0.002 at
+6,000 tokens, p < 0.001 at smaller budgets), and gold, Standard and Quick-check headings retrieved
+almost equally well. A control with fixed chunks of the section chunks' average size recovered
+most of that gain, so it comes largely from smaller chunks; section boundaries added a significant
+8.7 points only at 1,200 tokens, and the section-path prefix added nothing measurable. Answer F1
+did not differ between arms (C − A = −0.007, 95% CI −0.030 to +0.015 at 6,000 tokens), and
+re-asking identical excerpts moved F1 by 1.5 points, as much as any difference between arms. Where
+only C retrieved the evidence (115 questions) its answers were better by 0.16 F1, but small losses
+elsewhere cancelled this out. On the 52 papers Docling finished, Docling's headings performed the
+same as ours (C − B = +0.003 F1, p = 0.59) despite agreeing less with the gold headings (title F1
+0.85 against 0.90). Qasper papers are short (median about 8,600 tokens; 58 of 200 fit in a 6,000-
+token context), which limits how much any chunking can matter; long documents and
+section-scoped questions remain the more promising test.
+<!-- src: docs/rag-qasper.md; agent report 21 Oct. Spend: $3.79 ($3.22 relay + $0.57 sectioning). -->
 
 ---
 

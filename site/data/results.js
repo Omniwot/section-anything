@@ -103,7 +103,10 @@ window.SA_DATA = {
       { arm: "Chunks split at Section Anything's headings", evidence: 34, correct: 30, ours: true }
     ],
     of: 51,
-    note: "Heading-aware chunks retrieved the right page more often than fixed chunks. On 10-K filings our headings tied MinerU's. A larger test on harder documents is planned."
+    note: "Heading-aware chunks retrieved the right page more often than fixed chunks. On 10-K filings our headings tied MinerU's. " +
+          "A larger test on Qasper (200 NLP papers, 707 questions, official answer F1) found the same pattern: section-aware chunks found the " +
+          "evidence more often (96.5% vs 93.3%, and 64.9% vs 49.6% with a small context), mostly because their chunks were smaller, but answer " +
+          "quality did not change (F1 0.534 vs 0.541), and better headings (ours, the papers' own, Docling's) made no difference on these short papers."
   },
   examples: [
     { id: "arXiv 0908.3175", title: "The Impact of Stellar Populations on the Dynamics of Merger Remnants",
