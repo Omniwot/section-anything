@@ -1,6 +1,11 @@
 [
  {
   "level": 1,
+  "title": "Table of Contents",
+  "page": 3
+ },
+ {
+  "level": 1,
   "title": "Table of Figures",
   "page": 5
  },

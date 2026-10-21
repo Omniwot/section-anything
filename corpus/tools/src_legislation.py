@@ -34,8 +34,22 @@ def _local(tag: str) -> str:
     return tag.rsplit("}", 1)[-1]
 
 
+MARGIN = {"sidenote", "footnote"}  # printed in the margin, not part of the heading
+
+
 def _text(el: ET.Element | None) -> str:
-    return re.sub(r"\s+", " ", "".join(el.itertext())).strip() if el is not None else ""
+    if el is None:
+        return ""
+
+    def parts(e: ET.Element):
+        if _local(e.tag) in MARGIN:
+            return
+        yield e.text or ""
+        for c in e:
+            yield from parts(c)
+            yield c.tail or ""
+
+    return re.sub(r"\s+", " ", "".join(parts(el))).strip()
 
 
 def xml_headings(path: Path, structural: dict[str, tuple[str, str]], skip: set[str]) -> list[tuple[int, str]]:
@@ -70,6 +84,24 @@ def xml_headings(path: Path, structural: dict[str, tuple[str, str]], skip: set[s
 
 
 CONTENTS = r"^(?:contents(?: of act)?|arrangement of sections|table of contents)$"
+
+
+def us_contents_lines(ext) -> set[int]:
+    """US public laws print their table of contents inside Section 1, after the
+    enacting words, as title-case "Sec. 101. Short title." lines with no page
+    numbers, so detect_toc misses it and every heading would anchor on page 2.
+    Returns the lines from just after the "SECTION 1. … TABLE OF CONTENTS."
+    heading to the last "Sec. N." entry before the first capitalised body
+    heading ("SEC. 2."). Empty when the pattern is absent (non-US acts)."""
+    texts = [ln.text.strip() for ln in ext.lines]
+    start = next((i for i, t in enumerate(texts) if re.match(r"^SECTION 1\..*TABLE OF CONTENTS", t, re.IGNORECASE)), None)
+    if start is None:
+        return set()
+    body = next((i for i in range(start + 1, len(texts)) if re.match(r"^SEC\.\s+\d+", texts[i])), None)
+    if body is None:
+        return set()
+    entries = [i for i in range(start + 1, body) if re.match(r"^Sec\.\s+\d+", texts[i])]
+    return set(range(start + 1, entries[-1] + 1)) if entries else set()
 
 
 def printed_contents(pdf: Path) -> tuple[list[tuple[int, str]], str]:
@@ -240,9 +272,10 @@ def build(force: bool = False) -> None:
             items = xml_headings(fetch(xurl, LAW + xname), structural, skip)
             entry.gold_source = "legislation-xml"
             # Search after the enacting words, past any printed contents.
-            gold, missing = anchor(ext, items, pdf_titles=True, run_in=True, start_after=ENACTED)
+            contents = us_contents_lines(ext)
+            gold, missing = anchor(ext, items, pdf_titles=True, run_in=True, start_after=ENACTED, skip_lines=contents)
             if len(missing) > 0.5 * len(items):
-                gold, missing = anchor(ext, items, pdf_titles=True, run_in=True)
+                gold, missing = anchor(ext, items, pdf_titles=True, run_in=True, skip_lines=contents)
         else:
             items, first = printed_contents(pdf)
             entry.gold_source, entry.complete = "printed-contents", True

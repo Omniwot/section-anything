@@ -1,0 +1,396 @@
+{
+ "about": "MinerU cloud (mineru.net, 3.4.4 hybrid, vlm) on 26 public non-scanned docs, plus MinerU 3.4.4 LLM title leveling with gpt-6.1-sol (all 26 leveled; synth-image-pages and a removed document re-run after malformed replies). Scored against answer keys corrected 19 Oct 2026.",
+ "documents": [
+  {
+   "id": "arxiv-04",
+   "category": "papers",
+   "complete": true,
+   "cloud": {
+    "precision": 0.6,
+    "recall": 1.0,
+    "f1": 0.75,
+    "level_agreement": 1.0
+   },
+   "cloud_llm": {
+    "precision": 0.6,
+    "recall": 1.0,
+    "f1": 0.75,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "arxiv-05",
+   "category": "papers",
+   "complete": true,
+   "cloud": {
+    "precision": 0.909,
+    "recall": 1.0,
+    "f1": 0.952,
+    "level_agreement": 0.564
+   },
+   "cloud_llm": {
+    "precision": 0.909,
+    "recall": 1.0,
+    "f1": 0.952,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "arxiv-06",
+   "category": "papers",
+   "complete": true,
+   "cloud": {
+    "precision": 0.792,
+    "recall": 1.0,
+    "f1": 0.884,
+    "level_agreement": 0.611
+   },
+   "cloud_llm": {
+    "precision": 0.792,
+    "recall": 1.0,
+    "f1": 0.884,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "law-de-basic-law-english",
+   "category": "legislation",
+   "complete": true,
+   "cloud": {
+    "precision": 0.51,
+    "recall": 0.901,
+    "f1": 0.652,
+    "level_agreement": 0.875
+   },
+   "cloud_llm": {
+    "precision": 0.51,
+    "recall": 0.901,
+    "f1": 0.652,
+    "level_agreement": 0.925
+   }
+  },
+  {
+   "id": "law-us-music-modernization-act",
+   "category": "legislation",
+   "complete": true,
+   "cloud": {
+    "precision": 0.6,
+    "recall": 0.667,
+    "f1": 0.632,
+    "level_agreement": 0.455
+   },
+   "cloud_llm": {
+    "precision": 0.6,
+    "recall": 0.667,
+    "f1": 0.632,
+    "level_agreement": 0.909
+   }
+  },
+  {
+   "id": "law-za-popia-2013",
+   "category": "legislation",
+   "complete": true,
+   "cloud": {
+    "precision": 0.478,
+    "recall": 0.992,
+    "f1": 0.645,
+    "level_agreement": 0.715
+   },
+   "cloud_llm": {
+    "precision": 0.478,
+    "recall": 0.992,
+    "f1": 0.645,
+    "level_agreement": 0.992
+   }
+  },
+  {
+   "id": "manual-r-intro",
+   "category": "manuals",
+   "complete": false,
+   "cloud": {
+    "precision": 0.774,
+    "recall": 0.979,
+    "f1": 0.864,
+    "level_agreement": 0.679
+   },
+   "cloud_llm": {
+    "precision": 0.774,
+    "recall": 0.979,
+    "f1": 0.864,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "manual-requests",
+   "category": "manuals",
+   "complete": false,
+   "cloud": {
+    "precision": 0.539,
+    "recall": 0.99,
+    "f1": 0.698,
+    "level_agreement": 0.872
+   },
+   "cloud_llm": {
+    "precision": 0.539,
+    "recall": 0.99,
+    "f1": 0.698,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "prose-emerson-essays",
+   "category": "prose",
+   "complete": true,
+   "cloud": {
+    "precision": 0.889,
+    "recall": 1.0,
+    "f1": 0.941,
+    "level_agreement": 0.857
+   },
+   "cloud_llm": {
+    "precision": 0.889,
+    "recall": 1.0,
+    "f1": 0.941,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "prose-moby-dick",
+   "category": "prose",
+   "complete": true,
+   "cloud": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 0.829
+   },
+   "cloud_llm": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "prose-origin-of-species",
+   "category": "prose",
+   "complete": true,
+   "cloud": {
+    "precision": 1.0,
+    "recall": 0.158,
+    "f1": 0.273,
+    "level_agreement": 0.4
+   },
+   "cloud_llm": {
+    "precision": 1.0,
+    "recall": 0.158,
+    "f1": 0.273,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "report-nasa-artemis-plan",
+   "category": "reports",
+   "complete": false,
+   "cloud": {
+    "precision": 0.084,
+    "recall": 0.786,
+    "f1": 0.152,
+    "level_agreement": 0.8
+   },
+   "cloud_llm": {
+    "precision": 0.084,
+    "recall": 0.786,
+    "f1": 0.152,
+    "level_agreement": 0.8
+   }
+  },
+  {
+   "id": "report-nist-sp1270",
+   "category": "reports",
+   "complete": false,
+   "cloud": {
+    "precision": 0.282,
+    "recall": 1.0,
+    "f1": 0.44,
+    "level_agreement": 0.381
+   },
+   "cloud_llm": {
+    "precision": 0.282,
+    "recall": 1.0,
+    "f1": 0.44,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "report-nrel-wind-market-2023",
+   "category": "reports",
+   "complete": false,
+   "cloud": {
+    "precision": 0.34,
+    "recall": 0.947,
+    "f1": 0.5,
+    "level_agreement": 1.0
+   },
+   "cloud_llm": {
+    "precision": 0.34,
+    "recall": 0.947,
+    "f1": 0.5,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "slides-01-wide-dividers",
+   "category": "slides",
+   "complete": true,
+   "cloud": {
+    "precision": 1.0,
+    "recall": 0.969,
+    "f1": 0.984,
+    "level_agreement": 0.667
+   },
+   "cloud_llm": {
+    "precision": 1.0,
+    "recall": 0.969,
+    "f1": 0.984,
+    "level_agreement": 0.9
+   }
+  },
+  {
+   "id": "slides-05-title-bar-nav",
+   "category": "slides",
+   "complete": true,
+   "cloud": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 0.828
+   },
+   "cloud_llm": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 0.828
+   }
+  },
+  {
+   "id": "slides-09-image-heavy",
+   "category": "slides",
+   "complete": true,
+   "cloud": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 0.55
+   },
+   "cloud_llm": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 0.75
+   }
+  },
+  {
+   "id": "synth-dot-leader-toc",
+   "category": "synthetic",
+   "complete": true,
+   "cloud": {
+    "precision": 0.98,
+    "recall": 1.0,
+    "f1": 0.99,
+    "level_agreement": 0.532
+   },
+   "cloud_llm": {
+    "precision": 0.98,
+    "recall": 1.0,
+    "f1": 0.99,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "synth-image-pages",
+   "category": "synthetic",
+   "complete": true,
+   "cloud": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 0.738
+   },
+   "cloud_llm": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "synth-numbering-only",
+   "category": "synthetic",
+   "complete": true,
+   "cloud": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 0.567
+   },
+   "cloud_llm": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "wiki-01-en",
+   "category": "wikipedia",
+   "complete": true,
+   "cloud": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 0.562
+   },
+   "cloud_llm": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "wiki-05-en",
+   "category": "wikipedia",
+   "complete": true,
+   "cloud": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 0.724
+   },
+   "cloud_llm": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 0.931
+   }
+  },
+  {
+   "id": "wiki-10-en",
+   "category": "wikipedia",
+   "complete": true,
+   "cloud": {
+    "precision": 0.944,
+    "recall": 0.971,
+    "f1": 0.958,
+    "level_agreement": 0.697
+   },
+   "cloud_llm": {
+    "precision": 0.944,
+    "recall": 0.971,
+    "f1": 0.958,
+    "level_agreement": 0.818
+   }
+  }
+ ]
+}

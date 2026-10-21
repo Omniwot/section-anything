@@ -21,6 +21,7 @@ from app.db.session import SessionLocal
 from app.models import Document, LlmCall, Run
 from app.sectioning import pipeline
 from app.sectioning.evaluate import score
+from app.sectioning.bridge import BRIDGES, BROWSER_PREFIX, BrowserBridge
 from app.sectioning.extract import EXTRACTOR_VERSION, Extraction, extract
 from app.sectioning.llm import CostCapExceeded, Usage
 
@@ -147,6 +148,8 @@ def start_run(run_id: int) -> None:
                 PROGRESS[key] = {**PROGRESS.get(key, {}), "cost_usd": round(usage.cost_usd, 4), "calls": usage.seq}
 
             usage = Usage(sink=sink)
+            if run.model.startswith(BROWSER_PREFIX):
+                usage.bridge = BRIDGES[run_id] = BrowserBridge()
 
             def progress(fraction: float, message: str) -> None:
                 PROGRESS[key] = {**PROGRESS.get(key, {}), "fraction": fraction, "message": message}
@@ -180,5 +183,6 @@ def start_run(run_id: int) -> None:
                 )
             await db.commit()
         PROGRESS.pop(key, None)
+        BRIDGES.pop(run_id, None)
 
     _spawn(work())

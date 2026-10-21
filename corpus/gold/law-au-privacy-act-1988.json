@@ -557,22 +557,32 @@
  {
   "level": 2,
   "title": "Division 3—Credit providers",
-  "page": 150
+  "page": 149
  },
  {
   "level": 3,
   "title": "Subdivision A—Introduction and application of this Division",
-  "page": 117
+  "page": 149
  },
  {
   "level": 4,
   "title": "21 Guide to this Division",
-  "page": 117
+  "page": 149
+ },
+ {
+  "level": 4,
+  "title": "21A Application of this Division to credit providers",
+  "page": 149
  },
  {
   "level": 3,
   "title": "Subdivision B—Consideration of information privacy",
-  "page": 118
+  "page": 149
+ },
+ {
+  "level": 4,
+  "title": "21B Open and transparent management of credit information etc.",
+  "page": 149
  },
  {
   "level": 3,
@@ -1288,6 +1298,26 @@
   "level": 3,
   "title": "33E Inquiries by Commissioner",
   "page": 269
+ },
+ {
+  "level": 3,
+  "title": "33F Commissioner may invite submissions",
+  "page": 270
+ },
+ {
+  "level": 3,
+  "title": "33G Commissioner not bound by the rules of evidence",
+  "page": 270
+ },
+ {
+  "level": 3,
+  "title": "33H Commissioner’s powers",
+  "page": 270
+ },
+ {
+  "level": 3,
+  "title": "33J Reporting on public inquiries",
+  "page": 270
  },
  {
   "level": 2,

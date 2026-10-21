@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import re
+import threading
 import statistics
 from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
@@ -25,7 +26,7 @@ from pdfminer.layout import LTChar, LTTextBox, LTTextLine
 # Bump when the canonical text or the saved geometry changes. Documents
 # extracted with an older version are re-extracted, and runs record the version
 # their character offsets refer to.
-EXTRACTOR_VERSION = 3
+EXTRACTOR_VERSION = 4  # 4: LaTeX bold fonts (CMBX, SFBX, ...) count as bold
 # Oldest version whose canonical text is identical to the current one. Runs
 # from that version on still map onto the page; older runs are stale. Raise it
 # only when `Extraction.text` changes (2 added word boxes, 3 the PDF outline).
@@ -38,7 +39,9 @@ LAPARAMS = {
     "word_margin": 0.1,
     "boxes_flow": 0.5,
 }
-BOLD_FONT = re.compile(r"bold|black|heavy|semibold|demi", re.I)
+# Bold by name. TeX fonts say so in a code: CMBX/CMSSBX/CMBSY (Computer Modern bold),
+# SFBX/SFSX/ECBX/EUBX (EC/European Modern bold), and Times bold is often NimbusRomNo9L-Medi.
+BOLD_FONT = re.compile(r"bold|black|heavy|semibold|demi|(?:^|\+)(?:CMBX|CMSSBX|CMBSY|SFBX|SFSX|ECBX|EUBX)|-Medi\b", re.I)
 CONTROL = re.compile(r"[\x00-\x08\x0b-\x1f\x7f]")
 
 
@@ -125,9 +128,20 @@ class Extraction:
         )
 
 
+# pypdfium2 (PDFium) is not thread-safe. Every use in the app takes this lock: without it,
+# extractions running in parallel threads silently lost their bookmarks (169 of 228 bookmarked
+# arXiv PDFs in a 4-thread run on 20 Oct 2026).
+PDFIUM_LOCK = threading.Lock()
+
+
 def read_outline(path: Path, max_items: int = 5000) -> list[OutlineItem]:
     """The PDF's bookmarks via pypdfium2 (Apache/BSD). Empty when there are
     none or the outline can't be read."""
+    with PDFIUM_LOCK:
+        return _read_outline(path, max_items)
+
+
+def _read_outline(path: Path, max_items: int) -> list[OutlineItem]:
     import pypdfium2 as pdfium
 
     out: list[OutlineItem] = []

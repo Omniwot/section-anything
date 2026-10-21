@@ -160,19 +160,34 @@
   "page": 20
  },
  {
+  "level": 5,
+  "title": "Relative resizing",
+  "page": 21
+ },
+ {
   "level": 4,
   "title": "Color transforms",
-  "page": 19
+  "page": 21
+ },
+ {
+  "level": 5,
+  "title": "Converting between modes",
+  "page": 21
  },
  {
   "level": 4,
   "title": "Image enhancement",
-  "page": 22
+  "page": 21
  },
  {
   "level": 5,
   "title": "Filters",
-  "page": 29
+  "page": 21
+ },
+ {
+  "level": 6,
+  "title": "Applying filters",
+  "page": 21
  },
  {
   "level": 5,

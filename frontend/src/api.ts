@@ -66,13 +66,27 @@ export type DocumentInfo = {
   created_at: string;
 };
 
-export type StrategyInfo = { id: string; label: string; description: string; uses_llm: boolean };
+export type StrategyInfo = { id: string; label: string; description: string; uses_llm: boolean; default_model?: string | null };
 
 export type Catalog = {
   strategies: StrategyInfo[];
+  /** Server-side (paid) models this account may use; empty when paid models are not enabled for it. */
   models: string[];
+  paid_models: boolean;
+  /** Runs can use the visitor's own model: model id `${prefix}<name>`, for these strategies. */
+  local_models: { prefix: string; strategies: string[] };
   limits: { max_pages: number; max_upload_mb: number; run_cost_cap_usd: number };
 };
+
+export type BridgeNext = { status: string; request: import("./localLlm").BridgeRequest | null };
+
+export function bridgeNext(runId: number, signal?: AbortSignal) {
+  return api<BridgeNext>(`/runs/${runId}/bridge/next?wait=10`, { signal });
+}
+
+export function bridgeReply(runId: number, requestId: string, body: { content?: string; error?: string }) {
+  return api<{ ok: boolean }>(`/runs/${runId}/bridge/${requestId}`, { method: "POST", body: JSON.stringify(body) });
+}
 
 export type Estimate = {
   strategy: string;

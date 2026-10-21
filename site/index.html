@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Section Anything</title>
+  <meta name="description" content="Section Anything is an open-source Python library that turns PDFs into accurate section and heading hierarchies for retrieval-augmented generation (RAG), with READoc benchmark results.">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="data/results.js"></script>
+  <script src="assets/app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#top">Section Anything</a>
+      <nav class="topnav" aria-label="Sections">
+        <a href="#how">How it works</a>
+        <a href="#benchmarks">Benchmarks</a>
+        <a href="#examples">Examples</a>
+        <a href="#integrations">Integrations</a>
+        <a href="#limitations">Limitations</a>
+      </nav>
+      <a class="repo-link topbar-repo" data-repo hidden>Repository</a>
+      <button class="theme-toggle" type="button" id="theme-toggle">Theme</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="wrap">
+        <p class="badge badge-status" id="status"></p>
+        <h1>Section Anything</h1>
+        <p class="tagline">Accurate section headings for any PDF, built for RAG</p>
+        <p class="lede">
+          An open-source Python library that finds the real section headings in a PDF and their levels,
+          so your chunks follow the document's structure. Pick a setting from free to model-assisted:
+          <span id="hero-modes"></span>.
+          Works with LightRAG<span id="hero-lightrag"></span>.
+        </p>
+        <p class="actions">
+          <a class="button button-primary" href="#benchmarks">Benchmarks</a>
+          <a class="button" href="#how">How it works</a>
+          <a class="button" data-app hidden>Try it</a>
+          <a class="button" data-repo hidden>Source code</a>
+        </p>
+        <noscript><p class="note">This page reads its numbers from data/results.js and needs JavaScript to show them.</p></noscript>
+      </div>
+    </section>
+
+    <section id="how" aria-labelledby="how-h">
+      <div class="wrap">
+        <h2 id="how-h">How it works</h2>
+        <p class="section-intro">One library, several settings. Each one finds headings and their levels; they differ in what helps the rules decide.</p>
+        <div class="grid cards" id="modes"></div>
+      </div>
+    </section>
+
+    <section id="benchmarks" aria-labelledby="bench-h">
+      <div class="wrap">
+        <h2 id="bench-h">Benchmarks (READoc)</h2>
+        <p class="section-intro" id="readoc-about"></p>
+        <div id="readoc-tables"></div>
+      </div>
+    </section>
+
+    <section id="others-win" aria-labelledby="others-h">
+      <div class="wrap">
+        <div class="callout">
+          <h2 id="others-h">Where others win</h2>
+          <p>We list these on purpose. Pick the tool that fits your documents.</p>
+          <ul id="others-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="rag" aria-labelledby="rag-h">
+      <div class="wrap">
+        <h2 id="rag-h">RAG pilot</h2>
+        <div id="rag-table"></div>
+      </div>
+    </section>
+
+    <section id="examples" aria-labelledby="examples-h">
+      <div class="wrap">
+        <h2 id="examples-h">Examples</h2>
+        <p class="section-intro">Real documents where the heading tree goes wrong, next to READoc's answer key.</p>
+        <div id="examples-list"></div>
+        <p class="note" id="examples-note"></p>
+      </div>
+    </section>
+
+    <section id="try" aria-labelledby="try-h">
+      <div class="wrap">
+        <h2 id="try-h">Try it with your own model</h2>
+        <p class="section-intro" id="try-intro"></p>
+        <ol class="steps" id="try-steps"></ol>
+        <p class="note" id="try-privacy"></p>
+        <p class="actions"><a class="button button-primary" data-app hidden>Open the demo</a></p>
+      </div>
+    </section>
+
+    <section id="integrations" aria-labelledby="integrations-h">
+      <div class="wrap">
+        <h2 id="integrations-h">Integrations</h2>
+        <div class="grid cards cards-wide" id="integrations-list"></div>
+      </div>
+    </section>
+
+    <section id="limitations" aria-labelledby="limitations-h">
+      <div class="wrap">
+        <h2 id="limitations-h">Limitations</h2>
+        <ul class="plain-list" id="limitations-list"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <span id="updated"></span>
+      <span>Apache-2.0 (planned)</span>
+      <span>No tracking on this page</span>
+      <a class="repo-link" data-repo hidden>Repository</a>
+    </div>
+  </footer>
+</body>
+</html>

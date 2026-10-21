@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 24h
     ALGORITHM: str = "HS256"
 
-    LLM_MODEL: str = "gpt-5.5"
+    LLM_MODEL: str = "gpt-6.1-sol"
     LLM_TIMEOUT_SECONDS: int = 90
     LLM_MAX_TOKENS: int = 4096
     LLM_TEMPERATURE: float = 0.2
@@ -49,22 +49,53 @@ class Settings(BaseSettings):
     MAX_UPLOAD_MB: int = 100
     MAX_PAGES: int = 500
     RUN_COST_CAP_USD: float = 5.0
+    # Local models: LLM model ids "ollama/<name>" go to this OpenAI-compatible endpoint.
+    OLLAMA_BASE_URL: str = "http://localhost:11434/v1"
+    SECTIONING_LOCAL_TIMEOUT_SECONDS: float = 1800.0
+    # Visitors' own models: a run with model "browser/<name>" sends each prompt to the signed-in
+    # browser, which calls the visitor's local model (Ollama / LM Studio). Seconds to wait per call.
+    BROWSER_LLM_TIMEOUT_SECONDS: float = 900.0
+    # Public demo controls. PAID_MODELS_FOR: "all", or comma-separated emails allowed to run paid
+    # (server-side) models; everyone can use Free and their own local model.
+    PAID_MODELS_FOR: str = "all"
+    ALLOW_REGISTRATION: bool = True
+    REGISTRATION_INVITE_CODE: str = ""
+    LOGIN_MAX_ATTEMPTS: int = 10  # failed logins per email or IP per 10 minutes
     # Store full prompt text in the LLM call log. Off by default: the prompt
     # is the document text; the log keeps a SHA-256 and length instead.
     AUDIT_STORE_PROMPTS: bool = False
     SECTIONING_LLM_TIMEOUT_SECONDS: int = 600
-    ALLOWED_MODELS: str = "gpt-5.5,gpt-5"
+    ALLOWED_MODELS: str = "gpt-6.1-sol,gpt-6-luna,gpt-5.5,gpt-5"
+    # Default model per stop (owner, 19 Oct): Quick check on the cheap model, Standard on Sol.
+    # The UI preselects these; a run can still pick any allowed model.
+    STRATEGY_MODELS_JSON: str = '{"llm_review": "gpt-6-luna", "llm_text": "gpt-6.1-sol"}'
     # USD per 1M tokens. Keep in config so cost readouts track price changes.
     MODEL_PRICES_JSON: str = (
         '{"gpt-5.5": {"input": 5.00, "cached": 0.50, "output": 30.00},'
-        ' "gpt-5": {"input": 1.25, "cached": 0.125, "output": 10.00}}'
+        ' "gpt-5": {"input": 1.25, "cached": 0.125, "output": 10.00},'
+        ' "gpt-6.1-sol": {"input": 2.00, "cached": 0.10, "output": 10.00},'
+        ' "gpt-6-luna": {"input": 0.10, "cached": 0.01, "output": 0.50}}'
     )
+
+    @property
+    def strategy_models(self) -> dict[str, str]:
+        import json
+
+        return json.loads(self.STRATEGY_MODELS_JSON)
+
+    def model_for(self, strategy_id: str) -> str:
+        """The default model for a stop, falling back to LLM_MODEL."""
+        return self.strategy_models.get(strategy_id, self.LLM_MODEL)
 
     @property
     def model_prices(self) -> dict[str, dict[str, float]]:
         import json
 
         return json.loads(self.MODEL_PRICES_JSON)
+
+    def may_use_paid_models(self, email: str) -> bool:
+        allowed = self.PAID_MODELS_FOR.strip()
+        return allowed == "all" or email.lower() in {e.strip().lower() for e in allowed.split(",") if e.strip()}
 
     @property
     def allowed_models_list(self) -> list[str]:

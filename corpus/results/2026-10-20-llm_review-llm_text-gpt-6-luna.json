@@ -1,0 +1,1014 @@
+{
+ "summary": {
+  "llm_review": {
+   "law-books": {
+    "docs": 3,
+    "precision": 0.939,
+    "recall": 0.523,
+    "f1": 0.624,
+    "levels": 0.952,
+    "cost_usd": 0.009
+   },
+   "legislation": {
+    "docs": 3,
+    "precision": 0.9,
+    "recall": 0.774,
+    "f1": 0.804,
+    "levels": 0.997,
+    "cost_usd": 0.012
+   },
+   "manuals": {
+    "docs": 2,
+    "precision": null,
+    "recall": 0.603,
+    "f1": null,
+    "levels": 1.0,
+    "cost_usd": 0.01
+   },
+   "papers": {
+    "docs": 3,
+    "precision": 0.904,
+    "recall": 0.982,
+    "f1": 0.941,
+    "levels": 1.0,
+    "cost_usd": 0.005
+   },
+   "prose": {
+    "docs": 3,
+    "precision": 0.952,
+    "recall": 0.772,
+    "f1": 0.821,
+    "levels": 1.0,
+    "cost_usd": 0.002
+   },
+   "reports": {
+    "docs": 3,
+    "precision": null,
+    "recall": 0.982,
+    "f1": null,
+    "levels": 0.923,
+    "cost_usd": 0.009
+   },
+   "scanned": {
+    "docs": 3,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "levels": null,
+    "cost_usd": 0.0
+   },
+   "slides": {
+    "docs": 3,
+    "precision": 0.964,
+    "recall": 1.0,
+    "f1": 0.982,
+    "levels": 1.0,
+    "cost_usd": 0.002
+   },
+   "synthetic": {
+    "docs": 3,
+    "precision": 0.993,
+    "recall": 0.884,
+    "f1": 0.926,
+    "levels": 1.0,
+    "cost_usd": 0.003
+   },
+   "textbooks": {
+    "docs": 3,
+    "precision": 0.872,
+    "recall": 1.0,
+    "f1": 0.93,
+    "levels": 0.938,
+    "cost_usd": 0.005
+   },
+   "wikipedia": {
+    "docs": 3,
+    "precision": 0.972,
+    "recall": 1.0,
+    "f1": 0.986,
+    "levels": 0.967,
+    "cost_usd": 0.011
+   },
+   "ALL": {
+    "docs": 32,
+    "precision": 0.833,
+    "recall": 0.78,
+    "f1": 0.779,
+    "levels": 0.977,
+    "cost_usd": 0.069
+   }
+  },
+  "llm_text": {
+   "law-books": {
+    "docs": 3,
+    "precision": 0.963,
+    "recall": 0.926,
+    "f1": 0.944,
+    "levels": 0.945,
+    "cost_usd": 0.016
+   },
+   "legislation": {
+    "docs": 3,
+    "precision": 0.94,
+    "recall": 0.957,
+    "f1": 0.948,
+    "levels": 0.979,
+    "cost_usd": 0.034
+   },
+   "manuals": {
+    "docs": 2,
+    "precision": null,
+    "recall": 0.74,
+    "f1": null,
+    "levels": 1.0,
+    "cost_usd": 0.03
+   },
+   "papers": {
+    "docs": 3,
+    "precision": 0.779,
+    "recall": 1.0,
+    "f1": 0.872,
+    "levels": 1.0,
+    "cost_usd": 0.013
+   },
+   "prose": {
+    "docs": 3,
+    "precision": 0.83,
+    "recall": 0.956,
+    "f1": 0.878,
+    "levels": 1.0,
+    "cost_usd": 0.032
+   },
+   "reports": {
+    "docs": 3,
+    "precision": null,
+    "recall": 0.982,
+    "f1": null,
+    "levels": 0.923,
+    "cost_usd": 0.026
+   },
+   "scanned": {
+    "docs": 3,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "levels": null,
+    "cost_usd": 0.0
+   },
+   "slides": {
+    "docs": 3,
+    "precision": 0.974,
+    "recall": 1.0,
+    "f1": 0.987,
+    "levels": 0.882,
+    "cost_usd": 0.005
+   },
+   "synthetic": {
+    "docs": 3,
+    "precision": 0.993,
+    "recall": 0.884,
+    "f1": 0.926,
+    "levels": 1.0,
+    "cost_usd": 0.013
+   },
+   "textbooks": {
+    "docs": 3,
+    "precision": 0.822,
+    "recall": 0.98,
+    "f1": 0.893,
+    "levels": 0.951,
+    "cost_usd": 0.012
+   },
+   "wikipedia": {
+    "docs": 3,
+    "precision": 0.982,
+    "recall": 1.0,
+    "f1": 0.991,
+    "levels": 0.938,
+    "cost_usd": 0.014
+   },
+   "ALL": {
+    "docs": 32,
+    "precision": 0.809,
+    "recall": 0.861,
+    "f1": 0.826,
+    "levels": 0.96,
+    "cost_usd": 0.196
+   }
+  }
+ },
+ "documents": [
+  {
+   "id": "hips-01",
+   "category": "law-books",
+   "complete": true,
+   "variant": "bookmarks-removed",
+   "gold": 18,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 16,
+    "seconds": 26.38,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0016,
+    "precision": 0.938,
+    "recall": 0.833,
+    "f1": 0.882,
+    "level_agreement": 0.857
+   },
+   "llm_text": {
+    "sections": 18,
+    "seconds": 19.7,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0024,
+    "precision": 0.944,
+    "recall": 0.944,
+    "f1": 0.944,
+    "level_agreement": 0.875
+   }
+  },
+  {
+   "id": "hips-02",
+   "category": "law-books",
+   "complete": true,
+   "variant": "bookmarks-removed",
+   "gold": 45,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 28,
+    "seconds": 38.87,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0035,
+    "precision": 0.963,
+    "recall": 0.578,
+    "f1": 0.722,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 45,
+    "seconds": 43.15,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0064,
+    "precision": 0.978,
+    "recall": 0.978,
+    "f1": 0.978,
+    "level_agreement": 0.977
+   }
+  },
+  {
+   "id": "hips-04",
+   "category": "law-books",
+   "complete": true,
+   "variant": "bookmarks",
+   "gold": 70,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 12,
+    "seconds": 54.79,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.004,
+    "precision": 0.917,
+    "recall": 0.157,
+    "f1": 0.268,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 62,
+    "seconds": 53.88,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0073,
+    "precision": 0.968,
+    "recall": 0.857,
+    "f1": 0.909,
+    "level_agreement": 0.983
+   }
+  },
+  {
+   "id": "law-de-basic-law-english",
+   "category": "legislation",
+   "complete": true,
+   "variant": "",
+   "gold": 223,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 227,
+    "seconds": 63.18,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0047,
+    "precision": 0.987,
+    "recall": 1.0,
+    "f1": 0.993,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 227,
+    "seconds": 141.74,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.014,
+    "precision": 0.987,
+    "recall": 1.0,
+    "f1": 0.993,
+    "level_agreement": 0.995
+   }
+  },
+  {
+   "id": "law-us-music-modernization-act",
+   "category": "legislation",
+   "complete": true,
+   "variant": "",
+   "gold": 18,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 8,
+    "seconds": 17.62,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0011,
+    "precision": 0.875,
+    "recall": 0.389,
+    "f1": 0.538,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 19,
+    "seconds": 26.38,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0084,
+    "precision": 0.947,
+    "recall": 1.0,
+    "f1": 0.973,
+    "level_agreement": 0.941
+   }
+  },
+  {
+   "id": "law-za-popia-2013",
+   "category": "legislation",
+   "complete": true,
+   "variant": "",
+   "gold": 132,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 148,
+    "seconds": 81.54,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0063,
+    "precision": 0.837,
+    "recall": 0.932,
+    "f1": 0.882,
+    "level_agreement": 0.992
+   },
+   "llm_text": {
+    "sections": 131,
+    "seconds": 83.96,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.012,
+    "precision": 0.885,
+    "recall": 0.871,
+    "f1": 0.878,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "manual-r-intro",
+   "category": "manuals",
+   "complete": false,
+   "variant": "Texinfo (R)",
+   "gold": 189,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 157,
+    "seconds": 43.88,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.004,
+    "precision": 0.93,
+    "recall": 0.772,
+    "f1": 0.844,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 153,
+    "seconds": 92.4,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0151,
+    "precision": 0.948,
+    "recall": 0.767,
+    "f1": 0.848,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "manual-requests",
+   "category": "manuals",
+   "complete": false,
+   "variant": "Sphinx / LaTeX",
+   "gold": 286,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 239,
+    "seconds": 76.74,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0061,
+    "precision": 0.519,
+    "recall": 0.434,
+    "f1": 0.472,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 205,
+    "seconds": 101.8,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0145,
+    "precision": 0.995,
+    "recall": 0.713,
+    "f1": 0.831,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "arxiv-04",
+   "category": "papers",
+   "complete": true,
+   "variant": "IEEE two-column",
+   "gold": 6,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 7,
+    "seconds": 27.72,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0022,
+    "precision": 0.857,
+    "recall": 1.0,
+    "f1": 0.923,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 9,
+    "seconds": 12.44,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0036,
+    "precision": 0.667,
+    "recall": 1.0,
+    "f1": 0.8,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "arxiv-05",
+   "category": "papers",
+   "complete": true,
+   "variant": "REVTeX two-column",
+   "gold": 40,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 44,
+    "seconds": 18.7,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0014,
+    "precision": 0.909,
+    "recall": 1.0,
+    "f1": 0.952,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 44,
+    "seconds": 27.06,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0053,
+    "precision": 0.909,
+    "recall": 1.0,
+    "f1": 0.952,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "arxiv-06",
+   "category": "papers",
+   "complete": true,
+   "variant": "AASTeX",
+   "gold": 19,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 19,
+    "seconds": 14.0,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0011,
+    "precision": 0.947,
+    "recall": 0.947,
+    "f1": 0.947,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 25,
+    "seconds": 17.45,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0043,
+    "precision": 0.76,
+    "recall": 1.0,
+    "f1": 0.864,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "prose-emerson-essays",
+   "category": "prose",
+   "complete": true,
+   "variant": "essays with long paragraphs, ragged right",
+   "gold": 8,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 8,
+    "seconds": 2.65,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0002,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 8,
+    "seconds": 9.2,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0078,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "prose-moby-dick",
+   "category": "prose",
+   "complete": true,
+   "variant": "titled chapters in small caps",
+   "gold": 36,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 36,
+    "seconds": 9.57,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0008,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 37,
+    "seconds": 41.29,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.012,
+    "precision": 0.973,
+    "recall": 1.0,
+    "f1": 0.986,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "prose-origin-of-species",
+   "category": "prose",
+   "complete": true,
+   "variant": "run-in subsection heads",
+   "gold": 38,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 14,
+    "seconds": 6.42,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0005,
+    "precision": 0.857,
+    "recall": 0.316,
+    "f1": 0.462,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 64,
+    "seconds": 66.77,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0125,
+    "precision": 0.516,
+    "recall": 0.868,
+    "f1": 0.647,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "report-nasa-artemis-plan",
+   "category": "reports",
+   "complete": false,
+   "variant": "NASA, US",
+   "gold": 14,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 75,
+    "seconds": 28.7,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.002,
+    "precision": 0.187,
+    "recall": 1.0,
+    "f1": 0.315,
+    "level_agreement": 0.769
+   },
+   "llm_text": {
+    "sections": 74,
+    "seconds": 47.79,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0058,
+    "precision": 0.189,
+    "recall": 1.0,
+    "f1": 0.318,
+    "level_agreement": 0.769
+   }
+  },
+  {
+   "id": "report-nist-sp1270",
+   "category": "reports",
+   "complete": false,
+   "variant": "NIST, US",
+   "gold": 22,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 74,
+    "seconds": 31.26,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0027,
+    "precision": 0.297,
+    "recall": 1.0,
+    "f1": 0.458,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 72,
+    "seconds": 52.52,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0097,
+    "precision": 0.306,
+    "recall": 1.0,
+    "f1": 0.468,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "report-nrel-wind-market-2023",
+   "category": "reports",
+   "complete": false,
+   "variant": "US DOE",
+   "gold": 19,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 76,
+    "seconds": 53.03,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0045,
+    "precision": 0.237,
+    "recall": 0.947,
+    "f1": 0.379,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 77,
+    "seconds": 53.25,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0105,
+    "precision": 0.234,
+    "recall": 0.947,
+    "f1": 0.375,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "scan-04-prose-pride-and-prejudice",
+   "category": "scanned",
+   "complete": true,
+   "variant": "low resolution photocopy",
+   "gold": 15,
+   "gold_image_only": 15,
+   "llm_review": {
+    "sections": 0,
+    "seconds": 0.0,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   },
+   "llm_text": {
+    "sections": 0,
+    "seconds": 0.0,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   }
+  },
+  {
+   "id": "scan-05-law-uk-climate-change-act-2008",
+   "category": "scanned",
+   "complete": true,
+   "variant": "act with noise",
+   "gold": 97,
+   "gold_image_only": 97,
+   "llm_review": {
+    "sections": 0,
+    "seconds": 0.0,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   },
+   "llm_text": {
+    "sections": 0,
+    "seconds": 0.0,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   }
+  },
+  {
+   "id": "scan-07-prose-hamlet",
+   "category": "scanned",
+   "complete": true,
+   "variant": "play, mild skew and noise",
+   "gold": 20,
+   "gold_image_only": 20,
+   "llm_review": {
+    "sections": 0,
+    "seconds": 0.0,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   },
+   "llm_text": {
+    "sections": 0,
+    "seconds": 0.0,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   }
+  },
+  {
+   "id": "slides-01-wide-dividers",
+   "category": "slides",
+   "complete": true,
+   "variant": "16:9, divider slides, left titles",
+   "gold": 32,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 33,
+    "seconds": 13.45,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0009,
+    "precision": 0.97,
+    "recall": 1.0,
+    "f1": 0.985,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 32,
+    "seconds": 22.63,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0019,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 0.645
+   }
+  },
+  {
+   "id": "slides-05-title-bar-nav",
+   "category": "slides",
+   "complete": true,
+   "variant": "white title on a dark bar; navigation strip names every section",
+   "gold": 30,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 31,
+    "seconds": 12.95,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0009,
+    "precision": 0.968,
+    "recall": 1.0,
+    "f1": 0.984,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 31,
+    "seconds": 19.18,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0017,
+    "precision": 0.968,
+    "recall": 1.0,
+    "f1": 0.984,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "slides-09-image-heavy",
+   "category": "slides",
+   "complete": true,
+   "variant": "title-less image slides between titled ones",
+   "gold": 21,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 22,
+    "seconds": 9.45,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0006,
+    "precision": 0.955,
+    "recall": 1.0,
+    "f1": 0.977,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 22,
+    "seconds": 18.84,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0015,
+    "precision": 0.955,
+    "recall": 1.0,
+    "f1": 0.977,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "synth-dot-leader-toc",
+   "category": "synthetic",
+   "complete": true,
+   "variant": "contents list with dot leaders; printed page = physical - 3",
+   "gold": 48,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 49,
+    "seconds": 16.46,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0015,
+    "precision": 0.98,
+    "recall": 1.0,
+    "f1": 0.99,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 49,
+    "seconds": 28.01,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0045,
+    "precision": 0.98,
+    "recall": 1.0,
+    "f1": 0.99,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "synth-image-pages",
+   "category": "synthetic",
+   "complete": true,
+   "variant": "pages 3, 6, 9, ... have no text layer (need OCR)",
+   "gold": 43,
+   "gold_image_only": 15,
+   "llm_review": {
+    "sections": 28,
+    "seconds": 7.13,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0006,
+    "precision": 1.0,
+    "recall": 0.651,
+    "f1": 0.789,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 28,
+    "seconds": 11.67,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0026,
+    "precision": 1.0,
+    "recall": 0.651,
+    "f1": 0.789,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "synth-numbering-only",
+   "category": "synthetic",
+   "complete": true,
+   "variant": "only cue is 1.2.3 numbering; same font as body",
+   "gold": 61,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 61,
+    "seconds": 19.05,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0013,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 61,
+    "seconds": 40.44,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0055,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "wiki-01-en",
+   "category": "wikipedia",
+   "complete": true,
+   "variant": "science, deep sections, figures",
+   "gold": 33,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 34,
+    "seconds": 23.44,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0026,
+    "precision": 0.971,
+    "recall": 1.0,
+    "f1": 0.985,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 33,
+    "seconds": 20.39,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0048,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "wiki-05-en",
+   "category": "wikipedia",
+   "complete": true,
+   "variant": "code samples and syntax tables",
+   "gold": 30,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 30,
+    "seconds": 32.03,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0037,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 0.931
+   },
+   "llm_text": {
+    "sections": 30,
+    "seconds": 21.4,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0049,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 0.931
+   }
+  },
+  {
+   "id": "wiki-10-en",
+   "category": "wikipedia",
+   "complete": true,
+   "variant": "biography with a works list",
+   "gold": 35,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 37,
+    "seconds": 41.66,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0046,
+    "precision": 0.946,
+    "recall": 1.0,
+    "f1": 0.972,
+    "level_agreement": 0.971
+   },
+   "llm_text": {
+    "sections": 37,
+    "seconds": 23.05,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0046,
+    "precision": 0.946,
+    "recall": 1.0,
+    "f1": 0.972,
+    "level_agreement": 0.882
+   }
+  }
+ ]
+}

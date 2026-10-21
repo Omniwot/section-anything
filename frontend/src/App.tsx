@@ -22,6 +22,7 @@ function Login({ onToken }: { onToken: (t: string) => void }) {
   const [mode, setMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [invite, setInvite] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -33,7 +34,7 @@ function Login({ onToken }: { onToken: (t: string) => void }) {
       const res = await fetch(`${API_URL}/api/v1/auth/${mode}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(mode === "register" && invite ? { email, password, invite_code: invite } : { email, password }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(typeof data.detail === "string" ? data.detail : `Request failed (${res.status})`);
@@ -63,6 +64,12 @@ function Login({ onToken }: { onToken: (t: string) => void }) {
           autoComplete={mode === "login" ? "current-password" : "new-password"}
         />
       </label>
+      {mode === "register" && (
+        <label>
+          Invite code <span className="muted small">(if you were given one)</span>
+          <input value={invite} onChange={(e) => setInvite(e.target.value)} autoComplete="off" spellCheck={false} />
+        </label>
+      )}
       {error && <p className="error">{error}</p>}
       <button className="primary" disabled={busy}>
         {busy ? "…" : mode === "login" ? "Sign in" : "Create account"}

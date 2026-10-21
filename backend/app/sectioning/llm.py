@@ -17,6 +17,7 @@ from typing import TypeVar
 from pydantic import BaseModel
 
 from app.core.config import settings
+from app.sectioning.bridge import BROWSER_PREFIX
 
 logger = logging.getLogger(__name__)
 T = TypeVar("T", bound=BaseModel)
@@ -49,6 +50,7 @@ class Usage:
     priced: bool = True
     sink: CallSink | None = None
     seq: int = 0
+    bridge: object | None = None  # BrowserBridge for "browser/<model>" runs
     by_step: dict[str, float] = field(default_factory=dict)
 
     def add(self, model: str, usage) -> dict:
@@ -95,13 +97,23 @@ class Usage:
         }
 
 
-def _client():
+LOCAL_PREFIX = "ollama/"
+
+
+def _client(model: str = ""):
+    if model.startswith(LOCAL_PREFIX):
+        # Local models through Ollama's OpenAI-compatible endpoint (dev and evaluation use; free, slower).
+        from openai import AsyncOpenAI
+
+        return AsyncOpenAI(base_url=settings.OLLAMA_BASE_URL, api_key="ollama",
+                           timeout=settings.SECTIONING_LOCAL_TIMEOUT_SECONDS, max_retries=0)
     # Langfuse's drop-in client traces every call when keys are configured.
     if settings.LANGFUSE_PUBLIC_KEY and settings.LANGFUSE_SECRET_KEY:
         from langfuse.openai import AsyncOpenAI
     else:
         from openai import AsyncOpenAI
-    return AsyncOpenAI(api_key=settings.OPENAI_API_KEY, timeout=settings.SECTIONING_LLM_TIMEOUT_SECONDS)
+    # max_retries=0: our own loop retries, and the SDK's hidden retries would spend past the cap.
+    return AsyncOpenAI(api_key=settings.OPENAI_API_KEY, timeout=settings.SECTIONING_LLM_TIMEOUT_SECONDS, max_retries=0)
 
 
 async def structured(
@@ -120,6 +132,9 @@ async def structured(
 ) -> T:
     """One schema-constrained completion. Retries once on refusal or an
     unparsable response; raises CostCapExceeded before spending past the cap."""
+    if model.startswith(BROWSER_PREFIX):
+        return await _structured_browser(model=model, system=system, user=user, schema=schema, usage=usage,
+                                         step=step, max_output_tokens=max_output_tokens, attempts=attempts)
     if usage.priced and usage.cost_usd >= cost_cap_usd:
         raise CostCapExceeded(f"Run stopped at ${usage.cost_usd:.2f} (cap ${cost_cap_usd:.2f}).")
     content: list[dict] | str = user
@@ -127,13 +142,18 @@ async def structured(
         content = [{"type": "text", "text": user}] + [
             {"type": "image_url", "image_url": {"url": url, "detail": "high"}} for url in images
         ]
+    local = model.startswith(LOCAL_PREFIX)
     kwargs = {
-        "model": model,
+        "model": model.removeprefix(LOCAL_PREFIX),
         "messages": [{"role": "system", "content": system}, {"role": "user", "content": content}],
         "response_format": schema,
-        "max_completion_tokens": max_output_tokens,
+        ("max_tokens" if local else "max_completion_tokens"): max_output_tokens,
     }
-    if effort:
+    if local:
+        # Local models think by default on Ollama's OpenAI endpoint; that costs minutes per call on a laptop.
+        kwargs["temperature"] = 0
+        kwargs["reasoning_effort"] = "none"
+    elif effort:
         kwargs["reasoning_effort"] = effort
     prompt = f"{system}\n\n{user}"
     base = {
@@ -145,9 +165,11 @@ async def structured(
         "images": len(images or []),
         "prompt_text": prompt if settings.AUDIT_STORE_PROMPTS else None,
     }
-    client = _client()
+    client = _client(model)
     last: Exception | None = None
     for attempt in range(1, attempts + 1):
+        if usage.priced and usage.cost_usd >= cost_cap_usd:  # re-checked before every paid attempt
+            raise CostCapExceeded(f"Run stopped at ${usage.cost_usd:.2f} (cap ${cost_cap_usd:.2f}).")
         t0 = time.monotonic()
         entry = {**base, "attempt": attempt, "status": "error", "error": None, "response": None}
         try:
@@ -170,3 +192,39 @@ async def structured(
             entry["latency_ms"] = int((time.monotonic() - t0) * 1000)
             await usage.record(entry)
     raise RuntimeError(f"LLM call failed after {attempts} attempts: {last}")
+
+
+async def _structured_browser(
+    *, model: str, system: str, user: str, schema: type[T], usage: Usage, step: str, max_output_tokens: int, attempts: int
+) -> T:
+    """The visitor's own model, through their browser (see bridge.py). Free; validated like any output."""
+    if usage.bridge is None:
+        raise RuntimeError("browser model used without a browser bridge")
+    payload = {"model": model.removeprefix(BROWSER_PREFIX), "system": system, "user": user,
+               "schema": schema.model_json_schema(), "max_output_tokens": max_output_tokens}
+    prompt = f"{system}\n\n{user}"
+    base = {"step": step, "model": model, "reasoning_effort": None,
+            "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest(), "prompt_chars": len(prompt), "images": 0,
+            "prompt_text": prompt if settings.AUDIT_STORE_PROMPTS else None}
+    last: Exception | None = None
+    for attempt in range(1, attempts + 1):
+        t0 = time.monotonic()
+        entry = {**base, "attempt": attempt, "status": "error", "error": None, "response": None,
+                 "input_tokens": 0, "cached_tokens": 0, "output_tokens": 0, "reasoning_tokens": 0, "cost_usd": 0.0}
+        try:
+            text = await usage.bridge.call(payload, wait_seconds=settings.BROWSER_LLM_TIMEOUT_SECONDS)
+            usage.calls += 1
+            text = text.strip()
+            if text.startswith("```"):  # some local models wrap JSON in a code fence
+                text = text.strip("`").removeprefix("json").strip()
+            parsed = schema.model_validate_json(text)
+            entry["status"], entry["response"] = "ok", parsed.model_dump()
+            return parsed
+        except Exception as exc:  # noqa: BLE001 - retried, then surfaced
+            last = exc
+            entry["error"] = f"{type(exc).__name__}: {exc}"[:2000]
+            logger.warning("browser model attempt %s failed: %s", attempt, type(exc).__name__)
+        finally:
+            entry["latency_ms"] = int((time.monotonic() - t0) * 1000)
+            await usage.record(entry)
+    raise RuntimeError(f"local model call failed after {attempts} attempts: {last}")

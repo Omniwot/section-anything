@@ -12,7 +12,7 @@
  {
   "level": 1,
   "title": "Contents",
-  "page": 11
+  "page": 10
  },
  {
   "level": 1,
@@ -32,12 +32,12 @@
  {
   "level": 3,
   "title": "Collective Labour Law in the Nordic Countries: The Relationship between Individual Employment Contracts and State Legislation",
-  "page": 22
+  "page": 20
  },
  {
   "level": 4,
   "title": "I. Introduction",
-  "page": 24
+  "page": 20
  },
  {
   "level": 5,
@@ -145,6 +145,16 @@
   "page": 44
  },
  {
+  "level": 3,
+  "title": "Collective Bargaining in Germany and its Interaction with State Legislation and Individual Employment Contracts",
+  "page": 46
+ },
+ {
+  "level": 4,
+  "title": "I. Introduction: Sources of German labour law",
+  "page": 46
+ },
+ {
   "level": 4,
   "title": "II. Foundations of the German system of collective bargaining",
   "page": 48
@@ -225,9 +235,14 @@
   "page": 64
  },
  {
+  "level": 3,
+  "title": "Collective Bargaining in the UK and its Interaction with State Legislation and Individual Employment Contracts",
+  "page": 66
+ },
+ {
   "level": 4,
   "title": "I. Introduction",
-  "page": 70
+  "page": 66
  },
  {
   "level": 4,
@@ -282,12 +297,12 @@
  {
   "level": 3,
   "title": "The Collective Contract System in China",
-  "page": 87
+  "page": 86
  },
  {
   "level": 4,
   "title": "I. Introduction",
-  "page": 70
+  "page": 86
  },
  {
   "level": 4,
@@ -325,9 +340,19 @@
   "page": 92
  },
  {
+  "level": 5,
+  "title": "6. Dispute resolution under a collective contract",
+  "page": 93
+ },
+ {
   "level": 4,
   "title": "IV. Improving the collective contract system in China",
-  "page": 96
+  "page": 93
+ },
+ {
+  "level": 5,
+  "title": "1. The legal nature of a collective contract",
+  "page": 93
  },
  {
   "level": 5,
@@ -348,6 +373,11 @@
   "level": 2,
   "title": "B. Collective Organizations, Collective Bargaining and Collective Labour Conflicts",
   "page": 98
+ },
+ {
+  "level": 3,
+  "title": "Collective Agreements in Europe: European Social Dialogue and Contractual Autonomy",
+  "page": 100
  },
  {
   "level": 4,
@@ -402,12 +432,12 @@
  {
   "level": 3,
   "title": "Collective Contracts and Trade Unions in China",
-  "page": 122
+  "page": 120
  },
  {
   "level": 4,
   "title": "I. Introduction",
-  "page": 146
+  "page": 120
  },
  {
   "level": 4,
@@ -462,12 +492,17 @@
  {
   "level": 4,
   "title": "V. The effectiveness of collective contracts",
-  "page": 143
+  "page": 135
  },
  {
   "level": 5,
   "title": "1. General remarks",
-  "page": 141
+  "page": 135
+ },
+ {
+  "level": 5,
+  "title": "2. A typical case: Normative priority of collective contracts",
+  "page": 135
  },
  {
   "level": 4,
@@ -480,9 +515,24 @@
   "page": 137
  },
  {
+  "level": 4,
+  "title": "VIII. Rights protection for the trade union chairman",
+  "page": 139
+ },
+ {
+  "level": 5,
+  "title": "1. Restrictions on demotion",
+  "page": 139
+ },
+ {
+  "level": 5,
+  "title": "2. Protection from employment contract termination",
+  "page": 139
+ },
+ {
   "level": 6,
   "title": "a) General remarks",
-  "page": 141
+  "page": 139
  },
  {
   "level": 6,
@@ -552,12 +602,12 @@
  {
   "level": 3,
   "title": "Collective Labour Conflicts in Europe",
-  "page": 166
+  "page": 164
  },
  {
   "level": 4,
   "title": "I. Introduction",
-  "page": 185
+  "page": 164
  },
  {
   "level": 4,
@@ -722,7 +772,7 @@
  {
   "level": 3,
   "title": "Workplace Representation in the EU",
-  "page": 185
+  "page": 184
  },
  {
   "level": 4,
@@ -922,12 +972,12 @@
  {
   "level": 3,
   "title": "Employee Participation at Workplace Level in China",
-  "page": 210
+  "page": 208
  },
  {
   "level": 4,
   "title": "I. Introduction",
-  "page": 211
+  "page": 208
  },
  {
   "level": 4,
@@ -1017,12 +1067,12 @@
  {
   "level": 3,
   "title": "Employee Participation at Board Level in Europe",
-  "page": 228
+  "page": 226
  },
  {
   "level": 4,
   "title": "I. Introduction",
-  "page": 229
+  "page": 226
  },
  {
   "level": 4,
@@ -1132,12 +1182,12 @@
  {
   "level": 3,
   "title": "Employee Involvement at Board Level in China: The Present, the Problem and the Development",
-  "page": 255
+  "page": 254
  },
  {
   "level": 4,
   "title": "I. Introduction",
-  "page": 229
+  "page": 254
  },
  {
   "level": 4,

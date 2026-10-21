@@ -1,4 +1,5 @@
-"""OpenStax textbook chapters (CC BY 4.0), cut from the full-book PDFs so the
+"""OpenStax textbook chapters (CC BY-NC-SA 4.0, and the book pages forbid ingestion into
+LLMs or generative-AI offerings without OpenStax's written permission; checked 19 Oct 2026), cut from the full-book PDFs so the
 excerpt has no bookmarks. Gold: chapter and section titles from the book's
 bookmarks, subsection titles (h3/h4) from the matching openstax.org web
 pages; pages are found by locating each heading in the excerpt. Follows the
@@ -101,7 +102,7 @@ def build(force: bool = False) -> None:
         register(
             Entry(
                 id=eid, category="textbooks", title=f"OpenStax {book}, chapter {ch}",
-                source_url=f"https://openstax.org/details/books/{book}", license="CC BY 4.0",
+                source_url=f"https://openstax.org/details/books/{book}", license="CC BY-NC-SA 4.0; no LLM or generative-AI ingestion without OpenStax's written permission",
                 gold_source="bookmarks+web", complete=web > 0, variant=why,
                 notes=("" if web else "web pages not found: bookmarks only; ")
                 + (f"unanchored: {missing[:5]}" if missing else ""),

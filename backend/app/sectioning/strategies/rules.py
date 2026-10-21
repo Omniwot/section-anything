@@ -21,6 +21,13 @@ NUMBERING = re.compile(
     re.I,
 )
 CAPTION = re.compile(r"^(fig(ure)?|table|chart|exhibit|source|note)s?\b[\s.:]*\d", re.I)
+# Run-in labels of maths environments ("Definition II.1.", "Lemma 3", "Proof."), set in bold
+# like headings but never sections.
+THEOREM = re.compile(
+    r"^(definition|lemma|theorem|proposition|corollary|property|remark|example|conjecture|claim|assumption|proof)\b"
+    r"\s*([IVXLC]+(\.\d+)*|\d+(\.\d+)*)?\s*[.:]",
+    re.I,
+)
 
 
 def _labels(ext: Extraction, body: float) -> set[str]:
@@ -41,6 +48,13 @@ def _runs_on(ext: Extraction, ln: Line) -> bool:
         return False
     nxt = ext.lines[ln.i + 1]
     return nxt.page == ln.page and nxt.text[:1].islower() and (ln.y0 - nxt.y1) < ln.size
+
+
+def _vertical(ext: Extraction, ln: Line) -> bool:
+    """A one- or two-character line next to another such line: rotated text read letter by letter
+    (the arXiv side stamp), not an index letter, which has entries between."""
+    near = [ext.lines[j] for j in (ln.i - 1, ln.i + 1) if 0 <= j < len(ext.lines)]
+    return any(x.page == ln.page and len(x.text.strip()) <= 2 for x in near)
 
 
 def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
@@ -65,11 +79,21 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
         words = len(text.split())
         if len(text) > (160 if loose else 120) or words > (20 if loose else 16):
             continue
+        # Bold maths ("A, B", "ad∗", "i] A [i] B") is styled like a heading but is not one. A lone
+        # bold capital set larger than body text is kept: index letters ("A", "B") are headings.
+        letters = sum(c.isalpha() for c in text)
+        if len(text.strip()) <= 2 and _vertical(ext, ln):
+            continue
+        index_letter = bool(re.fullmatch(r"[A-Z]", text.strip())) and ln.bold and ln.size >= body + 1.0
+        if not index_letter and (
+            letters < (2 if loose else 3) or (not loose and letters < 0.5 * len(text.replace(" ", "")))
+        ):
+            continue
         m = NUMBERING.match(text)
         styled = ln.size >= body + bump or (ln.bold and ln.size >= body - 0.3)
         numbered = bool(m) and not text.rstrip().endswith((",", ";")) and words <= 14
         if not loose:
-            if text.strip().lower() in labels:
+            if text.strip().lower() in labels or THEOREM.match(text):
                 continue
             if numbered and not styled:
                 num = m.group("num")
@@ -82,7 +106,11 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     return out
 
 
-LABEL_ONLY = re.compile(r"^(chapter|part|section|appendix|unit|lesson|module|book)\s+[\dA-Z]+[.:]?$", re.I)
+LABEL_ONLY = re.compile(
+    r"^(chapter|part|section|appendix|unit|lesson|module|book|article|schedule|annex|title|rule|clause|regulation)"
+    r"\s+(\d+[A-Za-z]?|[IVXLC]+|[A-Z])[.:]?$",
+    re.I,
+)
 
 
 def _merge_wrapped(cands: list[tuple[Line, str]]) -> list[tuple[Line, str, str]]:

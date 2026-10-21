@@ -1,0 +1,650 @@
+{
+ "summary": {
+  "rules": {
+   "law-books": {
+    "docs": 1,
+    "precision": 0.367,
+    "recall": 0.25,
+    "f1": 0.297,
+    "levels": 1.0,
+    "cost_usd": 0.0
+   },
+   "legislation": {
+    "docs": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "levels": null,
+    "cost_usd": 0.0
+   },
+   "manuals": {
+    "docs": 1,
+    "precision": null,
+    "recall": 0.428,
+    "f1": null,
+    "levels": 0.942,
+    "cost_usd": 0.0
+   },
+   "papers": {
+    "docs": 1,
+    "precision": 0.5,
+    "recall": 1.0,
+    "f1": 0.667,
+    "levels": 1.0,
+    "cost_usd": 0.0
+   },
+   "prose": {
+    "docs": 1,
+    "precision": 0.857,
+    "recall": 0.158,
+    "f1": 0.267,
+    "levels": 1.0,
+    "cost_usd": 0.0
+   },
+   "reports": {
+    "docs": 1,
+    "precision": null,
+    "recall": 0.727,
+    "f1": null,
+    "levels": 1.0,
+    "cost_usd": 0.0
+   },
+   "scanned": {
+    "docs": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "levels": null,
+    "cost_usd": 0.0
+   },
+   "slides": {
+    "docs": 1,
+    "precision": 0.968,
+    "recall": 1.0,
+    "f1": 0.984,
+    "levels": 1.0,
+    "cost_usd": 0.0
+   },
+   "synthetic": {
+    "docs": 1,
+    "precision": 0.578,
+    "recall": 1.0,
+    "f1": 0.733,
+    "levels": 1.0,
+    "cost_usd": 0.0
+   },
+   "textbooks": {
+    "docs": 1,
+    "precision": 0.556,
+    "recall": 1.0,
+    "f1": 0.714,
+    "levels": 1.0,
+    "cost_usd": 0.0
+   },
+   "wikipedia": {
+    "docs": 1,
+    "precision": 0.971,
+    "recall": 1.0,
+    "f1": 0.985,
+    "levels": 1.0,
+    "cost_usd": 0.0
+   },
+   "ALL": {
+    "docs": 11,
+    "precision": 0.533,
+    "recall": 0.597,
+    "f1": 0.516,
+    "levels": 0.994,
+    "cost_usd": 0.0
+   }
+  },
+  "llm_review": {
+   "law-books": {
+    "docs": 1,
+    "precision": 0.926,
+    "recall": 0.568,
+    "f1": 0.704,
+    "levels": 1.0,
+    "cost_usd": 0.28
+   },
+   "legislation": {
+    "docs": 1,
+    "precision": 0.125,
+    "recall": 0.067,
+    "f1": 0.087,
+    "levels": null,
+    "cost_usd": 0.071
+   },
+   "manuals": {
+    "docs": 1,
+    "precision": null,
+    "recall": 0.428,
+    "f1": null,
+    "levels": 1.0,
+    "cost_usd": 0.363
+   },
+   "papers": {
+    "docs": 1,
+    "precision": 0.857,
+    "recall": 1.0,
+    "f1": 0.923,
+    "levels": 1.0,
+    "cost_usd": 0.076
+   },
+   "prose": {
+    "docs": 1,
+    "precision": 0.857,
+    "recall": 0.316,
+    "f1": 0.462,
+    "levels": 1.0,
+    "cost_usd": 0.021
+   },
+   "reports": {
+    "docs": 1,
+    "precision": null,
+    "recall": 0.955,
+    "f1": null,
+    "levels": 1.0,
+    "cost_usd": 0.144
+   },
+   "scanned": {
+    "docs": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "levels": null,
+    "cost_usd": 0.0
+   },
+   "slides": {
+    "docs": 1,
+    "precision": 0.968,
+    "recall": 1.0,
+    "f1": 0.984,
+    "levels": 1.0,
+    "cost_usd": 0.042
+   },
+   "synthetic": {
+    "docs": 1,
+    "precision": 0.98,
+    "recall": 1.0,
+    "f1": 0.99,
+    "levels": 1.0,
+    "cost_usd": 0.09
+   },
+   "textbooks": {
+    "docs": 1,
+    "precision": 0.8,
+    "recall": 1.0,
+    "f1": 0.889,
+    "levels": 0.895,
+    "cost_usd": 0.137
+   },
+   "wikipedia": {
+    "docs": 1,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "levels": 1.0,
+    "cost_usd": 0.216
+   },
+   "ALL": {
+    "docs": 11,
+    "precision": 0.724,
+    "recall": 0.667,
+    "f1": 0.671,
+    "levels": 0.988,
+    "cost_usd": 1.44
+   }
+  },
+  "llm_text": {
+   "law-books": {
+    "docs": 1,
+    "precision": 0.936,
+    "recall": 1.0,
+    "f1": 0.967,
+    "levels": 0.977,
+    "cost_usd": 0.337
+   },
+   "legislation": {
+    "docs": 1,
+    "precision": 0.182,
+    "recall": 0.267,
+    "f1": 0.216,
+    "levels": 0.667,
+    "cost_usd": 0.438
+   },
+   "manuals": {
+    "docs": 1,
+    "precision": null,
+    "recall": 0.975,
+    "f1": null,
+    "levels": 1.0,
+    "cost_usd": 1.048
+   },
+   "papers": {
+    "docs": 1,
+    "precision": 0.667,
+    "recall": 1.0,
+    "f1": 0.8,
+    "levels": 1.0,
+    "cost_usd": 0.182
+   },
+   "prose": {
+    "docs": 1,
+    "precision": 0.536,
+    "recall": 0.974,
+    "f1": 0.692,
+    "levels": 1.0,
+    "cost_usd": 0.632
+   },
+   "reports": {
+    "docs": 1,
+    "precision": null,
+    "recall": 1.0,
+    "f1": null,
+    "levels": 1.0,
+    "cost_usd": 0.48
+   },
+   "scanned": {
+    "docs": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "levels": null,
+    "cost_usd": 0.0
+   },
+   "slides": {
+    "docs": 1,
+    "precision": 0.968,
+    "recall": 1.0,
+    "f1": 0.984,
+    "levels": 1.0,
+    "cost_usd": 0.107
+   },
+   "synthetic": {
+    "docs": 1,
+    "precision": 0.98,
+    "recall": 1.0,
+    "f1": 0.99,
+    "levels": 1.0,
+    "cost_usd": 0.25
+   },
+   "textbooks": {
+    "docs": 1,
+    "precision": 0.645,
+    "recall": 1.0,
+    "f1": 0.784,
+    "levels": 0.895,
+    "cost_usd": 0.197
+   },
+   "wikipedia": {
+    "docs": 1,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "levels": 1.0,
+    "cost_usd": 0.257
+   },
+   "ALL": {
+    "docs": 11,
+    "precision": 0.657,
+    "recall": 0.838,
+    "f1": 0.715,
+    "levels": 0.954,
+    "cost_usd": 3.929
+   }
+  }
+ },
+ "documents": [
+  {
+   "id": "hips-02",
+   "category": "law-books",
+   "complete": true,
+   "variant": "bookmarks-removed",
+   "gold": 44,
+   "gold_image_only": 0,
+   "rules": {
+    "sections": 30,
+    "seconds": 0.07,
+    "cost_usd": 0.0,
+    "precision": 0.367,
+    "recall": 0.25,
+    "f1": 0.297,
+    "level_agreement": 1.0
+   },
+   "llm_review": {
+    "sections": 28,
+    "seconds": 55.0,
+    "cost_usd": 0.2799,
+    "precision": 0.926,
+    "recall": 0.568,
+    "f1": 0.704,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 47,
+    "seconds": 45.55,
+    "cost_usd": 0.3369,
+    "precision": 0.936,
+    "recall": 1.0,
+    "f1": 0.967,
+    "level_agreement": 0.977
+   }
+  },
+  {
+   "id": "law-us-music-modernization-act",
+   "category": "legislation",
+   "complete": true,
+   "variant": "",
+   "gold": 15,
+   "gold_image_only": 0,
+   "rules": {
+    "sections": 21,
+    "seconds": 0.06,
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   },
+   "llm_review": {
+    "sections": 8,
+    "seconds": 21.89,
+    "cost_usd": 0.071,
+    "precision": 0.125,
+    "recall": 0.067,
+    "f1": 0.087,
+    "level_agreement": null
+   },
+   "llm_text": {
+    "sections": 22,
+    "seconds": 31.5,
+    "cost_usd": 0.4381,
+    "precision": 0.182,
+    "recall": 0.267,
+    "f1": 0.216,
+    "level_agreement": 0.667
+   }
+  },
+  {
+   "id": "manual-requests",
+   "category": "manuals",
+   "complete": false,
+   "variant": "Sphinx / LaTeX",
+   "gold": 283,
+   "gold_image_only": 0,
+   "rules": {
+    "sections": 316,
+    "seconds": 0.13,
+    "cost_usd": 0.0,
+    "precision": 0.383,
+    "recall": 0.428,
+    "f1": 0.404,
+    "level_agreement": 0.942
+   },
+   "llm_review": {
+    "sections": 261,
+    "seconds": 66.52,
+    "cost_usd": 0.3634,
+    "precision": 0.464,
+    "recall": 0.428,
+    "f1": 0.445,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 300,
+    "seconds": 164.12,
+    "cost_usd": 1.0479,
+    "precision": 0.92,
+    "recall": 0.975,
+    "f1": 0.947,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "arxiv-04",
+   "category": "papers",
+   "complete": true,
+   "variant": "IEEE two-column",
+   "gold": 6,
+   "gold_image_only": 0,
+   "rules": {
+    "sections": 12,
+    "seconds": 0.02,
+    "cost_usd": 0.0,
+    "precision": 0.5,
+    "recall": 1.0,
+    "f1": 0.667,
+    "level_agreement": 1.0
+   },
+   "llm_review": {
+    "sections": 7,
+    "seconds": 17.53,
+    "cost_usd": 0.0761,
+    "precision": 0.857,
+    "recall": 1.0,
+    "f1": 0.923,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 9,
+    "seconds": 13.64,
+    "cost_usd": 0.1816,
+    "precision": 0.667,
+    "recall": 1.0,
+    "f1": 0.8,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "prose-origin-of-species",
+   "category": "prose",
+   "complete": true,
+   "variant": "run-in subsection heads",
+   "gold": 38,
+   "gold_image_only": 0,
+   "rules": {
+    "sections": 7,
+    "seconds": 0.09,
+    "cost_usd": 0.0,
+    "precision": 0.857,
+    "recall": 0.158,
+    "f1": 0.267,
+    "level_agreement": 1.0
+   },
+   "llm_review": {
+    "sections": 14,
+    "seconds": 4.59,
+    "cost_usd": 0.0206,
+    "precision": 0.857,
+    "recall": 0.316,
+    "f1": 0.462,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 69,
+    "seconds": 72.54,
+    "cost_usd": 0.6325,
+    "precision": 0.536,
+    "recall": 0.974,
+    "f1": 0.692,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "report-nist-sp1270",
+   "category": "reports",
+   "complete": false,
+   "variant": "NIST, US",
+   "gold": 22,
+   "gold_image_only": 0,
+   "rules": {
+    "sections": 49,
+    "seconds": 0.07,
+    "cost_usd": 0.0,
+    "precision": 0.327,
+    "recall": 0.727,
+    "f1": 0.451,
+    "level_agreement": 1.0
+   },
+   "llm_review": {
+    "sections": 24,
+    "seconds": 32.16,
+    "cost_usd": 0.1436,
+    "precision": 0.913,
+    "recall": 0.955,
+    "f1": 0.933,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 73,
+    "seconds": 49.28,
+    "cost_usd": 0.4805,
+    "precision": 0.301,
+    "recall": 1.0,
+    "f1": 0.463,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "scan-04-prose-pride-and-prejudice",
+   "category": "scanned",
+   "complete": true,
+   "variant": "low resolution photocopy",
+   "gold": 15,
+   "gold_image_only": 15,
+   "rules": {
+    "sections": 0,
+    "seconds": 0.0,
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   },
+   "llm_review": {
+    "sections": 0,
+    "seconds": 0.0,
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   },
+   "llm_text": {
+    "sections": 0,
+    "seconds": 0.0,
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   }
+  },
+  {
+   "id": "slides-05-title-bar-nav",
+   "category": "slides",
+   "complete": true,
+   "variant": "white title on a dark bar; navigation strip names every section",
+   "gold": 30,
+   "gold_image_only": 0,
+   "rules": {
+    "sections": 31,
+    "seconds": 0.02,
+    "cost_usd": 0.0,
+    "precision": 0.968,
+    "recall": 1.0,
+    "f1": 0.984,
+    "level_agreement": 1.0
+   },
+   "llm_review": {
+    "sections": 31,
+    "seconds": 12.01,
+    "cost_usd": 0.0417,
+    "precision": 0.968,
+    "recall": 1.0,
+    "f1": 0.984,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 31,
+    "seconds": 23.37,
+    "cost_usd": 0.1075,
+    "precision": 0.968,
+    "recall": 1.0,
+    "f1": 0.984,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "synth-dot-leader-toc",
+   "category": "synthetic",
+   "complete": true,
+   "variant": "contents list with dot leaders; printed page = physical - 3",
+   "gold": 48,
+   "gold_image_only": 0,
+   "rules": {
+    "sections": 83,
+    "seconds": 0.07,
+    "cost_usd": 0.0,
+    "precision": 0.578,
+    "recall": 1.0,
+    "f1": 0.733,
+    "level_agreement": 1.0
+   },
+   "llm_review": {
+    "sections": 49,
+    "seconds": 16.36,
+    "cost_usd": 0.0905,
+    "precision": 0.98,
+    "recall": 1.0,
+    "f1": 0.99,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 49,
+    "seconds": 31.65,
+    "cost_usd": 0.25,
+    "precision": 0.98,
+    "recall": 1.0,
+    "f1": 0.99,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "wiki-01-en",
+   "category": "wikipedia",
+   "complete": true,
+   "variant": "science, deep sections, figures",
+   "gold": 33,
+   "gold_image_only": 0,
+   "rules": {
+    "sections": 34,
+    "seconds": 0.04,
+    "cost_usd": 0.0,
+    "precision": 0.971,
+    "recall": 1.0,
+    "f1": 0.985,
+    "level_agreement": 1.0
+   },
+   "llm_review": {
+    "sections": 33,
+    "seconds": 41.38,
+    "cost_usd": 0.2162,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 33,
+    "seconds": 25.47,
+    "cost_usd": 0.257,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   }
+  }
+ ]
+}

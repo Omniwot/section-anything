@@ -1,0 +1,956 @@
+{
+ "summary": {
+  "llm_review": {
+   "law-books": {
+    "docs": 3,
+    "precision": 0.916,
+    "recall": 0.597,
+    "f1": 0.706,
+    "levels": 0.956,
+    "cost_usd": 0.009
+   },
+   "legislation": {
+    "docs": 3,
+    "precision": 0.645,
+    "recall": 0.664,
+    "f1": 0.652,
+    "levels": 0.992,
+    "cost_usd": 0.015
+   },
+   "manuals": {
+    "docs": 2,
+    "precision": null,
+    "recall": 0.687,
+    "f1": null,
+    "levels": 0.992,
+    "cost_usd": 0.01
+   },
+   "papers": {
+    "docs": 3,
+    "precision": 0.918,
+    "recall": 0.957,
+    "f1": 0.936,
+    "levels": 1.0,
+    "cost_usd": 0.004
+   },
+   "prose": {
+    "docs": 3,
+    "precision": 0.952,
+    "recall": 0.772,
+    "f1": 0.821,
+    "levels": 1.0,
+    "cost_usd": 0.002
+   },
+   "reports": {
+    "docs": 3,
+    "precision": null,
+    "recall": 0.833,
+    "f1": null,
+    "levels": 0.909,
+    "cost_usd": 0.009
+   },
+   "scanned": {
+    "docs": 3,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "levels": null,
+    "cost_usd": 0.0
+   },
+   "slides": {
+    "docs": 3,
+    "precision": 0.964,
+    "recall": 1.0,
+    "f1": 0.982,
+    "levels": 1.0,
+    "cost_usd": 0.002
+   },
+   "synthetic": {
+    "docs": 3,
+    "precision": 1.0,
+    "recall": 0.884,
+    "f1": 0.93,
+    "levels": 1.0,
+    "cost_usd": 0.004
+   },
+   "textbooks": {
+    "docs": 3,
+    "precision": 0.854,
+    "recall": 1.0,
+    "f1": 0.921,
+    "levels": 0.951,
+    "cost_usd": 0.005
+   },
+   "wikipedia": {
+    "docs": 3,
+    "precision": 0.972,
+    "recall": 0.979,
+    "f1": 0.975,
+    "levels": 0.966,
+    "cost_usd": 0.013
+   },
+   "ALL": {
+    "docs": 32,
+    "precision": 0.802,
+    "recall": 0.763,
+    "f1": 0.769,
+    "levels": 0.975,
+    "cost_usd": 0.073
+   }
+  },
+  "llm_text": {
+   "law-books": {
+    "docs": 3,
+    "precision": 0.876,
+    "recall": 0.843,
+    "f1": 0.849,
+    "levels": 0.958,
+    "cost_usd": 0.016
+   },
+   "legislation": {
+    "docs": 3,
+    "precision": 0.664,
+    "recall": 0.733,
+    "f1": 0.695,
+    "levels": 0.997,
+    "cost_usd": 0.035
+   },
+   "manuals": {
+    "docs": 2,
+    "precision": null,
+    "recall": 0.562,
+    "f1": null,
+    "levels": 0.989,
+    "cost_usd": 0.027
+   },
+   "papers": {
+    "docs": 3,
+    "precision": 0.86,
+    "recall": 1.0,
+    "f1": 0.924,
+    "levels": 1.0,
+    "cost_usd": 0.013
+   },
+   "prose": {
+    "docs": 3,
+    "precision": 0.714,
+    "recall": 0.991,
+    "f1": 0.813,
+    "levels": 0.991,
+    "cost_usd": 0.033
+   },
+   "reports": {
+    "docs": 3,
+    "precision": null,
+    "recall": 0.811,
+    "f1": null,
+    "levels": 0.909,
+    "cost_usd": 0.025
+   },
+   "scanned": {
+    "docs": 3,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "levels": null,
+    "cost_usd": 0.0
+   },
+   "slides": {
+    "docs": 3,
+    "precision": 1.0,
+    "recall": 0.661,
+    "f1": 0.679,
+    "levels": 1.0,
+    "cost_usd": 0.004
+   },
+   "synthetic": {
+    "docs": 3,
+    "precision": 1.0,
+    "recall": 0.884,
+    "f1": 0.93,
+    "levels": 1.0,
+    "cost_usd": 0.012
+   },
+   "textbooks": {
+    "docs": 3,
+    "precision": 0.849,
+    "recall": 1.0,
+    "f1": 0.917,
+    "levels": 0.951,
+    "cost_usd": 0.012
+   },
+   "wikipedia": {
+    "docs": 3,
+    "precision": 0.982,
+    "recall": 1.0,
+    "f1": 0.991,
+    "levels": 0.959,
+    "cost_usd": 0.015
+   },
+   "ALL": {
+    "docs": 32,
+    "precision": 0.772,
+    "recall": 0.778,
+    "f1": 0.755,
+    "levels": 0.974,
+    "cost_usd": 0.191
+   }
+  }
+ },
+ "documents": [
+  {
+   "id": "hips-02",
+   "category": "law-books",
+   "complete": true,
+   "variant": "bookmarks-removed",
+   "gold": 44,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 28,
+    "seconds": 42.11,
+    "cost_usd": 0.0037,
+    "precision": 0.926,
+    "recall": 0.568,
+    "f1": 0.704,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 36,
+    "seconds": 25.34,
+    "cost_usd": 0.0058,
+    "precision": 0.971,
+    "recall": 0.773,
+    "f1": 0.861,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "hips-04",
+   "category": "law-books",
+   "complete": true,
+   "variant": "bookmarks",
+   "gold": 69,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 29,
+    "seconds": 44.58,
+    "cost_usd": 0.004,
+    "precision": 0.821,
+    "recall": 0.333,
+    "f1": 0.474,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 60,
+    "seconds": 40.74,
+    "cost_usd": 0.0074,
+    "precision": 0.949,
+    "recall": 0.812,
+    "f1": 0.875,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "hips-01",
+   "category": "law-books",
+   "complete": true,
+   "variant": "bookmarks-removed",
+   "gold": 18,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 17,
+    "seconds": 21.64,
+    "cost_usd": 0.0017,
+    "precision": 1.0,
+    "recall": 0.889,
+    "f1": 0.941,
+    "level_agreement": 0.867
+   },
+   "llm_text": {
+    "sections": 25,
+    "seconds": 15.12,
+    "cost_usd": 0.0027,
+    "precision": 0.708,
+    "recall": 0.944,
+    "f1": 0.81,
+    "level_agreement": 0.875
+   }
+  },
+  {
+   "id": "law-us-music-modernization-act",
+   "category": "legislation",
+   "complete": true,
+   "variant": "",
+   "gold": 15,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 10,
+    "seconds": 20.12,
+    "cost_usd": 0.0013,
+    "precision": 0.111,
+    "recall": 0.067,
+    "f1": 0.083,
+    "level_agreement": null
+   },
+   "llm_text": {
+    "sections": 21,
+    "seconds": 25.72,
+    "cost_usd": 0.0087,
+    "precision": 0.2,
+    "recall": 0.267,
+    "f1": 0.229,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "law-za-popia-2013",
+   "category": "legislation",
+   "complete": true,
+   "variant": "",
+   "gold": 132,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 146,
+    "seconds": 76.27,
+    "cost_usd": 0.0069,
+    "precision": 0.841,
+    "recall": 0.924,
+    "f1": 0.881,
+    "level_agreement": 0.983
+   },
+   "llm_text": {
+    "sections": 154,
+    "seconds": 84.73,
+    "cost_usd": 0.0125,
+    "precision": 0.804,
+    "recall": 0.932,
+    "f1": 0.863,
+    "level_agreement": 0.992
+   }
+  },
+  {
+   "id": "law-de-basic-law-english",
+   "category": "legislation",
+   "complete": true,
+   "variant": "",
+   "gold": 223,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 228,
+    "seconds": 78.27,
+    "cost_usd": 0.0073,
+    "precision": 0.982,
+    "recall": 1.0,
+    "f1": 0.991,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 227,
+    "seconds": 119.68,
+    "cost_usd": 0.0135,
+    "precision": 0.987,
+    "recall": 1.0,
+    "f1": 0.993,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "manual-requests",
+   "category": "manuals",
+   "complete": false,
+   "variant": "Sphinx / LaTeX",
+   "gold": 283,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 111,
+    "seconds": 71.1,
+    "cost_usd": 0.0063,
+    "precision": 0.991,
+    "recall": 0.385,
+    "f1": 0.555,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 130,
+    "seconds": 64.21,
+    "cost_usd": 0.0116,
+    "precision": 0.829,
+    "recall": 0.378,
+    "f1": 0.519,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "manual-r-intro",
+   "category": "manuals",
+   "complete": false,
+   "variant": "Texinfo (R)",
+   "gold": 186,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 202,
+    "seconds": 38.78,
+    "cost_usd": 0.004,
+    "precision": 0.915,
+    "recall": 0.989,
+    "f1": 0.951,
+    "level_agreement": 0.984
+   },
+   "llm_text": {
+    "sections": 153,
+    "seconds": 89.68,
+    "cost_usd": 0.0151,
+    "precision": 0.914,
+    "recall": 0.747,
+    "f1": 0.822,
+    "level_agreement": 0.978
+   }
+  },
+  {
+   "id": "arxiv-04",
+   "category": "papers",
+   "complete": true,
+   "variant": "IEEE two-column",
+   "gold": 6,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 7,
+    "seconds": 9.32,
+    "cost_usd": 0.001,
+    "precision": 0.857,
+    "recall": 1.0,
+    "f1": 0.923,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 7,
+    "seconds": 10.58,
+    "cost_usd": 0.0034,
+    "precision": 0.857,
+    "recall": 1.0,
+    "f1": 0.923,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "arxiv-05",
+   "category": "papers",
+   "complete": true,
+   "variant": "REVTeX two-column",
+   "gold": 40,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 39,
+    "seconds": 19.35,
+    "cost_usd": 0.0017,
+    "precision": 0.949,
+    "recall": 0.925,
+    "f1": 0.937,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 44,
+    "seconds": 27.61,
+    "cost_usd": 0.0052,
+    "precision": 0.93,
+    "recall": 1.0,
+    "f1": 0.964,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "arxiv-06",
+   "category": "papers",
+   "complete": true,
+   "variant": "AASTeX",
+   "gold": 19,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 20,
+    "seconds": 12.2,
+    "cost_usd": 0.0011,
+    "precision": 0.947,
+    "recall": 0.947,
+    "f1": 0.947,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 25,
+    "seconds": 18.9,
+    "cost_usd": 0.0042,
+    "precision": 0.792,
+    "recall": 1.0,
+    "f1": 0.884,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "prose-origin-of-species",
+   "category": "prose",
+   "complete": true,
+   "variant": "run-in subsection heads",
+   "gold": 38,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 14,
+    "seconds": 7.94,
+    "cost_usd": 0.0005,
+    "precision": 0.857,
+    "recall": 0.316,
+    "f1": 0.462,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 78,
+    "seconds": 71.15,
+    "cost_usd": 0.0129,
+    "precision": 0.474,
+    "recall": 0.974,
+    "f1": 0.638,
+    "level_agreement": 0.972
+   }
+  },
+  {
+   "id": "prose-moby-dick",
+   "category": "prose",
+   "complete": true,
+   "variant": "titled chapters in small caps",
+   "gold": 36,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 36,
+    "seconds": 8.2,
+    "cost_usd": 0.0008,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 36,
+    "seconds": 41.06,
+    "cost_usd": 0.0119,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "prose-emerson-essays",
+   "category": "prose",
+   "complete": true,
+   "variant": "essays with long paragraphs, ragged right",
+   "gold": 8,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 8,
+    "seconds": 2.74,
+    "cost_usd": 0.0002,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 12,
+    "seconds": 15.09,
+    "cost_usd": 0.0081,
+    "precision": 0.667,
+    "recall": 1.0,
+    "f1": 0.8,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "report-nist-sp1270",
+   "category": "reports",
+   "complete": false,
+   "variant": "NIST, US",
+   "gold": 22,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 24,
+    "seconds": 18.7,
+    "cost_usd": 0.0019,
+    "precision": 0.913,
+    "recall": 0.955,
+    "f1": 0.933,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 74,
+    "seconds": 53.99,
+    "cost_usd": 0.0096,
+    "precision": 0.301,
+    "recall": 1.0,
+    "f1": 0.463,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "report-nrel-wind-market-2023",
+   "category": "reports",
+   "complete": false,
+   "variant": "US DOE",
+   "gold": 18,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 75,
+    "seconds": 44.8,
+    "cost_usd": 0.0046,
+    "precision": 0.24,
+    "recall": 1.0,
+    "f1": 0.387,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 71,
+    "seconds": 57.61,
+    "cost_usd": 0.0105,
+    "precision": 0.225,
+    "recall": 0.889,
+    "f1": 0.36,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "report-nasa-artemis-plan",
+   "category": "reports",
+   "complete": false,
+   "variant": "NASA, US",
+   "gold": 22,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 75,
+    "seconds": 23.43,
+    "cost_usd": 0.002,
+    "precision": 0.16,
+    "recall": 0.545,
+    "f1": 0.247,
+    "level_agreement": 0.727
+   },
+   "llm_text": {
+    "sections": 74,
+    "seconds": 40.31,
+    "cost_usd": 0.0053,
+    "precision": 0.164,
+    "recall": 0.545,
+    "f1": 0.253,
+    "level_agreement": 0.727
+   }
+  },
+  {
+   "id": "scan-04-prose-pride-and-prejudice",
+   "category": "scanned",
+   "complete": true,
+   "variant": "low resolution photocopy",
+   "gold": 15,
+   "gold_image_only": 15,
+   "llm_review": {
+    "sections": 0,
+    "seconds": 0.0,
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   },
+   "llm_text": {
+    "sections": 0,
+    "seconds": 0.0,
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   }
+  },
+  {
+   "id": "scan-05-law-uk-climate-change-act-2008",
+   "category": "scanned",
+   "complete": true,
+   "variant": "act with noise",
+   "gold": 97,
+   "gold_image_only": 97,
+   "llm_review": {
+    "sections": 0,
+    "seconds": 0.0,
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   },
+   "llm_text": {
+    "sections": 0,
+    "seconds": 0.0,
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   }
+  },
+  {
+   "id": "scan-07-prose-hamlet",
+   "category": "scanned",
+   "complete": true,
+   "variant": "play, mild skew and noise",
+   "gold": 20,
+   "gold_image_only": 20,
+   "llm_review": {
+    "sections": 0,
+    "seconds": 0.0,
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   },
+   "llm_text": {
+    "sections": 0,
+    "seconds": 0.0,
+    "cost_usd": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "level_agreement": null
+   }
+  },
+  {
+   "id": "slides-05-title-bar-nav",
+   "category": "slides",
+   "complete": true,
+   "variant": "white title on a dark bar; navigation strip names every section",
+   "gold": 30,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 31,
+    "seconds": 12.44,
+    "cost_usd": 0.0009,
+    "precision": 0.968,
+    "recall": 1.0,
+    "f1": 0.984,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 30,
+    "seconds": 21.35,
+    "cost_usd": 0.0017,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "slides-09-image-heavy",
+   "category": "slides",
+   "complete": true,
+   "variant": "title-less image slides between titled ones",
+   "gold": 21,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 22,
+    "seconds": 9.61,
+    "cost_usd": 0.0006,
+    "precision": 0.955,
+    "recall": 1.0,
+    "f1": 0.977,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 20,
+    "seconds": 20.49,
+    "cost_usd": 0.0014,
+    "precision": 1.0,
+    "recall": 0.952,
+    "f1": 0.976,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "slides-01-wide-dividers",
+   "category": "slides",
+   "complete": true,
+   "variant": "16:9, divider slides, left titles",
+   "gold": 32,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 33,
+    "seconds": 11.36,
+    "cost_usd": 0.0008,
+    "precision": 0.97,
+    "recall": 1.0,
+    "f1": 0.985,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 1,
+    "seconds": 10.95,
+    "cost_usd": 0.0008,
+    "precision": 1.0,
+    "recall": 0.031,
+    "f1": 0.061,
+    "level_agreement": null
+   }
+  },
+  {
+   "id": "synth-dot-leader-toc",
+   "category": "synthetic",
+   "complete": true,
+   "variant": "contents list with dot leaders; printed page = physical - 3",
+   "gold": 48,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 49,
+    "seconds": 15.04,
+    "cost_usd": 0.0015,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 49,
+    "seconds": 18.02,
+    "cost_usd": 0.0039,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "synth-image-pages",
+   "category": "synthetic",
+   "complete": true,
+   "variant": "pages 3, 6, 9, ... have no text layer (need OCR)",
+   "gold": 43,
+   "gold_image_only": 15,
+   "llm_review": {
+    "sections": 28,
+    "seconds": 14.96,
+    "cost_usd": 0.0009,
+    "precision": 1.0,
+    "recall": 0.651,
+    "f1": 0.789,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 28,
+    "seconds": 21.02,
+    "cost_usd": 0.003,
+    "precision": 1.0,
+    "recall": 0.651,
+    "f1": 0.789,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "synth-numbering-only",
+   "category": "synthetic",
+   "complete": true,
+   "variant": "only cue is 1.2.3 numbering; same font as body",
+   "gold": 61,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 61,
+    "seconds": 13.08,
+    "cost_usd": 0.0012,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 61,
+    "seconds": 41.96,
+    "cost_usd": 0.0053,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "wiki-01-en",
+   "category": "wikipedia",
+   "complete": true,
+   "variant": "science, deep sections, figures",
+   "gold": 33,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 34,
+    "seconds": 19.42,
+    "cost_usd": 0.0024,
+    "precision": 0.971,
+    "recall": 1.0,
+    "f1": 0.985,
+    "level_agreement": 0.969
+   },
+   "llm_text": {
+    "sections": 33,
+    "seconds": 20.68,
+    "cost_usd": 0.0049,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "wiki-05-en",
+   "category": "wikipedia",
+   "complete": true,
+   "variant": "code samples and syntax tables",
+   "gold": 30,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 29,
+    "seconds": 58.97,
+    "cost_usd": 0.0061,
+    "precision": 1.0,
+    "recall": 0.967,
+    "f1": 0.983,
+    "level_agreement": 0.929
+   },
+   "llm_text": {
+    "sections": 30,
+    "seconds": 16.79,
+    "cost_usd": 0.0047,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "level_agreement": 0.966
+   }
+  },
+  {
+   "id": "wiki-10-en",
+   "category": "wikipedia",
+   "complete": true,
+   "variant": "biography with a works list",
+   "gold": 35,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 37,
+    "seconds": 38.2,
+    "cost_usd": 0.0044,
+    "precision": 0.944,
+    "recall": 0.971,
+    "f1": 0.958,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 37,
+    "seconds": 27.56,
+    "cost_usd": 0.0053,
+    "precision": 0.946,
+    "recall": 1.0,
+    "f1": 0.972,
+    "level_agreement": 0.912
+   }
+  }
+ ]
+}

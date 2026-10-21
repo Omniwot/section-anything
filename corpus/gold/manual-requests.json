@@ -220,6 +220,21 @@
   "page": 34
  },
  {
+  "level": 4,
+  "title": "Example: Specific SSL Version",
+  "page": 35
+ },
+ {
+  "level": 4,
+  "title": "Example: Automatic Retries",
+  "page": 35
+ },
+ {
+  "level": 3,
+  "title": "Blocking Or Non-Blocking?",
+  "page": 35
+ },
+ {
   "level": 3,
   "title": "Header Ordering",
   "page": 36

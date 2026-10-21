@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { api, type Catalog, type DocumentInfo, type Estimate, type RunInfo, type Section } from "../api";
+import { api, bridgeNext, bridgeReply, type Catalog, type DocumentInfo, type Estimate, type RunInfo, type Section } from "../api";
 import { usd } from "../format";
+import { complete, loadConfig, LOCAL_CHOICE, type LocalConfig } from "../localLlm";
 import Activity from "./Activity";
 import PdfPane, { type PdfPaneHandle } from "./PdfPane";
 import RunCalls from "./RunCalls";
@@ -16,7 +17,23 @@ export default function Workspace({ doc, catalog, onBack }: Props) {
   const [runs, setRuns] = useState<RunInfo[]>([]);
   const [current, setCurrent] = useState<RunInfo | null>(null);
   const [strategyIndex, setStrategyIndex] = useState(Math.min(2, catalog.strategies.length - 1));
-  const [model, setModel] = useState(catalog.models[0] ?? "");
+  const defaultModel = (i: number) => {
+    const st = catalog.strategies[i];
+    if (!st?.uses_llm) return catalog.models[0] ?? "";
+    const preferred = st.default_model ?? catalog.models[0];
+    if (preferred && catalog.models.includes(preferred)) return preferred;
+    return catalog.local_models.strategies.includes(st.id) ? LOCAL_CHOICE : "";
+  };
+  const [localConfig, setLocalConfig] = useState<LocalConfig>(() => loadConfig());
+  const localRef = useRef(localConfig);
+  localRef.current = localConfig;
+  const [answered, setAnswered] = useState<Record<number, number>>({});
+  const [localError, setLocalError] = useState("");
+  const [model, setModel] = useState(() => defaultModel(Math.min(2, catalog.strategies.length - 1)));
+  const chooseStrategy = (i: number) => {
+    setStrategyIndex(i);
+    setModel(defaultModel(i)); // each stop has its own default model; the dropdown can still override it
+  };
   const [activeId, setActiveId] = useState<number | null>(null);
   const [error, setError] = useState("");
   const [callsFor, setCallsFor] = useState<number | null>(null);
@@ -63,12 +80,61 @@ export default function Workspace({ doc, catalog, onBack }: Props) {
     return () => window.clearInterval(t);
   }, [busy, runs, refreshRuns, loadRun]);
 
+  // Runs on the visitor's own model: answer each prompt the server queues, from this tab.
+  const serving = useRef(new Set<number>());
+  const localRuns = runs.filter(
+    (r) => (r.status === "queued" || r.status === "running") && r.model.startsWith(catalog.local_models.prefix),
+  );
+  const localRunIds = localRuns.map((r) => r.id).join(",");
+  useEffect(() => {
+    const stop = new AbortController();
+    for (const r of localRuns) {
+      if (serving.current.has(r.id)) continue;
+      serving.current.add(r.id);
+      void (async () => {
+        try {
+          while (!stop.signal.aborted) {
+            const next = await bridgeNext(r.id, stop.signal);
+            if (!next.request) {
+              if (next.status === "done" || next.status === "failed") break;
+              continue;
+            }
+            try {
+              const content = await complete(localRef.current, next.request, stop.signal);
+              await bridgeReply(r.id, next.request.id, { content });
+              setLocalError("");
+              setAnswered((a) => ({ ...a, [r.id]: (a[r.id] ?? 0) + 1 }));
+            } catch (e) {
+              if (stop.signal.aborted) break;
+              const msg = e instanceof Error ? e.message : "local model failed";
+              setLocalError(msg);
+              await bridgeReply(r.id, next.request.id, { error: msg }).catch(() => undefined);
+            }
+          }
+        } catch {
+          /* page closed or signed out: the run times out on the server */
+        } finally {
+          serving.current.delete(r.id);
+        }
+      })();
+    }
+    return () => stop.abort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localRunIds]);
+
   async function onRun() {
     setError("");
+    const st = catalog.strategies[strategyIndex];
+    const modelId =
+      model === LOCAL_CHOICE
+        ? st.uses_llm
+          ? `${catalog.local_models.prefix}${localConfig.model}`
+          : ""
+        : model;
     try {
       await api<RunInfo>(`/documents/${doc.id}/runs`, {
         method: "POST",
-        body: JSON.stringify({ strategy: catalog.strategies[strategyIndex].id, model }),
+        body: JSON.stringify({ strategy: st.id, model: modelId }),
       });
       await refreshRuns();
     } catch (e) {
@@ -108,11 +174,21 @@ export default function Workspace({ doc, catalog, onBack }: Props) {
         strategyIndex={strategyIndex}
         model={model}
         busy={busy}
-        onStrategy={setStrategyIndex}
+        onStrategy={chooseStrategy}
         onModel={setModel}
         onRun={onRun}
+        localConfig={localConfig}
+        onLocalConfig={setLocalConfig}
       />
       {error && <p className="error">{error}</p>}
+      {localRuns.length > 0 && (
+        <p className="local-status small">
+          Your local model is working
+          {localRuns.map((r) => ` · run #${r.id}: ${answered[r.id] ?? 0} prompt${(answered[r.id] ?? 0) === 1 ? "" : "s"} answered`)}.
+          Keep this tab open until it finishes.
+        </p>
+      )}
+      {localError && <p className="error small">{localError}</p>}
       <RunsTable
         runs={runs}
         catalog={catalog}

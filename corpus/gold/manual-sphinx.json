@@ -555,14 +555,54 @@
   "page": 85
  },
  {
+  "level": 4,
+  "title": "MOVED: Python Domain",
+  "page": 86
+ },
+ {
+  "level": 4,
+  "title": "MOVED: C Domain",
+  "page": 86
+ },
+ {
+  "level": 4,
+  "title": "MOVED: C++ Domain",
+  "page": 86
+ },
+ {
+  "level": 4,
+  "title": "MOVED: Standard Domain",
+  "page": 86
+ },
+ {
+  "level": 4,
+  "title": "MOVED: JavaScript Domain",
+  "page": 86
+ },
+ {
+  "level": 4,
+  "title": "MOVED: reStructuredText Domain",
+  "page": 86
+ },
+ {
+  "level": 4,
+  "title": "MOVED: Math Domain",
+  "page": 86
+ },
+ {
+  "level": 4,
+  "title": "MOVED: More domains",
+  "page": 86
+ },
+ {
   "level": 2,
   "title": "Markdown",
-  "page": 87
+  "page": 86
  },
  {
   "level": 3,
   "title": "Configuration",
-  "page": 90
+  "page": 86
  },
  {
   "level": 2,
@@ -947,17 +987,17 @@
  {
   "level": 6,
   "title": "Partial Template Specialisations",
-  "page": 182
+  "page": 192
  },
  {
   "level": 5,
   "title": "Configuration Variables",
-  "page": 181
+  "page": 192
  },
  {
   "level": 4,
   "title": "The JavaScript Domain",
-  "page": 160
+  "page": 192
  },
  {
   "level": 4,

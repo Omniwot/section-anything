@@ -28,7 +28,7 @@ MANIFEST = ROOT / "manifest.json"
 BACKEND = ROOT.parent / "backend"
 sys.path.insert(0, str(BACKEND))
 
-from app.sectioning.extract import Extraction, extract, read_outline
+from app.sectioning.extract import EXTRACTOR_VERSION, Extraction, extract, read_outline
 from app.sectioning.markers import canon
 from app.sectioning.structure import detect_toc
 from rapidfuzz import fuzz
@@ -171,7 +171,19 @@ def outline_gold(src: Path, pages: list[int] | None = None, max_level: int | Non
             page = keep[it.page]
         else:
             page = it.page
-        out.append({"level": it.level, "title": it.title.strip(), "page": page})
+        title = it.title.strip()
+        # Some outlines split one printed heading into a bookmark per line
+        # ("APPENDIX 2:", "Artemis Lunar Surface", "Technology Strategy"):
+        # join same-page, same-level bookmarks that follow a label ending in ":".
+        prev = out[-1] if out else None
+        if prev and prev.get("_open") and prev["page"] == page and prev["level"] == it.level:
+            prev["title"] = f"{prev['title']} {title}"
+            continue
+        if prev:
+            prev.pop("_open", None)
+        out.append({"level": it.level, "title": title, "page": page, **({"_open": True} if title.endswith(":") else {})})
+    if out:
+        out[-1].pop("_open", None)
     return out
 
 
@@ -179,7 +191,9 @@ def extraction(path: Path) -> Extraction:
     """Our extraction of a corpus file, cached by hash for anchoring and eval."""
     cached = CACHE / f"{sha256(path)[:16]}.extraction.json"
     if cached.exists():
-        return Extraction.load(cached)
+        ext = Extraction.load(cached)
+        if ext.version >= EXTRACTOR_VERSION:
+            return ext
     ext = extract(path)
     ext.save(cached)
     return ext
@@ -192,6 +206,7 @@ def _key(s: str) -> str:
 def anchor(
     ext: Extraction, items: list[tuple[int, str]], *, pdf_titles: bool = False, max_gap_lines: int | None = None,
     run_in: bool = False, start_after: str | None = None, start_line: int | None = None,
+    skip_lines: set[int] | None = None,
 ) -> tuple[list[dict], list[str]]:
     """Find the page of each known heading, in document order.
 
@@ -205,13 +220,14 @@ def anchor(
     followed by body text after a full stop, colon or dash; such gold entries
     are marked `run_in`. `start_after` skips everything up to the first line
     matching it (an act's enacting words, after its printed contents);
-    `start_line` sets that position directly.
+    `start_line` sets that position directly. `skip_lines` adds lines to treat
+    like the detected table of contents (never matched).
 
     A heading whose match lies beyond the next heading's match is treated as
     missing, so one false match far ahead can't swallow the rest.
     """
     lines = ext.lines
-    toc = detect_toc(ext).lines
+    toc = set(detect_toc(ext).lines) | (skip_lines or set())
     keys = [_key(ENUM.sub("", ln.text)) for ln in lines]
 
     def find(t: str, pos: int) -> tuple[int | None, int | None, str | None]:
@@ -360,7 +376,10 @@ def verified(pdf_path: Path, gold: list[dict], window: int = 40) -> tuple[list[d
     listing = {p for p, n in per_page.items() if n >= 6}
     out, dropped, moved, offset = [], 0, 0, 0
     for g, h in zip(gold, hits, strict=True):
-        cands = [p for p in h if p not in listing]
+        # A heading found on exactly its given page stays there even if that page
+        # looks like a listing: body pages dense with cross-references ("see The
+        # class of an object") otherwise lose their own headings to other pages.
+        cands = [p for p in h if p not in listing or p == g["page"]]
         if any(abs(p - g["page"]) <= 1 for p in cands):
             page = min((p for p in cands if abs(p - g["page"]) <= 1), key=lambda p: abs(p - g["page"]))
         elif cands:

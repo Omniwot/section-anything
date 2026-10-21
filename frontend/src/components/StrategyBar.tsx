@@ -1,5 +1,7 @@
 import type { Catalog, Estimate } from "../api";
 import { usd } from "../format";
+import { LOCAL_CHOICE, type LocalConfig } from "../localLlm";
+import LocalModelPanel from "./LocalModelPanel";
 
 type Props = {
   catalog: Catalog;
@@ -10,14 +12,31 @@ type Props = {
   onStrategy: (i: number) => void;
   onModel: (m: string) => void;
   onRun: () => void;
+  localConfig: LocalConfig;
+  onLocalConfig: (c: LocalConfig) => void;
 };
 
 /** Slider over strategies ordered cheapest → most thorough, with a cost estimate. */
-export default function StrategyBar({ catalog, estimates, strategyIndex, model, busy, onStrategy, onModel, onRun }: Props) {
+export default function StrategyBar({
+  catalog,
+  estimates,
+  strategyIndex,
+  model,
+  busy,
+  onStrategy,
+  onModel,
+  onRun,
+  localConfig,
+  onLocalConfig,
+}: Props) {
   const s = catalog.strategies[strategyIndex];
   const est = estimates.find((e) => e.strategy === s.id);
-  const cost = est ? est.cost_usd[model] : undefined;
-  const blocked = s.uses_llm && !!est?.blocked[model];
+  const localOk = s.uses_llm && catalog.local_models.strategies.includes(s.id);
+  const local = s.uses_llm && model === LOCAL_CHOICE;
+  const cost = est && !local ? est.cost_usd[model] : undefined;
+  const blocked = s.uses_llm && !local && !!est?.blocked[model];
+  const noModel = (local && !localConfig.model) || (s.uses_llm && !local && !catalog.models.includes(model));
+  const label = busy ? "Running…" : local ? "Run · free on your machine" : `Run${s.uses_llm && cost !== undefined ? ` · ≈ ${usd(cost)}` : " · free"}`;
 
   return (
     <div className="strategy-bar">
@@ -57,9 +76,10 @@ export default function StrategyBar({ catalog, estimates, strategyIndex, model, 
                 {m}
               </option>
             ))}
+            {localOk && <option value={LOCAL_CHOICE}>Your local model…</option>}
           </select>
-          <button className="primary" onClick={onRun} disabled={busy || blocked}>
-            {busy ? "Running…" : `Run${s.uses_llm && cost !== undefined ? ` · ≈ ${usd(cost)}` : " · free"}`}
+          <button className="primary" onClick={onRun} disabled={busy || blocked || noModel}>
+            {label}
           </button>
         </div>
         {blocked && (
@@ -68,7 +88,11 @@ export default function StrategyBar({ catalog, estimates, strategyIndex, model, 
             cheaper strategy or model, or raise RUN_COST_CAP_USD.
           </p>
         )}
-        {s.uses_llm && est && !blocked && (
+        {local && <LocalModelPanel config={localConfig} onChange={onLocalConfig} />}
+        {s.uses_llm && !local && !catalog.paid_models && (
+          <p className="muted small">Paid models are not enabled for this account. Use Free, or your own local model.</p>
+        )}
+        {s.uses_llm && !local && est && !blocked && (
           <p className="muted small">
             Estimate: {est.calls} call{est.calls === 1 ? "" : "s"}, ~{Math.round(est.input_tokens / 1000)}k tokens in. Runs stop at{" "}
             {usd(catalog.limits.run_cost_cap_usd)}.

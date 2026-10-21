@@ -25,6 +25,7 @@ held to the same contract:
 from __future__ import annotations
 
 import bisect
+import re
 import time
 from collections.abc import Callable
 
@@ -222,7 +223,29 @@ async def run(
     ctx = Context(model=model, usage=usage, cost_cap_usd=cost_cap_usd, progress=progress or (lambda _f, _m: None))
     raw = await strategy.run(ext, ctx)
     sections, extra = resolve(raw, ext, Locator(ext.text))
+    mark_doc_title(sections, ext)
     return raw, sections, metrics(sections, ext, usage, time.monotonic() - t0, extra)
+
+
+GENERIC_FIRST = re.compile(
+    r"^(abstract|summary|introduction|contents|table of contents|preface|foreword|overview|acknowledg|references|keywords|index)\b",
+    re.I,
+)
+
+
+def mark_doc_title(sections: list[dict], ext: Extraction) -> None:
+    """Flag the document's own title (`doc_title`): the first heading, on page 1, unnumbered,
+    not a generic name, and set at least 1 pt larger than every other heading. Exports nest
+    the other headings under it. Papers have such a title; READMEs and manuals often have
+    several top-level headings of the title's size, so nothing is flagged there."""
+    body = [s for s in sections if "front_matter" not in s["flags"]]
+    if len(body) < 2:
+        return
+    first = body[0]
+    size = lambda s: ext.lines[s["first_line"]].size if 0 <= s["first_line"] < len(ext.lines) else 0.0  # noqa: E731
+    if (first["page_start"] == 1 and not (first["number"] or "").strip() and not GENERIC_FIRST.match(first["title"].strip())
+            and size(first) >= max(size(s) for s in body[1:]) + 1.0):
+        first["flags"].append("doc_title")
 
 
 def estimates(ext: Extraction, prices: dict[str, dict[str, float]], cap_usd: float) -> list[dict]:

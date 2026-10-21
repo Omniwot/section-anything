@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import hashlib
+import re
 
 import pypdfium2 as pdfium
 from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, status
 from fastapi.responses import FileResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -15,7 +16,8 @@ from app.core.config import settings
 from app.db.session import get_db
 from app.models import AuditEvent, Document, LlmCall, Run, User
 from app.sectioning import jobs, pipeline
-from app.sectioning.extract import TEXT_COMPATIBLE_SINCE
+from app.sectioning.bridge import BRIDGES, BROWSER_PREFIX
+from app.sectioning.extract import PDFIUM_LOCK, TEXT_COMPATIBLE_SINCE
 
 router = APIRouter(tags=["documents"])
 
@@ -126,15 +128,23 @@ async def _own_run(run_id: int, db: AsyncSession, user: User) -> Run:
     return run
 
 
+LOCAL_MODEL_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9._:/@+-]{0,119}")
+
+
 @router.get("/catalog")
-async def catalog(_user: User = Depends(get_current_user)) -> dict:
+async def catalog(user: User = Depends(get_current_user)) -> dict:
     """Strategies in slider order and the models a run may use."""
+    paid = settings.may_use_paid_models(user.email)
     return {
+        "paid_models": paid,
+        "local_models": {"prefix": BROWSER_PREFIX,
+                         "strategies": [s.id for s in pipeline.STRATEGIES if s.uses_llm]},
         "strategies": [
-            {"id": s.id, "label": s.label, "description": s.description, "uses_llm": s.uses_llm}
+            {"id": s.id, "label": s.label, "description": s.description, "uses_llm": s.uses_llm,
+             "default_model": settings.model_for(s.id) if s.uses_llm else None}
             for s in pipeline.STRATEGIES
         ],
-        "models": [m for m in settings.allowed_models_list if m in settings.model_prices],
+        "models": [m for m in settings.allowed_models_list if m in settings.model_prices] if paid else [],
         "limits": {"max_pages": settings.MAX_PAGES, "max_upload_mb": settings.MAX_UPLOAD_MB, "run_cost_cap_usd": settings.RUN_COST_CAP_USD},
     }
 
@@ -160,9 +170,10 @@ async def upload(
     if not data.startswith(b"%PDF-"):
         raise await reject(status.HTTP_415_UNSUPPORTED_MEDIA_TYPE, "Not a PDF file")
     try:
-        pdf = pdfium.PdfDocument(data)
-        n_pages = len(pdf)
-        pdf.close()
+        with PDFIUM_LOCK:
+            pdf = pdfium.PdfDocument(data)
+            n_pages = len(pdf)
+            pdf.close()
     except pdfium.PdfiumError as exc:
         msg = "PDF is password-protected" if "password" in str(exc).lower() else "PDF could not be opened"
         raise await reject(status.HTTP_422_UNPROCESSABLE_ENTITY, msg) from exc
@@ -253,12 +264,25 @@ async def create_run(
         raise HTTPException(status.HTTP_409_CONFLICT, "Document is not ready")
     if body.strategy not in pipeline.BY_ID:
         raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, "Unknown strategy")
-    if body.model not in settings.allowed_models_list or body.model not in settings.model_prices:
+    local = body.model.startswith(BROWSER_PREFIX)
+    if local:
+        # The visitor's own model, reached through their browser: free for us, nothing sent to a provider.
+        if not LOCAL_MODEL_NAME.fullmatch(body.model.removeprefix(BROWSER_PREFIX)):
+            raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, "Invalid local model name")
+        if not pipeline.BY_ID[body.strategy].uses_llm:
+            raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, "This setting does not use a model")
+    elif pipeline.BY_ID[body.strategy].uses_llm and not settings.may_use_paid_models(user.email):
+        raise HTTPException(status.HTTP_403_FORBIDDEN,
+                            "Paid models are not enabled for this account: use Free or your own local model")
+    elif pipeline.BY_ID[body.strategy].uses_llm and (
+        body.model not in settings.allowed_models_list or body.model not in settings.model_prices
+    ):
         raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, "Model not allowed")
     est = next(e for e in pipeline.estimates(jobs.load_extraction(doc_id), _prices(), settings.RUN_COST_CAP_USD)
                if e["strategy"] == body.strategy)
-    estimate = {k: est[k] for k in ("calls", "input_tokens", "output_tokens")} | {"cost_usd": est["cost_usd"][body.model]}
-    if est["blocked"][body.model]:
+    cost = 0.0 if local or not pipeline.BY_ID[body.strategy].uses_llm else est["cost_usd"].get(body.model, 0.0)
+    estimate = {k: est[k] for k in ("calls", "input_tokens", "output_tokens")} | {"cost_usd": cost}
+    if not local and est["blocked"].get(body.model, False):
         await audit.record_now("run_blocked_cost_cap", user_id=user.id, document_id=doc.id, strategy=body.strategy,
                                model=body.model, estimate_usd=estimate["cost_usd"], cap_usd=settings.RUN_COST_CAP_USD)
         raise HTTPException(
@@ -275,6 +299,33 @@ async def create_run(
     await db.refresh(run)
     jobs.start_run(run.id)
     return _run_out(run, full=False)
+
+
+class BridgeReply(BaseModel):
+    content: str | None = Field(default=None, max_length=400_000)
+    error: str | None = Field(default=None, max_length=2_000)
+
+
+@router.get("/runs/{run_id}/bridge/next")
+async def bridge_next(run_id: int, wait: float = Query(default=10.0, ge=0, le=15),
+                      db: AsyncSession = Depends(get_db), user: User = Depends(get_current_user)) -> dict:
+    """Long-poll: the next prompt for the visitor's local model, or null. Only the run's owner."""
+    run = await _own_run(run_id, db, user)
+    bridge = BRIDGES.get(run_id)
+    if bridge is None:
+        return {"status": run.status, "request": None}
+    return {"status": "running", "request": await bridge.next(wait)}
+
+
+@router.post("/runs/{run_id}/bridge/{request_id}")
+async def bridge_reply(run_id: int, request_id: str, body: BridgeReply,
+                       db: AsyncSession = Depends(get_db), user: User = Depends(get_current_user)) -> dict:
+    """The local model's reply (or an error) for one prompt; validated against its schema by the run."""
+    await _own_run(run_id, db, user)
+    bridge = BRIDGES.get(run_id)
+    if bridge is None or not bridge.resolve(request_id, body.content, body.error):
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "No such pending prompt")
+    return {"ok": True}
 
 
 @router.get("/documents/{doc_id}/runs")

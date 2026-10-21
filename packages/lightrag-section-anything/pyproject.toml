@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=77"]  # SPDX string licence field
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lightrag-section-anything"
+version = "0.1.0.dev0"
+description = "Section Anything PDF parser engines for LightRAG: accurate headings for heading-aware chunking, with a cost/accuracy dial."
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.10"
+dependencies = [
+    "lightrag-hku>=1.5.7,<1.7",
+    "pdfplumber",
+    "pdfminer.six>=20251107",  # CVE-2025-64512 (pickled CMaps) fixed
+    "pypdfium2",
+    "rapidfuzz",
+    "openai>=1.99",  # chat.completions.parse
+    "pydantic>=2",
+    "pydantic-settings",
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.entry-points."lightrag.parsers"]
+sectionany = "lightrag_section_anything.plugin:register_parsers"
+
+[tool.setuptools.packages.find]
+where = ["src"]

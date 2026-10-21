@@ -175,3 +175,13 @@ button.primary:disabled:not([aria-busy]) { cursor: not-allowed; }
   .split { grid-template-columns: 1fr; }
   .right { max-height: 60vh; }
 }
+
+/* Your own local model */
+.local-panel { margin-top: 10px; padding: 10px 12px; border: 1px solid var(--border, #e2e6eb); border-radius: 8px; display: grid; gap: 8px; }
+.local-row { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
+.local-row label { display: grid; gap: 4px; }
+.local-row .grow { flex: 1 1 220px; }
+.local-row input, .local-row select { min-width: 0; width: 100%; }
+.local-panel details ol { margin: 6px 0 6px 18px; padding: 0; }
+.local-panel code { font-size: 12px; overflow-wrap: anywhere; }
+.local-status { margin: 6px 0; padding: 6px 10px; border-radius: 6px; background: #fef3c7; color: #6b4e00; }

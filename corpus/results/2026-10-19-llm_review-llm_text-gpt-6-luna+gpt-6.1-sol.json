@@ -1,0 +1,201 @@
+{
+ "summary": "per-category summary dropped after merging two re-runs; see compare_public26.py",
+ "documents": [
+  {
+   "id": "hips-02",
+   "category": "law-books",
+   "complete": true,
+   "variant": "bookmarks-removed",
+   "gold": 45,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 28,
+    "seconds": 46.07,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0037,
+    "precision": 0.963,
+    "recall": 0.578,
+    "f1": 0.722,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 52,
+    "seconds": 55.49,
+    "model": "gpt-6.1-sol",
+    "cost_usd": 0.1216,
+    "precision": 0.865,
+    "recall": 1.0,
+    "f1": 0.928,
+    "level_agreement": 0.977
+   }
+  },
+  {
+   "id": "hips-04",
+   "category": "law-books",
+   "complete": true,
+   "variant": "bookmarks",
+   "gold": 70,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 25,
+    "seconds": 43.46,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0037,
+    "precision": 1.0,
+    "recall": 0.343,
+    "f1": 0.511,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 71,
+    "seconds": 72.72,
+    "model": "gpt-6.1-sol",
+    "cost_usd": 0.1399,
+    "precision": 0.986,
+    "recall": 1.0,
+    "f1": 0.993,
+    "level_agreement": 0.986
+   }
+  },
+  {
+   "id": "law-us-music-modernization-act",
+   "category": "legislation",
+   "complete": true,
+   "variant": "",
+   "gold": 18,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 10,
+    "seconds": 24.29,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0013,
+    "precision": 0.889,
+    "recall": 0.444,
+    "f1": 0.593,
+    "level_agreement": 0.714
+   },
+   "llm_text": {
+    "sections": 22,
+    "seconds": 36.91,
+    "model": "gpt-6.1-sol",
+    "cost_usd": 0.1634,
+    "precision": 0.773,
+    "recall": 0.944,
+    "f1": 0.85,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "manual-r-intro",
+   "category": "manuals",
+   "complete": false,
+   "variant": "Texinfo (R)",
+   "gold": 189,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 157,
+    "seconds": 38.21,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0039,
+    "precision": 0.936,
+    "recall": 0.772,
+    "f1": 0.846,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 157,
+    "seconds": 163.71,
+    "model": "gpt-6.1-sol",
+    "cost_usd": 0.2882,
+    "precision": 0.93,
+    "recall": 0.772,
+    "f1": 0.844,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "manual-requests",
+   "category": "manuals",
+   "complete": false,
+   "variant": "Sphinx / LaTeX",
+   "gold": 286,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 224,
+    "seconds": 62.1,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0064,
+    "precision": 0.502,
+    "recall": 0.392,
+    "f1": 0.44,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 422,
+    "seconds": 453.26,
+    "model": "gpt-6.1-sol",
+    "cost_usd": 0.4754,
+    "precision": 0.678,
+    "recall": 1.0,
+    "f1": 0.808,
+    "level_agreement": 1.0
+   }
+  },
+  {
+   "id": "report-nasa-artemis-plan",
+   "category": "reports",
+   "complete": false,
+   "variant": "NASA, US",
+   "gold": 14,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 74,
+    "seconds": 28.25,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0019,
+    "precision": 0.189,
+    "recall": 1.0,
+    "f1": 0.318,
+    "level_agreement": 0.615
+   },
+   "llm_text": {
+    "sections": 75,
+    "seconds": 70.68,
+    "model": "gpt-6.1-sol",
+    "cost_usd": 0.1005,
+    "precision": 0.187,
+    "recall": 1.0,
+    "f1": 0.315,
+    "level_agreement": 0.769
+   }
+  },
+  {
+   "id": "report-nrel-wind-market-2023",
+   "category": "reports",
+   "complete": false,
+   "variant": "US DOE",
+   "gold": 19,
+   "gold_image_only": 0,
+   "llm_review": {
+    "sections": 75,
+    "seconds": 54.9,
+    "model": "gpt-6-luna",
+    "cost_usd": 0.0045,
+    "precision": 0.24,
+    "recall": 0.947,
+    "f1": 0.383,
+    "level_agreement": 1.0
+   },
+   "llm_text": {
+    "sections": 76,
+    "seconds": 95.79,
+    "model": "gpt-6.1-sol",
+    "cost_usd": 0.2014,
+    "precision": 0.237,
+    "recall": 0.947,
+    "f1": 0.379,
+    "level_agreement": 1.0
+   }
+  }
+ ]
+}

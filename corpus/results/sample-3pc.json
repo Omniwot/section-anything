@@ -1,0 +1,237 @@
+{
+ "about": "Shared 3-per-category sample (32 docs, 1679 pages) for comparing Section Anything stops with MinerU and Docling. Gold: [{level,title,page}] 1-based pages.",
+ "documents": [
+  {
+   "id": "hips-02",
+   "category": "law-books",
+   "pages": 72,
+   "file": "corpus/files/hips-02.pdf",
+   "gold": "corpus/gold/hips-02.json",
+   "complete": true
+  },
+  {
+   "id": "hips-04",
+   "category": "law-books",
+   "pages": 80,
+   "file": "corpus/files/hips-04.pdf",
+   "gold": "corpus/gold/hips-04.json",
+   "complete": true
+  },
+  {
+   "id": "hips-01",
+   "category": "law-books",
+   "pages": 33,
+   "file": "corpus/files/hips-01.pdf",
+   "gold": "corpus/gold/hips-01.json",
+   "complete": true
+  },
+  {
+   "id": "law-us-music-modernization-act",
+   "category": "legislation",
+   "pages": 67,
+   "file": "corpus/files/law-us-music-modernization-act.pdf",
+   "gold": "corpus/gold/law-us-music-modernization-act.json",
+   "complete": true
+  },
+  {
+   "id": "law-za-popia-2013",
+   "category": "legislation",
+   "pages": 75,
+   "file": "corpus/files/law-za-popia-2013.pdf",
+   "gold": "corpus/gold/law-za-popia-2013.json",
+   "complete": true
+  },
+  {
+   "id": "law-de-basic-law-english",
+   "category": "legislation",
+   "pages": 46,
+   "file": "corpus/files/law-de-basic-law-english.pdf",
+   "gold": "corpus/gold/law-de-basic-law-english.json",
+   "complete": true
+  },
+  {
+   "id": "manual-requests",
+   "category": "manuals",
+   "pages": 125,
+   "file": "corpus/files/manual-requests.pdf",
+   "gold": "corpus/gold/manual-requests.json",
+   "complete": false
+  },
+  {
+   "id": "manual-r-intro",
+   "category": "manuals",
+   "pages": 103,
+   "file": "corpus/files/manual-r-intro.pdf",
+   "gold": "corpus/gold/manual-r-intro.json",
+   "complete": false
+  },
+  {
+   "id": "arxiv-04",
+   "category": "papers",
+   "pages": 28,
+   "file": "corpus/files/arxiv-04.pdf",
+   "gold": "corpus/gold/arxiv-04.json",
+   "complete": true
+  },
+  {
+   "id": "arxiv-05",
+   "category": "papers",
+   "pages": 32,
+   "file": "corpus/files/arxiv-05.pdf",
+   "gold": "corpus/gold/arxiv-05.json",
+   "complete": true
+  },
+  {
+   "id": "arxiv-06",
+   "category": "papers",
+   "pages": 24,
+   "file": "corpus/files/arxiv-06.pdf",
+   "gold": "corpus/gold/arxiv-06.json",
+   "complete": true
+  },
+  {
+   "id": "prose-origin-of-species",
+   "category": "prose",
+   "pages": 82,
+   "file": "corpus/files/prose-origin-of-species.pdf",
+   "gold": "corpus/gold/prose-origin-of-species.json",
+   "complete": true
+  },
+  {
+   "id": "prose-moby-dick",
+   "category": "prose",
+   "pages": 86,
+   "file": "corpus/files/prose-moby-dick.pdf",
+   "gold": "corpus/gold/prose-moby-dick.json",
+   "complete": true
+  },
+  {
+   "id": "prose-emerson-essays",
+   "category": "prose",
+   "pages": 74,
+   "file": "corpus/files/prose-emerson-essays.pdf",
+   "gold": "corpus/gold/prose-emerson-essays.json",
+   "complete": true
+  },
+  {
+   "id": "report-nist-sp1270",
+   "category": "reports",
+   "pages": 86,
+   "file": "corpus/files/report-nist-sp1270.pdf",
+   "gold": "corpus/gold/report-nist-sp1270.json",
+   "complete": false
+  },
+  {
+   "id": "report-nrel-wind-market-2023",
+   "category": "reports",
+   "pages": 96,
+   "file": "corpus/files/report-nrel-wind-market-2023.pdf",
+   "gold": "corpus/gold/report-nrel-wind-market-2023.json",
+   "complete": false
+  },
+  {
+   "id": "report-nasa-artemis-plan",
+   "category": "reports",
+   "pages": 74,
+   "file": "corpus/files/report-nasa-artemis-plan.pdf",
+   "gold": "corpus/gold/report-nasa-artemis-plan.json",
+   "complete": false
+  },
+  {
+   "id": "scan-04-prose-pride-and-prejudice",
+   "category": "scanned",
+   "pages": 40,
+   "file": "corpus/files/scan-04-prose-pride-and-prejudice.pdf",
+   "gold": "corpus/gold/scan-04-prose-pride-and-prejudice.json",
+   "complete": true
+  },
+  {
+   "id": "scan-05-law-uk-climate-change-act-2008",
+   "category": "scanned",
+   "pages": 40,
+   "file": "corpus/files/scan-05-law-uk-climate-change-act-2008.pdf",
+   "gold": "corpus/gold/scan-05-law-uk-climate-change-act-2008.json",
+   "complete": true
+  },
+  {
+   "id": "scan-07-prose-hamlet",
+   "category": "scanned",
+   "pages": 40,
+   "file": "corpus/files/scan-07-prose-hamlet.pdf",
+   "gold": "corpus/gold/scan-07-prose-hamlet.json",
+   "complete": true
+  },
+  {
+   "id": "slides-05-title-bar-nav",
+   "category": "slides",
+   "pages": 31,
+   "file": "corpus/files/slides-05-title-bar-nav.pdf",
+   "gold": "corpus/gold/slides-05-title-bar-nav.json",
+   "complete": true
+  },
+  {
+   "id": "slides-09-image-heavy",
+   "category": "slides",
+   "pages": 31,
+   "file": "corpus/files/slides-09-image-heavy.pdf",
+   "gold": "corpus/gold/slides-09-image-heavy.json",
+   "complete": true
+  },
+  {
+   "id": "slides-01-wide-dividers",
+   "category": "slides",
+   "pages": 33,
+   "file": "corpus/files/slides-01-wide-dividers.pdf",
+   "gold": "corpus/gold/slides-01-wide-dividers.json",
+   "complete": true
+  },
+  {
+   "id": "synth-dot-leader-toc",
+   "category": "synthetic",
+   "pages": 29,
+   "file": "corpus/files/synth-dot-leader-toc.pdf",
+   "gold": "corpus/gold/synth-dot-leader-toc.json",
+   "complete": true
+  },
+  {
+   "id": "synth-image-pages",
+   "category": "synthetic",
+   "pages": 29,
+   "file": "corpus/files/synth-image-pages.pdf",
+   "gold": "corpus/gold/synth-image-pages.json",
+   "complete": true
+  },
+  {
+   "id": "synth-numbering-only",
+   "category": "synthetic",
+   "pages": 31,
+   "file": "corpus/files/synth-numbering-only.pdf",
+   "gold": "corpus/gold/synth-numbering-only.json",
+   "complete": true
+  },
+  {
+   "id": "wiki-01-en",
+   "category": "wikipedia",
+   "pages": 33,
+   "file": "corpus/files/wiki-01-en.pdf",
+   "gold": "corpus/gold/wiki-01-en.json",
+   "complete": true
+  },
+  {
+   "id": "wiki-05-en",
+   "category": "wikipedia",
+   "pages": 33,
+   "file": "corpus/files/wiki-05-en.pdf",
+   "gold": "corpus/gold/wiki-05-en.json",
+   "complete": true
+  },
+  {
+   "id": "wiki-10-en",
+   "category": "wikipedia",
+   "pages": 34,
+   "file": "corpus/files/wiki-10-en.pdf",
+   "gold": "corpus/gold/wiki-10-en.json",
+   "complete": true
+  }
+ ]
+}

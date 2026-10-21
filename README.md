@@ -62,3 +62,25 @@ backend/alembic/      Migrations
 frontend/src/         React UI
 .github/workflows/    CI (lint + tests + build)
 ```
+
+## Public demo: accounts and visitors' own models
+
+Settings (env vars, see `backend/app/core/config.py`):
+
+| Setting | Default | Use |
+|---|---|---|
+| `PAID_MODELS_FOR` | `all` | `all`, or comma-separated emails allowed to run server-side (paid) models. Everyone else gets Free and their own local model. |
+| `ALLOW_REGISTRATION` | `true` | Close sign-up. |
+| `REGISTRATION_INVITE_CODE` | empty | Require this code at sign-up. |
+| `LOGIN_MAX_ATTEMPTS` | `10` | Failed sign-ins per email or IP per 10 minutes. |
+| `BROWSER_LLM_TIMEOUT_SECONDS` | `900` | How long a run waits for each reply from a visitor's model. |
+
+**Visitors' own models.** A run whose model is `browser/<name>` never calls a model from the
+server. Each prompt is queued for the signed-in browser that owns the run, which sends it to the
+visitor's Ollama (`/api/chat` with the JSON schema) or OpenAI-compatible local server (LM Studio)
+and posts the reply back; the server validates it like any model output. Prompts never reach a
+paid provider; the PDF is still uploaded so its text can be read. The queue is in memory: run the
+API with **one worker** for these runs. Visitors start Ollama with `OLLAMA_ORIGINS=<demo origin>`.
+
+End-to-end check without a real model: `hustles/.tmp/e2e-local/` (`fake_ollama.py` answers in
+the requested schema; `e2e_local.py` plays the browser against a running API).

@@ -1,6 +1,11 @@
 [
  {
   "level": 1,
+  "title": "Table of Contents",
+  "page": 3
+ },
+ {
+  "level": 1,
   "title": "Preface",
   "page": 7
  },
@@ -121,13 +126,18 @@
  },
  {
   "level": 2,
+  "title": "Changing the length of an object",
+  "page": 20
+ },
+ {
+  "level": 2,
   "title": "Getting and setting attributes",
-  "page": 19
+  "page": 20
  },
  {
   "level": 2,
   "title": "The class of an object",
-  "page": 53
+  "page": 20
  },
  {
   "level": 1,
@@ -245,14 +255,29 @@
   "page": 32
  },
  {
+  "level": 2,
+  "title": "Constructing and modifying lists",
+  "page": 33
+ },
+ {
   "level": 3,
   "title": "Concatenating lists",
-  "page": 13
+  "page": 33
  },
  {
   "level": 2,
   "title": "Data frames",
-  "page": 32
+  "page": 33
+ },
+ {
+  "level": 3,
+  "title": "Making data frames",
+  "page": 33
+ },
+ {
+  "level": 3,
+  "title": "attach() and detach()",
+  "page": 33
  },
  {
   "level": 3,
@@ -701,18 +726,8 @@
  },
  {
   "level": 2,
-  "title": "A",
-  "page": 99
- },
- {
-  "level": 2,
-  "title": "B",
-  "page": 99
- },
- {
-  "level": 2,
-  "title": "C",
-  "page": 99
+  "title": ": < = > ? ^ | ~ A B C",
+  "page": 84
  },
  {
   "level": 2,
@@ -822,87 +837,87 @@
  {
   "level": 1,
   "title": "Concept index",
-  "page": 103
+  "page": 102
  },
  {
   "level": 2,
   "title": "A",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
   "title": "B",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
   "title": "C",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
   "title": "D",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
   "title": "E",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
   "title": "F",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
   "title": "G",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
   "title": "I",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
   "title": "K",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
   "title": "L",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
   "title": "M",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
   "title": "N",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
   "title": "O",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
   "title": "P",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
   "title": "Q",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
   "title": "R",
-  "page": 101
+  "page": 102
  },
  {
   "level": 2,
