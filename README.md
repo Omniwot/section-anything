@@ -11,7 +11,7 @@ Production-oriented AI app scaffold (FastAPI + Vite React + LiteLLM).
 | DB | PostgreSQL via asyncpg + SQLAlchemy 2 + Alembic |
 | Observability | Sentry + Langfuse (via LiteLLM callbacks) |
 | Frontend | Vite + React + TypeScript |
-| Deploy | Backend Dockerfile (Render web); frontend static `dist/` |
+| Deploy | Backend Dockerfile (Render web; build from the repo root: `docker build -f backend/Dockerfile .`); frontend static `dist/` |
 
 ## Quick start (local)
 
@@ -19,7 +19,7 @@ Production-oriented AI app scaffold (FastAPI + Vite React + LiteLLM).
 # 1. Conda env (from hustles bootstrap) or:
 conda create -y -n section-anything python=3.11
 conda activate section-anything
-pip install -r backend/requirements.txt
+pip install -r backend/requirements.txt -e packages/section-anything
 
 # 2. Env
 cp backend/.env.example backend/.env
@@ -57,11 +57,21 @@ npm run dev
 ## Layout
 
 ```
-backend/app/          FastAPI application
-backend/alembic/      Migrations
-frontend/src/         React UI
-.github/workflows/    CI (lint + tests + build)
+backend/app/                      FastAPI application (backend/app/sectioning re-exports the library)
+backend/alembic/                  Migrations
+frontend/src/                     React UI
+packages/section-anything/        The sectioning library (Apache-2.0): section(pdf, mode), CLI
+packages/lightrag-section-anything/  LightRAG parser plugin built on the library
+site/                             Static project website and benchmark data
+.github/workflows/                CI (lint + tests + build)
 ```
+
+The sectioning core lives in `packages/section-anything`. The app maps its own settings onto the
+library's (`Settings.sectioning_settings()` in `backend/app/core/config.py`); PDF extraction runs
+in a separate process with a time limit (`EXTRACT_TIMEOUT_SECONDS`, default 300) and page,
+character and size caps (`MAX_PAGES`, `MAX_CHARS`, `MAX_UPLOAD_MB`).
+
+Licence: Apache-2.0 (`LICENSE`, `NOTICE`).
 
 ## Public demo: accounts and visitors' own models
 

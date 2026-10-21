@@ -1,0 +1,12 @@
+# The backend image is built from the repository root (docker build -f backend/Dockerfile .)
+# and needs only backend/ and packages/section-anything/.
+*
+!backend/
+!packages/section-anything/
+backend/.env
+backend/.env.*
+backend/data/
+**/__pycache__/
+**/*.egg-info/
+packages/section-anything/dist/
+packages/section-anything/build/
