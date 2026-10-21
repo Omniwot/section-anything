@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=77"]  # SPDX licence expression and license-files
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "section-anything"
+version = "0.1.0"
+description = "Find the sections of a PDF (headings, levels, page and character spans), from free rules to LLM review, with hard cost caps."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+requires-python = ">=3.11"
+authors = [{ name = "The Section Anything Authors" }]
+keywords = ["pdf", "headings", "sections", "table of contents", "document structure", "rag", "chunking"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing :: General",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pdfplumber>=0.11.8",
+    "pdfminer.six>=20251107",  # CVE-2025-64512 (pickled CMaps) fixed
+    "pypdfium2>=4.30",
+    "rapidfuzz>=3.9",
+    "openai>=1.99",  # chat.completions.parse
+    "pydantic>=2.7",
+    "pydantic-settings>=2.6",
+]
+
+[project.optional-dependencies]
+langfuse = ["langfuse>=2.57"]
+test = ["pytest>=8"]
+
+[project.scripts]
+section-anything = "section_anything.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+section_anything = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "UP", "ASYNC"]
+ignore = ["E501", "E731"]

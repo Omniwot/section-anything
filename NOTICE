@@ -1,0 +1,9 @@
+Section Anything
+Copyright 2026 The Section Anything Authors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+It uses, without bundling, pdfplumber and pdfminer.six (MIT), pypdfium2 and
+PDFium (Apache-2.0 / BSD-3-Clause), RapidFuzz (MIT), the OpenAI Python library
+(Apache-2.0) and pydantic (MIT). Each is installed separately under its own
+licence.

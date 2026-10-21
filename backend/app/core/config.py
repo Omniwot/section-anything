@@ -1,9 +1,13 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from typing import TYPE_CHECKING
 
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+if TYPE_CHECKING:
+    import section_anything
 
 
 class Settings(BaseSettings):
@@ -48,7 +52,11 @@ class Settings(BaseSettings):
     CORPUS_DIR: str = "../corpus"
     MAX_UPLOAD_MB: int = 100
     MAX_PAGES: int = 500
+    MAX_CHARS: int = 5_000_000
     RUN_COST_CAP_USD: float = 5.0
+    # PDF text extraction runs in a separate process, stopped after this many seconds.
+    EXTRACT_TIMEOUT_SECONDS: float = 300.0
+    EXTRACT_MEMORY_MB: int = 4096  # Linux only; 0: no limit
     # Local models: LLM model ids "ollama/<name>" go to this OpenAI-compatible endpoint.
     OLLAMA_BASE_URL: str = "http://localhost:11434/v1"
     SECTIONING_LOCAL_TIMEOUT_SECONDS: float = 1800.0
@@ -64,7 +72,7 @@ class Settings(BaseSettings):
     # Store full prompt text in the LLM call log. Off by default: the prompt
     # is the document text; the log keeps a SHA-256 and length instead.
     AUDIT_STORE_PROMPTS: bool = False
-    SECTIONING_LLM_TIMEOUT_SECONDS: int = 600
+    SECTIONING_LLM_TIMEOUT_SECONDS: int = 300
     ALLOWED_MODELS: str = "gpt-6.1-sol,gpt-6-luna,gpt-5.5,gpt-5"
     # Default model per stop (owner, 19 Oct): Quick check on the cheap model, Standard on Sol.
     # The UI preselects these; a run can still pick any allowed model.
@@ -92,6 +100,31 @@ class Settings(BaseSettings):
         import json
 
         return json.loads(self.MODEL_PRICES_JSON)
+
+    def sectioning_settings(self) -> section_anything.Settings:
+        """The sectioning library's settings, mapped from the app's. Built per call so tests and
+        config changes take effect; cheap next to a run."""
+        from section_anything import Settings as SectioningSettings
+
+        return SectioningSettings(
+            api_key=self.OPENAI_API_KEY or None,
+            prices=self.model_prices,
+            quick_model=self.model_for("llm_review"),
+            standard_model=self.model_for("llm_text"),
+            ollama_base_url=self.OLLAMA_BASE_URL,
+            max_usd_per_doc=self.RUN_COST_CAP_USD,
+            over_budget="fail",  # the app blocks over-cap runs before they start
+            max_pages=self.MAX_PAGES,
+            max_chars=self.MAX_CHARS,
+            max_mb=self.MAX_UPLOAD_MB,
+            extract_timeout_seconds=self.EXTRACT_TIMEOUT_SECONDS,
+            extract_memory_mb=self.EXTRACT_MEMORY_MB,
+            llm_timeout_seconds=self.SECTIONING_LLM_TIMEOUT_SECONDS,
+            local_timeout_seconds=self.SECTIONING_LOCAL_TIMEOUT_SECONDS,
+            store_prompts=self.AUDIT_STORE_PROMPTS,
+            # Tracing is opt-in in the library; the app opts in when Langfuse keys are configured.
+            langfuse=bool(self.LANGFUSE_PUBLIC_KEY and self.LANGFUSE_SECRET_KEY),
+        )
 
     def may_use_paid_models(self, email: str) -> bool:
         allowed = self.PAID_MODELS_FOR.strip()

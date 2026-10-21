@@ -15,14 +15,16 @@ import time
 from dataclasses import asdict
 from pathlib import Path
 
+from section_anything.llm import describe_error
+
 from app import audit
 from app.core.config import settings
 from app.db.session import SessionLocal
 from app.models import Document, LlmCall, Run
 from app.sectioning import pipeline
-from app.sectioning.evaluate import score
 from app.sectioning.bridge import BRIDGES, BROWSER_PREFIX, BrowserBridge
-from app.sectioning.extract import EXTRACTOR_VERSION, Extraction, extract
+from app.sectioning.evaluate import score
+from app.sectioning.extract import EXTRACTOR_VERSION, Extraction, extract_pdf
 from app.sectioning.llm import CostCapExceeded, Usage
 
 logger = logging.getLogger(__name__)
@@ -100,7 +102,8 @@ def start_extraction(doc_id: int) -> None:
         t0 = time.monotonic()
         try:
             path = doc_dir(doc_id) / "original.pdf"
-            ext = await asyncio.to_thread(extract, path, on_page)
+            # Separate process with a time limit and size caps: uploads are untrusted.
+            ext = await asyncio.to_thread(extract_pdf, path, settings=settings.sectioning_settings(), on_page=on_page)
             ext.save(doc_dir(doc_id) / "extraction.json")
             _EXTRACTIONS[doc_id] = ext
             async with SessionLocal() as db:
@@ -117,7 +120,8 @@ def start_extraction(doc_id: int) -> None:
                 )
                 await db.commit()
         except Exception as exc:  # noqa: BLE001 — recorded on the document
-            logger.exception("extraction failed doc=%s", doc_id)
+            # Type, status and code only: exception text can quote the document.
+            logger.error("extraction failed doc=%s: %s", doc_id, describe_error(exc))
             async with SessionLocal() as db:
                 doc = await db.get(Document, doc_id)
                 doc.status, doc.error = "failed", f"{type(exc).__name__}: {exc}"[:2000]
@@ -149,7 +153,7 @@ def start_run(run_id: int) -> None:
 
             usage = Usage(sink=sink)
             if run.model.startswith(BROWSER_PREFIX):
-                usage.bridge = BRIDGES[run_id] = BrowserBridge()
+                usage.bridge = BRIDGES[run_id] = BrowserBridge(wait_seconds=settings.BROWSER_LLM_TIMEOUT_SECONDS)
 
             def progress(fraction: float, message: str) -> None:
                 PROGRESS[key] = {**PROGRESS.get(key, {}), "fraction": fraction, "message": message}
@@ -172,7 +176,7 @@ def start_run(run_id: int) -> None:
                     f1=(run.accuracy or {}).get("f1"),
                 )
             except Exception as exc:  # noqa: BLE001 — recorded on the run
-                logger.exception("run failed run=%s", run_id)
+                logger.error("run failed run=%s: %s", run_id, describe_error(exc))
                 run.status, run.error = "failed", f"{type(exc).__name__}: {exc}"[:2000]
                 run.metrics = {**usage.summary(), "partial": True}
                 kind = "run_stopped_cost_cap" if isinstance(exc, CostCapExceeded) else "run_failed"
