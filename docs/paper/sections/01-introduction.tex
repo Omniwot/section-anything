@@ -1,0 +1,19 @@
+% Source: paper.md section 1.
+\section{Introduction}
+\label{sec:intro}
+% Paragraphs: (1) heading-aware chunking in RAG; why heading levels matter
+%             [lu2026hichunk, anthropic2024contextual, guo2025lightrag, lightrag_parser_docs]
+%             (2) the problem: PDFs store glyphs, not sections; partial signals; published READoc
+%             scores of Docling/Marker/MinerU vs Nougat [li2025readoc]
+%             (3) our approach in one paragraph
+%             (4) contributions (itemize, four items)
+%             (5) single runs, proprietary models, development-sample caveat
+\todo{Convert prose from paper.md \S1.}
+
+\paragraph{Contributions.}
+\begin{enumerate}
+  \item A text-layer method with three cost settings and a shared resolver (Section~\ref{sec:method}).
+  \item READoc evaluation with a held-out split, plus a 118-document multi-genre corpus (Section~\ref{sec:experiments}).
+  \item What moved the numbers, failure modes, where others win, a Docling bookmark simulation (Section~\ref{sec:analysis}).
+  \item A small FinanceBench RAG pilot (Section~\ref{sec:rag}).
+\end{enumerate}

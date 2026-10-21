@@ -1,0 +1,18 @@
+% Source: paper.md section 6. Table 9.
+\section{Does Better Sectioning Give Better RAG Answers?}
+\label{sec:rag}
+\subsection{FinanceBench pilot}\label{sec:financebench}
+\begin{table}[t]\centering
+  \caption{FinanceBench pilot (51 questions).}\label{tab:rag}
+  % src: HANDOFF-section-anything.md L691-696; site/data/results.js rag
+  \begin{tabular}{lcc}\toprule
+  Arm & Evidence page retrieved & Correct \\\midrule
+  A: fixed-size chunks & 27/51 & 25/51 \\
+  B: MinerU headings & 34/51 & \textbf{31/51} \\
+  B2: MinerU headings + its LLM levels & 31/51 & \textbf{31/51} \\
+  C: \sysname{} (Quick check) headings & 34/51 & 30/51 \\\bottomrule
+  \end{tabular}
+\end{table}
+\todo{paper.md \S6.1 prose (protocol and paired McNemar results).}
+\subsection{Qasper (TODO)}\label{sec:qasper}
+\todo{Experiment in progress; no results yet. See paper.md \S6.2.}

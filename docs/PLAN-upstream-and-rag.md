@@ -90,7 +90,7 @@ logs as evidence.
   structure, so it is not a heading comparison.
 
 **Heading accuracy on public benchmarks**, with frozen settings:
-- READoc (MIT, on Hugging Face). It already reports MinerU and Docling numbers, so we can be
+- READoc (dataset MIT on Hugging Face; the GitHub code has no licence). It already reports MinerU and Docling numbers, so we can be
   placed beside them.
 - DocHieNet (Apache-2.0, 1,673 docs in English and Chinese, many scanned). Best published:
   M3DocDep, F1 76.0.

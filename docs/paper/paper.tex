@@ -1,0 +1,70 @@
+% Section Anything -- venue-neutral LaTeX skeleton (draft of 21 Oct 2026; NOT for distribution).
+%
+% Source of truth for the text, tables and numbers: paper.md (same folder). Every number there
+% carries an HTML comment naming its source file; keep those as LaTeX comments when converting.
+% The section files in sections/ hold the structure (headings, labels, table and figure shells)
+% and a pointer to the matching part of paper.md. Convert the prose once the venue is chosen.
+%
+% Switching to an official template:
+%   * ICDAR 2027 (Springer LNCS): \documentclass[runningheads]{llncs} with the Springer LNCS
+%     author kit (llncs.cls, splncs04.bst). Limit: 17 pages INCLUDING figures and references
+%     (icdar2027.org/call-for-papers, checked 21 Oct 2026). Double-blind: keep \author anonymous.
+%     Replace \begin{abstract} as llncs expects and add \keywords{...}.
+%   * ACM DocEng 2027 (ACM acmart): \documentclass[sigconf,review]{acmart} (the 2026 instructions;
+%     DocEng does not use TAPS). DocEng 2026 was single-blind, so names would be required there.
+%     Add \begin{CCSXML}/\ccsdesc, \keywords, and use \bibliographystyle{ACM-Reference-Format}.
+%   * arXiv: this plain article class is fine; upload the .tex, sections/, refs.bib and the .bbl.
+%
+% Placeholders: author, affiliation and contact are withheld ("Anonymous") on purpose.
+
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{newunicodechar} % the prompts use the tags ⟨H+n⟩, ⟨B⟩, ⟨=⟩ and the arrow ⟶
+\newunicodechar{⟨}{\ensuremath{\langle}}
+\newunicodechar{⟩}{\ensuremath{\rangle}}
+\newunicodechar{⟶}{\ensuremath{\longrightarrow}}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{TODO:} #1}}
+\newcommand{\sysname}{Section Anything}
+
+\title{\sysname: Heading Hierarchies from Born-Digital PDFs with Typography, Bookmarks and
+Verbatim-Anchored Language Models}
+\author{Anonymous Author(s)\\ \small Affiliation withheld \quad Contact withheld}
+\date{Draft, 21 October 2026}
+
+\begin{document}
+\maketitle
+
+\input{sections/00-abstract}
+\input{sections/01-introduction}
+\input{sections/02-related-work}
+\input{sections/03-method}
+\input{sections/04-experiments}
+\input{sections/05-analysis}
+\input{sections/06-rag}
+\input{sections/07-limitations-ethics}
+\input{sections/08-conclusion}
+\input{sections/09-reproducibility}
+
+\nocite{*} % remove once the prose with \cite commands is converted
+\bibliographystyle{plain} % LNCS: splncs04; ACM: ACM-Reference-Format
+\bibliography{refs}
+
+\appendix
+\input{sections/appendix-a-prompts}
+\input{sections/appendix-b-examples}
+\input{sections/appendix-c-parameters}
+\input{sections/appendix-d-corpus}
+
+\end{document}

@@ -1,0 +1,27 @@
+% Source: paper.md section 3. Code is the source of truth: backend/app/sectioning/
+\section{Method}
+\label{sec:method}
+\begin{figure}[t]
+  \centering
+  \fbox{\parbox{0.9\linewidth}{\centering\todo{Pipeline figure (paper.md Figure 1, currently ASCII).}}}
+  \caption{Pipeline. Text only: no page images and no OCR.}
+  \label{fig:pipeline}
+\end{figure}
+\subsection{Text layer and typography}\label{sec:text-layer}
+\todo{paper.md \S3.1 (extract.py).}
+\subsection{Shared structure: tables of contents and page furniture}\label{sec:structure}
+\todo{paper.md \S3.2 (structure.py).}
+\subsection{Free: bookmarks or TOC as a backbone, then rules}\label{sec:free}
+\todo{paper.md \S3.3 (rules.py, structure.py).}
+\subsection{Quick check: candidates plus a small-model review}\label{sec:quick}
+\todo{paper.md \S3.4 (llm\_text.py REVIEW\_SYSTEM).}
+\subsection{Standard: the model reads every line}\label{sec:standard}
+\todo{paper.md \S3.5 (llm\_text.py TEXT\_SYSTEM).}
+\subsection{Resolution: from markers to sections}\label{sec:resolution}
+\todo{paper.md \S3.6 (markers.py, pipeline.py).}
+\subsection{Document-title flag}\label{sec:doctitle}
+\todo{paper.md \S3.7 (pipeline.py mark\_doc\_title).}
+\subsection{Cost controls and safety}\label{sec:cost-controls}
+\todo{paper.md \S3.8 (llm.py, pipeline.py estimates, config).}
+\subsection{Local models}\label{sec:local}
+\todo{paper.md \S3.9 (llm.py, bridge.py). Local-model accuracy not yet measured.}

@@ -1,0 +1,58 @@
+% Source: paper.md section 4. Tables 1-6. Copy each table's "src:" comment as a LaTeX comment.
+\section{Experiments}
+\label{sec:experiments}
+\subsection{READoc setup and metric}\label{sec:readoc-setup}
+\todo{paper.md \S4.1.}
+\subsection{Systems}\label{sec:systems}
+\todo{paper.md \S4.2.}
+\subsection{Development sample and held-out protocol}\label{sec:protocol}
+\todo{paper.md \S4.3.}
+\subsection{Held-out arXiv results}\label{sec:heldout}
+\begin{table}[t]\centering
+  \caption{Heading Tree TEDS on held-out READoc-arXiv papers (not used during development).}
+  \label{tab:heldout}
+  % src: HANDOFF-section-anything.md L944-961; site/data/results.js readoc.heldout
+  \begin{tabular}{lrr}\toprule
+  System & All 905 held-out & 313 processed by MinerU cloud \\\midrule
+  \sysname{} Standard (gpt-6-luna) & \textbf{70.0} & \textbf{71.6} \\
+  MinerU cloud + its LLM title levels (gpt-6.1-sol) & -- & 67.2 \\
+  \sysname{} Quick check (gpt-6-luna) & 63.9 & 66.1 \\
+  MinerU cloud + its LLM title levels (gpt-6-luna) & -- & 62.8 \\
+  MinerU cloud (3.4.4, VLM) & -- & 57.3 \\
+  \sysname{} Free (no model) & 52.0 & \todo{} \\
+  Docling 2.140 (heading hierarchy on) & 49.4 & 49.2 \\\bottomrule
+  \end{tabular}
+\end{table}
+\todo{paper.md \S4.4 prose.}
+\subsection{Full READoc}\label{sec:full}
+\begin{table}[t]\centering
+  \caption{Heading Tree TEDS on all READoc documents with headings (run of 20 Oct, before the README and papers fixes), with published results.}
+  \label{tab:full}
+  % src: HANDOFF-section-anything.md L859-871; site/data/results.js readoc.full, readoc.published
+  \todo{Convert paper.md Table 2.}
+\end{table}
+\subsection{More tools on the development sample}\label{sec:sample}
+\begin{table}[t]\centering
+  \caption{Heading Tree TEDS on the 200-document development sample (98 arXiv, 100 GitHub).}
+  \label{tab:sample}
+  % src: site/data/results.js readoc.sample; HANDOFF L886-895
+  \todo{Convert paper.md Table 3.}
+\end{table}
+\subsection{A multi-genre corpus with answer keys from source markup}\label{sec:corpus}
+% Corpus categories table moved to Appendix D (paper.md Table D1).
+\begin{table}[t]\centering
+  \caption{Precision, recall, F1 and level agreement on the corpus (19 Oct runs).}\label{tab:corpus}
+  % src: HANDOFF L653-661 (26 docs); HANDOFF L676-677, PLAN-upstream-and-rag.md L8-14 (23 docs)
+  \todo{Convert paper.md Table 4.}
+\end{table}
+\begin{table}[t]\centering
+  \caption{F1 and cost per 100 pages by model, 29 non-scanned corpus documents.}\label{tab:models}
+  % src: HANDOFF L596-599
+  \todo{Convert paper.md Table 5.}
+\end{table}
+\subsection{Cost and speed}\label{sec:cost}
+\begin{table}[t]\centering
+  \caption{Cost per 1,000 pages and measured run totals.}\label{tab:cost}
+  % src: site/data/results.js modes[]; PLAN L8-14; HANDOFF L742, L859, L948, L615
+  \todo{Convert paper.md Table 6.}
+\end{table}

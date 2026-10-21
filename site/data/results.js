@@ -33,7 +33,7 @@ window.SA_DATA = {
       costPer1000Pages: 0 }
   ],
   readoc: {
-    about: "READoc (ACL Findings 2025, MIT licence) converts real PDFs to Markdown and scores the heading tree " +
+    about: "READoc (ACL Findings 2025; dataset MIT-licensed on Hugging Face) converts real PDFs to Markdown and scores the heading tree " +
            "with tree edit distance similarity (Heading Tree TEDS, 0-100, higher is better). We use READoc's own scoring code.",
     link: "https://github.com/icip-cas/READoc",
     heldout: {
@@ -65,12 +65,15 @@ window.SA_DATA = {
       note: "These 200 documents were also used while improving the method, so the held-out table above is the fairer test for our settings."
     },
     full: {
-      title: "Full READoc, no-model settings",
-      date: "2026-10-20", docs: { arxiv: 1003, github: 1224 },
+      title: "Full READoc, latest version of every setting",
+      date: "2026-10-21", docs: { arxiv: 1003, github: 1224 },
       rows: [
+        { system: "Section Anything Standard (gpt-6-luna)", arxiv: 69.9, github: 75.2, ours: true },
+        { system: "Section Anything Quick check (gpt-6-luna)", arxiv: 63.9, github: 74.3, ours: true },
         { system: "Section Anything Free (no model)", arxiv: 51.3, github: 75.0, ours: true },
         { system: "Docling 2.140 (heading hierarchy on)", arxiv: 49.3, github: 75.0 }
-      ]
+      ],
+      note: "All documents with headings in READoc's arXiv and GitHub sets. On the 1,124 GitHub READMEs not used during development, every setting ties with Docling (Standard +0.3, 95% CI -0.9 to +1.6). Our heading text matches the answer key more closely on READMEs (edit similarity 77.8 vs 73.9)."
     },
     published: {
       title: "Published READoc results (older tool versions, from the READoc paper)",

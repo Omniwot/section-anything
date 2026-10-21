@@ -1,0 +1,25 @@
+% Source: paper.md, "Abstract". Numbers and their sources are in the HTML comment under it.
+\begin{abstract}
+Retrieval-augmented generation (RAG) pipelines increasingly split documents at their headings, so
+the heading hierarchy that a PDF parser recovers decides what each chunk contains and which section
+path it carries. We describe \sysname, a heading-hierarchy extractor for born-digital PDFs that
+works from the PDF text layer and its typography rather than from page images. It has three
+settings of increasing cost. \emph{Free} uses no model: it anchors the PDF's bookmarks or its
+printed table of contents to body lines and fills the gaps with typography and numbering rules.
+\emph{Quick check} sends only candidate heading lines to a small language model. \emph{Standard}
+lets a model read every line in windows and quote verbatim start and end markers, which a
+deterministic resolver maps back to exact character ranges, rejecting table-of-contents copies and
+flagging anything it cannot verify. On READoc, scored with the benchmark's own Heading Tree TEDS
+code, Standard with a small model scores 70.0 on 905 arXiv papers that were not used during
+development, against 49.4 for Docling 2.140 with its heading-hierarchy stage enabled. On the 313
+of those papers that MinerU's cloud service had processed, it scores 71.6 against 67.2 for MinerU
+with its own LLM title-levelling step on a larger model. On GitHub READMEs there is no such gain:
+Docling is level with or ahead of our settings. The model settings cost about \$0.07 (Quick check)
+and \$0.16 (Standard) per 1,000 pages with a small model. Without bookmarks, the free setting is
+weaker than Docling on papers, and nothing here works on scanned pages. In a small FinanceBench
+pilot (51 questions), chunks split at headings retrieved the evidence page more often than
+fixed-size chunks, but our headings did not beat MinerU's. We report the development history
+behind each number, including a thread-safety bug that silently dropped bookmarks.
+% src: HANDOFF-section-anything.md L944-961, L864-877, L801-802, L679-704, L784-794;
+%      site/data/results.js (readoc.heldout, readoc.sample, modes[].costPer1000Pages)
+\end{abstract}
