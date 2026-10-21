@@ -1,7 +1,19 @@
 import os
+import sys
 from pathlib import Path
 
 import pytest
+
+needs_pdf = pytest.mark.skipif(not os.getenv("SECTIONANY_TEST_PDF"),
+                               reason="set SECTIONANY_TEST_PDF to a PDF for the end-to-end parse")
+
+
+@pytest.fixture(autouse=True)
+def clean_env(monkeypatch):
+    """Library defaults, whatever the shell has set (the test PDF path excepted)."""
+    for key in list(os.environ):
+        if key.upper().startswith("SECTIONANY_") and key.upper() != "SECTIONANY_TEST_PDF":
+            monkeypatch.delenv(key)
 
 
 def test_engines_register():
@@ -13,8 +25,15 @@ def test_engines_register():
     assert names <= set(registry._REGISTRY)
 
 
-@pytest.mark.skipif(not (os.getenv("SECTIONANY_BACKEND") and os.getenv("SECTIONANY_TEST_PDF")),
-                    reason="set SECTIONANY_BACKEND and SECTIONANY_TEST_PDF for the end-to-end parse")
+def test_core_comes_from_the_library_not_the_web_app():
+    import lightrag_section_anything.core as core
+    import lightrag_section_anything.parser  # noqa: F401
+
+    assert core.section.__module__ == "section_anything.api"
+    assert "app" not in sys.modules and "app.sectioning" not in sys.modules
+
+
+@needs_pdf
 def test_free_parse_writes_sidecar(tmp_path):
     from lightrag_section_anything.parser import FreeParser
 
@@ -33,11 +52,7 @@ def test_free_parse_writes_sidecar(tmp_path):
     assert ir.document_format == "pdf" and len(ir.blocks) == len(blocks)
 
 
-needs_core = pytest.mark.skipif(not (os.getenv("SECTIONANY_BACKEND") and os.getenv("SECTIONANY_TEST_PDF")),
-                                reason="set SECTIONANY_BACKEND and SECTIONANY_TEST_PDF")
-
-
-@needs_core
+@needs_pdf
 def test_unpriced_cloud_model_is_refused_before_any_call(monkeypatch):
     from lightrag_section_anything.core import section_pdf
 
@@ -46,7 +61,7 @@ def test_unpriced_cloud_model_is_refused_before_any_call(monkeypatch):
         section_pdf(Path(os.environ["SECTIONANY_TEST_PDF"]), "quick")
 
 
-@needs_core
+@needs_pdf
 def test_file_size_cap(monkeypatch):
     from lightrag_section_anything.parser import FreeParser
 
@@ -54,3 +69,20 @@ def test_file_size_cap(monkeypatch):
     src = Path(os.environ["SECTIONANY_TEST_PDF"])
     with pytest.raises(ValueError, match="SECTIONANY_MAX_MB"):
         FreeParser().validate_source_blocking(src, src.name)
+
+
+@needs_pdf
+def test_page_cap(monkeypatch):
+    from lightrag_section_anything.parser import FreeParser
+
+    monkeypatch.setenv("SECTIONANY_MAX_PAGES", "1")
+    src = Path(os.environ["SECTIONANY_TEST_PDF"])
+    with pytest.raises(ValueError, match="SECTIONANY_MAX_PAGES"):
+        FreeParser().validate_source_blocking(src, src.name)
+
+
+def test_bad_mode_is_a_value_error(tmp_path):
+    from lightrag_section_anything.core import section_pdf
+
+    with pytest.raises(ValueError, match="unknown mode"):
+        section_pdf(tmp_path / "x.pdf", "turbo")

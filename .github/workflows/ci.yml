@@ -23,7 +23,7 @@ jobs:
           cache: pip
           cache-dependency-path: backend/requirements.txt
       - name: Install
-        run: pip install -r requirements.txt
+        run: pip install -r requirements.txt -e ../packages/section-anything
       - name: Lint
         run: ruff check app tests
       - name: Test
@@ -34,6 +34,25 @@ jobs:
           OPENAI_API_KEY: test-key
           ALLOWED_ORIGINS: http://localhost:5173
         run: pytest -q
+
+  library:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/section-anything
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: pip install -e ".[test]" ruff build twine
+      - name: Lint
+        run: ruff check src tests
+      - name: Test
+        run: pytest -q
+      - name: Build
+        run: python -m build && twine check dist/*
 
   frontend:
     runs-on: ubuntu-latest
@@ -57,4 +76,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build backend image
-        run: docker build -t app-backend ./backend
+        run: docker build -t app-backend -f backend/Dockerfile .

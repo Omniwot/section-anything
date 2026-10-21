@@ -25,7 +25,7 @@ class Ext:
 
 def _ext(texts):
     lines, y, page = [], 760.0, 1
-    for i, t in enumerate(texts):
+    for _i, t in enumerate(texts):
         if t == "<page>":
             page, y = page + 1, 760.0
             continue

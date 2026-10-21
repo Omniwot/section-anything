@@ -26,58 +26,46 @@ class SectionAnyParser(NativeParserBase):
             raise ValueError(f"{self.engine_name} parses PDF files only: {file_path}")
 
     def validate_source_blocking(self, source: Path, file_path: str) -> None:
-        import pypdfium2 as pdfium
-
-        from lightrag_section_anything.core import _core
-
-        max_mb = float(os.getenv("SECTIONANY_MAX_MB", "100"))
-        if source.stat().st_size > max_mb * 1_000_000:
-            raise ValueError(f"{file_path}: larger than SECTIONANY_MAX_MB={max_mb:g}")
-        _core()  # makes the sectioning core importable
-        from app.sectioning.extract import PDFIUM_LOCK  # PDFium is not thread-safe: every use takes this lock
+        """Size and page caps (SECTIONANY_MAX_MB, SECTIONANY_MAX_PAGES), checked without parsing any
+        page content."""
+        from section_anything import PdfError, Settings, check_pdf
 
         try:
-            with PDFIUM_LOCK:
-                pdf = pdfium.PdfDocument(str(source))
-                try:
-                    n = len(pdf)
-                finally:
-                    pdf.close()
-        except Exception as e:
-            raise ValueError(f"cannot open PDF {file_path}: {e}") from e
-        cap = int(os.getenv("SECTIONANY_MAX_PAGES", "500"))
-        if n > cap:
-            raise ValueError(f"{file_path}: {n} pages is over SECTIONANY_MAX_PAGES={cap}")
+            check_pdf(source, Settings())
+        except PdfError as e:
+            raise ValueError(f"{file_path}: {e}") from None
 
     def extract(self, source: Path, *, parsed_dir: Path, asset_dir: Path, base_name: str,
                 runtime: NativeExtractRuntime | None = None) -> tuple[list[dict[str, Any]], dict[str, Any], dict[str, Any]]:
+        from section_anything.structure import furniture_of
+
+        from lightrag_section_anything import __version__
         from lightrag_section_anything.blocks import build_blocks
         from lightrag_section_anything.core import section_pdf
 
-        res = section_pdf(source, self.mode)
-        from app.sectioning.structure import furniture_of  # importable once section_pdf loaded the core
-
-        blocks, doc_title = build_blocks(res.ext, res.sections, furniture_of(res.ext),
+        tree = section_pdf(source, self.mode)
+        ext = tree.extraction
+        blocks, doc_title = build_blocks(ext, tree.resolved, furniture_of(ext),
                                          synthetic_titles=os.getenv("SECTIONANY_SYNTHETIC_TITLES") == "true")
         if not any(b["content"].strip() for b in blocks):
             raise ValueError("no text extracted; scanned PDFs need an OCR engine, e.g. name.[mineru-P].pdf")
+        usage = tree.usage
         warnings = {
-            "sectionany_mode": res.mode, "sectionany_model": res.model or "", "sectionany_cost_usd": res.cost_usd,
-            "sectionany_calls": res.calls, "sectionany_tokens_in": res.tokens_in, "sectionany_tokens_out": res.tokens_out,
-            "sectionany_seconds": res.seconds, "sectionany_sections": len(res.sections),
-            "sectionany_flagged": sum(bool(s.get("flags")) for s in res.sections),
+            "sectionany_mode": tree.mode, "sectionany_model": tree.model or "", "sectionany_cost_usd": tree.cost_usd,
+            "sectionany_calls": usage.get("calls", 0), "sectionany_tokens_in": usage.get("input_tokens", 0),
+            "sectionany_tokens_out": usage.get("output_tokens", 0), "sectionany_seconds": tree.seconds,
+            "sectionany_sections": len(tree.sections),
+            "sectionany_flagged": sum(bool(s.get("flags")) for s in tree.sections),
         }
-        if res.downgraded:
-            warnings["sectionany_downgraded"] = res.downgraded
-        audit = {**warnings, "pages": len(res.ext.pages),
+        if tree.downgraded:
+            warnings["sectionany_downgraded"] = tree.downgraded
+        audit = {**warnings, "pages": tree.pages,
                  "sections": [{k: s.get(k) for k in ("number", "title", "level", "page_start", "page_end", "flags")}
-                              for s in res.sections]}
+                              for s in tree.sections]}
         (parsed_dir / f"{Path(base_name).name}.sectionany.json").write_text(json.dumps(audit, ensure_ascii=False, sort_keys=True, indent=1))
-        from lightrag_section_anything import __version__
-
         metadata = {"doc_title": doc_title, "split_option": {
-            "engine_version": __version__, "mode": res.mode, "model": res.model or "", "cost_usd": res.cost_usd,
-            "sections": len(res.sections)}}
+            "engine_version": __version__, "mode": tree.mode, "model": tree.model or "", "cost_usd": tree.cost_usd,
+            "sections": len(tree.sections)}}
         return blocks, warnings, metadata
 
     def build_ir(self, blocks: list[dict[str, Any]], *, document_name: str, asset_dir_name: str,
