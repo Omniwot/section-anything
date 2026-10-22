@@ -1,0 +1,166 @@
+From 183f1dddbf4e7d2f79c8645d1e0f1b9ef09b0fa4 Mon Sep 17 00:00:00 2001
+From: TBD <tbd@example.invalid>
+Date: Thu, 22 Oct 2026 09:24:51 -0400
+Subject: [PATCH 2/2] fix(heading-hierarchy): keep letter-spaced standard
+ headings and headings numbered like an unmatched bookmark
+
+---
+ .../heading_hierarchy_model.py                | 40 +++++++++++--
+ docs/usage/heading_levels.md                  |  5 +-
+ tests/test_heading_hierarchy_bookmarks.py     | 58 +++++++++++++++++++
+ 3 files changed, 98 insertions(+), 5 deletions(-)
+
+diff --git a/docling/models/stages/heading_hierarchy/heading_hierarchy_model.py b/docling/models/stages/heading_hierarchy/heading_hierarchy_model.py
+index 5c1c339..626ccbf 100644
+--- a/docling/models/stages/heading_hierarchy/heading_hierarchy_model.py
++++ b/docling/models/stages/heading_hierarchy/heading_hierarchy_model.py
+@@ -572,13 +572,29 @@ _COMPLETE_MATCH_SHARE = 0.5
+ _FONT_SUBSET_PREFIX = re.compile(r"^[A-Z]{6}\+")
+ 
+ 
++# A word set with letter spacing, such as ``A B S T R A C T``: three or more single letters.
++_LETTER_SPACED = re.compile(r"^\s*(?:[^\W\d_]\s+){2,}[^\W\d_]\s*$")
++
++# The section number at the start of a heading or bookmark title: ``4``, ``4.``, ``2.1``, ``IV.``,
++# ``A.``.
++_SECTION_NUMBER = re.compile(
++    r"^\s*\(?(\d+(?:\.\d+)*|[IVXLC]+(?=[.)\s])|[A-Z](?=[.)]))[.)]?(?=\s|$)"
++)
++
++
+ def _is_standard_heading(text: str) -> bool:
++    unspaced = re.sub(r"\s+", "", text) if _LETTER_SPACED.match(text) else text
+     return any(
+         _STANDARD_HEADING.match(_norm(variant))
+-        for variant in (text, _strip_marker(text))
++        for variant in (text, _strip_marker(text), unspaced)
+     )
+ 
+ 
++def _section_number(text: str) -> str | None:
++    match = _SECTION_NUMBER.match(text or "")
++    return match.group(1).upper() if match else None
++
++
+ def _body_size(parsed_pages: dict[int, SegmentedPdfPage]) -> float | None:
+     """The median text-line height of the document, weighted by characters.
+ 
+@@ -692,11 +708,27 @@ def _demote_unmatched_headings(
+     """Demote headings that match no bookmark to text, when the outline looks complete.
+ 
+     ``matched`` holds the ``id`` of every bookmark-matched heading. Standard unnumbered headings
+-    (Abstract, References, ...) and headings with children are kept. Returns the number of
+-    demoted headings.
++    (Abstract, References, ...) and headings with children are kept. A heading also counts as
++    matched when its section number belongs to a bookmark that matched no heading: the bookmark
++    title can differ from the printed one (for example, unresolved LaTeX references in hyperref
++    bookmarks). Returns the number of demoted headings.
+     """
+     headings = [item for item in document.texts if isinstance(item, SectionHeaderItem)]
+-    unmatched = [heading for heading in headings if id(heading) not in matched]
++    matched_numbers = {
++        _section_number(heading.text) for heading in headings if id(heading) in matched
++    }
++    free_numbers = {
++        number
++        for bm in outline
++        if (number := _section_number(bm.title or "")) is not None
++        and number not in matched_numbers
++    }
++    unmatched = [
++        heading
++        for heading in headings
++        if id(heading) not in matched
++        and _section_number(heading.text) not in free_numbers
++    ]
+     demotable = [
+         heading
+         for heading in unmatched
+diff --git a/docs/usage/heading_levels.md b/docs/usage/heading_levels.md
+index a176b04..2e5d634 100644
+--- a/docs/usage/heading_levels.md
++++ b/docs/usage/heading_levels.md
+@@ -91,7 +91,10 @@ header, a bold lead-in, a theorem label. When the PDF has a complete outline, th
+ says which headings are real. Set `demote_unmatched_headings=True` to turn every detected heading
+ that matches no bookmark into plain text in that case. Matched headings keep the bookmark level as
+ usual, and standard unnumbered headings that outlines often skip (Abstract, Keywords,
+-Acknowledgements, References, Bibliography, Appendix) are always kept.
++Acknowledgements, References, Bibliography, Appendix) are always kept, also when they are set with
++letter spacing (`A B S T R A C T`). A heading also counts as matched when its section number
++belongs to a bookmark that matched no heading, because a bookmark title can differ from the
++printed heading (for example, unresolved LaTeX references in the bookmark).
+ 
+ Many outlines are partial, so Docling demotes nothing unless the outline looks complete. All of
+ these must be true:
+diff --git a/tests/test_heading_hierarchy_bookmarks.py b/tests/test_heading_hierarchy_bookmarks.py
+index 08edb4a..44d837c 100644
+--- a/tests/test_heading_hierarchy_bookmarks.py
++++ b/tests/test_heading_hierarchy_bookmarks.py
+@@ -317,6 +317,64 @@ def test_standard_headings_are_never_demoted():
+     assert len(headings) == 8
+ 
+ 
++def test_letter_spaced_standard_heading_is_kept():
++    # Some publishers set "Abstract" with letter spacing; it is still a standard heading.
++    doc, pages = _paged_doc(
++        [
++            _bold_run_in("A B S T R A C T"),
++            _PARA,
++            _section("1 Introduction"),
++            _PARA,
++            _subsection("1.1 Background"),
++            _PARA,
++            _RUNNING_HEADER,
++            _section("2 Method"),
++            _PARA,
++        ]
++    )
++    outline = _outline(("Introduction", 0), ("Background", 1), ("Method", 0))
++
++    _model(demote_unmatched_headings=True).assign_heading_levels(
++        doc, parsed_pages=pages, outline=outline
++    )
++
++    headings = _headings(doc)
++    assert "A B S T R A C T" in headings
++    assert _RUNNING_HEADER[0] not in headings
++
++
++def test_heading_with_the_number_of_an_unmatched_bookmark_is_kept():
++    # The bookmark of section 2 carries unresolved LaTeX references, so its title matches no
++    # heading. The printed heading with the same number stays a heading. A false header whose
++    # number belongs to an already matched heading is still demoted.
++    false_header = ("1 Proceedings of the Workshop", 10, "/Times-Roman")
++    doc, pages = _paged_doc(
++        [
++            _section("1 Introduction"),
++            _PARA,
++            _subsection("1.1 Background"),
++            _PARA,
++            false_header,
++            _PARA,
++            _section("2 Proofs of Lemma 1.1 and Lemma 1.2"),
++            _PARA,
++        ]
++    )
++    outline = _outline(
++        ("1 Introduction", 0),
++        ("1.1 Background", 1),
++        ("2 Proofs of thm:mainEXP and thm:mainPOLY", 0),
++    )
++
++    _model(demote_unmatched_headings=True).assign_heading_levels(
++        doc, parsed_pages=pages, outline=outline
++    )
++
++    headings = _headings(doc)
++    assert "2 Proofs of Lemma 1.1 and Lemma 1.2" in headings
++    assert false_header[0] not in headings
++
++
+ def test_top_level_only_bookmarks_demote_nothing():
+     # An outline that lists only the top level does not cover the subsections it omits.
+     doc, pages = _paged_doc(
+-- 
+2.39.5 (Apple Git-154)
+

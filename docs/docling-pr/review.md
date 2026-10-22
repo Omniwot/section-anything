@@ -9,6 +9,11 @@ re-scored (`results.md`, "Title variant"), drafts reworded with links and honest
 shortened, public reproduction in `repro/`. Left for the owner: step 5 (review and post), and
 replace REPRO_LINK once the repo is public.
 
+**Status (22 Oct):** E1/E2 done on fresh documents (8 new arXiv papers, 9 Canadian acts with a
+pre-registered run, Docling's 3 test PDFs with outlines); two fixes committed (`183f1dd`, patch
+0002). See `results.md`, "Fresh documents". Open: re-run READoc with `183f1dd` (about 20–30 min
+of laptop load), E4 (reports, books).
+
 ## What maintainers ask for
 
 - **Issue first** for features. #3676 came before #3688. #4472 and #4473 were opened on the same

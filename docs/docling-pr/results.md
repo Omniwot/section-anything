@@ -142,6 +142,50 @@ Reading:
 - 2209.05611 (REVTeX) is the case that the font-face check fixes. Its subsections are set in
   `CMBX10`, which the font-name parser does not read as bold.
 
+## Fresh documents (22 Oct, review items E1/E2 and the tuning concern)
+
+The option was designed while looking at READoc, so it was also run on documents never used in its
+design. Code: `97c09a7` first, then `183f1dd` with two fixes (below). The Canadian run was
+pre-registered: keys, metrics and code were frozen before any output existed
+(`.tmp/bookmark-recon/fresh/PREREGISTRATION.md`).
+
+| Set | Answer key | n | OFF → ON (`text`) | OFF → TITLE | Worse docs | Risk check (deepest level removed) |
+|---|---|---|---|---|---|---|
+| arXiv papers from our corpus (not in READoc) | LaTeX sectioning commands + official arXiv title | 8 | TEDS +4.4 (95% CI +0.3 to +10.7), 4 better | +5.5 (+0.7 to +13.2), 4 better | 0 | 0.0 (nothing demoted) |
+| Canadian federal acts (English and French side by side) | official XML, both languages | 9 | F1 0.0: nothing demoted | 0.0 | 0 | 0.0 |
+| Docling's test PDFs with multi-level outlines | none (listed below) | 3 | 5 headers demoted | | | |
+
+- **Papers:** the gain matches READoc's direction (+5.2 / +8.1 there). Demoted: 4 paper titles, an
+  author name, a figure axis label, a "Contents" line, "AUTHOR CONTRIBUTIONS" (not in the key). One
+  wrong demotion: arxiv-08 "REPRODUCIBILITY", a real section the outline omits (the known
+  single-omitted-heading limit).
+- **Canadian acts:** the layout model labels the marginal notes as section headers (312–1,021
+  headers per act against 62–116 key headings; with marginal notes counted as headings, OFF F1 is
+  92.0). Each bookmark can claim one header, so at most about a quarter of the headers match, check
+  3 (half matched) fails, and the option does nothing. No harm, no gain; the safety check works as
+  intended on a different genre and layout.
+- **Docling test PDFs:** `elsevier-00` demotes the journal name and the letter-spaced "A R T I C L E
+  I N F O" label; `llncsdoc` demotes its title and a stray `\spnewtheorem` line; `bookmark_sample`
+  is unchanged.
+
+**Two fixes found on these documents (`183f1dd`).** Both are general rules with no thresholds,
+each with a unit test that fails without it:
+
+1. Letter-spaced standard headings: `elsevier-00`'s "A B S T R A C T" was demoted because the
+   standard-heading check did not read letter spacing. Now kept.
+2. Bookmark titles that differ from the printed heading: arxiv-07's section "4. Proofs of Lemma 1.1
+   and Lemma 1.2" has the bookmark "4. Proofs of thm:mainEXP and thm:mainPOLY" (unresolved LaTeX
+   references), so it matched nothing and was demoted. A heading whose section number belongs to a
+   bookmark that matched no heading now counts as matched, so it is kept. Because it counts as
+   matched, this rule can also let the completeness checks pass in other documents.
+
+Scores with the fixes: papers unchanged in total (+4.4 / +5.5; arxiv-07 −0.2 because our own key
+also misses section 4, for the same bookmark reason). Canada unchanged (0.0). The READoc tables in
+this file are from `97c09a7`; re-running them with `183f1dd` needs the 200 conversions again (about
+20–30 minutes of laptop load) and is not done yet. Since the fixes were found on the papers and on
+`elsevier-00`, those are no longer held out for the fixes; the Canadian acts were the blind test,
+and there the option did not engage.
+
 ## Title variant (review item T1)
 
 Re-scored on 21 Oct from the saved Markdown; no new Docling run. In the TITLE variant, a demoted
@@ -219,8 +263,12 @@ changed files.
   with the wrong label, not a non-heading. Relabelling it `title` scores better than `text` (see
   "Title variant"); which one to implement is a question for the maintainers.
 - **Post-hoc tuning.** The thresholds and the font-face check were chosen while looking at READoc
-  documents; the face check was added after seeing these 100 arXiv papers. A held-out sample and
-  other document types are still to do (review items E3, E4).
+  documents (all bookmarked READoc documents went through the design simulations); the face check
+  was added after seeing these 100 arXiv papers. Fresh documents (above): 8 new papers agree
+  (+4.4 / +5.5); on 9 Canadian acts the option does not engage. Reports and books are still to do
+  (review item E4).
+- **Legislation with marginal notes.** When the layout model labels marginal notes as headers, far
+  fewer than half of the headers can match a bookmark, so the option does nothing there.
 - **Single omitted heading.** When the outline omits a level that holds only one heading, that
   heading is demoted (3/100 GitHub documents in the risk check; 1/100 with full bookmarks).
 - **Same-face headings.** A missing level set in the body face and size is not detected, unless the

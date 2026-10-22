@@ -24,7 +24,9 @@ HeadingHierarchyOptions(enabled=True, demote_unmatched_headings=True)
 
 When the outline looks complete, an unmatched section header is demoted. Matched headers keep the
 bookmark level. Standard unnumbered headings that outlines often skip (Abstract, References,
-Appendix, …) are always kept, and nothing is promoted. The outline counts as complete only if it
+Appendix, …) are always kept, also when letter-spaced, and nothing is promoted. A header whose
+section number belongs to a bookmark that matched nothing counts as matched (bookmark titles
+sometimes differ from the printed heading, for example unresolved LaTeX references). The outline counts as complete only if it
 has more than one level, every dotted-number header (`2.1 …`) matches a bookmark, at least half of
 the headers match, and no two of the headers to demote share a heading-like style (larger, bold, or
 a non-body face), since such a family usually means the outline skips a level. The style check
@@ -47,9 +49,14 @@ which is usually the paper title (see question 2):
   removed, the mean change is +0.3 (arXiv) and −0.4 (GitHub), but 3 GitHub documents lose 10–17
   points: the removed level held a single heading, which the style check cannot tell from a false
   header.
+- Documents not used in the design: on 8 other arXiv papers (keys from their LaTeX source) the
+  change is +4.4 TEDS with `text` and +5.5 with `title`, none worse. On 9 Canadian federal acts
+  (keys from the official XML) the option does nothing: the layout model labels the marginal notes
+  as section headers, so far fewer than half of the headers match a bookmark and the completeness
+  check stops it. That run was pre-registered (code, keys and metrics fixed before any output).
 - Limits of this evidence: the thresholds and the font-face part of the style check were tuned
-  while looking at READoc documents, including these arXiv papers, and READoc has only papers and
-  READMEs. I have not tested books, reports or legal documents yet.
+  while looking at READoc documents, including these arXiv papers. I have not tested books or
+  reports yet.
 
 Scripts, document IDs and per-document scores: REPRO_LINK
 
