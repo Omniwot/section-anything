@@ -8,7 +8,10 @@ Docling `main@d01c9c0`, 2.140.0). Nothing was pushed or posted.
 - **The change works on real conversions.** With the new option on, READoc heading-tree TEDS
   goes up by **+5.2** on 100 arXiv PDFs and **+3.7** on 100 GitHub PDFs, compared with the same
   conversions with the option off. Both results are significant (Wilcoxon p < 1e-4). With the
-  option off, the headings are the same as stock Docling 2.140 on all 200 documents.
+  option off, the Markdown is byte-identical to stock Docling 2.140 on all 200 documents.
+- **Keeping the paper title as a `title` item is better on arXiv (+8.1 instead of +5.2).** In 55
+  of the 56 arXiv papers where the title is demoted, READoc's answer key has it as the document
+  title. See "Title variant" below (re-scored 21 Oct, no new conversions).
 - **The real arXiv gain is larger than the simulation (+5.2 vs +1.6).** Most arXiv demotions are
   the paper title, which the layout model labels `section_header`. When the title goes, the style
   pass re-ranks the headings that remain, so Abstract and References move up one level and match
@@ -139,6 +142,42 @@ Reading:
 - 2209.05611 (REVTeX) is the case that the font-face check fixes. Its subsections are set in
   `CMBX10`, which the font-name parser does not read as bold.
 
+## Title variant (review item T1)
+
+Re-scored on 21 Oct from the saved Markdown; no new Docling run. In the TITLE variant, a demoted
+header that is the document's first section header becomes a `title` item; other demoted headers
+still become `text`. Docling's Markdown export writes a `TitleItem` as `# text` and does not rank
+it with the section headers (docling-core `transforms/serializer/markdown.py`), so the variant is
+the ON Markdown with that paragraph turned back into a `# ` line. Script:
+`.tmp/bookmark-recon/score_title_variant.py`; public version `repro/score.py`.
+
+| Subset | Comparison | n | before | after | mean diff | 95% CI | better / same / worse | Wilcoxon p |
+|---|---|---|---|---|---|---|---|---|
+| arXiv | OFF → ON (`text`) | 100 | 50.4 | 55.6 | +5.22 | +3.77 to +6.78 | 41 / 57 / 2 | 3.2e-08 |
+| arXiv | OFF → TITLE | 100 | 50.4 | 58.4 | **+8.08** | +6.06 to +10.17 | 56 / 44 / 0 | 7.5e-11 |
+| arXiv | ON → TITLE | 100 | 55.6 | 58.4 | +2.86 | +2.16 to +3.55 | 55 / 44 / 1 | 7.6e-10 |
+| arXiv | deepest removed: OFF → TITLE | 69 | 51.6 | 52.3 | +0.68 | +0.17 to +1.35 | 6 / 63 / 0 | 0.028 |
+| GitHub | OFF → ON (`text`) | 100 | 75.7 | 79.4 | +3.69 | +2.07 to +5.37 | 27 / 67 / 6 | 2.3e-05 |
+| GitHub | OFF → TITLE | 100 | 75.7 | 79.2 | +3.44 | +1.89 to +5.06 | 26 / 68 / 6 | 3.7e-05 |
+| GitHub | deepest removed: OFF → TITLE | 100 | 75.7 | 75.3 | −0.43 | −1.00 to 0.00 | 0 / 97 / 3 | 0.1 |
+
+- arXiv: the first header is demoted in 56 papers. The answer key has that text as the `#` title in
+  55; 5 of these differ only in formatting (subscripts, capitals, bold). The exception, 1503.06448,
+  has no title in its key and loses 7.7 points with TITLE. No arXiv paper is worse than OFF with
+  TITLE; the 2 that were worse with ON (2008.07557, 2306.16303) gain 7–8 points.
+- GitHub: only one README has its first header demoted, "IMPORTANT NOTICE:" (122838124). TITLE
+  makes it worse by 25 points.
+- **Size check** (`.tmp/bookmark-recon/title_size_check.py`): relabel only when the first header is
+  on page 1 and its font is no smaller than every other header. With font sizes from our pdfium
+  extraction matched by text, this keeps "IMPORTANT NOTICE:" (10.9 pt vs 14.3 pt) as `text` and
+  relabels 48 of the 56 arXiv titles: **arXiv +7.6, GitHub +3.7**, no document worse than OFF on
+  arXiv. For 7 of the 8 arXiv titles it misses, our text matching found no size, so Docling, which
+  has the sizes in its parsed pages, would likely relabel more. A stricter rule (at least 1 pt
+  larger, as Section Anything's `doc_title` flag) relabels only 38 and gives +7.4.
+- Why it matters downstream: Docling collapses `TITLE` into `SECTION_HEADER` on purpose (#3957),
+  and chunkers use a `TitleItem` as the top of every heading path, while a `text` title vanishes
+  from heading paths (compare #4701).
+
 ## Real run vs simulation (same documents)
 
 The simulation (`readoc-pilot/eval_bookmark_change_v4.py` logic) used our own PDF extraction for
@@ -175,9 +214,13 @@ changed files.
 
 ## Limitations and open questions
 
-- **Title.** On arXiv, the main effect is that the paper title (labelled `section_header` by the
-  layout model) becomes plain text. Docling could instead relabel a title-like first heading as
-  `title`. This is a question for the maintainers.
+- **Title.** On arXiv, the main effect is on the paper title, which the layout model labels
+  `section_header` (Docling collapses `TITLE` on purpose, #3957). The paper title is a real title
+  with the wrong label, not a non-heading. Relabelling it `title` scores better than `text` (see
+  "Title variant"); which one to implement is a question for the maintainers.
+- **Post-hoc tuning.** The thresholds and the font-face check were chosen while looking at READoc
+  documents; the face check was added after seeing these 100 arXiv papers. A held-out sample and
+  other document types are still to do (review items E3, E4).
 - **Single omitted heading.** When the outline omits a level that holds only one heading, that
   heading is demoted (3/100 GitHub documents in the risk check; 1/100 with full bookmarks).
 - **Same-face headings.** A missing level set in the body face and size is not detected, unless the
@@ -205,6 +248,9 @@ changed files.
 - Branch: `.tmp/repos/docling`, `feat/bookmark-reconciliation`, commit `97c09a7` (author
   placeholder `TBD <tbd@example.invalid>`, no sign-off).
 - Patch: `docs/docling-pr/0001-feat-heading-hierarchy-demote-section-headers-that-a.patch`.
+- Public reproduction (no local paths): `docs/docling-pr/repro/` (document IDs, per-document
+  scores, `run_docling.py`, `score.py`, README).
 - Scripts and outputs: `.tmp/bookmark-recon/` (`run_recon.py`, `batches.sh`, `run_all.sh`,
-  `score_recon.py`, `select_docs.py`, `sim_v4_variants.py`, `mutation_check.py`), per-document
+  `score_recon.py`, `score_title_variant.py`, `title_size_check.py`, `select_docs.py`,
+  `sim_v4_variants.py`, `mutation_check.py`), per-document
   Markdown in `out/{arxiv,github}/`, scores in `out/scores.json`, the ON-spec run in `out-v1/`.

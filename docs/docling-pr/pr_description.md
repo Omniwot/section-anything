@@ -6,7 +6,9 @@
 
 ---
 
-<!-- Open only after a maintainer replies to the issue. Replace #NNNN with the issue number. -->
+<!-- Open only after a maintainer replies to the issue. Replace #NNNN with the issue number and
+REPRO_LINK with the public link to docs/docling-pr/repro/. Update the text for the label the
+maintainers choose (`text` or `title`, issue question 2). -->
 
 This PR adds an opt-in option to the heading-hierarchy stage:
 `HeadingHierarchyOptions.demote_unmatched_headings` (default `False`).
@@ -65,7 +67,7 @@ Resolves #NNNN
 Behavior before and after:
 
 - Option off (the default): no change. The stage code path is the same, and on 200 real
-  PDFs the headings are the same as stock Docling 2.140.
+  PDFs the Markdown is byte-identical to stock Docling 2.140.
 - Option on: see the tables below.
 
 Tests (Python 3.11, macOS arm64, docling-core 2.102.0, docling-parse 7.22.3):
@@ -107,7 +109,10 @@ Settings: default `PdfPipelineOptions`, `generate_parsed_pages=True`,
 | GitHub READMEs | 100 | 75.7 | 79.4 | +3.69 | +2.07 to +5.37 | 27 / 67 / 6 | 2.3e-05 |
 
 Documents: READoc PDFs with at least 3 outline entries, 100 per subset, picked with a fixed seed.
-With the option off, the heading lists are the same as stock Docling 2.140 on all 200 documents.
+With the option off, the Markdown is byte-identical to stock Docling 2.140 on all 200 documents.
+
+If a demoted first header becomes `title` instead of `text` (only when it is on page 1 and no
+smaller than any other header), our estimate is +7.6 on arXiv and +3.7 on GitHub.
 
 Partial outlines (risk check). The outline is read only by this stage, so we ran the stage again
 on the same converted document with a reduced outline:
@@ -124,14 +129,16 @@ and the style check needs two headings to see a missing level.
 
 Notes:
 
-- On arXiv papers, the most common demotion is the paper title, which the layout model labels
-  `section_header`. It becomes plain text. If you prefer, a title-like first heading could become
-  `title` instead. Other demotions: author lines, algorithm captions, and lead-ins such as
-  "Properties:" or "Example:".
+- On arXiv papers, the most common demotion is the paper title: a real title that the layout
+  model labels `section_header` (#3957). In 55 of 56 papers, READoc's answer key marks it as the
+  title. Other demotions: author lines, algorithm captions, and lead-ins such as "Properties:" or
+  "Example:".
+- The thresholds and the font-face part of the style check were tuned while looking at READoc
+  documents, including the arXiv papers above. READoc has only papers and READMEs.
 - Known misses: (1) a single real heading that the outline omits is demoted; (2) a missing outline
   level set in the body face and size is not detected, unless its headings have dotted numbers.
 - The stage adds about 0.01–0.02 s per document.
 - Conflicts: #4169 changes the same file (`_infer_from_bookmarks`). This PR does not change
   `_infer_from_bookmarks`.
 
-The full result tables, the per-document scores and the scripts are available on request.
+Scripts, document IDs and per-document scores: REPRO_LINK

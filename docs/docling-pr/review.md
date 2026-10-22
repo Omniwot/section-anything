@@ -4,6 +4,11 @@ Nothing was posted or changed. Sources: CONTRIBUTING (Docling and community), PR
 AGENTS.md, AI-review prompt, PRs #3633 #3688 #3984 #4179 #4204 #4473 #3874 #4169, related issues,
 docling-eval.
 
+**Status (21 Oct, evening):** "Before posting the issue" steps 1–4 are done: title variant
+re-scored (`results.md`, "Title variant"), drafts reworded with links and honesty notes, issue
+shortened, public reproduction in `repro/`. Left for the owner: step 5 (review and post), and
+replace REPRO_LINK once the repo is public.
+
 ## What maintainers ask for
 
 - **Issue first** for features. #3676 came before #3688. #4472 and #4473 were opened on the same
