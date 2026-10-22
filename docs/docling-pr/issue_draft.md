@@ -41,7 +41,7 @@ which is usually the paper title (see question 2):
 
 | READoc subset | off | on, demoted → `text` | on, demoted first header → `title` |
 |---|---|---|---|
-| arXiv papers | 50.4 | 55.6 (+5.2, 95% CI +3.8 to +6.8) | 58.4 (+8.1, +6.1 to +10.2) |
+| arXiv papers | 50.4 | 55.8 (+5.4, 95% CI +4.0 to +7.0) | 58.8 (+8.4, +6.4 to +10.5) |
 | GitHub READMEs | 75.7 | 79.4 (+3.7, +2.1 to +5.4) | 79.2 (+3.4, +1.9 to +5.1) |
 
 - With the option off, the Markdown is byte-identical to stock Docling 2.140 on all 200 documents.
@@ -63,16 +63,16 @@ Scripts, document IDs and per-document scores: REPRO_LINK
 <details>
 <summary>What gets demoted, and the documents that got worse</summary>
 
-- arXiv: 67 headers in 56 papers. 56 are the paper title; in 55 of them the READoc answer key has
+- arXiv: 68 headers in 57 papers. 57 are the paper title; in 56 of them the READoc answer key has
   that title as the document title (`#`). Others: author lines, algorithm captions, "Properties:".
-- GitHub: 75 headers in 34 READMEs, for example "Say we set a role like so:", "Example:",
+- GitHub: 76 headers in 34 READMEs, for example "Say we set a role like so:", "Example:",
   "IMPORTANT NOTICE:", "Table of Contents".
 - Worse with the option on: 2 arXiv papers by under 1 point (both lose the title; both are better
   with `title`), and 6 READMEs, the largest −11.1, where a real section ("Including It In Your
   Project") is missing from the outline.
 - `title` variant: on GitHub the only demoted first header was "IMPORTANT NOTICE:", which `title`
   makes worse (−25 on that README). Requiring the first header to be on page 1 and no smaller than
-  any other header would keep it as `text`; with that check, our estimate is +7.6 on arXiv and +3.7
+  any other header would keep it as `text`; with that check, our estimate is +7.9 on arXiv and +3.7
   on GitHub (font sizes from a separate PDF parser, so approximate).
 - Runtime: the extra checks take about 0.01 s per document.
 
@@ -81,7 +81,7 @@ Scripts, document IDs and per-document scores: REPRO_LINK
 ### Questions for maintainers
 
 1. Would you accept this as an opt-in option? Is `demote_unmatched_headings` a good name?
-2. A demoted first header is usually the paper title, and in 55 of 56 papers READoc's key marks it
+2. A demoted first header is usually the paper title, and in 56 of 57 papers READoc's key marks it
    as the title. Should it become `text` (the code today), or `title` when it is on page 1 and no
    smaller than any other header? #3957 says `TITLE` is collapsed into `SECTION_HEADER` on purpose,
    so I did not want to change that without asking. `title` also gives chunkers the document title

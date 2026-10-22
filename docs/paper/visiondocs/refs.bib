@@ -1,0 +1,184 @@
+% refs.bib for the VisionDocs (WACV 2027 workshop) short-paper draft (22 Oct 2026).
+% Entries copied from ../refs.bib (checked against primary sources on 2026-10-21 there).
+% Internal verification notes were moved into comments so that they do not print in the
+% bibliography. Entries marked UNVERIFIED must be checked before submission.
+
+% original note      = {Author list from ACL Anthology (10 authors; arXiv v3 lists 8). Dataset on Hugging Face (lazyc/READoc) is tagged MIT; the GitHub code repository icip-cas/READoc states no licence (checked 2026-10-21)}
+@inproceedings{li2025readoc,
+  title     = {{READoc}: A Unified Benchmark for Realistic Document Structured Extraction},
+  author    = {Li, Zichao and Abulaiti, Aizier and Lu, Yaojie and Chen, Xuanang and Zheng, Jia and Lin, Hongyu and Han, Xianpei and Jiang, Shanshan and Dong, Bin and Sun, Le},
+  editor    = {Che, Wanxiang and Nabende, Joyce and Shutova, Ekaterina and Pilehvar, Mohammad Taher},
+  booktitle = {Findings of the Association for Computational Linguistics: ACL 2025},
+  month     = jul,
+  year      = {2025},
+  address   = {Vienna, Austria},
+  publisher = {Association for Computational Linguistics},
+  pages     = {21889--21905},
+  doi       = {10.18653/v1/2025.findings-acl.1128},
+  url       = {https://aclanthology.org/2025.findings-acl.1128/},
+  eprint    = {2409.05137},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{ma2023hrdoc,
+  title     = {{HRDoc}: Dataset and Baseline Method toward Hierarchical Reconstruction of Document Structures},
+  author    = {Ma, Jiefeng and Du, Jun and Hu, Pengfei and Zhang, Zhenrong and Zhang, Jianshu and Zhu, Huihui and Liu, Cong},
+  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume    = {37},
+  number    = {2},
+  pages     = {1870--1877},
+  year      = {2023},
+  doi       = {10.1609/aaai.v37i2.25277},
+  eprint    = {2303.13839},
+  archivePrefix = {arXiv}
+}
+
+% original note      = {Introduces the Comp-HRDoc benchmark; code and annotations (MIT) at \url{https://github.com/microsoft/CompHRDoc}. No journal version found on 2026-10-21}
+@misc{wang2024detectorderconstruct,
+  title     = {Detect-Order-Construct: A Tree Construction based Approach for Hierarchical Document Structure Analysis},
+  author    = {Wang, Jiawei and Hu, Kai and Zhong, Zhuoyao and Sun, Lei and Huo, Qiang},
+  year      = {2024},
+  eprint    = {2401.11874},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{xing2024dochienet,
+  title     = {{DocHieNet}: A Large and Diverse Dataset for Document Hierarchy Parsing},
+  author    = {Xing, Hangdi and Cheng, Changxu and Gao, Feiyu and Shao, Zirui and Yu, Zhi and Bu, Jiajun and Zheng, Qi and Yao, Cong},
+  editor    = {Al-Onaizan, Yaser and Bansal, Mohit and Chen, Yun-Nung},
+  booktitle = {Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing},
+  month     = nov,
+  year      = {2024},
+  address   = {Miami, Florida, USA},
+  publisher = {Association for Computational Linguistics},
+  pages     = {1129--1142},
+  doi       = {10.18653/v1/2024.emnlp-main.65},
+  url       = {https://aclanthology.org/2024.emnlp-main.65/}
+}
+
+@misc{auer2024docling,
+  title     = {Docling Technical Report},
+  author    = {Auer, Christoph and Lysak, Maksym and Nassar, Ahmed and Dolfi, Michele and Livathinos, Nikolaos and Vagenas, Panos and Berrospi Ramis, Cesar and Omenetti, Matteo and Lindlbauer, Fabian and Dinkla, Kasper and Mishra, Lokesh and Kim, Yusik and Gupta, Shubham and Teixeira de Lima, Rafael and Weber, Valery and Morin, Lucas and Meijer, Ingmar and Kuropiatnyk, Viktor and Staar, Peter W. J.},
+  year      = {2024},
+  eprint    = {2408.09869},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CL},
+  doi       = {10.48550/arXiv.2408.09869}
+}
+
+% original note         = {MIT License. Heading-hierarchy stage introduced in v2.106.0 (2026-06-23), disabled by default; guide at \url{https://docling-project.github.io/docling/usage/heading_levels/}. Accessed 2026-10-21}
+@misc{docling_software,
+  title        = {Docling},
+  author       = {{Docling Project}},
+  howpublished = {\url{https://github.com/docling-project/docling}},
+  note         = {Accessed 2026-10-21}
+}
+
+% original note      = {MinerU Technical Report}
+@misc{wang2024mineru,
+  title     = {{MinerU}: An Open-Source Solution for Precise Document Content Extraction},
+  author    = {Wang, Bin and Xu, Chao and Zhao, Xiaomeng and Ouyang, Linke and Wu, Fan and Zhao, Zhiyuan and Xu, Rui and Liu, Kaiwen and Qu, Yuan and Shang, Fukai and Zhang, Bo and Wei, Liqun and Sui, Zhihao and Li, Wei and Shi, Botian and Qiao, Yu and Lin, Dahua and He, Conghui},
+  year      = {2024},
+  eprint    = {2409.18839},
+  archivePrefix = {arXiv}
+}
+
+% original note         = {MinerU Open Source License (Apache 2.0 with additional conditions). LLM title leveling: legacy \texttt{llm-aided-config.title\_aided}, now \texttt{llm\_aided.features.title\_leveling} (levels 2--6, disabled by default), per \url{https://opendatalab.github.io/MinerU/usage/quick_usage/}. Accessed 2026-10-21}
+@misc{mineru_software,
+  title        = {{MinerU}},
+  author       = {{OpenDataLab}},
+  howpublished = {\url{https://github.com/opendatalab/MinerU}},
+  note         = {Accessed 2026-10-21}
+}
+
+% original note         = {AGPL-3.0. Header detection by font-size popularity (IdentifyHeaders) or from the PDF table of contents (TocHeaders): \url{https://pymupdf.readthedocs.io/en/latest/pymupdf4llm/api.html}. Accessed 2026-10-21}
+@misc{pymupdf4llm_software,
+  title        = {{PyMuPDF4LLM}},
+  author       = {{Artifex Software}},
+  howpublished = {\url{https://github.com/pymupdf/pymupdf4llm}},
+  note         = {Accessed 2026-10-21}
+}
+
+@inproceedings{blecher2024nougat,
+  title     = {Nougat: Neural Optical Understanding for Academic Documents},
+  author    = {Blecher, Lukas and Cucurull Preixens, Guillem and Scialom, Thomas and Stojnic, Robert},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2024},
+  url       = {https://proceedings.iclr.cc/paper_files/paper/2024/hash/a39a9aceda771cded859ae7560530e09-Abstract-Conference.html},
+  eprint    = {2308.13418},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{guo2025lightrag,
+  title     = {{LightRAG}: Simple and Fast Retrieval-Augmented Generation},
+  author    = {Guo, Zirui and Xia, Lianghao and Yu, Yanhua and Ao, Tu and Huang, Chao},
+  editor    = {Christodoulopoulos, Christos and Chakraborty, Tanmoy and Rose, Carolyn and Peng, Violet},
+  booktitle = {Findings of the Association for Computational Linguistics: EMNLP 2025},
+  month     = nov,
+  year      = {2025},
+  address   = {Suzhou, China},
+  publisher = {Association for Computational Linguistics},
+  pages     = {10746--10761},
+  doi       = {10.18653/v1/2025.findings-emnlp.568},
+  url       = {https://aclanthology.org/2025.findings-emnlp.568/},
+  eprint    = {2410.05779},
+  archivePrefix = {arXiv}
+}
+
+% original note         = {UNVERIFIED for this draft: the statement that the heading-based chunker depends on parser headings comes from our project notes (checked 2026-10-19). Re-check the exact page and wording before submission}
+@misc{lightrag_parser_docs,
+  title        = {{LightRAG}: third-party parser documentation},
+  author       = {{HKUDS}},
+  howpublished = {\url{https://github.com/HKUDS/LightRAG/blob/main/docs/ThirdPartyParser.md}}
+}
+
+@inproceedings{lu2026hichunk,
+  title     = {{HiChunk}: Evaluating and Enhancing Retrieval Augmented Generation with Hierarchical Chunking},
+  author    = {Lu, Wensheng and Chen, Keyu and Shen, Zhifeng and Qiao, Ruizhi and Sun, Xing},
+  editor    = {Liakata, Maria and Moreira, Viviane P. and Zhang, Jiajun and Jurgens, David},
+  booktitle = {Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  month     = jul,
+  year      = {2026},
+  address   = {San Diego, California, United States},
+  publisher = {Association for Computational Linguistics},
+  pages     = {29738--29753},
+  doi       = {10.18653/v1/2026.acl-long.1372},
+  url       = {https://aclanthology.org/2026.acl-long.1372/},
+  eprint    = {2509.11552},
+  archivePrefix = {arXiv}
+}
+
+% original note         = {Published 2024-09-19. Accessed 2026-10-21}
+@misc{anthropic2024contextual,
+  title        = {Introducing Contextual Retrieval},
+  author       = {{Anthropic}},
+  year         = {2024},
+  month        = sep,
+  howpublished = {\url{https://www.anthropic.com/news/contextual-retrieval}},
+  note         = {Accessed 2026-10-21}
+}
+
+@inproceedings{dasigi2021qasper,
+  title     = {A Dataset of Information-Seeking Questions and Answers Anchored in Research Papers},
+  author    = {Dasigi, Pradeep and Lo, Kyle and Beltagy, Iz and Cohan, Arman and Smith, Noah A. and Gardner, Matt},
+  booktitle = {Proceedings of the 2021 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies},
+  month     = jun,
+  year      = {2021},
+  address   = {Online},
+  publisher = {Association for Computational Linguistics},
+  pages     = {4599--4610},
+  doi       = {10.18653/v1/2021.naacl-main.365},
+  url       = {https://aclanthology.org/2021.naacl-main.365/},
+  eprint    = {2105.03011},
+  archivePrefix = {arXiv}
+}
+
+% original note      = {Open-source sample (150 questions): \url{https://github.com/patronus-ai/financebench}. Data licence not checked (TODO)}
+@misc{islam2023financebench,
+  title     = {{FinanceBench}: A New Benchmark for Financial Question Answering},
+  author    = {Islam, Pranab and Kannappan, Anand and Kiela, Douwe and Qian, Rebecca and Scherrer, Nino and Vidgen, Bertie},
+  year      = {2023},
+  eprint    = {2311.11944},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CL}
+}

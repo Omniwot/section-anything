@@ -181,10 +181,33 @@ each with a unit test that fails without it:
 
 Scores with the fixes: papers unchanged in total (+4.4 / +5.5; arxiv-07 −0.2 because our own key
 also misses section 4, for the same bookmark reason). Canada unchanged (0.0). The READoc tables in
-this file are from `97c09a7`; re-running them with `183f1dd` needs the 200 conversions again (about
-20–30 minutes of laptop load) and is not done yet. Since the fixes were found on the papers and on
+this file are from `97c09a7`; the recheck with `183f1dd` is in the next section. Since the fixes were found on the papers and on
 `elsevier-00`, those are no longer held out for the fixes; the Canadian acts were the blind test,
 and there the option did not engage.
+
+## Recheck of READoc with the fixes (`183f1dd`, 22 Oct)
+
+All 200 READoc documents converted again (output `.tmp/bookmark-recon/out-183f1dd/`), same
+settings and scripts.
+
+| Subset | Comparison | n | before | after | mean diff | 95% CI | better / same / worse | Wilcoxon p |
+|---|---|---|---|---|---|---|---|---|
+| arXiv | OFF → ON (`text`) | 100 | 50.4 | 55.8 | **+5.45** | +3.98 to +7.04 | 42 / 56 / 2 | 2.0e-08 |
+| arXiv | OFF → TITLE | 100 | 50.4 | 58.8 | **+8.38** | +6.39 to +10.52 | 57 / 43 / 0 | 5.1e-11 |
+| arXiv | deepest removed: OFF → ON | 69 | 51.6 | 51.9 | +0.29 | +0.01 to +0.64 | 4 / 65 / 0 | 0.12 |
+| GitHub | OFF → ON (`text`) | 100 | 75.7 | 79.4 | +3.69 | +2.07 to +5.37 | 27 / 67 / 6 | 2.3e-05 |
+| GitHub | OFF → TITLE | 100 | 75.7 | 79.2 | +3.44 | +1.89 to +5.06 | 26 / 68 / 6 | 3.7e-05 |
+| GitHub | deepest removed: OFF → ON | 100 | 75.7 | 75.3 | −0.43 | −1.00 to 0.00 | 0 / 97 / 3 | 0.1 |
+
+- OFF Markdown is byte-identical to the earlier run on all 200 documents.
+- Exactly one document changed: arXiv 1812.06594 (ON 56.7 → 79.8, TITLE 56.7 → 87.4). Its bookmark
+  for section 2.2 holds garbled LaTeX math ("2.2 Tsallis Entropy bold0mu mumu Sq=2Sq=22005"), so it
+  matched nothing and the unmatched dotted heading failed check 2. With the number rule it counts as
+  matched, the checks pass, and only the paper title is demoted (the key has it as the title).
+- Demotions: arXiv 68 headers in 57 papers (57 paper titles; the key has 56 of them as the title),
+  GitHub 76 headers in 34 READMEs (multiset count; the earlier "75" was a set count).
+- Size-checked TITLE estimate (page 1, no smaller than any other header): arXiv +7.9, GitHub +3.7,
+  no arXiv document worse than OFF.
 
 ## Title variant (review item T1)
 

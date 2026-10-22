@@ -1,0 +1,370 @@
+% VisionDocs @ WACV 2027 -- SHORT PAPER DRAFT (4 pages + references), double-blind review copy.
+% DRAFT ONLY. Not submitted, uploaded or posted. Draft of 22 Oct 2026.
+%
+% Template: official WACV 2027 Author Kit (wacv.sty, ieeenat_fullname.bst), downloaded unchanged from
+%   https://wacv.thecvf.com/static/wacv-2027-author-kit-template.zip (linked from
+%   https://wacv.thecvf.com/Conferences/2027/AuthorGuides). VisionDocs asks for "the standard main
+%   conference WACV 2027 template". The kit's preamble.tex is inlined below.
+% Build: pdflatex main; bibtex main; pdflatex main; pdflatex main  (not compiled here: no TeX engine
+%   on this machine; see README.md).
+% Numbers: every number has a "% src:" comment; README.md maps each claim to its source file.
+%   Strip all comments before uploading LaTeX source anywhere (they name internal files).
+% Anonymity: no names, affiliations, repository URLs or project links. Keep it that way.
+
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+%%%%%%%%% PAPER TYPE
+% The kit requires a track option in review mode. Workshops have no tracks; "applications" is the
+% closest fit. TODO(owner): confirm with the organisers or keep.
+\usepackage[review,applications]{wacv}      % REVIEW version
+% \usepackage{wacv}                         % CAMERA-READY version
+% \usepackage[pagenumbers]{wacv}            % arXiv version with page numbers
+
+% ---- inlined from the kit's preamble.tex
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\TODO}[1]{\textbf{\color{red}[TODO: #1]}}
+% \renewcommand{\TODO}[1]{}   % uncomment to hide TODOs
+% ---- end of preamble
+
+\definecolor{wacvblue}{rgb}{0.21,0.49,0.74}
+\usepackage[pagebackref,breaklinks,colorlinks,allcolors=wacvblue]{hyperref}
+
+\def\wacvPaperID{*****} % TODO(owner): VisionDocs short papers go through a Google Form, which may not assign an ID
+\def\confName{WACV}
+\def\confYear{2027}
+
+\newcommand{\sysname}{Section Anything\xspace} % one place to rename the system for review if needed
+\newcommand{\na}{--}
+
+\title{\sysname: Heading Hierarchies for Structure-Aware Retrieval\\from the Text Layer of Born-Digital PDFs}
+
+\author{Anonymous}  % review mode prints "Anonymous WACV ... submission" instead; never add names here
+
+\begin{document}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+Retrieval pipelines increasingly split documents at their headings, so a parser that returns flat
+or wrong heading levels changes what every chunk contains and which section path it carries. We
+study heading-hierarchy recovery for born-digital PDFs from the text layer alone: typography,
+numbering, bookmarks and printed contents, optionally reviewed by a small language model whose
+proposals must anchor to verbatim text. The method performs no OCR and uses no page images. On 905
+READoc arXiv papers not used during development, scored with READoc's own Heading Tree TEDS, the
+full-text setting scores 70.0 against 49.4 for Docling with its heading-hierarchy stage enabled; on
+the 313 of these that MinerU's cloud service processed, it scores 71.6 against 67.2 for MinerU with
+its own LLM title levelling. On GitHub READMEs it only ties Docling. The model settings cost
+US\$0.07--0.16 per 1,000 pages with a small model. As a second contribution, an opt-in bookmark check
+for Docling's heading stage, which demotes section headers that a complete PDF outline does not
+list, adds 5.4 TEDS points on 100 arXiv papers and 3.7 on 100 READMEs, and does nothing on a
+pre-registered set of legislation. On Qasper, section-aware chunks retrieved the evidence more often,
+but answer quality did not change.
+\end{abstract}
+% src: 905/313/70.0/49.4/71.6/67.2 -- site/data/results.js readoc.heldout; HANDOFF "Final held-out result, arXiv (21 Oct)".
+% src: GitHub tie -- results.js readoc.full.note. Cost -- results.js modes[].costPer1000Pages.
+% src: Docling option -- docs/docling-pr/results.md "Main result" and "Fresh documents (22 Oct)". Qasper -- docs/rag-qasper.md.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\label{sec:intro}
+
+Retrieval-augmented generation (RAG) over long documents depends on chunking. A growing number of
+pipelines cut along the document's own sections, or prefix each chunk with its section path, so that
+a retrieved passage keeps its context~\cite{lu2026hichunk,anthropic2024contextual}. LightRAG's
+heading-based chunker, for example, splits on the heading levels a parser supplies~\cite{guo2025lightrag,lightrag_parser_docs},
+and Markdown header splitters do the same with \texttt{\#} levels. The recovered heading
+hierarchy then decides the chunks: a missed heading merges two topics, a sentence promoted to a
+heading splits a paragraph, and a wrong level files a subsection under the wrong parent.
+% TODO(owner): re-verify the LightRAG chunker wording against its current docs (refs.bib entry is marked UNVERIFIED).
+
+Open-source converters such as Docling~\cite{auer2024docling,docling_software} and
+MinerU~\cite{wang2024mineru,mineru_software} detect section-header blocks on page images and then
+assign depth with rules or an optional LLM step. In the READoc benchmark~\cite{li2025readoc}, the
+published Heading Tree TEDS of Docling, MinerU and Marker on arXiv papers ranged from 38.3 to 42.0,
+while Nougat~\cite{blecher2024nougat}, an OCR model trained on arXiv, reached 88.5. Born-digital PDFs
+also carry signals that a page image shows only indirectly or not at all: an outline (bookmarks),
+font names and exact sizes, and the text itself with its numbering. None is reliable alone: bookmarks
+are often missing or partial, and bold type also marks theorem labels, FAQ questions and table cells.
+% src: published READoc scores -- results.js readoc.published (Docling 38.3, Marker 39.4, MinerU 42.0, Nougat-base 88.5); checked against READoc Tables 3-4 per paper.md section 1.
+
+We ask how far these text-layer signals go, and whether they can repair a vision pipeline.
+Our contributions are:
+(i)~a heading-hierarchy method for born-digital PDFs with three cost settings, in which every
+model proposal must anchor to a verbatim span (\cref{sec:method});
+(ii)~an evaluation with READoc's own scorer on held-out arXiv papers and on GitHub READMEs, against
+current Docling and MinerU, including MinerU's own LLM title levelling (\cref{sec:readoc});
+(iii)~an opt-in bookmark check for Docling, tested on real conversions, on partial outlines and on
+documents not used in its design, one set pre-registered (\cref{sec:docling}); and
+(iv)~a Qasper RAG test in which retrieval improved but answers did not (\cref{sec:rag}).
+The scope is narrow on purpose: everything here needs a PDF text layer. We perform no OCR, and
+scanned pages yield nothing.
+
+\paragraph{Related work.} Besides READoc, HRDoc~\cite{ma2023hrdoc}, Comp-HRDoc~\cite{wang2024detectorderconstruct}
+and DocHieNet~\cite{xing2024dochienet} evaluate hierarchical structure, mainly for layout and vision
+models; we have not yet evaluated on them. PyMuPDF4LLM maps larger font sizes to Markdown header
+levels or reads the PDF's table of contents~\cite{pymupdf4llm_software}. Docling's optional
+heading-hierarchy stage sets header levels from bookmarks, numbering and font style, and is off by
+default~\cite{docling_software}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Method}
+\label{sec:method}
+
+\paragraph{Text layer.} We read lines in reading order with pdfminer's layout analysis. Each line
+keeps its text, box, median glyph size and a bold flag. Boldness comes from font names, including
+the codes of \TeX{} bold faces (CMBX, SFBX, \etc); without them, the bold headings of almost every
+\LaTeX{} paper looked like body text. Bookmarks are read with their level, title, target page and
+target height. Shared detectors mark printed tables of contents and page furniture (running headers,
+page numbers), which may never start a section. Extraction takes about 0.02\,s per page.
+% src: paper.md 3.1-3.2; extract.py; speed HANDOFF L148-150 (via paper.md 3.1).
+
+\paragraph{Free (no model).} The outline, or else the printed table of contents, is anchored to body
+lines by title on its target page; it becomes the backbone when at least three entries and 60\% of
+the outline anchor. Typography and numbering rules add the remaining headings, after filters for
+captions, theorem labels, bold mathematics, repeated callout labels and bold run-in terms. Levels come
+from dotted numbering depth (``2.3.1'' is level 3) or else from style rank.
+% src: paper.md 3.3; Appendix C.
+
+\paragraph{Quick check.} A looser filter proposes candidate lines. A small model sees each as one
+row with size and bold tags and the first 70 characters of the next line, in batches of 300 with the
+last eight decisions as context, and returns heading or not, level, number and title through a
+schema-constrained call. A title not found in print is replaced by the printed line. Quick check
+cannot recover a heading that no rule proposed.
+% src: paper.md 3.4.
+
+\paragraph{Standard.} The model reads every line, numbered and tagged, in windows of about 120,000
+characters that end at page breaks, with the last eight sections as context. For each section it
+returns the start line, number, title, level and a \emph{start marker}: the first 8--15 words,
+copied exactly (and an end marker when the section ends inside the window).
+% src: paper.md 3.5.
+
+\paragraph{Resolution.} Models rarely quote byte for byte, so both the reply and the document are
+reduced to a canonical form (case-folded, ligatures expanded, line-break hyphens removed) with a map
+back to original offsets. Markers are matched near the model's line hint, then anywhere; matches
+inside a table of contents are dropped when a body copy exists; a bounded fuzzy fallback is flagged.
+Proposals with the fewest candidate positions claim offsets first, so no two sections share a start.
+End markers and printed titles are checked, and mismatches are flagged rather than accepted. Each
+section thus has a level, number, title, exact character range, pages and line boxes. Finally, the
+first heading is flagged as the document title if it is on page~1, unnumbered, not a generic name
+and at least 1\,pt larger than every other heading. Prompts treat document text as untrusted, and a
+per-run cost cap is enforced.
+% src: paper.md 3.6-3.8.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Heading trees on READoc}
+\label{sec:readoc}
+
+\paragraph{Setup.} We use READoc's arXiv subset (1,003 papers whose keys have headings) and its
+GitHub subset (1,224 READMEs rendered to PDF); the Zenodo subset has no published keys. Each system's
+Markdown goes through READoc's own cleaning and segmentation code and is scored with its Heading Tree
+TEDS ($\times$100). Docling~2.140 runs with its heading-hierarchy stage enabled and is scored on its
+own Markdown export. MinerU runs on its cloud service (3.4.4, VLM mode); for ``+\,LLM levels'' we
+applied MinerU's own LLM title-levelling step to that output with gpt-6-luna (Luna) or gpt-6.1-sol
+(Sol). Our model settings use Luna at low reasoning effort.
+% src: paper.md 4.1-4.2; HANDOFF L832, L864, L1079; MinerU relay HANDOFF L607-621.
+
+\paragraph{Protocol.} A 200-document sample (100 per subset, fixed seed) guided every method change,
+so our main test is the 905 \emph{held-out} arXiv papers with headings. MinerU's free cloud quota had
+processed 313 of them, and the MinerU comparison uses only those. Paired comparisons use per-document
+differences with a 95\% bootstrap interval (4,000 resamples) and a Wilcoxon signed-rank test. Each
+configuration was run once.
+% src: paper.md 4.3; heldout_report.py (via paper.md).
+
+\begin{table}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ & \multicolumn{2}{c}{arXiv, held out} & GitHub \\
+\cmidrule(lr){2-3}
+System & all 905 & 313 (MinerU) & all 1,224 \\
+\midrule
+Ours: Standard (Luna)        & \textbf{70.0} & \textbf{71.6} & \textbf{75.2} \\
+Ours: Quick check (Luna)     & 63.9 & 66.1 & 74.3 \\
+Ours: Free (no model)        & 52.0 & 55.8 & 75.0 \\
+Docling 2.140, hierarchy on  & 49.4 & 49.2 & 75.0 \\
+MinerU + LLM levels (Sol)    & \na & 67.2 & \na \\
+MinerU + LLM levels (Luna)   & \na & 62.8 & \na \\
+MinerU cloud (3.4.4, VLM)    & \na & 57.3 & \na \\
+\bottomrule
+\end{tabular}
+\caption{READoc Heading Tree TEDS ($\uparrow$). arXiv columns: papers not used during development;
+``313'' are those MinerU's cloud had processed. GitHub includes the 100 development READMEs; on the
+1,124 held-out READMEs all our settings tie Docling (see text). Luna = gpt-6-luna, Sol = gpt-6.1-sol.}
+\label{tab:readoc}
+\end{table}
+% src: col 905 -- results.js readoc.heldout.note (70.0/63.9/49.4); Free 52.0 -- HANDOFF "Final held-out result" (all 905).
+% src: col 313 -- results.js readoc.heldout.rows; Free 55.8 -- paper.md Table 1 (computed from .tmp/readoc-heldout-out/heldout_scores.json).
+% src: col GitHub -- results.js readoc.full (latest, 21 Oct); HANDOFF "Full READoc, latest version (21 Oct)".
+
+\paragraph{Results.} On all 905 held-out papers, Standard leads Docling by 20.6 points (95\% CI 19.3
+to 21.8), better on 773 papers and worse on 103 (\cref{tab:readoc}). On the 313-paper subset it leads
+MinerU with LLM levels on the larger model by 4.4 points (95\% CI 2.5 to 6.4; $p=6\times10^{-6}$) and
+on the same small model by 8.8. MinerU's own LLM step matters: it lifts MinerU from 57.3 to 67.2.
+Quick check, which sends only candidate lines, falls between MinerU's two LLM variants. A prompt fix
+for papers (the title, Abstract and References are headings; theorem labels never are) was designed
+on the development sample, where it added 5.7 points to Standard; on the held-out papers it added
+5.1, so it appears to generalise.
+% src: HANDOFF "Final held-out result" (+20.6, CI, 773/103, +4.4, CI, p, +8.8, +5.1); paper.md 4.4 (+5.7 on sample).
+
+\paragraph{Where we do not win.} On the 1,124 held-out READMEs, every setting ties Docling: Standard
+$+0.3$ (95\% CI $-0.9$ to $+1.6$), Quick check $-0.6$ ($-1.8$ to $+0.7$), Free $+0.1$ ($-1.0$ to
+$+1.2$). On the 100 development READMEs, Docling (73.2) scored above Standard (71.3), while MinerU
+(48.2 to 56.5) and PyMuPDF4LLM (57.5) trailed. Free's small arXiv lead comes from bookmarks: on
+papers without them it scores 42.3 against Docling's 46.7. Nougat's published 88.5 on arXiv remains
+far above every number here.
+% src: held-out GitHub deltas -- paper.md 4.6 (.tmp/readoc-github-latest/scores.json) and HANDOFF "Full READoc, latest version".
+% src: dev README scores -- results.js readoc.sample. Bookmark split -- HANDOFF L801-802. Nougat -- results.js readoc.published.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Setting & US\$ / 1,000 pp & F1 & Levels \\
+\midrule
+Ours: Free                     & 0    & 0.800 & 0.977 \\
+Ours: Quick check (Luna)       & 0.07 & 0.911 & 0.966 \\
+Ours: Standard (Luna)          & 0.16 & \na   & \na \\
+Ours: Standard (Sol)           & 2.9  & \textbf{0.920} & \textbf{0.990} \\
+Docling 2.140, hierarchy on    & 0 (local) & 0.896 & 0.957 \\
+MinerU cloud + LLM levels (Sol) & \na & 0.870 & 0.950 \\
+\bottomrule
+\end{tabular}
+\caption{Cost per 1,000 pages, and heading F1 and level agreement on 23 public, non-scanned documents
+of our multi-genre corpus (1,282 pages), from runs of 19 Oct 2026 that predate the final method. Model
+settings also accept a local model at no cost; we have not measured its accuracy.}
+\label{tab:cost}
+\end{table}
+% src: cost -- results.js modes[].costPer1000Pages (0, 0.07, 0.16) and costPer1000PagesStrong (2.9).
+% src: F1/Levels (23 docs, no OpenStax) -- docs/PLAN-upstream-and-rag.md "Where we stand"; paper.md Table 4 (F1 23 / Levels 23); HANDOFF L674-677.
+
+\paragraph{Other genres and cost.} To look beyond papers and READMEs we built an English corpus whose
+answer keys come from source markup (legislation XML, \LaTeX{} source, Wikipedia's parse API,
+generators) rather than from hand labelling. A predicted heading matches a key heading when number
+and title are at least 85\% similar and it starts within one page; \emph{level agreement} is the share
+of consecutive matched pairs whose relative depth agrees with the key. On the 23 public non-scanned
+documents (\cref{tab:cost}), both model settings score above Docling and MinerU in F1 and level
+agreement; this set is small and was run before the final method, so we treat it as a sanity check. Measured on
+this set, Quick check cost \$0.04 and Standard (Sol) \$2.33 per 1,000 pages.
+% src: corpus method -- paper.md 4.7; evaluate.py. Measured costs -- PLAN-upstream-and-rag.md "Where we stand".
+% NOTE: three OpenStax documents are excluded from every corpus figure (licence forbids AI use). Do not add 26- or 32-document figures.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{A bookmark check for a vision pipeline}
+\label{sec:docling}
+
+Docling's heading stage already uses the outline to set the levels of matched headers, but a section
+header that matches no bookmark is always kept. Many such headers are not
+headings (paper titles, author lines, algorithm captions, lead-ins such as ``Example:''). We added an
+option, off by default, that demotes them to text when the outline looks complete: it has more than
+one level, every dotted-number header (``2.1 \ldots'') matches a bookmark, at least half of the
+headers match, and no two headers to be demoted share a heading-like style (larger, bold or a
+non-body font face), since such a family usually means the outline skips a level. Standard headings
+(Abstract, References, Appendix) are always kept and nothing is promoted. The layout model still
+proposes the headers from the page image; the outline only vetoes the ones it does not list.
+% src: docs/docling-pr/issue_draft.md "Requested feature"; results.md "Summary".
+
+\begin{table*}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}llcccll@{}}
+\toprule
+Documents & Answer key / metric & $n$ & Off & On & $\Delta$ (95\% CI) & better / same / worse \\
+\midrule
+READoc arXiv, full outline           & READoc, TEDS & 100 & 50.4 & 55.8 & $+5.4$ ($+4.0$ to $+7.0$) & 42 / 56 / 2 \\
+READoc GitHub, full outline          & READoc, TEDS & 100 & 75.7 & 79.4 & $+3.7$ ($+2.1$ to $+5.4$) & 27 / 67 / 6 \\
+READoc arXiv, deepest level removed  & READoc, TEDS & 69  & 51.6 & 51.9 & $+0.3$ ($0.0$ to $+0.6$)  & 4 / 65 / 0 \\
+READoc GitHub, deepest level removed & READoc, TEDS & 100 & 75.7 & 75.3 & $-0.4$ ($-1.0$ to $0.0$)  & 0 / 97 / 3 \\
+READoc, top level only (both)        & READoc, TEDS & 200 & \na & \na & $0.0$                      & 0 / 200 / 0 \\
+arXiv papers outside READoc          & \LaTeX{} source, TEDS & 8 & \na & \na & $+4.4$ ($+0.3$ to $+10.7$) & 4 / 4 / 0 \\
+Canadian federal acts, pre-registered & official XML, F1 & 9 & \na & \na & $0.0$ (nothing demoted) & 0 / 9 / 0 \\
+\bottomrule
+\end{tabular}
+\caption{Docling 2.140 with the bookmark check off and on, same conversion per document. Off is
+identical to stock Docling on all 200 READoc documents. READoc rows use bookmarked documents outside
+our development sample; the outline-removal rows test partial outlines.}
+\label{tab:docling}
+\end{table*}
+% src: rows 1-5 -- docs/docling-pr/results.md "Main result" and "Risk check" (commit 97c09a7).
+% src: rows 6-7 -- docs/docling-pr/results.md "Fresh documents (22 Oct)" (commits 97c09a7 then 183f1dd; scores unchanged by the fixes).
+% "same" for the 8 papers = 8 - 4 better - 0 worse.
+
+\paragraph{Results.} On real conversions of 200 READoc documents the check adds 5.4 points on arXiv
+and 3.7 on GitHub (\cref{tab:docling}; Wilcoxon $p<10^{-4}$ for both). On arXiv, 57 of the 68
+demoted headers are the paper title, which the layout model labels a section header; in 56 of those
+papers READoc's key has that line as the document title. Relabelling a demoted first header as a
+title instead of text raises the arXiv gain to $+8.4$ (95\% CI $+6.4$ to $+10.5$; GitHub $+3.4$).
+With a partial outline the mean effect is small, but 3 of 100 READMEs lose 10 to 17 points: the
+removed level held a single heading, which the style check cannot tell from a false header.
+% src: docs/docling-pr/results.md "Summary", "What gets demoted", "Risk check", "Title variant".
+
+\paragraph{Documents not used in the design.} The thresholds were chosen while looking at READoc, so we
+also ran documents never used in the design. On 8 arXiv papers outside READoc (keys from their \LaTeX{}
+source) the gain has the same sign ($+4.4$; $+5.5$ with title relabelling), none worse. On 9 Canadian
+federal acts, pre-registered with keys, metrics and code frozen before any output, the layout model
+labels marginal notes as section headers, far fewer than half of the headers match a bookmark, and
+the check correctly does nothing. Two general fixes found on these fresh documents (letter-spaced
+standard headings; bookmark titles that differ from the printed heading) left these scores unchanged;
+the READoc rows predate them and have not been re-run, and only the Canadian acts were a blind test.
+% src: docs/docling-pr/results.md "Fresh documents (22 Oct)".
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Do better headings give better answers?}
+\label{sec:rag}
+
+We sampled 200 of the 415 Qasper~\cite{dasigi2021qasper} test papers with an answerable question
+(fixed seed; 707 questions). Every arm used our text extraction, the same embeddings, answer model
+(Luna) and context budget; only chunk boundaries and section-path prefixes changed: fixed
+1,200-token chunks (A), Standard headings (C), the papers' gold section names (D) and Quick check
+(E). Answers were scored with Qasper's official answer F1; evidence recall asks whether the retrieved
+context contains a gold evidence paragraph (653 questions).
+% src: docs/rag-qasper.md "Setup".
+
+Section-aware chunks retrieved the evidence more often: 0.965 against 0.933 at a 6,000-token budget
+($p=0.002$) and 0.649 against 0.496 at 1,200 tokens ($p<0.001$), with gold, Standard and Quick check
+headings almost equal. A control with fixed chunks of the section chunks' average size recovered most
+of that gain; section boundaries added a significant 8.7 points only at 1,200 tokens, and the
+section-path prefix added nothing measurable. Answer F1 did not differ (A 0.541, C 0.534; C$-$A
+$=-0.007$, 95\% CI $-0.030$ to $+0.015$), while re-asking identical excerpts moved F1 by 1.5 points.
+Qasper papers are short (58 of 200 fit in 6,000 tokens), so we cannot claim that better headings give
+better answers; long documents remain the open test. A 51-question FinanceBench~\cite{islam2023financebench}
+pilot agrees: heading-split chunks found the evidence page more often than fixed chunks (34 against
+27), but our headings did not beat MinerU's (30 against 31 correct answers).
+% src: docs/rag-qasper.md "Evidence recall", "Answer F1", "Noise floor", "Setup"; paper.md 6.2.
+% src: FinanceBench -- paper.md Table 9; results.js rag.rows; HANDOFF "RAG pilot on FinanceBench".
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Limitations and conclusion}
+\label{sec:limits}
+
+\paragraph{Scope.} The method reads the PDF text layer. It performs no OCR, so scanned pages yield
+nothing, and it does not look at page images, so headings marked only by colour or position are hard
+to find. Our corpus is English only. On READMEs we only tie Docling, and without bookmarks the free
+setting is weaker than Docling on papers.
+
+\paragraph{Evidence.} Every configuration was run once with proprietary models (October 2026), and we
+saw run-to-run variation on single documents. Method changes were designed on the READoc development
+sample; held-out arXiv papers are the main test. The corpus results predate the final method. Marker
+could not be run on our hardware, and PageIndex, HRDoc, Comp-HRDoc and DocHieNet are not yet covered.
+The Docling check was tuned on READoc and tested only on papers, READMEs and legislation. Quick check
+and Standard send text to the configured model provider; Free and local models do not. We excluded
+textbooks whose licence forbids generative-AI use from all reported corpus results.
+% src: paper.md 5.2, 5.3, 7; HANDOFF L674-677 (OpenStax).
+
+\paragraph{Conclusion.} For born-digital PDFs, the text layer, its typography and the document's own
+outline carry most of what a heading hierarchy needs; a small model, held to verbatim text, adds the
+judgement that rules lack for cents per thousand pages. The same outline signal can veto false headers
+in a vision pipeline. Whether better headings yield better RAG answers remains open. Code, scripts
+and per-document scores will be made available after review.
+
+{
+    \small
+    \bibliographystyle{ieeenat_fullname}
+    \bibliography{refs}
+}
+
+\end{document}

@@ -49,7 +49,7 @@ arxiv,1805.04074,2,77.78,86.87,95.97,77.78,77.78,77.78,77.78,77.78,Hybrid CMOS-C
 arxiv,1806.03125,3,25.17,31.68,36.94,25.17,31.68,36.94,25.17,25.17,Text Classification based on Word Subspace with Term-Frequency,True,,10.0
 arxiv,1807.03386,2,37.44,44.59,51.73,37.44,37.44,37.44,37.44,37.44,Data-driven pattern identification and outlier detection in time series,True,,10.0
 arxiv,1807.06622,3,72.84,72.84,72.84,72.84,72.84,72.84,72.84,72.84,,,,
-arxiv,1812.06594,2,56.71,56.71,56.71,56.71,56.71,56.71,56.71,56.71,,,,
+arxiv,1812.06594,2,56.71,79.78,87.37,56.71,56.71,56.71,56.71,56.71,Computational EEG in Personalized Medicine: A study in Parkinson's Disease,True,17.2,12.0
 arxiv,1901.04066,2,62.74,62.63,63.95,62.74,62.74,62.74,62.74,62.74,FAMILIES OF MINIMAL SURFACES IN H2 ×R FOLIATED BY ARCS AND THEIR JACOBI FIELDS,False,12.0,12.0
 arxiv,1903.05747,2,59.02,77.77,84.02,59.02,59.02,59.02,59.02,59.02,The fractional and mixed-fractional CEV model,True,17.2,14.3
 arxiv,1905.13399,3,57.21,57.21,57.21,57.21,57.21,57.21,57.21,57.21,,,,

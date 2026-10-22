@@ -33,7 +33,7 @@ Steps:
    READOC_SRC=<READoc clone>/src/evaluation READOC_DATA=READOC python score.py runs
    ```
 
-Settings: Docling 2.140.0 with the change, default `PdfPipelineOptions`,
+Settings: Docling 2.140.0 with the change (branch commits `97c09a7` and `183f1dd`), default `PdfPipelineOptions`,
 `generate_parsed_pages=True`, `HeadingHierarchyOptions(enabled=True)`; the option is the only
 difference between `off` and `on`. Paired statistics: mean of per-document differences, 95%
 bootstrap CI (4,000 resamples, seed 0), better / same / worse at ±0.5 points, Wilcoxon signed-rank.
