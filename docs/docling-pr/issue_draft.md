@@ -35,20 +35,26 @@ needs `generate_parsed_pages=True`; without parsed pages nothing is demoted.
 ### Evidence
 
 [READoc](https://arxiv.org/abs/2409.05137) heading-tree TEDS (0–100) on Docling 2.140.0's
-Markdown export, 100 bookmarked arXiv papers and 100 bookmarked GitHub READMEs (fixed seed). Same
-conversion per document, option off vs on. The table shows two ways to demote the first header,
-which is usually the paper title (see question 2):
+Markdown export, on every READoc document whose PDF has an outline (at least 3 entries) and whose
+answer key has headings: 796 arXiv papers and 1,210 GitHub READMEs. Same conversion per document,
+option off vs on. The table shows two ways to demote the first header, which is usually the paper
+title (see question 2):
 
 | READoc subset | off | on, demoted → `text` | on, demoted first header → `title` |
 |---|---|---|---|
-| arXiv papers | 50.4 | 55.8 (+5.4, 95% CI +4.0 to +7.0) | 58.8 (+8.4, +6.4 to +10.5) |
-| GitHub READMEs | 75.7 | 79.4 (+3.7, +2.1 to +5.4) | 79.2 (+3.4, +1.9 to +5.1) |
+| arXiv papers (796) | 49.5 | 55.1 (+5.6, 95% CI +5.0 to +6.2) | 57.9 (+8.4, +7.7 to +9.2) |
+| GitHub READMEs (1,210) | 75.4 | 79.6 (+4.2, +3.6 to +4.7) | 79.4 (+4.0, +3.5 to +4.5) |
 
-- With the option off, the Markdown is byte-identical to stock Docling 2.140 on all 200 documents.
-- Partial outlines: with only the top level, nothing changes (0 of 200). With the deepest level
-  removed, the mean change is +0.3 (arXiv) and −0.4 (GitHub), but 3 GitHub documents lose 10–17
-  points: the removed level held a single heading, which the style check cannot tell from a false
-  header.
+- With the option off, the Markdown is byte-identical to stock Docling 2.140 on all 2,006 documents.
+- Better / same / worse with `text`: arXiv 328 / 429 / 39 (largest loss −4.2), GitHub 396 / 764 / 50.
+  The GitHub losses include a few large ones (−30, −24, −22) where the outline omits real headings
+  that the style check does not catch: repeated "Declaration" / "Usage" subsections under each
+  function, or short sibling headings such as "32 bit" / "64 bit".
+- Partial outlines: with only the top level, nothing changes (0 of 2,006). With the deepest level
+  removed, the mean change is +0.2 on arXiv (603 documents; 19 better, 7 worse) and −0.4 on GitHub
+  (1,195; 10 better, 61 worse).
+- Excluding the documents I looked at while designing the option (75 arXiv, 98 GitHub), the
+  results are the same: arXiv +5.6, GitHub +4.2.
 - Documents not used in the design: on 8 other arXiv papers (keys from their LaTeX source) the
   change is +4.4 TEDS with `text` and +5.5 with `title`, none worse. On 9 Canadian federal acts
   (keys from the official XML) the option does nothing: the layout model labels the marginal notes
@@ -62,25 +68,22 @@ which is usually the paper title (see question 2):
 - On all 84 PDFs in `tests/data`, the output with the option on is identical to off except for the
   2 files with multi-level outlines where it demotes headers (`elsevier-00`, `llncsdoc`).
 - Limits of this evidence: the thresholds and the font-face part of the style check were tuned
-  while looking at READoc documents, including these arXiv papers. I have not tested books or
-  reports yet.
+  while looking at READoc documents; the unseen sets above are the check on that.
 
 Scripts, document IDs and per-document scores: REPRO_LINK
 
 <details>
 <summary>What gets demoted, and the documents that got worse</summary>
 
-- arXiv: 68 headers in 57 papers. 57 are the paper title; in 56 of them the READoc answer key has
-  that title as the document title (`#`). Others: author lines, algorithm captions, "Properties:".
-- GitHub: 76 headers in 34 READMEs, for example "Say we set a role like so:", "Example:",
-  "IMPORTANT NOTICE:", "Table of Contents".
-- Worse with the option on: 2 arXiv papers by under 1 point (both lose the title; both are better
-  with `title`), and 6 READMEs, the largest −11.1, where a real section ("Including It In Your
-  Project") is missing from the outline.
-- `title` variant: on GitHub the only demoted first header was "IMPORTANT NOTICE:", which `title`
-  makes worse (−25 on that README). Requiring the first header to be on page 1 and no smaller than
-  any other header would keep it as `text`; with that check, our estimate is +7.9 on arXiv and +3.7
-  on GitHub (font sizes from a separate PDF parser, so approximate).
+- arXiv: 601 headers demoted in 448 papers; the first header (usually the paper title) in 439,
+  and READoc's answer key has that exact text as the document title (`#`) in at least 395 of them.
+  Others: author lines, algorithm captions, "Properties:".
+- GitHub: 1,003 headers demoted in 461 READMEs, for example "Say we set a role like so:",
+  "Example:", "IMPORTANT NOTICE:", "Table of Contents".
+- `title` variant: on GitHub a demoted first header is rarely a title (20 READMEs; `title` makes
+  them worse). Requiring the first header to be on page 1 and no smaller than any other header keeps
+  those as `text`; with that check, our estimate is +8.1 on arXiv and +4.2 on GitHub (font sizes from
+  a separate PDF parser, so approximate).
 - Runtime: the extra checks take about 0.01 s per document.
 
 </details>
@@ -88,7 +91,7 @@ Scripts, document IDs and per-document scores: REPRO_LINK
 ### Questions for maintainers
 
 1. Would you accept this as an opt-in option? Is `demote_unmatched_headings` a good name?
-2. A demoted first header is usually the paper title, and in 56 of 57 papers READoc's key marks it
+2. A demoted first header is usually the paper title, and in at least 395 of 439 papers READoc's key marks it
    as the title. Should it become `text` (the code today), or `title` when it is on page 1 and no
    smaller than any other header? #3957 says `TITLE` is collapsed into `SECTION_HEADER` on purpose,
    so I did not want to change that without asking. `title` also gives chunkers the document title

@@ -185,6 +185,36 @@ this file are from `97c09a7`; the recheck with `183f1dd` is in the next section.
 `elsevier-00`, those are no longer held out for the fixes; the Canadian acts were the blind test,
 and there the option did not engage.
 
+## All bookmarked READoc documents (24 Oct, code `183f1dd`)
+
+Every READoc PDF with >= 3 outline entries (pypdfium2) and headings in its answer key: 796 arXiv,
+1,210 GitHub (2,006; 173 of them in the development sample). The earlier 200 were reused (same
+code and settings). Output `.tmp/bookmark-recon/out-all/`; scorer `score_all.py`. All converted, no
+failures; one watchdog stop, retried.
+
+| Subset | n | off | on (`text`) | change (95% CI) | better / same / worse | on (`title`) | title + size check |
+|---|---|---|---|---|---|---|---|
+| arXiv | 796 | 49.5 | 55.1 | +5.55 (+4.96 to +6.15) | 328 / 429 / 39 | 57.9 (+8.42) | +8.06 |
+| arXiv, excl. development | 721 | 49.5 | 55.0 | +5.58 (+4.96 to +6.21) | 295 / 393 / 33 | 57.9 (+8.43) | |
+| GitHub | 1,210 | 75.4 | 79.6 | +4.15 (+3.64 to +4.67) | 396 / 764 / 50 | 79.4 (+4.02) | +4.16 |
+| GitHub, excl. development | 1,112 | 75.5 | 79.7 | +4.17 (+3.63 to +4.70) | 367 / 697 / 48 | 79.5 (+4.03) | |
+
+- OFF Markdown byte-identical to stock Docling 2.140 (18 Oct run) on 2,006 of 2,006.
+- Partial outlines, deepest level removed: arXiv +0.19 (603; 19 / 577 / 7), GitHub −0.40 (1,195;
+  10 / 1,124 / 61). Top level only: no change anywhere.
+- Demotions: arXiv 601 headers in 448 papers (first header in 439; the key has that text as the
+  `#` title in at least 395); GitHub 1,003 headers in 461 READMEs.
+- Worst losses: arXiv −4.2; GitHub −30.0, −24.4, −21.7. Causes: real headings the outline omits
+  and the style check misses (repeated "Declaration" / "Usage" subsections in an API README;
+  "32 bit" / "64 bit").
+- Same documents, every setting (Section Anything outputs from the latest saved runs; arXiv 721
+  documents with all settings saved, GitHub 1,210):
+
+| Subset | Docling | + option | + option, `title` | SA Free | SA Quick check | SA Standard |
+|---|---|---|---|---|---|---|
+| arXiv (721) | 49.5 | 55.0 | 57.9 | 54.5 | 64.1 | 71.0 |
+| GitHub (1,210) | 75.4 | 79.6 | 79.4 | 75.3 | 74.6 | 75.3 |
+
 ## More unseen documents (23 Oct): all Docling test PDFs and law books
 
 **All 84 PDFs in Docling's `tests/data`** (code `183f1dd`, option OFF vs ON in the same conversion):

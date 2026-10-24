@@ -66,8 +66,8 @@ Resolves #NNNN
 
 Behavior before and after:
 
-- Option off (the default): no change. The stage code path is the same, and on 200 real
-  PDFs the Markdown is byte-identical to stock Docling 2.140.
+- Option off (the default): no change. The stage code path is the same, and on 2,006 real
+  READoc PDFs the Markdown is byte-identical to stock Docling 2.140.
 - Option on: see the tables below.
 
 Tests (Python 3.11, macOS arm64, docling-core 2.102.0, docling-parse 7.22.3):
@@ -105,32 +105,33 @@ Settings: default `PdfPipelineOptions`, `generate_parsed_pages=True`,
 
 | READoc subset | n | off | on | mean change | 95% CI (bootstrap) | better / same / worse | Wilcoxon p |
 |---|---|---|---|---|---|---|---|
-| arXiv papers | 100 | 50.4 | 55.8 | +5.45 | +3.98 to +7.04 | 42 / 56 / 2 | 2.0e-08 |
-| GitHub READMEs | 100 | 75.7 | 79.4 | +3.69 | +2.07 to +5.37 | 27 / 67 / 6 | 2.3e-05 |
+| arXiv papers | 796 | 49.5 | 55.1 | +5.55 | +4.96 to +6.15 | 328 / 429 / 39 | 1.6e-55 |
+| GitHub READMEs | 1,210 | 75.4 | 79.6 | +4.15 | +3.64 to +4.67 | 396 / 764 / 50 | 4.8e-56 |
 
-Documents: READoc PDFs with at least 3 outline entries, 100 per subset, picked with a fixed seed.
-With the option off, the Markdown is byte-identical to stock Docling 2.140 on all 200 documents.
+Documents: every READoc PDF with at least 3 outline entries and headings in its answer key.
+With the option off, the Markdown is byte-identical to stock Docling 2.140 on all 2,006 documents.
 
 If a demoted first header becomes `title` instead of `text` (only when it is on page 1 and no
-smaller than any other header), our estimate is +7.9 on arXiv and +3.7 on GitHub.
+smaller than any other header), our estimate is +8.1 on arXiv and +4.2 on GitHub.
 
 Partial outlines (risk check). The outline is read only by this stage, so we ran the stage again
 on the same converted document with a reduced outline:
 
 | READoc subset | Outline | n | mean change (off → on) | 95% CI | better / same / worse |
 |---|---|---|---|---|---|
-| arXiv | deepest level removed | 69 | +0.29 | +0.01 to +0.64 | 4 / 65 / 0 |
-| arXiv | top level only | 100 | 0.00 | 0.00 to 0.00 | 0 / 100 / 0 |
-| GitHub | deepest level removed | 100 | −0.43 | −1.00 to 0.00 | 0 / 97 / 3 |
-| GitHub | top level only | 100 | 0.00 | 0.00 to 0.00 | 0 / 100 / 0 |
+| arXiv | deepest level removed | 603 | +0.19 | +0.08 to +0.31 | 19 / 577 / 7 |
+| arXiv | top level only | 796 | 0.00 | 0.00 to 0.00 | 0 / 796 / 0 |
+| GitHub | deepest level removed | 1,195 | −0.40 | −0.59 to −0.20 | 10 / 1,124 / 61 |
+| GitHub | top level only | 1,210 | 0.00 | 0.00 to 0.00 | 0 / 1,210 / 0 |
 
-The 3 GitHub losses (−10 to −17 points) have one cause: the removed level held a single heading,
-and the style check needs two headings to see a missing level.
+The GitHub losses come from removed levels that the style check cannot see: a level holding a
+single heading, or headings set like body text. With the full outline, 50 of 1,210 READMEs get worse,
+a few by 20–30 points (repeated "Declaration" / "Usage" subsections, "32 bit" / "64 bit").
 
 Notes:
 
 - On arXiv papers, the most common demotion is the paper title: a real title that the layout
-  model labels `section_header` (#3957). In 56 of 57 papers, READoc's answer key marks it as the
+  model labels `section_header` (#3957). In at least 395 of 439 papers, READoc's answer key marks it as the
   title. Other demotions: author lines, algorithm captions, and lead-ins such as "Properties:" or
   "Example:".
 - The thresholds and the font-face part of the style check were tuned while looking at READoc
