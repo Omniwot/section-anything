@@ -2,7 +2,8 @@
 
 Files:
 
-- `selection.json`: the 100 arXiv and 100 GitHub READoc document IDs (seed 20261021).
+- `selection.json`: the 796 arXiv and 1,210 GitHub READoc document IDs (every PDF with an outline of
+  at least 3 entries and headings in its answer key), and which of them were in our development sample.
 - `per_document_scores.csv`: heading-tree TEDS (×100) per document for each setting. Columns:
   `off`, `on` (demoted headers become `text`), `title` (a demoted first header becomes `title`),
   the same with the deepest outline level removed (`*_deep`) and with the top level only (`*_top`),
@@ -38,8 +39,8 @@ Settings: Docling 2.140.0 with the change (branch commits `97c09a7` and `183f1dd
 difference between `off` and `on`. Paired statistics: mean of per-document differences, 95%
 bootstrap CI (4,000 resamples, seed 0), better / same / worse at ±0.5 points, Wilcoxon signed-rank.
 
-Selection rule: READoc PDFs whose outline has at least 3 entries and whose answer key has headings,
-excluding the documents we used while developing the option; then `random.Random(20261021)` picks
-100 per subset (pools of 721 arXiv and 1,112 GitHub documents). Outline entries were counted with
-pypdfium2, so Docling's own outline depth differs for some documents (31 arXiv PDFs have a flat
-outline in Docling, where the option does nothing).
+Selection rule: every READoc PDF whose outline has at least 3 entries and whose answer key has
+headings (796 arXiv, 1,210 GitHub; 173 of them were in our development sample and are flagged).
+Outline entries were counted with pypdfium2, so Docling's own outline depth differs for some
+documents: Docling reads a flat outline in 193 arXiv and 15 GitHub PDFs, where the option does
+nothing.
