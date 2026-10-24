@@ -12,7 +12,9 @@ replace REPRO_LINK once the repo is public.
 **Status (22 Oct):** E1/E2 done on fresh documents (8 new arXiv papers, 9 Canadian acts with a
 pre-registered run, Docling's 3 test PDFs with outlines); two fixes committed (`183f1dd`, patch
 0002). See `results.md`, "Fresh documents". READoc re-run with `183f1dd` done (arXiv +5.4 / +8.4 with
-`title`, GitHub unchanged). Open: E4 (reports, books).
+`title`, GitHub unchanged). 23 Oct: all 84 Docling test PDFs (only the 2 multi-level-outline
+files change) and 11 unseen HiPS law books (pre-registered; acts in 1, no section heading
+demoted). Open: government and corporate reports.
 
 ## What maintainers ask for
 

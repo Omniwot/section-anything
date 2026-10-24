@@ -54,6 +54,11 @@ which is usually the paper title (see question 2):
   (keys from the official XML) the option does nothing: the layout model labels the marginal notes
   as section headers, so far fewer than half of the headers match a bookmark and the completeness
   check stops it. That run was pre-registered (code, keys and metrics fixed before any output).
+- On 11 law books whose keys include headings the bookmarks omit
+  ([HiPS](https://arxiv.org/abs/2509.00909), also pre-registered), it acts in 1 book, demotes no
+  section heading, and changes nothing in the other 10.
+- On all 84 PDFs in `tests/data`, the output with the option on is identical to off except for the
+  2 files with multi-level outlines where it demotes headers (`elsevier-00`, `llncsdoc`).
 - Limits of this evidence: the thresholds and the font-face part of the style check were tuned
   while looking at READoc documents, including these arXiv papers. I have not tested books or
   reports yet.
