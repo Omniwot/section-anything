@@ -221,6 +221,32 @@ converted: the laptop's swap guard stopped Docling 4 times. Results on the other
 - Reading: on books with printed tables of contents and annotator-added headings, the option is
   safe but rarely engages; its gains are on papers and READMEs.
 
+**UK government reports (gov.uk, pre-registered, 24 Oct).** gov.uk publishes many reports twice: an
+HTML version with real heading tags and a PDF of the same document (Open Government Licence v3). The
+key is the HTML's h2–h6 headings, so it does not come from the PDF bookmarks, which often stop at the
+top levels. Pool: `corporate_report` (annual reports of government bodies), `independent_report` and
+`research` items with one HTML and one same-title PDF. Selection: seed 20261024; <= 200 pages,
+>= 2 outline levels, >= 5 HTML headings, and the HTML is the same document (>= 80% of its headings in
+the PDF text, >= 50% of the PDF's words); 15 reports (4 corporate, 11 independent; 709 pages). Many
+gov.uk PDFs have no bookmarks and were skipped by the rule. Plan, keys and scorer:
+`.tmp/reports-unseen/PREREGISTRATION.md`.
+
+| Metric (15 reports) | OFF | ON | Change (95% CI) | better / same / worse |
+|---|---|---|---|---|
+| Heading F1 (level-free) | 77.6 | 79.3 | **+1.7** (+0.3 to +3.5) | 5 / 9 / 1 |
+| Precision | 73.9 | 77.2 | +3.3 (+0.7 to +6.6) | 5 / 10 / 0 |
+| Recall | 88.5 | 88.3 | −0.2 (−0.7 to 0.0) | 0 / 14 / 1 |
+| Heading-tree TEDS | 57.6 | 59.6 | +1.9 (−0.3 to +5.0) | 3 / 11 / 1 |
+| Deepest outline level removed, F1 | 77.7 | 77.8 | +0.1 | 1 / 14 / 0 |
+| Top level only, F1 | 81.9 | 81.9 | 0.0 | 0 / 15 / 0 |
+
+- The option acted in 6 of 15 reports (18 headers demoted). Largest gains: r010 TEDS 54.3 → 71.0,
+  r037 42.6 → 54.6.
+- Wrong demotions: 2 of 18, both in one report (r011): "Definitions" and "Co-opted Working Group
+  members", real sections that the PDF outline omits (the known single-omitted-heading limit);
+  r011 TEDS 91.2 → 86.2.
+- The document-title variant is not scored here: the HTML key has no title (it is the page's h1).
+
 ## Recheck of READoc with the fixes (`183f1dd`, 22 Oct)
 
 All 200 READoc documents converted again (output `.tmp/bookmark-recon/out-183f1dd/`), same
@@ -325,8 +351,9 @@ changed files.
   documents (all bookmarked READoc documents went through the design simulations); the face check
   was added after seeing these 100 arXiv papers. Fresh documents (above): 8 new papers agree
   (+4.4 / +5.5); on 9 Canadian acts the option does not engage; on 11 unseen law books (HiPS) it
-  engages in 1, demotes no section heading, and changes nothing in the other 10. Government and
-  corporate reports are still untested.
+  engages in 1, demotes no section heading, and changes nothing in the other 10; on 15 unseen UK
+  government reports (keys from their HTML versions) heading F1 rises +1.7 (+0.3 to +3.5), with 2
+  wrong demotions in one report.
 - **Legislation with marginal notes.** When the layout model labels marginal notes as headers, far
   fewer than half of the headers can match a bookmark, so the option does nothing there.
 - **Single omitted heading.** When the outline omits a level that holds only one heading, that

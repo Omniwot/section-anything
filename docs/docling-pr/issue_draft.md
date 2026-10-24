@@ -56,7 +56,9 @@ which is usually the paper title (see question 2):
   check stops it. That run was pre-registered (code, keys and metrics fixed before any output).
 - On 11 law books whose keys include headings the bookmarks omit
   ([HiPS](https://arxiv.org/abs/2509.00909), also pre-registered), it acts in 1 book, demotes no
-  section heading, and changes nothing in the other 10.
+  section heading, and changes nothing in the other 10. On 15 UK government reports (keys from
+  their HTML versions, pre-registered), heading F1 rises +1.7 (95% CI +0.3 to +3.5); 2 of 18
+  demotions were real sections the outline omits, both in one report.
 - On all 84 PDFs in `tests/data`, the output with the option on is identical to off except for the
   2 files with multi-level outlines where it demotes headers (`elsevier-00`, `llncsdoc`).
 - Limits of this evidence: the thresholds and the font-face part of the style check were tuned

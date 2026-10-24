@@ -14,7 +14,8 @@ pre-registered run, Docling's 3 test PDFs with outlines); two fixes committed (`
 0002). See `results.md`, "Fresh documents". READoc re-run with `183f1dd` done (arXiv +5.4 / +8.4 with
 `title`, GitHub unchanged). 23 Oct: all 84 Docling test PDFs (only the 2 multi-level-outline
 files change) and 11 unseen HiPS law books (pre-registered; acts in 1, no section heading
-demoted). Open: government and corporate reports.
+demoted); 24 Oct: 15 unseen UK government reports (pre-registered; F1 +1.7, 2 wrong
+demotions in one report). E4 done.
 
 ## What maintainers ask for
 
