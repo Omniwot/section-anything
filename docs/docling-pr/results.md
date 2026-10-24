@@ -185,6 +185,42 @@ this file are from `97c09a7`; the recheck with `183f1dd` is in the next section.
 `elsevier-00`, those are no longer held out for the fixes; the Canadian acts were the blind test,
 and there the option did not engage.
 
+## More unseen documents (23 Oct): all Docling test PDFs and law books
+
+**All 84 PDFs in Docling's `tests/data`** (code `183f1dd`, option OFF vs ON in the same conversion):
+83 converted (the password-protected `2206.01062_pg3.pdf` fails as expected). ON output is
+byte-identical to OFF in 81; the 2 that change are the multi-level-outline files where the option
+acts: `elsevier-00` (journal name and the letter-spaced "A R T I C L E I N F O" label demoted) and
+`llncsdoc` (title and a stray `\spnewtheorem` line). `bookmark_sample` is unchanged. Docling reads
+no outline in 77 files, a flat outline in 3, and 2 or 3 levels in 3.
+
+**Law books (HiPS, pre-registered).** HiPS (Wehnert, Changaramkulath, Habernal 2026,
+[arXiv 2509.00909](https://arxiv.org/abs/2509.00909)): 49 open-access law books whose keys start
+from the outline and were then corrected by an annotator, who added the headings the outline omits.
+That is the option's main risk (real headings missing from the bookmarks), plus printed tables of
+contents. 11 books in our own corpus were excluded; 12 were sampled (seed 20261023, <= 400 pages,
+>= 2 outline levels; 2,958 pages). The plan, keys and scorer were fixed before any output
+(`.tmp/hips-unseen/PREREGISTRATION.md`). One book (`the-regulation-of-megabanks…`) could not be
+converted: the laptop's swap guard stopped Docling 4 times. Results on the other 11:
+
+| Metric | OFF | ON | Change | better / same / worse |
+|---|---|---|---|---|
+| Heading F1 (level-free) | 67.4 | 67.5 | +0.1 (+0.0 to +0.2) | 1 / 10 / 0 |
+| Heading-tree TEDS (`text`) | 73.7 | 73.7 | +0.0 | 1 / 10 / 0 |
+| Deepest outline level removed, F1 | 67.4 | 67.4 | 0.0 | 0 / 11 / 0 |
+| Top level only, F1 | 67.4 | 67.4 | 0.0 | 0 / 11 / 0 |
+
+- The option acted in 1 of 11 books (The Future of the Law of the Sea): 5 headers demoted; F1
+  98.4 → 99.2, TEDS 96.7 → 97.2 (`text`) and 97.8 (`title`). The only demoted key heading is the
+  book title, which the TITLE variant keeps. No section heading was demoted in any book.
+- In the other 10 books the completeness checks found the outline incomplete and changed nothing.
+- Scoring flaw, reported as found: the pre-registered TITLE score (−0.9 TEDS, 1 / 5 / 5) scores
+  every book against a key whose first entry is `#`, including the 10 books where nothing was
+  demoted and Docling keeps the book title as `##`. That artefact causes the drop; on the one book
+  where the option acted, TITLE is +1.1.
+- Reading: on books with printed tables of contents and annotator-added headings, the option is
+  safe but rarely engages; its gains are on papers and READMEs.
+
 ## Recheck of READoc with the fixes (`183f1dd`, 22 Oct)
 
 All 200 READoc documents converted again (output `.tmp/bookmark-recon/out-183f1dd/`), same
@@ -288,8 +324,9 @@ changed files.
 - **Post-hoc tuning.** The thresholds and the font-face check were chosen while looking at READoc
   documents (all bookmarked READoc documents went through the design simulations); the face check
   was added after seeing these 100 arXiv papers. Fresh documents (above): 8 new papers agree
-  (+4.4 / +5.5); on 9 Canadian acts the option does not engage. Reports and books are still to do
-  (review item E4).
+  (+4.4 / +5.5); on 9 Canadian acts the option does not engage; on 11 unseen law books (HiPS) it
+  engages in 1, demotes no section heading, and changes nothing in the other 10. Government and
+  corporate reports are still untested.
 - **Legislation with marginal notes.** When the layout model labels marginal notes as headers, far
   fewer than half of the headers can match a bookmark, so the option does nothing there.
 - **Single omitted heading.** When the outline omits a level that holds only one heading, that
