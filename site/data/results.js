@@ -3,7 +3,7 @@
 // public repo as benchmarks/) unless marked "published".
 window.SA_DATA = {
   updated: "2026-10-25",
-  repoUrl: "",          // fill in at launch; empty hides repo links
+  repoUrl: "https://github.com/Omniwot/section-anything",
   appUrl: "",           // the demo app's address; empty hides the "Try it" buttons
   tryIt: {
     intro: "Sign in to the demo, upload a PDF and pick Quick check or Standard with \"Your local model\". " +
@@ -73,7 +73,7 @@ window.SA_DATA = {
         { system: "Section Anything Free (no model)", arxiv: 51.3, github: 75.0, ours: true },
         { system: "Docling 2.140 (heading hierarchy on)", arxiv: 49.3, github: 75.0 }
       ],
-      note: "All documents with headings in READoc's arXiv and GitHub sets. On the 1,124 GitHub READMEs not used during development, every setting ties with Docling (Standard +0.3, 95% CI -0.9 to +1.6). Our heading text matches the answer key more closely on READMEs (edit similarity 77.8 vs 73.9)."
+      note: "All documents with headings in READoc's arXiv and GitHub sets. On the 1,124 GitHub READMEs not used during development, every setting ties with Docling (Standard +0.3, 95% CI -0.9 to +1.6). Our heading text matches the answer key more closely on READMEs (edit similarity 77.8 vs 73.9). Free here was measured before the outline check (shipped 25 Oct): with it, Free scores 54.8 on 905 held-out papers (52.0 before) and 81.9 vs Docling 75.5 on 1,112 bookmarked held-out READMEs."
     },
     published: {
       title: "Published READoc results (older tool versions, from the READoc paper)",
@@ -133,13 +133,14 @@ window.SA_DATA = {
     { name: "LightRAG", status: "built, not yet released",
       detail: "A parser plugin: engines sectionany_free, sectionany_quick, sectionany_standard and sectionany_local write LightRAG's .blocks.jsonl, so its heading-aware chunker works on PDFs without a MinerU or Docling service." },
     { name: "RAG-Anything", status: "planned", detail: "Converter to its content-list format." },
-    { name: "Docling", status: "planned", detail: "A post-processor, and a proposed bookmark-reconciliation improvement upstream." },
+    { name: "Docling", status: "proposed upstream", detail: "An opt-in option that demotes headers a complete PDF outline does not list: +5.6 TEDS on 796 bookmarked READoc papers, +4.2 on 1,210 READMEs. Issue docling-project/docling#5002 (open)." },
     { name: "LlamaIndex / LangChain", status: "planned", detail: "Markdown with correct heading levels works with their Markdown header splitters." }
   ],
   limitations: [
     "Scanned PDFs need OCR first; Section Anything reads the PDF's text layer.",
     "Quick check and Standard send text to the model provider you configure (or to a local model with Ollama).",
     "Every paid run has a hard cost cap per document; models without a known price are refused.",
+    "Free drops headings that a complete-looking PDF outline does not list; when the bookmarks stop at the top levels, real deeper headings are lost (about 6% of READMEs lose more than 5 points). SECTIONANY_DEMOTE_UNLISTED_HEADINGS='[]' turns this off.",
     "Results above are from October 2026 versions of every tool."
   ]
 };
