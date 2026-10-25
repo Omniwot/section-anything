@@ -82,8 +82,12 @@ class Settings(BaseSettings):
 
     # Outline check: in these modes, drop sections the PDF's bookmarks do not list when the
     # outline looks complete (`section_anything.outline_check`). "quick" also covers local mode.
-    # Env: JSON list, e.g. SECTIONANY_DEMOTE_UNLISTED_HEADINGS='["free"]'. Off until measured.
-    demote_unlisted_headings: list[Literal["free", "quick", "standard"]] = Field(default_factory=list)
+    # Env: JSON list, e.g. SECTIONANY_DEMOTE_UNLISTED_HEADINGS='[]' to turn it off. On for "free" by
+    # default: held-out READoc +3.5 TEDS on papers and +6.1 on READMEs (research finding F012); for
+    # quick and standard the gain was nil or marginal.
+    demote_unlisted_headings: list[Literal["free", "quick", "standard"]] = Field(
+        default_factory=lambda: ["free"]
+    )
 
     # Model calls.
     llm_timeout_seconds: float = Field(default=300.0, gt=0)

@@ -149,9 +149,11 @@ def test_no_outline_changes_nothing():
 
 
 def test_setting_reads_modes_from_the_environment(monkeypatch):
-    assert Settings().demote_unlisted_headings == []
+    assert Settings().demote_unlisted_headings == ["free"]
     monkeypatch.setenv("SECTIONANY_DEMOTE_UNLISTED_HEADINGS", '["free", "standard"]')
     assert Settings().demote_unlisted_headings == ["free", "standard"]
+    monkeypatch.setenv("SECTIONANY_DEMOTE_UNLISTED_HEADINGS", "[]")
+    assert Settings().demote_unlisted_headings == []
 
 
 def test_pipeline_applies_the_check_only_in_the_chosen_modes():
