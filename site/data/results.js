@@ -6,16 +6,16 @@ window.SA_DATA = {
   repoUrl: "https://github.com/Omniwot/section-anything",
   appUrl: "",           // the demo app's address; empty hides the "Try it" buttons
   tryIt: {
-    intro: "The demo app is not online yet. The library and command line work today: install from GitHub (Python 3.11 or newer) and run it on your own PDFs.",
+    intro: "The demo app is not online yet. The library and command line work today: install from PyPI (Python 3.11 or newer) and run it on your own PDFs.",
     steps: [
-      "Install: pip install \"git+https://github.com/Omniwot/section-anything#subdirectory=packages/section-anything\"",
+      "Install: pip install section-anything (latest from GitHub: pip install \"git+https://github.com/Omniwot/section-anything#subdirectory=packages/section-anything\")",
       "Free mode, no model and no key: section-anything paper.pdf",
       "Quick check with a model: set SECTIONANY_API_KEY (or OPENAI_API_KEY), then section-anything paper.pdf --mode quick --max-usd 0.5",
       "Fully local: install Ollama and a small model (for example ollama pull qwen3:4b), then section-anything paper.pdf --mode local:qwen3:4b"
     ],
     privacy: "Free and local modes send nothing anywhere. Quick check and Standard send text to the model provider you configure, with a hard cost cap per document."
   },
-  status: "Pre-release. Not yet on PyPI.",
+  status: "Pre-release (0.1). The API may change before 1.0.",
   modes: [
     { id: "free", name: "Free", model: "none", sends: "nothing leaves your machine",
       how: "PDF bookmarks or the printed table of contents as the skeleton, then typography and numbering rules for the rest.",

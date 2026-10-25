@@ -34,6 +34,11 @@ dependencies = [
     "pydantic-settings>=2.6",
 ]
 
+[project.urls]
+Homepage = "https://omniwot.github.io/section-anything/"
+Repository = "https://github.com/Omniwot/section-anything"
+Issues = "https://github.com/Omniwot/section-anything/issues"
+
 [project.optional-dependencies]
 langfuse = ["langfuse>=2.57"]
 test = ["pytest>=8"]

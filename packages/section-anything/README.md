@@ -1,6 +1,6 @@
 # section-anything
 
-> **Pre-release (0.1).** Not yet published on PyPI. The API may change before 1.0.
+> **Pre-release (0.1).** The API may change before 1.0.
 
 Find the sections of a PDF: every heading, its level, the pages it spans and its exact
 character range in the extracted text. One call, with a dial from free rules to an LLM that
@@ -23,11 +23,15 @@ print(tree.summary())  # mode, model, pages, sections, calls, tokens, cost_usd, 
 
 ## Install
 
-From a checkout of the repository (Python 3.11+):
+Python 3.11+:
 
 ```sh
-pip install ./packages/section-anything            # or: pip install -e ./packages/section-anything
-pip install "./packages/section-anything[langfuse]"  # optional Langfuse tracing
+pip install section-anything
+pip install "section-anything[langfuse]"  # optional Langfuse tracing
+# latest from GitHub:
+pip install "git+https://github.com/Omniwot/section-anything#subdirectory=packages/section-anything"
+# from a checkout of the repository:
+pip install -e ./packages/section-anything
 ```
 
 Dependencies: pdfplumber and pdfminer.six (MIT), pypdfium2 (Apache-2.0 / BSD-3-Clause),

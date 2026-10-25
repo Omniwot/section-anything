@@ -4,7 +4,7 @@ Find the real sections of a PDF: every heading, its level, the pages it spans an
 under it. Built for RAG pipelines and document tools that need structure, with a dial from free
 rules to an LLM that reads the whole document, and a hard cost cap on every paid run.
 
-> **Pre-release (0.1).** Not on PyPI yet; install from this repository. The API may change before 1.0.
+> **Pre-release (0.1).** The API may change before 1.0.
 
 **Website:** https://omniwot.github.io/section-anything/ (how it works, benchmarks, examples)
 
@@ -71,6 +71,9 @@ downgrades (standard → quick → free) or fails, as you choose.
 Python 3.11 or newer:
 
 ```sh
+pip install section-anything
+pip install "section-anything[langfuse]"  # optional Langfuse tracing
+# latest from GitHub:
 pip install "git+https://github.com/Omniwot/section-anything#subdirectory=packages/section-anything"
 ```
 
