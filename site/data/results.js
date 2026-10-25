@@ -2,7 +2,7 @@
 // Every number below was measured with the scripts in hustles/.tmp/readoc-pilot (to be moved into the
 // public repo as benchmarks/) unless marked "published".
 window.SA_DATA = {
-  updated: "2026-10-21",
+  updated: "2026-10-25",
   repoUrl: "",          // fill in at launch; empty hides repo links
   appUrl: "",           // the demo app's address; empty hides the "Try it" buttons
   tryIt: {
@@ -88,7 +88,7 @@ window.SA_DATA = {
     }
   },
   where_others_win: [
-    "Docling scores higher than us on GitHub READMEs in the 200-document sample (73.2 vs 71.3).",
+    "On GitHub READMEs our quick and standard only tie with Docling (about 75); free with the outline check (25 Oct) leads, 81.9 vs Docling 75.5 on 1,112 bookmarked READMEs not used in development.",
     "MinerU's own LLM step on a stronger model comes within about 4.4 points of our Standard on held-out arXiv papers (67.2 vs 71.6), and is level with it on the 200-document sample (69.3 vs 69.5).",
     "Nougat, an OCR model trained on arXiv, scores far higher on arXiv papers (88.5, published).",
     "Free mode depends on PDF bookmarks: without them it is weaker than Docling on papers."

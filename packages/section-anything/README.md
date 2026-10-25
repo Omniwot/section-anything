@@ -37,7 +37,7 @@ RapidFuzz (MIT), openai (Apache-2.0), pydantic and pydantic-settings (MIT). No P
 
 | Mode | What runs | Sent to a model | Cost per 1,000 pages |
 |---|---|---|---|
-| `free` (default) | PDF bookmarks or the printed table of contents as the outline, then typography and numbering rules | nothing | $0 |
+| `free` (default) | PDF bookmarks or the printed table of contents as the outline, then typography and numbering rules; headings a complete-looking outline does not list are dropped | nothing | $0 |
 | `quick` | the rules propose candidate heading lines; a small model keeps the real ones and sets levels | candidate lines and a 70-character peek at the next line | about $0.07 (`gpt-6-luna`) |
 | `standard` | a model reads every line, with font hints, and marks where sections start and end | the document text | about $0.16 (`gpt-6-luna`), $2.90 (`gpt-6.1-sol`, the default) |
 | `local:<model>` | `quick`, answered by a local [Ollama](https://ollama.com) model | nothing leaves the machine | $0 |
@@ -93,6 +93,7 @@ Arguments win over the environment. **No `.env` file is read, and nothing is eve
 | `SECTIONANY_MAX_USD_PER_DOC` / `max_usd=` | `0.50` | hard per-document cap |
 | `SECTIONANY_OVER_BUDGET` / `over_budget=` | `downgrade` | or `fail` |
 | `SECTIONANY_MAX_PAGES`, `SECTIONANY_MAX_CHARS`, `SECTIONANY_MAX_MB` | 500, 5,000,000, 100 | refused above these |
+| `SECTIONANY_DEMOTE_UNLISTED_HEADINGS` / `demote_unlisted_headings=` | `["free"]` | modes in which sections that a complete-looking PDF outline does not list are dropped (JSON list; `[]` turns it off) |
 | `SECTIONANY_EXTRACT_TIMEOUT_SECONDS` / `extract_timeout=` | 120 | extraction worker is killed after this |
 | `SECTIONANY_EXTRACT_MEMORY_MB` | 4096 | worker memory limit (Linux only; 0 = none) |
 | `SECTIONANY_ISOLATE_EXTRACTION` | `true` | run extraction in a separate process |
@@ -143,15 +144,15 @@ project site in `site/`) and `corpus/results/`.
 |---|---|---|
 | Section Anything `standard` (gpt-6-luna) | 905 | **70.0** |
 | Section Anything `quick` (gpt-6-luna) | 905 | 63.9 |
-| Section Anything `free` | 905 | 52.0 |
+| Section Anything `free` | 905 | 54.8 |
 | Docling 2.140 (heading hierarchy on) | 905 | 49.4 |
 
 On the 313 of those papers that MinerU's cloud service had processed: our `standard` 71.6,
 MinerU + its LLM title levels (gpt-6.1-sol) 67.2 (+4.4 for us, 95% CI 2.5 to 6.4), our `quick`
 66.1, MinerU cloud alone 57.3, Docling 49.2.
 
-Where others win: on GitHub READMEs (READoc sample, 100 documents) Docling scores 73.2 against
-our 71.3 (`standard`) and 71.5 (`free`); Nougat, an OCR model trained on arXiv, scores far higher
+On 1,112 bookmarked READoc GitHub READMEs not used in development, `free` scores 81.9 against
+Docling's 75.5. Where others win: our `quick` and `standard` only tie with Docling on READMEs (about 75); Nougat, an OCR model trained on arXiv, scores far higher
 on arXiv papers (88.5, published).
 
 ## Limitations
@@ -159,7 +160,9 @@ on arXiv papers (88.5, published).
 - Reads the PDF's text layer. Scanned PDFs need OCR first.
 - Tables, figures and equations are not structured; their text is part of the section text.
 - `free` relies on bookmarks or a printed table of contents for its best results; without them it
-  is weaker than `quick` on papers.
+  is weaker than `quick` on papers. When the bookmarks look complete it drops headings they do not
+  list, so bookmarks that stop at the top levels lose real deeper headings (about 6% of READMEs
+  lose more than 5 points); set `SECTIONANY_DEMOTE_UNLISTED_HEADINGS='[]'` to turn this off.
 - `quick` and `standard` send text to the provider you configure; results vary slightly between
   runs.
 - `local` uses Ollama's OpenAI-compatible endpoint, whose default context is small (4k tokens on
