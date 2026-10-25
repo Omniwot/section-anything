@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use Section Anything or its benchmark results, please cite it as below."
+title: "Section Anything: PDF section and heading-hierarchy extraction"
+type: software
+authors:
+  - alias: Omniwot
+version: 0.1.0
+license: Apache-2.0
+repository-code: "https://github.com/Omniwot/section-anything"
+abstract: >-
+  A Python library that finds the sections of a PDF (headings, levels, page spans and text
+  ranges) using the PDF outline, typography and numbering rules, and optionally an LLM, with a
+  hard cost cap. Benchmarked on READoc with READoc's own heading-tree TEDS.
+keywords:
+  - PDF
+  - document structure
+  - heading hierarchy
+  - RAG
+  - chunking
+references:
+  - type: article
+    title: "READoc: A Unified Benchmark for Realistic Document Structured Extraction"
+    url: "https://arxiv.org/abs/2409.05137"
+    authors:
+      - name: "The READoc authors"
+  - type: article
+    title: "HiPS: Hierarchical PDF Segmentation of Doctrinal Legal Books"
+    url: "https://arxiv.org/abs/2509.00909"
+    authors:
+      - family-names: Wehnert
+        given-names: Sabine
+      - family-names: Changaramkulath
+        given-names: Harikrishnan
+      - family-names: Habernal
+        given-names: Ivan

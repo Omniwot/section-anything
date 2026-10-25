@@ -12,7 +12,8 @@ SHA-256, and `corpus/tools/` fetches or regenerates them.
   may only be used non-commercially, with attribution.
 - Wikipedia-derived keys are CC BY-SA 4.0 (attribution, share-alike).
 - GFDL manuals: GNU Free Documentation License 1.3.
-- Run outputs quote short passages (section titles and boundary markers) from the documents.
+- Run outputs quote short passages (section titles and boundary markers) from the documents;
+  each quoted string is cut to at most 120 characters.
 - OpenStax textbooks are not included: OpenStax's terms forbid using its books with generative AI
   without written permission, so their keys and results were removed before publication.
 - READoc evaluation data used in `docs/docling-pr/` comes from the READoc dataset (MIT,

@@ -111,6 +111,17 @@ LightRAG's heading-based chunker works on PDFs without a MinerU or Docling servi
 | `corpus/` | our test corpus: answer keys, results and the tools that rebuild it (no PDFs stored) |
 | `docs/` | write-ups: [RAG on Qasper](docs/rag-qasper.md), [the Docling contribution](docs/docling-pr/), plans and a paper draft |
 
+## Data and credits
+
+- Benchmarks use [READoc](https://arxiv.org/abs/2409.05137) (dataset MIT,
+  [Hugging Face](https://huggingface.co/datasets/lazyc/READoc)) with READoc's own scoring code,
+  which is not included here.
+- Unseen-document checks use [HiPS](https://arxiv.org/abs/2509.00909) law-book annotations
+  (CC BY-NC 4.0), UK government reports (Open Government Licence v3) and Canadian federal acts
+  (Justice Laws website).
+- Every corpus source and its licence: [`corpus/DATA-LICENSES.md`](corpus/DATA-LICENSES.md).
+- To cite this project, see [`CITATION.cff`](CITATION.cff).
+
 ## Licence
 
 Code: Apache-2.0 (`LICENSE`, `NOTICE`). The data under `corpus/` keeps its sources' licences: see
