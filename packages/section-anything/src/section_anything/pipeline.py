@@ -33,6 +33,7 @@ from section_anything.config import Settings
 from section_anything.extract import Extraction
 from section_anything.llm import Usage
 from section_anything.markers import Locator, canon
+from section_anything.outline_check import demote_unlisted_headings
 from section_anything.strategies.base import Context, RawSection, Strategy
 from section_anything.strategies.llm_text import LlmReviewStrategy, LlmTextStrategy
 from section_anything.strategies.rules import RulesStrategy
@@ -43,6 +44,7 @@ FRONT_MATTER_MIN_CHARS = 300
 # Ordered cheapest → most thorough: free, quick, standard.
 STRATEGIES: list[Strategy] = [RulesStrategy(), LlmReviewStrategy(), LlmTextStrategy()]
 BY_ID = {s.id: s for s in STRATEGIES}
+MODE_OF = {"rules": "free", "llm_review": "quick", "llm_text": "standard"}  # setting names
 
 
 def _line_starts(ext: Extraction) -> list[int]:
@@ -232,6 +234,12 @@ async def run(
     raw = await strategy.run(ext, ctx)
     sections, extra = resolve(raw, ext, Locator(ext.text))
     mark_doc_title(sections, ext)
+    if MODE_OF.get(strategy_id) in (settings or Settings()).demote_unlisted_headings:
+        # Free's extra sections come from typography rules: the strict checks would measure their
+        # noise, not the outline (see outline_check).
+        check = demote_unlisted_headings(sections, ext, strict=strategy.uses_llm)
+        sections = check.sections
+        extra["outline_check"] = check.summary()
     return raw, sections, metrics(sections, ext, usage, time.monotonic() - t0, extra)
 
 
