@@ -17,6 +17,9 @@ files change) and 11 unseen HiPS law books (pre-registered; acts in 1, no sectio
 demoted); 24 Oct: 15 unseen UK government reports (pre-registered; F1 +1.7, 2 wrong
 demotions in one report). E4 done.
 
+**Posted (25 Oct 2026):** issue #5002 (https://github.com/docling-project/docling/issues/5002).
+Next: wait for a maintainer reply (about 7 days, to about 1 Nov), then the PR steps below.
+
 ## What maintainers ask for
 
 - **Issue first** for features. #3676 came before #3688. #4472 and #4473 were opened on the same

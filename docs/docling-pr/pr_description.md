@@ -6,8 +6,7 @@
 
 ---
 
-<!-- Open only after a maintainer replies to the issue. Replace #NNNN with the issue number and
-REPRO_LINK with the public link to docs/docling-pr/repro/. Update the text for the label the
+<!-- Open only after a maintainer replies to the issue. Issue: #5002. REPRO_LINK = https://github.com/Omniwot/section-anything/tree/main/docs/docling-pr/attachments/docling-demote-unmatched-evidence. Update the text for the label the
 maintainers choose (`text` or `title`, issue question 2). -->
 
 This PR adds an opt-in option to the heading-hierarchy stage:
@@ -31,7 +30,7 @@ model misses, and this option removes false headings when the bookmarks show tha
 headings.
 
 **Issue resolved by this Pull Request:**
-Resolves #NNNN
+Resolves #5002
 
 ### Changes
 
@@ -142,4 +141,4 @@ Notes:
 - Conflicts: #4169 changes the same file (`_infer_from_bookmarks`). This PR does not change
   `_infer_from_bookmarks`.
 
-Scripts, document IDs and per-document scores: REPRO_LINK
+Scripts, document IDs and per-document scores: https://github.com/Omniwot/section-anything/tree/main/docs/docling-pr/attachments/docling-demote-unmatched-evidence

@@ -1,4 +1,4 @@
-# Issue draft (not posted)
+# Issue (posted 25 Oct 2026 as docling-project/docling#5002)
 
 **Title:** Opt-in: demote section headers that a complete PDF outline does not list
 
