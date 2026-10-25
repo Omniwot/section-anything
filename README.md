@@ -45,6 +45,8 @@ alone 57.3, Docling 49.2.
 On GitHub READMEs, `free` leads: on 1,112 bookmarked READMEs not used in development it scores
 81.9 against Docling's 75.5 (79.7 with the change we proposed upstream,
 [docling#5002](https://github.com/docling-project/docling/issues/5002)).
+On 27 UK government reports never used in development (answer keys from each report's HTML
+version), the outline check improved `free` by +5.7 (95% CI +0.4 to +12.2; 43.1 → 48.8).
 
 **Where others win:** on READMEs our `quick` and `standard` only tie with Docling (about 75). Nougat,
 an OCR model trained on arXiv, scores far higher on arXiv papers (88.5, published). Better headings improved RAG retrieval in our

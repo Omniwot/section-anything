@@ -152,7 +152,9 @@ MinerU + its LLM title levels (gpt-6.1-sol) 67.2 (+4.4 for us, 95% CI 2.5 to 6.4
 66.1, MinerU cloud alone 57.3, Docling 49.2.
 
 On 1,112 bookmarked READoc GitHub READMEs not used in development, `free` scores 81.9 against
-Docling's 75.5. Where others win: our `quick` and `standard` only tie with Docling on READMEs (about 75); Nougat, an OCR model trained on arXiv, scores far higher
+Docling's 75.5. On 27 UK government reports never used in development (answer keys from each report's HTML version), the outline check improved `free` by +5.7 (95% CI +0.4 to +12.2; 43.1 → 48.8).
+
+Where others win: our `quick` and `standard` only tie with Docling on READMEs (about 75); Nougat, an OCR model trained on arXiv, scores far higher
 on arXiv papers (88.5, published).
 
 ## Limitations
