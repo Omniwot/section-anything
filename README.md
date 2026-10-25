@@ -6,6 +6,8 @@ rules to an LLM that reads the whole document, and a hard cost cap on every paid
 
 > **Pre-release (0.1).** Not on PyPI yet; install from this repository. The API may change before 1.0.
 
+**Website:** https://omniwot.github.io/section-anything/ (how it works, benchmarks, examples)
+
 ```python
 import section_anything
 
