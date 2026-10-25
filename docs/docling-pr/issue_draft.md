@@ -4,8 +4,7 @@
 
 **Labels (suggested):** enhancement
 
-<!-- Before posting: attach attachments/docling-demote-unmatched-evidence.zip (drag it into the issue box);
-replace SECTION_ANYTHING_LINK with the repo link, or delete the link if the repo is still private. -->
+<!-- Evidence is linked from the public repo; attaching the zip is optional. -->
 
 ---
 
@@ -23,7 +22,7 @@ replace SECTION_ANYTHING_LINK with the repo link, or delete the link if the repo
 ### How I found it
 
 I was benchmarking a PDF heading library I'm building
-([Section Anything](SECTION_ANYTHING_LINK)) against Docling on
+([Section Anything](https://github.com/Omniwot/section-anything)) against Docling on
 [READoc](https://arxiv.org/abs/2409.05137). Its rule-based mode, which uses the PDF outline as the
 skeleton, beat Docling on READoc's arXiv papers only when the PDF had an outline: 56.4 vs 48.9 with
 one, 42.3 vs 46.7 without. Docling already reads the outline, but only to set levels for headers
@@ -126,8 +125,9 @@ before any output existed.
 
 </details>
 
-**Attached:** `docling-demote-unmatched-evidence.zip`: document IDs, per-document scores (off, on,
-`title`, reduced outlines), the conversion and scoring scripts, and the example above. READoc's
+**Evidence:** [docs/docling-pr/attachments/docling-demote-unmatched-evidence](https://github.com/Omniwot/section-anything/tree/main/docs/docling-pr/attachments/docling-demote-unmatched-evidence)
+(also as a [zip](https://github.com/Omniwot/section-anything/raw/main/docs/docling-pr/attachments/docling-demote-unmatched-evidence.zip)): document IDs, per-document
+scores (off, on, `title`, reduced outlines), the conversion and scoring scripts, and the example above. READoc's
 scoring code is not included (its repository has no licence); the README says how to get it.
 
 ### Questions for maintainers
