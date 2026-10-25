@@ -14,6 +14,10 @@ SHA-256, and `corpus/tools/` fetches or regenerates them.
 - GFDL manuals: GNU Free Documentation License 1.3.
 - Run outputs quote short passages (section titles and boundary markers) from the documents;
   each quoted string is cut to at most 120 characters.
+- For sources under non-commercial, no-derivatives or GPL licences, the run outputs keep only the
+  headings; their body-text quotes (boundary markers) are removed.
+- Documents whose terms allow local testing only are not published here (answer keys and run
+  outputs removed).
 - OpenStax textbooks are not included: OpenStax's terms forbid using its books with generative AI
   without written permission, so their keys and results were removed before publication.
 - READoc evaluation data used in `docs/docling-pr/` comes from the READoc dataset (MIT,
@@ -52,7 +56,6 @@ SHA-256, and `corpus/tools/` fetches or regenerates them.
 | prose | Public domain (US); Project Gutenberg text, typeset by the corpus generator | 10: prose-emerson-essays, prose-federalist, prose-hamlet, prose-moby-dick, prose-origin-of-species, prose-pride-and-prejudice, prose-sherlock-holmes, prose-walden-no-headings, prose-war-and-peace, prose-yellow-wallpaper |
 | reports | CC BY 3.0 IGO | 1: report-undp-hdr-2023 |
 | reports | Public domain (US government work) | 8: report-eia-aeo-2023, report-nasa-artemis-plan, report-nasa-se-handbook, report-nist-ir8312, report-nist-sp1270, report-noaa-arctic-report-card-2023, report-nrel-wind-market-2023, report-usgs-mcs-2024 |
-| reports | Publisher's open-access terms; local testing only | 3: report-ie-epa-environment-2020, report-niti-ai-strategy, report-uk-ccc-progress-2023 |
 | scanned | CC BY-SA 4.0 | 2: scan-01-wiki-01-en, scan-09-wiki-05-en |
 | scanned | GFDL 1.3 | 1: scan-06-manual-bash |
 | scanned | Generated; filler text from public-domain Project Gutenberg books | 1: scan-08-synth-numbering-only |
