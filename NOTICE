@@ -7,3 +7,6 @@ It uses, without bundling, pdfplumber and pdfminer.six (MIT), pypdfium2 and
 PDFium (Apache-2.0 / BSD-3-Clause), RapidFuzz (MIT), the OpenAI Python library
 (Apache-2.0) and pydantic (MIT). Each is installed separately under its own
 licence.
+
+The data under corpus/ is not covered by the Apache License: it is derived from third-party
+documents that keep their own licences (see corpus/DATA-LICENSES.md).
