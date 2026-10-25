@@ -10,6 +10,7 @@ import re
 from collections import defaultdict
 
 from section_anything.extract import Extraction, Line
+from section_anything.outline_check import LETTER_SPACED
 from section_anything.strategies.base import Context, RawSection, Strategy
 from section_anything.structure import furniture_of, outline_backbone, toc_of
 
@@ -28,6 +29,27 @@ THEOREM = re.compile(
     r"\s*([IVXLC]+(\.\d+)*|\d+(\.\d+)*)?\s*[.:]",
     re.I,
 )
+# The abstract's heading, alone on its line ("Abstract", "ABSTRACT.") or run into the abstract's
+# first line ("Abstract—We study…", "Abstract. Let…"). Journals often set it smaller than body text.
+ABSTRACT_ALONE = re.compile(r"^\W{0,2}abstract\W{0,2}$", re.I)
+ABSTRACT_RUNIN = re.compile(r"^\W{0,2}abstract\s*[.:—–-]\s*\S", re.I)
+
+
+def _abstract_heading(ln: Line) -> bool:
+    """The abstract's heading on the first two pages, whatever its size or weight."""
+    text = ln.text.strip()
+    if LETTER_SPACED.match(text):  # "A B S T R A C T"
+        text = re.sub(r"\s+", "", text)
+    return ln.page <= 2 and bool(ABSTRACT_ALONE.match(text) or ABSTRACT_RUNIN.match(text))
+
+
+def _abstract_levels(sections: list[RawSection], abstract: set[int]) -> None:
+    """The abstract is a sibling of the section that follows it: it takes that section's level
+    (sections in reading order; the first one if nothing follows)."""
+    for k, s in enumerate(sections):
+        if s.start_line in abstract:
+            nxt = next((t for t in sections[k + 1:] if t.start_line not in abstract), None)
+            s.level = nxt.level if nxt else 1
 
 
 def _labels(ext: Extraction, body: float) -> set[str]:
@@ -75,6 +97,9 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     for ln in ext.lines:
         text = ln.text
         if ln.i in furniture or ln.i in toc or CAPTION.match(text) or not re.search(r"[A-Za-z]", text):
+            continue
+        if _abstract_heading(ln):
+            out.append((ln, ""))
             continue
         words = len(text.split())
         if len(text) > (160 if loose else 120) or words > (20 if loose else 16):
@@ -189,7 +214,8 @@ class RulesStrategy(Strategy):
             for s, v in votes.items()
             if len(v) >= 2 or top is None or _style_rank(s) < _style_rank(top)
         }
-        rule_styles = {(lines[r.start_line].size, lines[r.start_line].bold) for r in rules}
+        abstract = {r.start_line for r in rules if _abstract_heading(lines[r.start_line])}
+        rule_styles = {(lines[r.start_line].size, lines[r.start_line].bold) for r in rules if r.start_line not in abstract}
         level_of = _levels_from_outline(rule_styles, known)
 
         out = [
@@ -202,28 +228,38 @@ class RulesStrategy(Strategy):
                 continue
             ln = lines[r.start_line]
             dotted = re.fullmatch(r"\d+(?:\.\d+)*\.?", r.number)
-            r.level = r.number.rstrip(".").count(".") + 1 if dotted else level_of[(ln.size, ln.bold)]
+            if r.start_line not in abstract:
+                r.level = r.number.rstrip(".").count(".") + 1 if dotted else level_of[(ln.size, ln.bold)]
             out.append(r)
         out.sort(key=lambda s: s.start_line)
+        _abstract_levels(out, abstract)
         ctx.progress(1.0, f"{len(out)} headings ({len(backbone)} from the {source}, {len(out) - len(backbone)} by typography)")
         return out
 
     def _rules(self, ext: Extraction) -> list[RawSection]:
         cands = _merge_wrapped(candidates(ext))
-        # Rank distinct heading styles: bigger first, bold before regular.
-        styles = sorted({(ln.size, ln.bold) for ln, _, _ in cands}, key=lambda s: (-s[0], not s[1]))
+        # Rank distinct heading styles: bigger first, bold before regular. The abstract's heading
+        # does not take part, so its style cannot shift the other levels (see _abstract_levels).
+        abstract = {ln.i for ln, _, _ in cands if _abstract_heading(ln)}
+        styles = sorted({(ln.size, ln.bold) for ln, _, _ in cands if ln.i not in abstract}, key=lambda s: (-s[0], not s[1]))
         style_level = {s: i + 1 for i, s in enumerate(styles)}
         out = []
         for ln, num, text in cands:
             dotted = re.fullmatch(r"\d+(?:\.\d+)*\.?", num)
-            level = num.rstrip(".").count(".") + 1 if dotted else style_level[(ln.size, ln.bold)]
-            title = text.replace("\n", " ")
+            if ln.i in abstract:
+                level = 1  # set by _abstract_levels below
+            else:
+                level = num.rstrip(".").count(".") + 1 if dotted else style_level[(ln.size, ln.bold)]
+            title = marker = text.replace("\n", " ")
+            if ABSTRACT_RUNIN.match(title):
+                title = re.match(r"\W*(\w+)", title).group(1)  # "Abstract", as printed
             out.append(
                 RawSection(
                     title=title[len(num):].strip() if num and title.startswith(num) else title,
-                    level=level, number=num, start_marker=title[:160], start_line=ln.i,
+                    level=level, number=num, start_marker=marker[:160], start_line=ln.i,
                 )
             )
+        _abstract_levels(out, abstract)
         # Compress levels to 1..n so a document's top level is always 1.
         used = sorted({s.level for s in out})
         remap = {lv: i + 1 for i, lv in enumerate(used)}
