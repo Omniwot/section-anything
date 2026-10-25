@@ -171,6 +171,13 @@
       ], [typeof h.docs === "number" ? h.docs.toLocaleString("en-US") + " documents" : null, h.subset]));
       out[0].classList.add("headline");
     }
+    if (R.heldoutMinerU) {
+      var m = R.heldoutMinerU;
+      out.push(block(m, [
+        { key: "system", label: "System" },
+        { key: "score", label: "Heading TEDS", bar: TEDS_MAX, fmt: score }
+      ], [typeof m.docs === "number" ? m.docs.toLocaleString("en-US") + " documents" : null, m.subset]));
+    }
     if (R.sample) out.push(block(R.sample, both(R.sample.docs)));
     if (R.full) out.push(block(R.full, both(R.full.docs)));
     if (R.published) out.push(block(R.published, both(R.published.docs)));
