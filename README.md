@@ -1,96 +1,110 @@
-# section-anything
+# Section Anything
 
-Production-oriented AI app scaffold (FastAPI + Vite React + LiteLLM).
+Find the real sections of a PDF: every heading, its level, the pages it spans and the exact text
+under it. Built for RAG pipelines and document tools that need structure, with a dial from free
+rules to an LLM that reads the whole document, and a hard cost cap on every paid run.
 
-## Stack
+> **Pre-release (0.1).** Not on PyPI yet; install from this repository. The API may change before 1.0.
 
-| Layer | Tech |
-|-------|------|
-| API | FastAPI, Pydantic v2, JWT auth (enabled) |
-| LLM | LiteLLM (`gpt-5.5`), optional fix-mode retries |
-| DB | PostgreSQL via asyncpg + SQLAlchemy 2 + Alembic |
-| Observability | Sentry + Langfuse (via LiteLLM callbacks) |
-| Frontend | Vite + React + TypeScript |
-| Deploy | Backend Dockerfile (Render web; build from the repo root: `docker build -f backend/Dockerfile .`); frontend static `dist/` |
+```python
+import section_anything
 
-## Quick start (local)
-
-```bash
-# 1. Conda env (from hustles bootstrap) or:
-conda create -y -n section-anything python=3.11
-conda activate section-anything
-pip install -r backend/requirements.txt -e packages/section-anything
-
-# 2. Env
-cp backend/.env.example backend/.env
-cp frontend/.env.example frontend/.env
-# fill DATABASE_URL, SECRET_KEY, OPENAI_API_KEY, …
-
-# 3. Migrate + run API
-cd backend
-alembic upgrade head
-uvicorn app.main:app --reload --port 8000
-
-# 4. Frontend
-cd frontend
-npm ci
-npm run dev
+tree = section_anything.section("paper.pdf", mode="quick")
+print(tree.to_markdown())
+# # A Study of Sectioning
+# ## 1 Introduction
+# ### 1.1 Scope
+# ## 2 Methods
+print(tree.summary())  # mode, model, pages, sections, calls, tokens, cost_usd, seconds
 ```
 
-## Production checklist
+## Why
 
-- [ ] `SECRET_KEY` is a long random value (never `change-me`)
-- [ ] `DATABASE_URL` uses `postgresql+asyncpg://` and Neon SSL params as required
-- [ ] `OPENAI_API_KEY` (or provider keys) set on Render
-- [ ] Langfuse + Sentry keys set
-- [ ] `ALLOWED_ORIGINS` is your frontend origin only (no `*`)
-- [ ] Migrations run (`alembic upgrade head`) before traffic
-- [ ] Auth required on `/api/v1/generate` — keep it that way
+PDF converters guess headings from how a line looks, so paper titles, author names, captions and
+theorem statements often come out as sections, and real subsections get the wrong level. Anything
+that chunks or navigates by headings inherits those mistakes. Section Anything combines the PDF's
+own outline (bookmarks) and printed table of contents, typography and numbering rules, and
+optionally a model that reviews or reads the text.
 
-## API
+## Results
 
-- `GET /health` — liveness (process up)
-- `GET /ready` — readiness (DB ping)
-- `POST /api/v1/auth/register` / `login` / `GET /me`
-- `POST /api/v1/generate` — LLM generation (Bearer token required)
+Heading-tree similarity (TEDS, 0–100, higher is better) on [READoc](https://github.com/icip-cas/READoc)
+with READoc's own scoring code, October 2026. Papers not used while developing the method:
 
-## Layout
-
-```
-backend/app/                      FastAPI application (backend/app/sectioning re-exports the library)
-backend/alembic/                  Migrations
-frontend/src/                     React UI
-packages/section-anything/        The sectioning library (Apache-2.0): section(pdf, mode), CLI
-packages/lightrag-section-anything/  LightRAG parser plugin built on the library
-site/                             Static project website and benchmark data
-.github/workflows/                CI (lint + tests + build)
-```
-
-The sectioning core lives in `packages/section-anything`. The app maps its own settings onto the
-library's (`Settings.sectioning_settings()` in `backend/app/core/config.py`); PDF extraction runs
-in a separate process with a time limit (`EXTRACT_TIMEOUT_SECONDS`, default 300) and page,
-character and size caps (`MAX_PAGES`, `MAX_CHARS`, `MAX_UPLOAD_MB`).
-
-Licence: Apache-2.0 (`LICENSE`, `NOTICE`).
-
-## Public demo: accounts and visitors' own models
-
-Settings (env vars, see `backend/app/core/config.py`):
-
-| Setting | Default | Use |
+| READoc arXiv papers (held out) | Docs | TEDS |
 |---|---|---|
-| `PAID_MODELS_FOR` | `all` | `all`, or comma-separated emails allowed to run server-side (paid) models. Everyone else gets Free and their own local model. |
-| `ALLOW_REGISTRATION` | `true` | Close sign-up. |
-| `REGISTRATION_INVITE_CODE` | empty | Require this code at sign-up. |
-| `LOGIN_MAX_ATTEMPTS` | `10` | Failed sign-ins per email or IP per 10 minutes. |
-| `BROWSER_LLM_TIMEOUT_SECONDS` | `900` | How long a run waits for each reply from a visitor's model. |
+| Section Anything `standard` (gpt-6-luna) | 905 | **70.0** |
+| Section Anything `quick` (gpt-6-luna) | 905 | 63.9 |
+| Section Anything `free` (no model) | 905 | 52.0 |
+| Docling 2.140 (heading hierarchy on) | 905 | 49.4 |
 
-**Visitors' own models.** A run whose model is `browser/<name>` never calls a model from the
-server. Each prompt is queued for the signed-in browser that owns the run, which sends it to the
-visitor's Ollama (`/api/chat` with the JSON schema) or OpenAI-compatible local server (LM Studio)
-and posts the reply back; the server validates it like any model output. Prompts never reach a
-paid provider; the PDF is still uploaded so its text can be read. The queue is in memory: run the
-API with **one worker** for these runs. Visitors start Ollama with `OLLAMA_ORIGINS=<demo origin>`.
+On the 313 of those papers that MinerU's cloud had processed: our `standard` 71.6, MinerU + its own
+LLM title levels (gpt-6.1-sol) 67.2 (+4.4 for us, 95% CI +2.5 to +6.4), our `quick` 66.1, MinerU
+alone 57.3, Docling 49.2.
 
-End-to-end check without a real model: `hustles/.tmp/e2e-local/` (`fake_ollama.py` answers in
-the requested schema; `e2e_local.py` plays the browser against a running API).
+**Where others win:** on GitHub READMEs every setting ties with Docling (about 75); Docling with
+the change we proposed upstream ([docling#5002](https://github.com/docling-project/docling/issues/5002))
+scores about 4 points higher on bookmarked READMEs. Nougat, an OCR model trained on arXiv, scores
+far higher on arXiv papers (88.5, published). Better headings improved RAG retrieval in our
+[Qasper test](docs/rag-qasper.md) but not answer quality.
+
+## Settings and cost
+
+| Mode | What runs | Sent to a model | Cost per 1,000 pages |
+|---|---|---|---|
+| `free` (default) | bookmarks or the printed contents as the outline, then typography and numbering rules | nothing | $0 |
+| `quick` | rules propose candidate heading lines; a small model keeps the real ones and sets levels | candidate lines only | about $0.07 (gpt-6-luna) |
+| `standard` | a model reads every line, with font hints, and marks where sections start and end | the document text | about $0.16 (gpt-6-luna) to $2.90 (gpt-6.1-sol) |
+| `local:<model>` | `quick`, answered by a local Ollama model | nothing leaves the machine | $0 |
+
+Every paid run is estimated first and capped (default $0.50 per document); over the cap it
+downgrades (standard → quick → free) or fails, as you choose.
+
+## Install
+
+Python 3.11 or newer:
+
+```sh
+pip install "git+https://github.com/Omniwot/section-anything#subdirectory=packages/section-anything"
+```
+
+Command line:
+
+```sh
+section-anything paper.pdf                                # free, Markdown headings
+section-anything paper.pdf --mode quick --format json     # JSON with spans and cost
+section-anything paper.pdf --mode standard --max-usd 0.5  # cap this document at $0.50
+```
+
+API keys come from the environment only (`SECTIONANY_API_KEY`, or `OPENAI_API_KEY` for OpenAI's
+endpoint); any OpenAI-compatible endpoint works. Full options, output format and the security
+model for untrusted PDFs: [packages/section-anything/README.md](packages/section-anything/README.md).
+
+## With LightRAG
+
+[`packages/lightrag-section-anything`](packages/lightrag-section-anything) registers parser
+engines (`sectionany_free`, `sectionany_quick`, `sectionany_standard`, `sectionany_local`) so
+LightRAG's heading-based chunker works on PDFs without a MinerU or Docling service.
+
+## Limitations
+
+- Reads the PDF's text layer; scanned PDFs need OCR first.
+- Tables, figures and equations are not structured; their text stays in the section text.
+- `free` is best when the PDF has bookmarks or a printed table of contents.
+- `quick` and `standard` send text to the provider you configure.
+
+## Repository
+
+| Path | What it is |
+|---|---|
+| `packages/section-anything/` | the library and CLI (Apache-2.0) |
+| `packages/lightrag-section-anything/` | LightRAG parser plugin |
+| `backend/`, `frontend/` | a demo web app: upload a PDF, see the sections highlighted ([docs/app.md](docs/app.md)) |
+| `site/` | project website and benchmark tables (`site/data/results.js`) |
+| `corpus/` | our test corpus: answer keys, results and the tools that rebuild it (no PDFs stored) |
+| `docs/` | write-ups: [RAG on Qasper](docs/rag-qasper.md), [the Docling contribution](docs/docling-pr/), plans and a paper draft |
+
+## Licence
+
+Code: Apache-2.0 (`LICENSE`, `NOTICE`). The data under `corpus/` keeps its sources' licences: see
+[`corpus/DATA-LICENSES.md`](corpus/DATA-LICENSES.md).
