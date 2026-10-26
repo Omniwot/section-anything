@@ -42,6 +42,24 @@ NUMBER = re.compile(
     r"|\d+(?:\.\d+)*\.?|[IVXLC]+\.|[A-Z]\.)\s+(?=\S)",
     re.I,
 )
+# A section number alone on its extracted line: "1", "4.2", "1.", "A", "A.1", "IV.".
+NUMBER_ALONE = re.compile(r"^(?:\d+(?:\.\d+)*\.?|[A-Z](?:\.\d+)*\.?|[IVXLC]+\.?)$")
+
+
+def split_number(ext: Extraction, ln: Line) -> bool:
+    """`ln` is only a heading's number and its title follows on the same baseline in the same style
+    ("1" | "Introduction"). The extractor splits a line where a space is wider than twice the
+    characters beside it, which happens after a section number when the title starts with a
+    narrow letter such as "I"."""
+    if not NUMBER_ALONE.match(ln.text.strip()) or ln.i + 1 >= len(ext.lines):
+        return False
+    t = ext.lines[ln.i + 1]
+    title = t.text.strip()
+    return (
+        t.page == ln.page and t.size == ln.size and t.bold == ln.bold
+        and abs(t.y0 - ln.y0) <= 0.3 * ln.size and 0 <= t.x0 - ln.x1 <= 3 * ln.size
+        and title[:1].isalpha() and not NUMBER.match(title) and not NUMBER_ALONE.match(title)
+    )
 
 
 @dataclass
@@ -185,7 +203,9 @@ def _furniture(ext: Extraction) -> set[int]:
             or (in_margin and ln.size <= body)
         ):
             out.add(ln.i)
-    return out
+    # A heading's number split off its title looks like a page number; it is furniture only
+    # when its title line is.
+    return {i for i in out if i + 1 in out or not split_number(ext, ext.lines[i])}
 
 
 @dataclass

@@ -12,7 +12,7 @@ from collections import defaultdict
 from section_anything.extract import Extraction, Line
 from section_anything.outline_check import LETTER_SPACED
 from section_anything.strategies.base import Context, RawSection, Strategy
-from section_anything.structure import furniture_of, outline_backbone, toc_of
+from section_anything.structure import furniture_of, outline_backbone, split_number, toc_of
 
 NUMBERING = re.compile(
     r"^(?P<num>(?:chapter|part|section|appendix|article|annex|unit|lesson)\s+[\dA-Z]+[.:]?"
@@ -33,7 +33,6 @@ THEOREM = re.compile(
 # first line ("Abstract—We study…", "Abstract. Let…"). Journals often set it smaller than body text.
 ABSTRACT_ALONE = re.compile(r"^\W{0,2}abstract\W{0,2}$", re.I)
 ABSTRACT_RUNIN = re.compile(r"^\W{0,2}abstract\s*[.:—–-]\s*\S", re.I)
-
 
 def _abstract_heading(ln: Line) -> bool:
     """The abstract's heading on the first two pages, whatever its size or weight."""
@@ -94,9 +93,17 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     labels = set() if loose else _labels(ext, body)
     bump = 0.4 if loose else 0.8
     out: list[tuple[Line, str]] = []
+    split: set[int] = set()
     for ln in ext.lines:
         text = ln.text
-        if ln.i in furniture or ln.i in toc or CAPTION.match(text) or not re.search(r"[A-Za-z]", text):
+        if ln.i in furniture or ln.i in toc or CAPTION.match(text):
+            continue
+        if split_number(ext, ln):
+            # Joined with its title line by _merge_wrapped (Free) and LlmReviewStrategy._rows.
+            out.append((ln, text.strip()))
+            split.add(ln.i)
+            continue
+        if not re.search(r"[A-Za-z]", text):
             continue
         if _abstract_heading(ln):
             out.append((ln, ""))
@@ -128,7 +135,9 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
                 continue
         if styled or numbered:
             out.append((ln, m.group("num").strip() if m else ""))
-    return out
+    # A split-off number counts only when its title line is a candidate too.
+    kept = {ln.i for ln, _ in out if ln.i not in split}
+    return [(ln, num) for ln, num in out if ln.i not in split or ln.i + 1 in kept]
 
 
 LABEL_ONLY = re.compile(
@@ -218,11 +227,15 @@ class RulesStrategy(Strategy):
         rule_styles = {(lines[r.start_line].size, lines[r.start_line].bold) for r in rules if r.start_line not in abstract}
         level_of = _levels_from_outline(rule_styles, known)
 
-        out = [
-            RawSection(title=a.title, level=a.level, number=a.number, start_marker=lines[a.line].text[:160], start_line=a.line)
-            for a in backbone
-        ]
-        covered = set(by_line)
+        out = []
+        for a in backbone:
+            line, number, marker = a.line, a.number, lines[a.line].text
+            if not number and a.line and split_number(ext, lines[a.line - 1]):
+                # A bookmark without the number names the title line; the number sits before it.
+                line, number = a.line - 1, lines[a.line - 1].text.strip()
+                marker = f"{number} {marker}"
+            out.append(RawSection(title=a.title, level=a.level, number=number, start_marker=marker[:160], start_line=line))
+        covered = set(by_line) | {s.start_line for s in out}
         for r in rules:
             if r.start_line in covered or r.start_line + 1 in covered:
                 continue
