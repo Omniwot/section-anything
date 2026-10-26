@@ -51,16 +51,15 @@ study heading-hierarchy recovery for born-digital PDFs from the text layer alone
 numbering, bookmarks and printed contents, optionally reviewed by a small language model whose
 proposals must anchor to verbatim text. The method performs no OCR and uses no page images. On 905
 READoc arXiv papers not used during development, scored with READoc's own Heading Tree TEDS, the
-full-text setting scores 70.0 against 49.4 for Docling with its heading-hierarchy stage enabled; on
-the 313 of these that MinerU's cloud service processed, it scores 71.6 against 67.2 for MinerU with
-its own LLM title levelling. On GitHub READMEs it only ties Docling. The model settings cost
+full-text setting scores 70.0 against 49.4 for Docling with its heading-hierarchy stage enabled and
+64.8 for MinerU with its own LLM title levelling. On GitHub READMEs it only ties Docling. The model settings cost
 US\$0.07--0.16 per 1,000 pages with a small model. As a second contribution, an opt-in bookmark check
 for Docling's heading stage, which demotes section headers that a complete PDF outline does not
 list, adds 5.4 TEDS points on 100 arXiv papers and 3.7 on 100 READMEs, and does nothing on a
 pre-registered set of legislation. On Qasper, section-aware chunks retrieved the evidence more often,
 but answer quality did not change.
 \end{abstract}
-% src: 905/313/70.0/49.4/71.6/67.2 -- site/data/results.js readoc.heldout; HANDOFF "Final held-out result, arXiv (21 Oct)".
+% src: 905/70.0/49.4 -- site/data/results.js readoc.heldout; HANDOFF "Final held-out result, arXiv (21 Oct)". MinerU 64.8 -- results.js readoc.heldoutMinerU; .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct).
 % src: GitHub tie -- results.js readoc.full.note. Cost -- results.js modes[].costPer1000Pages.
 % src: Docling option -- docs/docling-pr/results.md "Main result" and "Fresh documents (22 Oct)". Qasper -- docs/rag-qasper.md.
 
@@ -164,8 +163,8 @@ applied MinerU's own LLM title-levelling step to that output with gpt-6-luna (Lu
 % src: paper.md 4.1-4.2; HANDOFF L832, L864, L1079; MinerU relay HANDOFF L607-621.
 
 \paragraph{Protocol.} A 200-document sample (100 per subset, fixed seed) guided every method change,
-so our main test is the 905 \emph{held-out} arXiv papers with headings. MinerU's free cloud quota had
-processed 313 of them, and the MinerU comparison uses only those. Paired comparisons use per-document
+so our main test is the 905 \emph{held-out} arXiv papers with headings. MinerU's cloud service, on its
+free quota, processed all of them, so every system is scored on the same papers. Paired comparisons use per-document
 differences with a 95\% bootstrap interval (4,000 resamples) and a Wilcoxon signed-rank test. Each
 configuration was run once.
 % src: paper.md 4.3; heldout_report.py (via paper.md).
@@ -174,39 +173,40 @@ configuration was run once.
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lccc@{}}
+\begin{tabular}{@{}lcc@{}}
 \toprule
- & \multicolumn{2}{c}{arXiv, held out} & GitHub \\
-\cmidrule(lr){2-3}
-System & all 905 & 313 (MinerU) & all 1,224 \\
+ & arXiv, held out & GitHub \\
+System & all 905 & all 1,224 \\
 \midrule
-Ours: Standard (Luna)        & \textbf{70.0} & \textbf{71.6} & \textbf{75.2} \\
-Ours: Quick check (Luna)     & 63.9 & 66.1 & 74.3 \\
-Ours: Free (no model)        & 52.0 & 55.8 & 75.0 \\
-Docling 2.140, hierarchy on  & 49.4 & 49.2 & 75.0 \\
-MinerU + LLM levels (Sol)    & \na & 67.2 & \na \\
-MinerU + LLM levels (Luna)   & \na & 62.8 & \na \\
-MinerU cloud (3.4.4, VLM)    & \na & 57.3 & \na \\
+Ours: Standard (Luna)        & \textbf{70.0} & \textbf{75.2} \\
+Ours: Quick check (Luna)     & 63.9 & 74.3 \\
+Ours: Free (no model)        & 52.0 & 75.0 \\
+Docling 2.140, hierarchy on  & 49.4 & 75.0 \\
+MinerU + LLM levels (Sol)    & 64.8 & \na \\
+MinerU + LLM levels (Luna)   & 62.7 & \na \\
+MinerU cloud (3.4.4, VLM)    & 53.9 & \na \\
 \bottomrule
 \end{tabular}
-\caption{READoc Heading Tree TEDS ($\uparrow$). arXiv columns: papers not used during development;
-``313'' are those MinerU's cloud had processed. GitHub includes the 100 development READMEs; on the
+\caption{READoc Heading Tree TEDS ($\uparrow$). arXiv: papers not used during development, all
+processed by MinerU's cloud. GitHub includes the 100 development READMEs; on the
 1,124 held-out READMEs all our settings tie Docling (see text). Luna = gpt-6-luna, Sol = gpt-6.1-sol.}
 \label{tab:readoc}
 \end{table}
 % src: col 905 -- results.js readoc.heldout.note (70.0/63.9/49.4); Free 52.0 -- HANDOFF "Final held-out result" (all 905).
-% src: col 313 -- results.js readoc.heldout.rows; Free 55.8 -- paper.md Table 1 (computed from .tmp/readoc-heldout-out/heldout_scores.json).
+% src: MinerU rows -- results.js readoc.heldoutMinerU; .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct).
 % src: col GitHub -- results.js readoc.full (latest, 21 Oct); HANDOFF "Full READoc, latest version (21 Oct)".
 
 \paragraph{Results.} On all 905 held-out papers, Standard leads Docling by 20.6 points (95\% CI 19.3
-to 21.8), better on 773 papers and worse on 103 (\cref{tab:readoc}). On the 313-paper subset it leads
-MinerU with LLM levels on the larger model by 4.4 points (95\% CI 2.5 to 6.4; $p=6\times10^{-6}$) and
-on the same small model by 8.8. MinerU's own LLM step matters: it lifts MinerU from 57.3 to 67.2.
+to 21.8), better on 773 papers and worse on 103 (\cref{tab:readoc}). On the same papers it leads
+MinerU with LLM levels on the larger model by 5.1 points (95\% CI 4.0 to 6.2; $p=1.3\times10^{-21}$)
+and on the same small model by 7.2 (6.2 to 8.2). MinerU's own LLM step matters: it lifts MinerU from
+53.9 to 64.8, although with Sol it gave up on 154 papers (no parsable reply in three tries) and kept
+the raw levels; without them our lead is 2.8 (1.6 to 3.9).
 Quick check, which sends only candidate lines, falls between MinerU's two LLM variants. A prompt fix
 for papers (the title, Abstract and References are headings; theorem labels never are) was designed
 on the development sample, where it added 5.7 points to Standard; on the held-out papers it added
 5.1, so it appears to generalise.
-% src: HANDOFF "Final held-out result" (+20.6, CI, 773/103, +4.4, CI, p, +8.8, +5.1); paper.md 4.4 (+5.7 on sample).
+% src: HANDOFF "Final held-out result" (+20.6, CI, 773/103, +5.1 prompt fix); MinerU (+5.1, CI, p, +7.2, 154, +2.8) -- .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct), results.js readoc.heldoutMinerU.note; paper.md 4.4 (+5.7 on sample).
 
 \paragraph{Where we do not win.} On the 1,124 held-out READMEs, every setting ties Docling: Standard
 $+0.3$ (95\% CI $-0.9$ to $+1.6$), Quick check $-0.6$ ($-1.8$ to $+0.7$), Free $+0.1$ ($-1.0$ to

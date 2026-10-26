@@ -11,16 +11,16 @@
 \begin{table}[t]\centering
   \caption{Heading Tree TEDS on held-out READoc-arXiv papers (not used during development).}
   \label{tab:heldout}
-  % src: HANDOFF-section-anything.md L944-961; site/data/results.js readoc.heldout
-  \begin{tabular}{lrr}\toprule
-  System & All 905 held-out & 313 processed by MinerU cloud \\\midrule
-  \sysname{} Standard (gpt-6-luna) & \textbf{70.0} & \textbf{71.6} \\
-  MinerU cloud + its LLM title levels (gpt-6.1-sol) & -- & 67.2 \\
-  \sysname{} Quick check (gpt-6-luna) & 63.9 & 66.1 \\
-  MinerU cloud + its LLM title levels (gpt-6-luna) & -- & 62.8 \\
-  MinerU cloud (3.4.4, VLM) & -- & 57.3 \\
-  \sysname{} Free (no model) & 52.0 & \todo{} \\
-  Docling 2.140 (heading hierarchy on) & 49.4 & 49.2 \\\bottomrule
+  % src: HANDOFF-section-anything.md L944-961; site/data/results.js readoc.heldout; MinerU rows -- .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct)
+  \begin{tabular}{lr}\toprule
+  System & All 905 held-out \\\midrule
+  \sysname{} Standard (gpt-6-luna) & \textbf{70.0} \\
+  MinerU cloud + its LLM title levels (gpt-6.1-sol) & 64.8 \\
+  \sysname{} Quick check (gpt-6-luna) & 63.9 \\
+  MinerU cloud + its LLM title levels (gpt-6-luna) & 62.7 \\
+  MinerU cloud (3.4.4, VLM) & 53.9 \\
+  \sysname{} Free (no model) & 52.0 \\
+  Docling 2.140 (heading hierarchy on) & 49.4 \\\bottomrule
   \end{tabular}
 \end{table}
 \todo{paper.md \S4.4 prose.}

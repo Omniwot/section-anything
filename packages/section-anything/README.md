@@ -188,9 +188,9 @@ project site in `site/`) and `corpus/results/`.
 | Section Anything `free` | 905 | 54.8 |
 | Docling 2.140 (heading hierarchy on) | 905 | 49.4 |
 
-On the 313 of those papers that MinerU's cloud service had processed: our `standard` 71.6,
-MinerU + its LLM title levels (gpt-6.1-sol) 67.2 (+4.4 for us, 95% CI 2.5 to 6.4), our `quick`
-66.1, MinerU cloud alone 57.3, Docling 49.2.
+On the same 905 papers with MinerU's cloud service: our `standard` 70.0, MinerU + its LLM title
+levels (gpt-6.1-sol) 64.8 (+5.1 for us, 95% CI 4.0 to 6.2; +2.8 without the 154 papers where its
+LLM step gave up and kept its raw levels), our `quick` 63.9, MinerU cloud alone 53.9, Docling 49.4.
 
 On 1,112 bookmarked READoc GitHub READMEs not used in development, `free` scores 81.9 against
 Docling's 75.5. On 27 UK government reports never used in development (answer keys from each report's HTML version), the outline check improved `free` by +5.7 (95% CI +0.4 to +12.2; 43.1 → 48.8).

@@ -38,15 +38,14 @@ which a deterministic resolver maps back to exact character ranges, rejecting ta
 copies and flagging anything it cannot verify. On READoc, scored with the benchmark's own
 Heading Tree TEDS code, Standard with a small model scores 70.0 on 905 arXiv papers that were not
 used during development, against 49.4 for Docling 2.140 with its heading-hierarchy stage enabled.
-On the 313 of those papers that MinerU's cloud service had processed, it scores 71.6 against 67.2
-for MinerU with its own LLM title-levelling step on a larger model. On GitHub READMEs there is no
+On the same papers, MinerU with its own LLM title-levelling step on a larger model scores 64.8. On GitHub READMEs there is no
 such gain: Docling is level with or ahead of our settings. The model settings cost about $0.07
 (Quick check) and $0.16 (Standard) per 1,000 pages with a small model. Without bookmarks, the
 free setting is weaker than Docling on papers, and nothing here works on scanned pages. In a small
 FinanceBench pilot (51 questions), chunks split at headings retrieved the evidence page more
 often than fixed-size chunks, but our headings did not beat MinerU's. We report the development
 history behind each number, including a thread-safety bug that silently dropped bookmarks.
-<!-- src: held-out 905/313 — HANDOFF-section-anything.md L944-961; site/data/results.js readoc.heldout.
+<!-- src: held-out 905 — HANDOFF-section-anything.md L944-961; site/data/results.js readoc.heldout; MinerU 64.8 — results.js readoc.heldoutMinerU, .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct).
      GitHub — results.js readoc.sample (Docling 73.2 vs ours 71.3/70.1/71.5) and HANDOFF L864-877 (full: Standard 75.4, Docling 75.0, Quick 70.3).
      Cost — results.js modes[].costPer1000Pages. Free without bookmarks — HANDOFF L801-802. RAG — HANDOFF L679-704. Bug — HANDOFF L784-794. -->
 
@@ -393,9 +392,8 @@ all 100 GitHub keys have headings. **This sample guided development.** Every met
 Section 5.1 other than the bug fix (the TeX bold fonts, the candidate filters, the document-title
 rule, the Quick check README fix and the papers prompt fix) was found by reading failures on these
 documents, so scores on the sample are optimistic for our settings. Our main test is therefore the
-remaining READoc-arXiv papers: 905 held-out papers whose keys have headings. MinerU's cloud service
-processes papers slowly on its free quota; 313 held-out papers had finished when this draft was
-written, and the MinerU comparison uses only those. There is no held-out GitHub result after the
+remaining READoc-arXiv papers: 905 held-out papers whose keys have headings. MinerU's cloud service,
+on its free quota, processed all 905, so every system is scored on the same papers. There is no held-out GitHub result after the
 README and papers fixes: the full-subset GitHub numbers in Table 2 were produced before both.
 <!-- src: sample — HANDOFF L720, results.js readoc.sample (docs arxiv 98, github 100; "198 have headings"); held-out — HANDOFF L944-965; full run date and pre-fix status — HANDOFF L859-877, L882-917 (README fix after the full run), L919-938. -->
 
@@ -408,24 +406,27 @@ points.
 
 **Table 1.** Heading Tree TEDS on held-out READoc-arXiv papers (not used during development).
 <!-- src: HANDOFF-section-anything.md L944-961 ("Final held-out result, arXiv (21 Oct)"); site/data/results.js readoc.heldout. -->
-<!-- Free on the 313 subset: .tmp/readoc-heldout-out/heldout_scores.json (computed 21 Oct). -->
+<!-- MinerU rows: .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct); site/data/results.js readoc.heldoutMinerU. -->
 
-| System | All 905 held-out | 313 processed by MinerU cloud |
-|---|---|---|
-| Section Anything Standard (gpt-6-luna) | **70.0** | **71.6** |
-| MinerU cloud + its LLM title levels (gpt-6.1-sol) | — | 67.2 |
-| Section Anything Quick check (gpt-6-luna) | 63.9 | 66.1 |
-| MinerU cloud + its LLM title levels (gpt-6-luna) | — | 62.8 |
-| MinerU cloud (3.4.4, VLM) | — | 57.3 |
-| Section Anything Free (no model) | 52.0 | 55.8 |
-| Docling 2.140 (heading hierarchy on) | 49.4 | 49.2 |
+| System | All 905 held-out |
+|---|---|
+| Section Anything Standard (gpt-6-luna) | **70.0** |
+| MinerU cloud + its LLM title levels (gpt-6.1-sol) | 64.8 |
+| Section Anything Quick check (gpt-6-luna) | 63.9 |
+| MinerU cloud + its LLM title levels (gpt-6-luna) | 62.7 |
+| MinerU cloud (3.4.4, VLM) | 53.9 |
+| Section Anything Free (no model) | 52.0 |
+| Docling 2.140 (heading hierarchy on) | 49.4 |
 
 On all 905 papers, Standard leads Docling by 20.6 points (95% CI 19.3 to 21.8) and is better on
-773 papers and worse on 103. On the 313-paper subset it leads MinerU with LLM levels on the larger
-model by 4.4 points (95% CI 2.5 to 6.4; p = 6e-6) and with the small model by 8.8 points. MinerU's
-own LLM step matters: it lifts MinerU from 57.3 to 67.2 with gpt-6.1-sol. Quick check, which sends
-only candidate lines, falls between MinerU's LLM step on the two models.
-<!-- src: HANDOFF L944-962; results.js readoc.heldout.note. -->
+773 papers and worse on 103. On the same papers it leads MinerU with LLM levels on the larger
+model by 5.1 points (95% CI 4.0 to 6.2; p = 1.3e-21; better on 482, worse on 253) and with the
+small model by 7.2 points (95% CI 6.2 to 8.2). MinerU's own LLM step matters: it lifts MinerU from
+53.9 to 64.8 with gpt-6.1-sol. With that model the step gave up on 154 papers (its reply did not
+parse after three tries) and kept MinerU's raw levels; without those papers our lead is 2.8 points
+(95% CI 1.6 to 3.9). Quick check, which sends only candidate lines, falls between MinerU's LLM step
+on the two models.
+<!-- src: HANDOFF L944-962; results.js readoc.heldout.note; MinerU comparisons — .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct) and results.js readoc.heldoutMinerU.note. -->
 
 The papers prompt fix (Section 5.1) was designed on the development sample, where it added 5.7
 points to Standard; on held-out papers it added 5.1 (all 905) and 4.9 in an earlier check on 620 of

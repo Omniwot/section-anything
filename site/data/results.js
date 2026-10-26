@@ -46,17 +46,17 @@ window.SA_DATA = {
       note: "Standard leads Docling by 20.6 points on these 905 papers. Free includes the outline check shipped on 25 Oct (52.0 before it)."
     },
     heldoutMinerU: {
-      title: "The same held-out papers that MinerU's cloud had processed (every tool on the same papers)",
-      date: "2026-10-21", docs: 313, subset: "READoc-arXiv",
+      title: "The same held-out papers with MinerU (every tool on the same papers)",
+      date: "2026-10-25", docs: 905, subset: "READoc-arXiv",
       rows: [
-        { system: "Section Anything Standard (gpt-6-luna)", score: 71.6, ours: true },
-        { system: "MinerU cloud + its LLM title levels (gpt-6.1-sol)", score: 67.2 },
-        { system: "Section Anything Quick check (gpt-6-luna)", score: 66.1, ours: true },
-        { system: "MinerU cloud + its LLM title levels (gpt-6-luna)", score: 62.8 },
-        { system: "MinerU cloud (3.4.4, vlm)", score: 57.3 },
-        { system: "Docling 2.140 (heading hierarchy on)", score: 49.2 }
+        { system: "Section Anything Standard (gpt-6-luna)", score: 70.0, ours: true },
+        { system: "MinerU cloud + its LLM title levels (gpt-6.1-sol)", score: 64.8 },
+        { system: "Section Anything Quick check (gpt-6-luna)", score: 63.9, ours: true },
+        { system: "MinerU cloud + its LLM title levels (gpt-6-luna)", score: 62.7 },
+        { system: "MinerU cloud (3.4.4, vlm)", score: 53.9 },
+        { system: "Docling 2.140 (heading hierarchy on)", score: 49.4 }
       ],
-      note: "Paired: Standard beats MinerU + LLM (gpt-6.1-sol) by 4.4 points (95% CI 2.5 to 6.4). These are the 313 held-out papers MinerU's cloud had processed."
+      note: "Paired: Standard beats MinerU + LLM (gpt-6.1-sol) by 5.1 points (95% CI 4.0 to 6.2). MinerU's cloud processed all 905 held-out papers. Its LLM step with gpt-6.1-sol gave up on 154 of them and kept MinerU's raw levels; without those papers the lead is 2.8 points (95% CI 1.6 to 3.9)."
     },
     sample: {
       title: "Every tool on the same READoc sample (200 documents drawn; 198 have headings in the answer key)",
@@ -98,7 +98,7 @@ window.SA_DATA = {
   },
   where_others_win: [
     "On GitHub READMEs our quick and standard only tie with Docling (about 75); free with the outline check (25 Oct) leads, 81.9 vs Docling 75.5 on 1,112 bookmarked READMEs not used in development.",
-    "MinerU's own LLM step on a stronger model comes within about 4.4 points of our Standard on held-out arXiv papers (67.2 vs 71.6), and is level with it on the 200-document sample (69.3 vs 69.5).",
+    "MinerU's own LLM step on a stronger model comes within about 5 points of our Standard on held-out arXiv papers (64.8 vs 70.0), and is level with it on the 200-document sample (69.3 vs 69.5).",
     "Nougat, an OCR model trained on arXiv, scores far higher on arXiv papers (88.5, published).",
     "Free mode depends on PDF bookmarks: without them it is weaker than Docling on papers."
   ],

@@ -11,9 +11,8 @@ lets a model read every line in windows and quote verbatim start and end markers
 deterministic resolver maps back to exact character ranges, rejecting table-of-contents copies and
 flagging anything it cannot verify. On READoc, scored with the benchmark's own Heading Tree TEDS
 code, Standard with a small model scores 70.0 on 905 arXiv papers that were not used during
-development, against 49.4 for Docling 2.140 with its heading-hierarchy stage enabled. On the 313
-of those papers that MinerU's cloud service had processed, it scores 71.6 against 67.2 for MinerU
-with its own LLM title-levelling step on a larger model. On GitHub READMEs there is no such gain:
+development, against 49.4 for Docling 2.140 with its heading-hierarchy stage enabled. On the same
+papers, MinerU with its own LLM title-levelling step on a larger model scores 64.8. On GitHub READMEs there is no such gain:
 Docling is level with or ahead of our settings. The model settings cost about \$0.07 (Quick check)
 and \$0.16 (Standard) per 1,000 pages with a small model. Without bookmarks, the free setting is
 weaker than Docling on papers, and nothing here works on scanned pages. In a small FinanceBench

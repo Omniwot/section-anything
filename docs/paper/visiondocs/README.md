@@ -104,7 +104,7 @@ policy first.
      data.
 5. **Optional re-runs.** These are not needed for this draft, and each loads the laptop:
    - The Docling READoc tables with commit `183f1dd`, about 20–30 minutes.
-   - MinerU on more of the 905 held-out papers, which would change the 313-paper column.
+   - MinerU on all 905 held-out papers: done 25 Oct (the 313-paper column was replaced).
 
 ## Page count
 
@@ -146,10 +146,9 @@ The source files are:
 | Held-out arXiv papers (not used in development) | 905 | results.js `readoc.heldout.note`; HANDOFF "Final held-out result, arXiv (21 Oct)" |
 | Standard / Quick check / Docling on all 905 | 70.0 / 63.9 / 49.4 | results.js `readoc.heldout.note`; HANDOFF same section |
 | Free on all 905 | 52.0 | HANDOFF "Final held-out result"; paper.md Table 1 |
-| 313-paper MinerU subset: Standard, MinerU+LLM (Sol), Quick check, MinerU+LLM (Luna), MinerU cloud, Docling | 71.6, 67.2, 66.1, 62.8, 57.3, 49.2 | results.js `readoc.heldout.rows`; HANDOFF "Final held-out result" |
-| Free on the 313 subset | 55.8 | paper.md Table 1 (computed from `.tmp/readoc-heldout-out/heldout_scores.json`) |
+| MinerU on all 905: MinerU+LLM (Sol), MinerU+LLM (Luna), MinerU cloud | 64.8, 62.7, 53.9 | results.js `readoc.heldoutMinerU`; `.tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct)` |
 | Standard vs Docling (905): lead, CI, better/worse | +20.6 (19.3 to 21.8), 773 / 103 | HANDOFF "Final held-out result"; results.js note |
-| Standard vs MinerU+LLM (Sol) on 313: lead, CI, p; vs Luna | +4.4 (2.5 to 6.4), p = 6e-6; +8.8 | HANDOFF "Final held-out result"; results.js note |
+| Standard vs MinerU+LLM (Sol) on 905: lead, CI, p; vs Luna; without the 154 Sol failures | +5.1 (4.0 to 6.2), p = 1.3e-21; +7.2 (6.2 to 8.2); +2.8 (1.6 to 3.9) | `.tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct)`; results.js `readoc.heldoutMinerU.note` |
 | Papers prompt fix: development sample, held-out | +5.7, +5.1 | paper.md §4.4; HANDOFF "Papers fix" and "Final held-out result" |
 | GitHub, all 1,224: Standard / Quick check / Free / Docling | 75.2 / 74.3 / 75.0 / 75.0 | results.js `readoc.full`; HANDOFF "Full READoc, latest version (21 Oct)" |
 | Held-out READMEs (1,124) vs Docling, with CIs | +0.3 (−0.9 to +1.6), −0.6 (−1.8 to +0.7), +0.1 (−1.0 to +1.2) | paper.md §4.6 (`.tmp/readoc-github-latest/scores.json`); HANDOFF "Full READoc, latest version" |
