@@ -146,7 +146,7 @@ The source files are:
 | Held-out arXiv papers (not used in development) | 905 | results.js `readoc.heldout.note`; HANDOFF "Final held-out result, arXiv (21 Oct)" |
 | Standard / Quick check / Docling on all 905 | 70.0 / 67.4 / 49.4 | results.js `readoc.heldout`; Quick check is release 0.1.1 (63.9 in 0.1.0), `.tmp/abstract-fix/score_full.py` (26 Oct), research F014 |
 | Free on all 905 | 57.2 | release 0.1.1 (outline check and abstract heading; 52.0 before both, 54.8 in 0.1.0), `.tmp/abstract-fix/score_full.py`; paper.md Table 1 |
-| Quick check vs MinerU+LLM (Sol) on 905 | +2.6 (1.6 to 3.6) | `.tmp/abstract-fix/heldout/full_release.json` (26 Oct) |
+| Quick check vs MinerU+LLM (Sol) on 905 | +2.6 (1.6 to 3.6); +0.5 (−0.6 to 1.5) without MinerU's 154 failed papers | `.tmp/abstract-fix/heldout/full_release.json` (26 Oct) |
 | MinerU on all 905: MinerU+LLM (Sol), MinerU+LLM (Luna), MinerU cloud | 64.8, 62.7, 53.9 | results.js `readoc.heldoutMinerU`; `.tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct)` |
 | Standard vs Docling (905): lead, CI, better/worse | +20.6 (19.3 to 21.8), 773 / 103 | HANDOFF "Final held-out result"; results.js note |
 | Standard vs MinerU+LLM (Sol) on 905: lead, CI, p; vs Luna; without the 154 Sol failures | +5.1 (4.0 to 6.2), p = 1.3e-21; +7.2 (6.2 to 8.2); +2.8 (1.6 to 3.9) | `.tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct)`; results.js `readoc.heldoutMinerU.note` |

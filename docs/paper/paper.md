@@ -430,7 +430,8 @@ small model by 7.2 points (95% CI 6.2 to 8.2). MinerU's own LLM step matters: it
 53.9 to 64.8 with gpt-6.1-sol. With that model the step gave up on 154 papers (its reply did not
 parse after three tries) and kept MinerU's raw levels; without those papers our lead is 2.8 points
 (95% CI 1.6 to 3.9). Quick check, which sends only candidate lines, scores 2.6 points above MinerU's
-LLM step on the larger model (95% CI 1.6 to 3.6; release 0.1.1).
+LLM step on the larger model (95% CI 1.6 to 3.6; release 0.1.1), but is level with it without those
+154 papers (+0.5, 95% CI −0.6 to 1.5; better on 284, worse on 348).
 <!-- src: HANDOFF L944-962; results.js readoc.heldout.note; MinerU comparisons — .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct) and results.js readoc.heldoutMinerU.note. -->
 
 The papers prompt fix (Section 5.1) was designed on the development sample, where it added 5.7

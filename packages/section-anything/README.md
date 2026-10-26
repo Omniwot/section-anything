@@ -195,7 +195,8 @@ the [changelog](https://github.com/Omniwot/section-anything/blob/main/CHANGELOG.
 
 On the same 905 papers with MinerU's cloud service: our `standard` 70.0, our `quick` 67.4, MinerU
 + its LLM title levels (gpt-6.1-sol) 64.8 (`standard` +5.1, 95% CI 4.0 to 6.2, or +2.8 without the
-154 papers where its LLM step gave up and kept its raw levels; `quick` +2.6, 95% CI 1.6 to 3.6),
+154 papers where its LLM step gave up and kept its raw levels; `quick` +2.6, 95% CI 1.6 to 3.6, but
+level without those papers: +0.5, 95% CI −0.6 to 1.5),
 MinerU cloud alone 53.9, Docling 49.4.
 
 On 1,112 bookmarked READoc GitHub READMEs not used in development, `free` scores 81.9 against

@@ -56,7 +56,7 @@ window.SA_DATA = {
         { system: "MinerU cloud (3.4.4, vlm)", score: 53.9 },
         { system: "Docling 2.140 (heading hierarchy on)", score: 49.4 }
       ],
-      note: "Paired: Standard beats MinerU + LLM (gpt-6.1-sol) by 5.1 points (95% CI 4.0 to 6.2). MinerU's cloud processed all 905 held-out papers. Its LLM step with gpt-6.1-sol gave up on 154 of them and kept MinerU's raw levels; without those papers the lead is 2.8 points (95% CI 1.6 to 3.9). Quick check (release 0.1.1; 63.9 in 0.1.0), which sends only candidate lines, is 2.6 points above MinerU + LLM (gpt-6.1-sol) (95% CI 1.6 to 3.6)."
+      note: "Paired: Standard beats MinerU + LLM (gpt-6.1-sol) by 5.1 points (95% CI 4.0 to 6.2). MinerU's cloud processed all 905 held-out papers. Its LLM step with gpt-6.1-sol gave up on 154 of them and kept MinerU's raw levels; without those papers the lead is 2.8 points (95% CI 1.6 to 3.9). Quick check (release 0.1.1; 63.9 in 0.1.0), which sends only candidate lines, is 2.6 points above MinerU + LLM (gpt-6.1-sol) (95% CI 1.6 to 3.6), but level with it without the 154 papers (+0.5, 95% CI −0.6 to 1.5)."
     },
     sample: {
       title: "Every tool on the same READoc sample (200 documents drawn; 198 have headings in the answer key)",
