@@ -6,7 +6,9 @@ It uses PyPI trusted publishing, so no API token is stored in the repository.
 
 ## Each release
 
-1. Bump `version` in `packages/section-anything/pyproject.toml` (and `version` in `CITATION.cff`).
+1. Bump `version` in `packages/section-anything/pyproject.toml`, `__version__` in
+   `packages/section-anything/src/section_anything/__init__.py` and `version` in `CITATION.cff`,
+   and add the release to `CHANGELOG.md`.
 2. Merge to `main`.
 3. Tag that commit and push the tag:
 
