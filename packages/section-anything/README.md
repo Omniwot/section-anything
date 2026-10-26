@@ -101,13 +101,50 @@ Arguments win over the environment. **No `.env` file is read, and nothing is eve
 | `SECTIONANY_EXTRACT_TIMEOUT_SECONDS` / `extract_timeout=` | 120 | extraction worker is killed after this |
 | `SECTIONANY_EXTRACT_MEMORY_MB` | 4096 | worker memory limit (Linux only; 0 = none) |
 | `SECTIONANY_ISOLATE_EXTRACTION` | `true` | run extraction in a separate process |
-| `SECTIONANY_DEMOTE_UNLISTED_HEADINGS` | `[]` (off) | JSON list of modes (`free`, `quick`, `standard`): when the PDF's bookmarks look complete, drop sections they do not list (`section_anything.outline_check`) |
 | `SECTIONANY_LLM_TIMEOUT_SECONDS`, `SECTIONANY_LOCAL_TIMEOUT_SECONDS` | 300, 600 | per model call |
 | `SECTIONANY_STORE_PROMPTS` | `false` | keep prompt text in call records passed to a `Usage(sink=...)` |
 | `SECTIONANY_LANGFUSE` | `false` | trace calls with Langfuse (needs the `langfuse` extra and Langfuse's own keys) |
 
 Or build a `Settings` object once: `section(pdf, "quick", settings=Settings(max_usd_per_doc=1.0))`.
 Async code can `await section_anything.asection(...)`.
+
+## Providers
+
+`quick` and `standard` call a chat model through the OpenAI Python client
+(`chat.completions.parse` with a JSON schema). `local` calls Ollama.
+
+| Provider | Status | Setup |
+|---|---|---|
+| OpenAI | tested (all benchmarks) | `OPENAI_API_KEY`, or `SECTIONANY_API_KEY` |
+| Ollama (local) | tested | `--mode local:<tag>`; no key, nothing leaves the machine |
+| Other OpenAI-compatible endpoints: Azure OpenAI, OpenRouter, Groq, Together, vLLM, LM Studio, a LiteLLM proxy | not tested | base URL, key, model and price (below) |
+| Anthropic, Google Gemini | not tested | no native client; use an OpenAI-compatible endpoint or gateway that meets the requirements below |
+
+An endpoint works if it:
+
+- supports structured outputs (`response_format` with a strict JSON schema);
+- accepts `max_completion_tokens` and `reasoning_effort` (`"low"`), which every request sends;
+- has a price set for the model. A model with no price is refused, so the cost cap can always be
+  enforced.
+
+```bash
+export SECTIONANY_BASE_URL="https://openrouter.ai/api/v1"   # the provider's OpenAI-compatible URL
+export SECTIONANY_API_KEY="..."                              # the provider's key
+export SECTIONANY_QUICK_MODEL="vendor/model-name"            # or SECTIONANY_STANDARD_MODEL
+export SECTIONANY_PRICES='{"vendor/model-name": {"input": 0.15, "output": 0.60}}'  # USD per 1M tokens
+section-anything paper.pdf --mode quick
+```
+
+```python
+tree = section_anything.section(
+    "paper.pdf", mode="quick",
+    base_url="https://openrouter.ai/api/v1", api_key="...", model="vendor/model-name",
+    prices={"vendor/model-name": {"input": 0.15, "output": 0.60}},
+)
+```
+
+Benchmark numbers are for the OpenAI models above; other models can score differently. If you run
+one, results are welcome in an issue.
 
 ## Costs and caps
 
