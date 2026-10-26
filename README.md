@@ -1,8 +1,20 @@
 # Section Anything
 
+[![PyPI](https://img.shields.io/pypi/v/section-anything)](https://pypi.org/project/section-anything/)
+[![CI](https://github.com/Omniwot/section-anything/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Omniwot/section-anything/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Omniwot/section-anything/blob/main/notebooks/quickstart.ipynb)
+
 Find the real sections of a PDF: every heading, its level, the pages it spans and the exact text
 under it. Built for RAG pipelines and document tools that need structure, with a dial from free
 rules to an LLM that reads the whole document, and a hard cost cap on every paid run.
+
+![Terminal: section-anything paper.pdf --mode quick prints the paper's heading tree, then the same result as JSON with levels, pages and character spans](docs/assets/demo.gif)
+
+Real output of section-anything 0.1.0, Quick mode (gpt-6-luna), on *Visual Instruction Tuning*, Liu et al.,
+[arXiv:2304.08485](https://arxiv.org/abs/2304.08485), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+Quick mode's output can vary slightly between runs. Try it on that paper in the [Colab notebook](https://colab.research.google.com/github/Omniwot/section-anything/blob/main/notebooks/quickstart.ipynb)
+(Free mode, no key needed).
 
 > **Pre-release (0.1).** The API may change before 1.0.
 
