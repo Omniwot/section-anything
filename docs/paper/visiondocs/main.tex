@@ -179,8 +179,8 @@ configuration was run once.
 System & all 905 & all 1,224 \\
 \midrule
 Ours: Standard (Luna)        & \textbf{70.0} & \textbf{75.2} \\
-Ours: Quick check (Luna)     & 63.9 & 74.3 \\
-Ours: Free (no model)        & 52.0 & 75.0 \\
+Ours: Quick check (Luna)     & 67.4 & 74.3$^{\dagger}$ \\
+Ours: Free (no model)        & 57.2 & 81.3 \\
 Docling 2.140, hierarchy on  & 49.4 & 75.0 \\
 MinerU + LLM levels (Sol)    & 64.8 & \na \\
 MinerU + LLM levels (Luna)   & 62.7 & \na \\
@@ -189,10 +189,14 @@ MinerU cloud (3.4.4, VLM)    & 53.9 & \na \\
 \end{tabular}
 \caption{READoc Heading Tree TEDS ($\uparrow$). arXiv: papers not used during development, all
 processed by MinerU's cloud. GitHub includes the 100 development READMEs; on the
-1,124 held-out READMEs all our settings tie Docling (see text). Luna = gpt-6-luna, Sol = gpt-6.1-sol.}
+1,124 held-out READMEs Standard and Quick check tie Docling and Free leads (see text). Free and Quick
+check are release 0.1.1, with the outline check (Free) and the abstract-heading candidate (both);
+before them, 52.0 and 63.9 on arXiv. $^{\dagger}$Quick check on GitHub is from 0.1.0 (the abstract
+change touched 2 of 1,124 held-out READMEs). Luna = gpt-6-luna, Sol = gpt-6.1-sol.}
 \label{tab:readoc}
 \end{table}
-% src: col 905 -- results.js readoc.heldout.note (70.0/63.9/49.4); Free 52.0 -- HANDOFF "Final held-out result" (all 905).
+% src: col 905 -- results.js readoc.heldout (70.0/49.4); Free 57.2, Quick check 67.4 -- release 0.1.1, .tmp/abstract-fix/score_full.py (26 Oct; hustles/research F014); before: Free 52.0 (HANDOFF "Final held-out result"), Quick check 63.9.
+% src: Free GitHub 81.3 (0.1.1) -- .tmp/abstract-fix/score_free_other.py (26 Oct); results.js readoc.full.
 % src: MinerU rows -- results.js readoc.heldoutMinerU; .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct).
 % src: col GitHub -- results.js readoc.full (latest, 21 Oct); HANDOFF "Full READoc, latest version (21 Oct)".
 
@@ -202,19 +206,20 @@ MinerU with LLM levels on the larger model by 5.1 points (95\% CI 4.0 to 6.2; $p
 and on the same small model by 7.2 (6.2 to 8.2). MinerU's own LLM step matters: it lifts MinerU from
 53.9 to 64.8, although with Sol it gave up on 154 papers (no parsable reply in three tries) and kept
 the raw levels; without them our lead is 2.8 (1.6 to 3.9).
-Quick check, which sends only candidate lines, falls between MinerU's two LLM variants. A prompt fix
+Quick check, which sends only candidate lines, scores 2.6 points above MinerU's LLM step with Sol
+(95\% CI 1.6 to 3.6). A prompt fix
 for papers (the title, Abstract and References are headings; theorem labels never are) was designed
 on the development sample, where it added 5.7 points to Standard; on the held-out papers it added
 5.1, so it appears to generalise.
 % src: HANDOFF "Final held-out result" (+20.6, CI, 773/103, +5.1 prompt fix); MinerU (+5.1, CI, p, +7.2, 154, +2.8) -- .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct), results.js readoc.heldoutMinerU.note; paper.md 4.4 (+5.7 on sample).
 
-\paragraph{Where we do not win.} On the 1,124 held-out READMEs, every setting ties Docling: Standard
-$+0.3$ (95\% CI $-0.9$ to $+1.6$), Quick check $-0.6$ ($-1.8$ to $+0.7$), Free $+0.1$ ($-1.0$ to
-$+1.2$). On the 100 development READMEs, Docling (73.2) scored above Standard (71.3), while MinerU
-(48.2 to 56.5) and PyMuPDF4LLM (57.5) trailed. Free's small arXiv lead comes from bookmarks: on
-papers without them it scores 42.3 against Docling's 46.7. Nougat's published 88.5 on arXiv remains
+\paragraph{Where we do not win.} On the 1,124 held-out READMEs, the model settings tie Docling: Standard
+$+0.3$ (95\% CI $-0.9$ to $+1.6$), Quick check $-0.6$ ($-1.8$ to $+0.7$); Free, with the outline
+check, leads by 6.2 ($5.3$ to $7.2$). On the 100 development READMEs, Docling (73.2) scored above Standard (71.3), while MinerU
+(48.2 to 56.5) and PyMuPDF4LLM (57.5) trailed. Free's arXiv lead depends on bookmarks: on
+papers without them it scored 42.3 against Docling's 46.7 (before 0.1.1). Nougat's published 88.5 on arXiv remains
 far above every number here.
-% src: held-out GitHub deltas -- paper.md 4.6 (.tmp/readoc-github-latest/scores.json) and HANDOFF "Full READoc, latest version".
+% src: held-out GitHub deltas -- paper.md 4.6 (.tmp/readoc-github-latest/scores.json) and HANDOFF "Full READoc, latest version"; Free 0.1.1 vs Docling (+6.2, 5.3 to 7.2) -- .tmp/abstract-fix/score_free_other.py (26 Oct).
 % src: dev README scores -- results.js readoc.sample. Bookmark split -- HANDOFF L801-802. Nougat -- results.js readoc.published.
 
 \begin{table}[t]

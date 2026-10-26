@@ -36,19 +36,25 @@ with READoc's own scoring code, October 2026. Papers not used while developing t
 | READoc arXiv papers (held out) | Docs | TEDS |
 |---|---|---|
 | Section Anything `standard` (gpt-6-luna) | 905 | **70.0** |
-| Section Anything `quick` (gpt-6-luna) | 905 | 63.9 |
-| Section Anything `free` (no model) | 905 | 54.8 |
+| Section Anything `quick` (gpt-6-luna) | 905 | 67.4 |
+| Section Anything `free` (no model) | 905 | 57.2 |
 | Docling 2.140 (heading hierarchy on) | 905 | 49.4 |
 
-On the same 905 papers with MinerU's cloud: our `standard` 70.0, MinerU + its own LLM title levels
-(gpt-6.1-sol) 64.8 (+5.1 for us, 95% CI +4.0 to +6.2; +2.8 without the 154 papers where its LLM step
-gave up and kept its raw levels), our `quick` 63.9, MinerU alone 53.9, Docling 49.4.
+`free` and `quick` are release 0.1.1, which finds the abstract's heading (journals often set it
+small, bold or run into the first line). In a pre-registered held-out test it added +2.4 to `free`
+and +3.7 to `quick` on these 905 papers (0.1.0: 54.8 and 63.9); `standard` does not use it. See
+the [changelog](CHANGELOG.md).
+
+On the same 905 papers with MinerU's cloud: our `standard` 70.0, our `quick` 67.4, MinerU + its own
+LLM title levels (gpt-6.1-sol) 64.8 (`standard` +5.1, 95% CI +4.0 to +6.2, or +2.8 without the 154
+papers where its LLM step gave up and kept its raw levels; `quick` +2.6, 95% CI +1.6 to +3.6),
+MinerU alone 53.9, Docling 49.4.
 
 On GitHub READMEs, `free` leads: on 1,112 bookmarked READMEs not used in development it scores
 81.9 against Docling's 75.5 (79.7 with the change we proposed upstream,
 [docling#5002](https://github.com/docling-project/docling/issues/5002)).
 On 27 UK government reports never used in development (answer keys from each report's HTML
-version), the outline check improved `free` by +5.7 (95% CI +0.4 to +12.2; 43.1 → 48.8).
+version), the outline check improved `free` by +5.7 (95% CI +0.4 to +12.2; 43.1 → 48.8; measured on 0.1.0).
 
 **Where others win:** on READMEs our `quick` and `standard` only tie with Docling (about 75). Nougat,
 an OCR model trained on arXiv, scores far higher on arXiv papers (88.5, published). Better headings improved RAG retrieval in our

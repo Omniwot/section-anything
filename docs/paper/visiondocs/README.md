@@ -144,14 +144,15 @@ The source files are:
 | Claim in main.tex | Number(s) | Source |
 |---|---|---|
 | Held-out arXiv papers (not used in development) | 905 | results.js `readoc.heldout.note`; HANDOFF "Final held-out result, arXiv (21 Oct)" |
-| Standard / Quick check / Docling on all 905 | 70.0 / 63.9 / 49.4 | results.js `readoc.heldout.note`; HANDOFF same section |
-| Free on all 905 | 52.0 | HANDOFF "Final held-out result"; paper.md Table 1 |
+| Standard / Quick check / Docling on all 905 | 70.0 / 67.4 / 49.4 | results.js `readoc.heldout`; Quick check is release 0.1.1 (63.9 in 0.1.0), `.tmp/abstract-fix/score_full.py` (26 Oct), research F014 |
+| Free on all 905 | 57.2 | release 0.1.1 (outline check and abstract heading; 52.0 before both, 54.8 in 0.1.0), `.tmp/abstract-fix/score_full.py`; paper.md Table 1 |
+| Quick check vs MinerU+LLM (Sol) on 905 | +2.6 (1.6 to 3.6) | `.tmp/abstract-fix/heldout/full_release.json` (26 Oct) |
 | MinerU on all 905: MinerU+LLM (Sol), MinerU+LLM (Luna), MinerU cloud | 64.8, 62.7, 53.9 | results.js `readoc.heldoutMinerU`; `.tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct)` |
 | Standard vs Docling (905): lead, CI, better/worse | +20.6 (19.3 to 21.8), 773 / 103 | HANDOFF "Final held-out result"; results.js note |
 | Standard vs MinerU+LLM (Sol) on 905: lead, CI, p; vs Luna; without the 154 Sol failures | +5.1 (4.0 to 6.2), p = 1.3e-21; +7.2 (6.2 to 8.2); +2.8 (1.6 to 3.9) | `.tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct)`; results.js `readoc.heldoutMinerU.note` |
 | Papers prompt fix: development sample, held-out | +5.7, +5.1 | paper.md §4.4; HANDOFF "Papers fix" and "Final held-out result" |
-| GitHub, all 1,224: Standard / Quick check / Free / Docling | 75.2 / 74.3 / 75.0 / 75.0 | results.js `readoc.full`; HANDOFF "Full READoc, latest version (21 Oct)" |
-| Held-out READMEs (1,124) vs Docling, with CIs | +0.3 (−0.9 to +1.6), −0.6 (−1.8 to +0.7), +0.1 (−1.0 to +1.2) | paper.md §4.6 (`.tmp/readoc-github-latest/scores.json`); HANDOFF "Full READoc, latest version" |
+| GitHub, all 1,224: Standard / Quick check / Free / Docling | 75.2 / 74.3 / 81.3 / 75.0 | results.js `readoc.full`; HANDOFF "Full READoc, latest version (21 Oct)"; Free is 0.1.1 (75.0 before the outline check), `.tmp/abstract-fix/score_free_other.py` |
+| Held-out READMEs (1,124) vs Docling, with CIs | Standard +0.3 (−0.9 to +1.6), Quick check −0.6 (−1.8 to +0.7); Free 0.1.1 +6.2 (5.3 to 7.2) | paper.md §4.6 (`.tmp/readoc-github-latest/scores.json`); HANDOFF "Full READoc, latest version"; Free: `.tmp/abstract-fix/heldout/free_other_release.json` (26 Oct; was +0.1 before the outline check) |
 | Development READMEs: Docling, Standard, MinerU range, PyMuPDF4LLM | 73.2, 71.3, 48.2–56.5, 57.5 | results.js `readoc.sample` |
 | Free vs Docling on papers without bookmarks | 42.3 vs 46.7 | HANDOFF "Full READoc run" (L801–802); paper.md §4.5 |
 | Published READoc arXiv scores: Docling, Marker, MinerU, Nougat | 38.3, 39.4, 42.0, 88.5 | results.js `readoc.published`; paper.md §1 (checked against READoc Tables 3–4) |

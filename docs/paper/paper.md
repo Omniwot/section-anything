@@ -407,16 +407,21 @@ points.
 **Table 1.** Heading Tree TEDS on held-out READoc-arXiv papers (not used during development).
 <!-- src: HANDOFF-section-anything.md L944-961 ("Final held-out result, arXiv (21 Oct)"); site/data/results.js readoc.heldout. -->
 <!-- MinerU rows: .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct); site/data/results.js readoc.heldoutMinerU. -->
+<!-- Free and Quick check rows: release 0.1.1, .tmp/abstract-fix/score_full.py (26 Oct; hustles/research F014). -->
 
 | System | All 905 held-out |
 |---|---|
 | Section Anything Standard (gpt-6-luna) | **70.0** |
+| Section Anything Quick check (gpt-6-luna)* | 67.4 |
 | MinerU cloud + its LLM title levels (gpt-6.1-sol) | 64.8 |
-| Section Anything Quick check (gpt-6-luna) | 63.9 |
 | MinerU cloud + its LLM title levels (gpt-6-luna) | 62.7 |
+| Section Anything Free (no model)* | 57.2 |
 | MinerU cloud (3.4.4, VLM) | 53.9 |
-| Section Anything Free (no model) | 52.0 |
 | Docling 2.140 (heading hierarchy on) | 49.4 |
+
+\* Release 0.1.1, which adds two pre-registered changes to the method described in Section 3: the
+outline check (Free) and the abstract-heading candidate (Free and Quick check); see Table 7. Before
+them Free scored 52.0 and Quick check 63.9.
 
 On all 905 papers, Standard leads Docling by 20.6 points (95% CI 19.3 to 21.8) and is better on
 773 papers and worse on 103. On the same papers it leads MinerU with LLM levels on the larger
@@ -424,8 +429,8 @@ model by 5.1 points (95% CI 4.0 to 6.2; p = 1.3e-21; better on 482, worse on 253
 small model by 7.2 points (95% CI 6.2 to 8.2). MinerU's own LLM step matters: it lifts MinerU from
 53.9 to 64.8 with gpt-6.1-sol. With that model the step gave up on 154 papers (its reply did not
 parse after three tries) and kept MinerU's raw levels; without those papers our lead is 2.8 points
-(95% CI 1.6 to 3.9). Quick check, which sends only candidate lines, falls between MinerU's LLM step
-on the two models.
+(95% CI 1.6 to 3.9). Quick check, which sends only candidate lines, scores 2.6 points above MinerU's
+LLM step on the larger model (95% CI 1.6 to 3.6; release 0.1.1).
 <!-- src: HANDOFF L944-962; results.js readoc.heldout.note; MinerU comparisons — .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct) and results.js readoc.heldoutMinerU.note. -->
 
 The papers prompt fix (Section 5.1) was designed on the development sample, where it added 5.7
@@ -600,7 +605,7 @@ Table 7 lists the changes made during development, in order, with their measured
 the bug fix were found by reading failures on the 200-document READoc sample.
 
 **Table 7.** Development changes and their effects (READoc Heading Tree TEDS unless noted).
-<!-- src: rows 1-3 — HANDOFF L757-782; row 4 — HANDOFF L784-794 and extract.py PDFIUM_LOCK comment; row 5 — HANDOFF L910-916; row 6 — HANDOFF L919-938, L944-948, L967-978. -->
+<!-- src: rows 1-3 — HANDOFF L757-782; row 4 — HANDOFF L784-794 and extract.py PDFIUM_LOCK comment; row 5 — HANDOFF L910-916; row 6 — HANDOFF L919-938, L944-948, L967-978; row 7 — hustles/research F012 (outline check); row 8 — hustles/research F014 (abstract heading; .tmp/abstract-fix/score_full.py, 26 Oct). -->
 
 | Change | Where | Effect |
 |---|---|---|
@@ -610,6 +615,8 @@ the bug fix were found by reading failures on the 200-document READoc sample.
 | PDFium lock (thread-safety bug, below) | extraction | 1,992 of 2,233 full-READoc extractions had lost bookmarks; Free re-run after the fix |
 | README fix: merge bare labels ("Article 9", "Title I") with the next line in code; bold body-size lines as minor headings in the prompt | Quick check | Sample GitHub 64.8 → 70.2, arXiv 61.1 → 61.4; corpus F1 0.78 → 0.79; Basic Law stays 0.99 |
 | Papers fix in both prompts: document title, Abstract/Acknowledgements/References/Appendix are headings; theorem-like labels never | Quick check, Standard | Sample arXiv: Standard 63.8 → 69.5, Quick check 61.4 → 64.5; GitHub unchanged. Held-out arXiv: Standard +5.1 (905 papers) |
+| Outline check (release 0.1.0): drop headings that a complete-looking PDF outline does not list | Free | Pre-registered held-out: bookmarked arXiv +3.52 (95% CI 2.81 to 4.25; 744 papers), READMEs +6.14 (5.14 to 7.11; 1,124). All 905 held-out papers: Free 52.0 → 54.8 |
+| Abstract heading (release 0.1.1): "Abstract" on pages 1-2, alone, letter-spaced or run in, is a candidate whatever its size; Free gives it the level of the next section | Free, Quick check | Pre-registered held-out, 905 papers: Free +2.4 (2.0 to 2.7), 54.8 → 57.2; Quick check +3.7 (3.3 to 4.1), 63.9 → 67.4; READMEs −0.02 |
 
 **Fonts.** TeX bold faces are named by codes such as CMBX rather than by the word "Bold", so the
 bold headings of almost every LaTeX paper had looked like body text to the rules and the tags. The
