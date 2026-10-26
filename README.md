@@ -111,11 +111,17 @@ API keys come from the environment only (`SECTIONANY_API_KEY`, or `OPENAI_API_KE
 endpoint); any OpenAI-compatible endpoint works. Full options, output format and the security
 model for untrusted PDFs: [packages/section-anything/README.md](packages/section-anything/README.md).
 
-## With LightRAG
+## Integrations
 
-[`packages/lightrag-section-anything`](packages/lightrag-section-anything) registers parser
-engines (`sectionany_free`, `sectionany_quick`, `sectionany_standard`, `sectionany_local`) so
-LightRAG's heading-based chunker works on PDFs without a MinerU or Docling service.
+One document per section, with the heading path, pages and character span as metadata. Each
+package depends only on `section-anything` and the framework's core package. Pre-release: not yet
+on PyPI; install from GitHub with `#subdirectory=packages/<name>`.
+
+| Framework | Package | Use |
+|---|---|---|
+| LangChain | [`langchain-section-anything`](packages/langchain-section-anything) | `SectionAnythingLoader("paper.pdf", mode="free").load()` |
+| LlamaIndex | [`llama-index-readers-section-anything`](packages/llama-index-readers-section-anything) | `SectionAnythingReader(mode="free").load_data("paper.pdf")`, or as the `.pdf` reader of `SimpleDirectoryReader` |
+| LightRAG | [`lightrag-section-anything`](packages/lightrag-section-anything) | parser engines (`sectionany_free`, `sectionany_quick`, ...) for LightRAG's heading-based chunker, without a MinerU or Docling service |
 
 ## Limitations
 
@@ -132,6 +138,8 @@ LightRAG's heading-based chunker works on PDFs without a MinerU or Docling servi
 | Path | What it is |
 |---|---|
 | `packages/section-anything/` | the library and CLI (Apache-2.0) |
+| `packages/langchain-section-anything/` | LangChain document loader |
+| `packages/llama-index-readers-section-anything/` | LlamaIndex reader |
 | `packages/lightrag-section-anything/` | LightRAG parser plugin |
 | `backend/`, `frontend/` | a demo web app: upload a PDF, see the sections highlighted ([docs/app.md](docs/app.md)) |
 | `site/` | project website and benchmark tables (`site/data/results.js`) |

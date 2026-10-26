@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=77"]  # SPDX licence expression and license-files
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "langchain-section-anything"
+version = "0.1.0"
+description = "LangChain document loader for Section Anything: one Document per PDF section, with its heading path, pages and character span."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+requires-python = ">=3.11"
+authors = [{ name = "The Section Anything Authors" }]
+keywords = ["langchain", "document loader", "pdf", "sections", "headings", "rag", "chunking"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing :: General",
+    "Typing :: Typed",
+]
+dependencies = [
+    "section-anything>=0.1.1,<0.2",  # uses its body export (section_anything.export)
+    "langchain-core>=1.0,<2",
+]
+
+[project.urls]
+Homepage = "https://github.com/Omniwot/section-anything/tree/main/packages/langchain-section-anything"
+Repository = "https://github.com/Omniwot/section-anything"
+Issues = "https://github.com/Omniwot/section-anything/issues"
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+langchain_section_anything = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "UP", "ASYNC"]
+ignore = ["E501", "E731"]

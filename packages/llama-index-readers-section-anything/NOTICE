@@ -1,0 +1,7 @@
+llama-index-readers-section-anything
+Copyright 2026 The Section Anything Authors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+It uses, without bundling, section-anything (Apache-2.0) and LlamaIndex
+(llama-index-core, MIT). Each is installed separately under its own licence.

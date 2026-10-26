@@ -54,6 +54,30 @@ jobs:
       - name: Build
         run: python -m build && twine check dist/*
 
+  integrations:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [langchain-section-anything, llama-index-readers-section-anything]
+    defaults:
+      run:
+        working-directory: packages/${{ matrix.package }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: pip install -e ../section-anything -e ".[test]" ruff build "twine>=6.1"
+      - name: Lint
+        run: ruff check src tests
+      - name: Shared helper copies match
+        run: cmp ../langchain-section-anything/src/langchain_section_anything/_sections.py ../llama-index-readers-section-anything/src/llama_index/readers/section_anything/_sections.py
+      - name: Test
+        run: pytest -q
+      - name: Build
+        run: python -m build && twine check --strict dist/*
+
   frontend:
     runs-on: ubuntu-latest
     defaults:
