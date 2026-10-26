@@ -3,6 +3,22 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
+## 0.1.2 (2026-10-26)
+
+- **Section numbers split off their titles are kept.** The PDF extractor (pdfminer) splits a line
+  where a space is wider than twice the letters beside it, which happens after a section number
+  when the title starts with a narrow letter: "1" | "Introduction". The bare "1" looked like a page
+  number and was dropped, so the heading lost its number and, in `free`, its level ("###
+  Introduction" next to "## 2 Related Work"). Such a number (same baseline, size and weight as the
+  title right after it) is now joined to its title in `free` and `quick`, also when a bookmark
+  names only the title. Pre-registered held-out test on 905 READoc arXiv papers: `free` +0.7 (95%
+  CI +0.5 to +1.0); `quick` +1.7 (95% CI +1.2 to +2.3) on the 291 papers it changes, +0.5 (95% CI
+  +0.4 to +0.8) on all; GitHub READMEs unchanged. Held-out scores are now `free` 57.9 (was 57.2) and
+  `quick` 68.0 (was 67.4). `standard` is unchanged.
+- Not fixed: in `free`, unnumbered headings that share the section style (References, appendices
+  lettered without a dot) can still come out one level below the numbered sections when the paper
+  title takes the largest style. This is a separate cause.
+
 ## 0.1.1 (2026-10-26)
 
 - **Abstract headings are found.** Journals often set "Abstract" bold but smaller than body text,
