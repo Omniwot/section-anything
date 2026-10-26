@@ -12,18 +12,18 @@
   \caption{Heading Tree TEDS on held-out READoc-arXiv papers (not used during development).}
   \label{tab:heldout}
   % src: HANDOFF-section-anything.md L944-961; site/data/results.js readoc.heldout; MinerU rows -- .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct)
-  % src: Free and Quick check rows -- release 0.1.1, .tmp/abstract-fix/score_full.py (26 Oct; hustles/research F014); before 0.1.1: Free 52.0 (no outline check), Quick check 63.9
+  % src: Free and Quick check rows -- release 0.1.2, .tmp/numline-fix/score_full.py (26 Oct; hustles/research F016); 0.1.1: 57.2 / 67.4 (F014); before 0.1.1: Free 52.0 (no outline check), Quick check 63.9
   \begin{tabular}{lr}\toprule
   System & All 905 held-out \\\midrule
   \sysname{} Standard (gpt-6-luna) & \textbf{70.0} \\
-  \sysname{} Quick check (gpt-6-luna)$^{*}$ & 67.4 \\
+  \sysname{} Quick check (gpt-6-luna)$^{*}$ & 68.0 \\
   MinerU cloud + its LLM title levels (gpt-6.1-sol) & 64.8 \\
   MinerU cloud + its LLM title levels (gpt-6-luna) & 62.7 \\
-  \sysname{} Free (no model)$^{*}$ & 57.2 \\
+  \sysname{} Free (no model)$^{*}$ & 57.9 \\
   MinerU cloud (3.4.4, VLM) & 53.9 \\
   Docling 2.140 (heading hierarchy on) & 49.4 \\\bottomrule
   \end{tabular}\\[2pt]
-  {\footnotesize $^{*}$Release 0.1.1, with the outline check (Free) and the abstract-heading candidate (Free, Quick check); before them 52.0 and 63.9.}
+  {\footnotesize $^{*}$Release 0.1.2, with the outline check (Free), the abstract-heading candidate and the split section number (Free, Quick check); before them 52.0 and 63.9.}
 \end{table}
 \todo{paper.md \S4.4 prose.}
 \subsection{Full READoc}\label{sec:full}

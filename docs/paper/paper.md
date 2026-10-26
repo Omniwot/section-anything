@@ -407,21 +407,21 @@ points.
 **Table 1.** Heading Tree TEDS on held-out READoc-arXiv papers (not used during development).
 <!-- src: HANDOFF-section-anything.md L944-961 ("Final held-out result, arXiv (21 Oct)"); site/data/results.js readoc.heldout. -->
 <!-- MinerU rows: .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct); site/data/results.js readoc.heldoutMinerU. -->
-<!-- Free and Quick check rows: release 0.1.1, .tmp/abstract-fix/score_full.py (26 Oct; hustles/research F014). -->
+<!-- Free and Quick check rows: release 0.1.2, .tmp/numline-fix/score_full.py (26 Oct; hustles/research F016); 0.1.1 (57.2 / 67.4): .tmp/abstract-fix/score_full.py (F014). -->
 
 | System | All 905 held-out |
 |---|---|
 | Section Anything Standard (gpt-6-luna) | **70.0** |
-| Section Anything Quick check (gpt-6-luna)* | 67.4 |
+| Section Anything Quick check (gpt-6-luna)* | 68.0 |
 | MinerU cloud + its LLM title levels (gpt-6.1-sol) | 64.8 |
 | MinerU cloud + its LLM title levels (gpt-6-luna) | 62.7 |
-| Section Anything Free (no model)* | 57.2 |
+| Section Anything Free (no model)* | 57.9 |
 | MinerU cloud (3.4.4, VLM) | 53.9 |
 | Docling 2.140 (heading hierarchy on) | 49.4 |
 
-\* Release 0.1.1, which adds two pre-registered changes to the method described in Section 3: the
-outline check (Free) and the abstract-heading candidate (Free and Quick check); see Table 7. Before
-them Free scored 52.0 and Quick check 63.9.
+\* Release 0.1.2, which adds three pre-registered changes to the method described in Section 3: the
+outline check (Free), the abstract-heading candidate and the split section number (both Free and
+Quick check); see Table 7. Before them Free scored 52.0 and Quick check 63.9.
 
 On all 905 papers, Standard leads Docling by 20.6 points (95% CI 19.3 to 21.8) and is better on
 773 papers and worse on 103. On the same papers it leads MinerU with LLM levels on the larger
@@ -429,9 +429,9 @@ model by 5.1 points (95% CI 4.0 to 6.2; p = 1.3e-21; better on 482, worse on 253
 small model by 7.2 points (95% CI 6.2 to 8.2). MinerU's own LLM step matters: it lifts MinerU from
 53.9 to 64.8 with gpt-6.1-sol. With that model the step gave up on 154 papers (its reply did not
 parse after three tries) and kept MinerU's raw levels; without those papers our lead is 2.8 points
-(95% CI 1.6 to 3.9). Quick check, which sends only candidate lines, scores 2.6 points above MinerU's
-LLM step on the larger model (95% CI 1.6 to 3.6; release 0.1.1), but is level with it without those
-154 papers (+0.5, 95% CI −0.6 to 1.5; better on 284, worse on 348).
+(95% CI 1.6 to 3.9). Quick check, which sends only candidate lines, scores 3.1 points above MinerU's
+LLM step on the larger model (95% CI 2.1 to 4.1; release 0.1.2), but is level with it without those
+154 papers (+1.0, 95% CI −0.03 to 2.0; better on 296, worse on 253).
 <!-- src: HANDOFF L944-962; results.js readoc.heldout.note; MinerU comparisons — .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct) and results.js readoc.heldoutMinerU.note. -->
 
 The papers prompt fix (Section 5.1) was designed on the development sample, where it added 5.7
@@ -618,6 +618,7 @@ the bug fix were found by reading failures on the 200-document READoc sample.
 | Papers fix in both prompts: document title, Abstract/Acknowledgements/References/Appendix are headings; theorem-like labels never | Quick check, Standard | Sample arXiv: Standard 63.8 → 69.5, Quick check 61.4 → 64.5; GitHub unchanged. Held-out arXiv: Standard +5.1 (905 papers) |
 | Outline check (release 0.1.0): drop headings that a complete-looking PDF outline does not list | Free | Pre-registered held-out: bookmarked arXiv +3.52 (95% CI 2.81 to 4.25; 744 papers), READMEs +6.14 (5.14 to 7.11; 1,124). All 905 held-out papers: Free 52.0 → 54.8 |
 | Abstract heading (release 0.1.1): "Abstract" on pages 1-2, alone, letter-spaced or run in, is a candidate whatever its size; Free gives it the level of the next section | Free, Quick check | Pre-registered held-out, 905 papers: Free +2.4 (2.0 to 2.7), 54.8 → 57.2; Quick check +3.7 (3.3 to 4.1), 63.9 → 67.4; READMEs −0.02 |
+| Split section number (release 0.1.2): the extractor splits "1" from "Introduction" when the space after the number is wider than twice the letters beside it; the bare number is no longer taken for a page number and joins its title | Free, Quick check | Pre-registered held-out, 905 papers: Free +0.7 (0.5 to 1.0), 57.2 → 57.9; Quick check +1.7 (1.2 to 2.3) on the 291 changed papers, +0.5 (0.4 to 0.8) on all, 67.4 → 68.0; READMEs unchanged |
 
 **Fonts.** TeX bold faces are named by codes such as CMBX rather than by the word "Bold", so the
 bold headings of almost every LaTeX paper had looked like body text to the rules and the tags. The

@@ -48,19 +48,22 @@ with READoc's own scoring code, October 2026. Papers not used while developing t
 | READoc arXiv papers (held out) | Docs | TEDS |
 |---|---|---|
 | Section Anything `standard` (gpt-6-luna) | 905 | **70.0** |
-| Section Anything `quick` (gpt-6-luna) | 905 | 67.4 |
-| Section Anything `free` (no model) | 905 | 57.2 |
+| Section Anything `quick` (gpt-6-luna) | 905 | 68.0 |
+| Section Anything `free` (no model) | 905 | 57.9 |
 | Docling 2.140 (heading hierarchy on) | 905 | 49.4 |
 
-`free` and `quick` are release 0.1.1, which finds the abstract's heading (journals often set it
-small, bold or run into the first line). In a pre-registered held-out test it added +2.4 to `free`
-and +3.7 to `quick` on these 905 papers (0.1.0: 54.8 and 63.9); `standard` does not use it. See
-the [changelog](CHANGELOG.md).
+`free` and `quick` are release 0.1.2. 0.1.1 found the abstract's heading (journals often set it
+small, bold or run into the first line): +2.4 to `free` and +3.7 to `quick` in a pre-registered
+held-out test (0.1.0: 54.8 and 63.9). 0.1.2 keeps a section number that the PDF extractor split
+off its title ("1" | "Introduction"): +0.7 to `free` (95% CI +0.5 to +1.0) and +0.5 to `quick`
+(95% CI +0.4 to +0.8; +1.7 on the 291 papers it changes) in a second pre-registered test (0.1.1:
+57.2 and 67.4).
+`standard` uses neither. See the [changelog](CHANGELOG.md).
 
-On the same 905 papers with MinerU's cloud: our `standard` 70.0, our `quick` 67.4, MinerU + its own
+On the same 905 papers with MinerU's cloud: our `standard` 70.0, our `quick` 68.0, MinerU + its own
 LLM title levels (gpt-6.1-sol) 64.8 (`standard` +5.1, 95% CI +4.0 to +6.2, or +2.8 without the 154
-papers where its LLM step gave up and kept its raw levels; `quick` +2.6, 95% CI +1.6 to +3.6, but
-level without those papers: +0.5, 95% CI −0.6 to +1.5),
+papers where its LLM step gave up and kept its raw levels; `quick` +3.1, 95% CI +2.1 to +4.1, but
+level without those papers: +1.0, 95% CI −0.03 to +2.0),
 MinerU alone 53.9, Docling 49.4.
 
 On GitHub READMEs, `free` leads: on 1,112 bookmarked READMEs not used in development it scores

@@ -39,24 +39,24 @@ window.SA_DATA = {
       date: "2026-10-26", docs: 905, subset: "READoc-arXiv",
       rows: [
         { system: "Section Anything Standard (gpt-6-luna)", score: 70.0, ours: true },
-        { system: "Section Anything Quick check (gpt-6-luna)", score: 67.4, ours: true },
-        { system: "Section Anything Free (no model)", score: 57.2, ours: true },
+        { system: "Section Anything Quick check (gpt-6-luna)", score: 68.0, ours: true },
+        { system: "Section Anything Free (no model)", score: 57.9, ours: true },
         { system: "Docling 2.140 (heading hierarchy on)", score: 49.4 }
       ],
-      note: "Standard leads Docling by 20.6 points on these 905 papers. Free and Quick check are release 0.1.1, which finds the abstract's heading (journals often set it small, bold or run into the first line): in a pre-registered held-out test it added 2.4 points to Free (95% CI 2.0 to 2.7) and 3.7 to Quick check (95% CI 3.3 to 4.1) on these papers (0.1.0: 54.8 and 63.9). Standard does not use it. Free includes the outline check (52.0 before it)."
+      note: "Standard leads Docling by 20.6 points on these 905 papers. Free and Quick check are release 0.1.2. Release 0.1.1 found the abstract's heading (journals often set it small, bold or run into the first line): in a pre-registered held-out test it added 2.4 points to Free (95% CI 2.0 to 2.7) and 3.7 to Quick check (95% CI 3.3 to 4.1) on these papers (0.1.0: 54.8 and 63.9). Release 0.1.2 keeps a section number that the PDF extractor split off its title (\"1\" | \"Introduction\"): in a second pre-registered test it added 0.7 to Free (95% CI 0.5 to 1.0) and 0.5 to Quick check (95% CI 0.4 to 0.8; 1.7 on the 291 papers it changes) (0.1.1: 57.2 and 67.4). Standard uses neither. Free includes the outline check (52.0 before it)."
     },
     heldoutMinerU: {
       title: "The same held-out papers with MinerU (every tool on the same papers)",
       date: "2026-10-26", docs: 905, subset: "READoc-arXiv",
       rows: [
         { system: "Section Anything Standard (gpt-6-luna)", score: 70.0, ours: true },
-        { system: "Section Anything Quick check (gpt-6-luna)", score: 67.4, ours: true },
+        { system: "Section Anything Quick check (gpt-6-luna)", score: 68.0, ours: true },
         { system: "MinerU cloud + its LLM title levels (gpt-6.1-sol)", score: 64.8 },
         { system: "MinerU cloud + its LLM title levels (gpt-6-luna)", score: 62.7 },
         { system: "MinerU cloud (3.4.4, vlm)", score: 53.9 },
         { system: "Docling 2.140 (heading hierarchy on)", score: 49.4 }
       ],
-      note: "Paired: Standard beats MinerU + LLM (gpt-6.1-sol) by 5.1 points (95% CI 4.0 to 6.2). MinerU's cloud processed all 905 held-out papers. Its LLM step with gpt-6.1-sol gave up on 154 of them and kept MinerU's raw levels; without those papers the lead is 2.8 points (95% CI 1.6 to 3.9). Quick check (release 0.1.1; 63.9 in 0.1.0), which sends only candidate lines, is 2.6 points above MinerU + LLM (gpt-6.1-sol) (95% CI 1.6 to 3.6), but level with it without the 154 papers (+0.5, 95% CI −0.6 to 1.5)."
+      note: "Paired: Standard beats MinerU + LLM (gpt-6.1-sol) by 5.1 points (95% CI 4.0 to 6.2). MinerU's cloud processed all 905 held-out papers. Its LLM step with gpt-6.1-sol gave up on 154 of them and kept MinerU's raw levels; without those papers the lead is 2.8 points (95% CI 1.6 to 3.9). Quick check (release 0.1.2; 67.4 in 0.1.1, 63.9 in 0.1.0), which sends only candidate lines, is 3.1 points above MinerU + LLM (gpt-6.1-sol) (95% CI 2.1 to 4.1), but level with it without the 154 papers (+1.0, 95% CI −0.03 to 2.0)."
     },
     sample: {
       title: "Every tool on the same READoc sample (200 documents drawn; 198 have headings in the answer key)",
@@ -79,10 +79,10 @@ window.SA_DATA = {
       rows: [
         { system: "Section Anything Standard (gpt-6-luna)", arxiv: 69.9, github: 75.2, ours: true },
         { system: "Section Anything Quick check (gpt-6-luna, 0.1.0)", arxiv: 63.9, github: 74.3, ours: true },
-        { system: "Section Anything Free (no model)", arxiv: 56.6, github: 81.3, ours: true },
+        { system: "Section Anything Free (no model)", arxiv: 57.3, github: 81.3, ours: true },
         { system: "Docling 2.140 (heading hierarchy on)", arxiv: 49.3, github: 75.0 }
       ],
-      note: "All documents with headings in READoc's arXiv and GitHub sets. Free is release 0.1.1 (0.1.0: 54.2 / 81.3; 51.3 / 75.0 before the outline check). Quick check is 0.1.0 (its 0.1.1 gain was measured on the 905 held-out papers above). On the 1,124 GitHub READMEs not used during development, Standard and Quick check tie with Docling (Standard +0.3, 95% CI -0.9 to +1.6) and Free leads it by 6.2 (95% CI 5.3 to 7.2). Our heading text matches the answer key more closely on READMEs (edit similarity 77.8 vs 73.9)."
+      note: "All documents with headings in READoc's arXiv and GitHub sets. Free is release 0.1.2 (0.1.1: 56.6 / 81.3; 0.1.0: 54.2 / 81.3; 51.3 / 75.0 before the outline check). Quick check is 0.1.0 (its 0.1.1 and 0.1.2 gains were measured on the 905 held-out papers above). On the 1,124 GitHub READMEs not used during development, Standard and Quick check tie with Docling (Standard +0.3, 95% CI -0.9 to +1.6) and Free leads it by 6.2 (95% CI 5.3 to 7.2). Our heading text matches the answer key more closely on READMEs (edit similarity 77.8 vs 73.9)."
     },
     published: {
       title: "Published READoc results (older tool versions, from the READoc paper)",
