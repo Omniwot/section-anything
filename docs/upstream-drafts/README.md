@@ -1,7 +1,7 @@
 # Upstream listing drafts (not filed)
 
-Drafts for listing the two integration packages where RAG builders look. Nothing here has been
-published, filed or opened.
+Drafts for listing the two integration packages where RAG builders look. The packages are on
+PyPI; neither draft has been filed or opened.
 
 | Framework | Package | Listing route | Draft |
 |---|---|---|---|
@@ -10,11 +10,9 @@ published, filed or opened.
 
 Order:
 
-1. Merge the integrations to `main` (the docs URLs point there).
-2. On PyPI, add a pending trusted publisher for each new project: owner `Omniwot`, repository
-   `section-anything`, workflow `release-integrations.yml`, environment `pypi` (the environment
-   the library already uses). Details in [RELEASING.md](../../RELEASING.md#integration-packages).
-3. Push the tags `langchain-section-anything-v0.1.0` and
-   `llama-index-readers-section-anything-v0.1.0`; check both PyPI pages and a clean
-   `pip install` of each.
-4. File the LangChain listing issue, then open the LlamaIndex docs PR.
+1. Done: the integrations are on `main` (the docs URLs point there).
+2. Done: trusted publishers on PyPI for each project (details in
+   [RELEASING.md](../../RELEASING.md#integration-packages)).
+3. Done, 27 Oct 2026: `langchain-section-anything` 0.1.0 and
+   `llama-index-readers-section-anything` 0.1.0 are on PyPI.
+4. Still to do: file the LangChain listing issue, then open the LlamaIndex docs PR.

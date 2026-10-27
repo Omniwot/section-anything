@@ -1,6 +1,11 @@
-# LlamaIndex: docs listing PR (draft, not opened)
+# LlamaIndex: docs listing PR (ready to open, not opened)
 
-Route checked 26 Oct 2026:
+Status, 27 Oct 2026: `llama-index-readers-section-anything` 0.1.0 is on PyPI
+(https://pypi.org/project/llama-index-readers-section-anything/). The integrations page, its
+`## Data Loaders` section and the PR template were re-checked on 27 Oct 2026 and are unchanged
+since 26 Oct, so the diff below still applies.
+
+Route (checked 26 Oct, re-checked 27 Oct 2026):
 
 - The monorepo takes **no new integration packages**: "New integrations should be maintained in
   their own repositories and published to PyPI independently. PRs that add a new
@@ -23,8 +28,8 @@ Route checked 26 Oct 2026:
   a `BaseReader` with `load_data(file, extra_info=None, fs=None)` so it works as a
   `SimpleDirectoryReader` file extractor, and a `[tool.llamahub]` table in `pyproject.toml`.
 
-Prerequisites before opening: `llama-index-readers-section-anything` published on PyPI, and the
-link below live on `main`.
+Before opening: the link below must show the package README on `main` (it does from 257eecd),
+and the PyPI page above must load.
 
 ## Change
 
@@ -37,7 +42,7 @@ File: `docs/src/content/docs/framework/community/integrations.md`, section `## D
 
 +Readers maintained in their own repositories:
 +
-+- [Section Anything](https://github.com/Omniwot/section-anything/tree/main/packages/llama-index-readers-section-anything) (`SectionAnythingReader`, `llama-index-readers-section-anything`): one Document per PDF section, with heading path, pages and parent/child links.
++- [Section Anything](https://github.com/Omniwot/section-anything/tree/main/packages/llama-index-readers-section-anything) (`SectionAnythingReader`, `pip install llama-index-readers-section-anything`): one Document per PDF section, with heading path, pages and parent/child links.
 +
  ## Agent Tools
 ```
@@ -48,7 +53,7 @@ File: `docs/src/content/docs/framework/community/integrations.md`, section `## D
 
 ## PR body (their template)
 
-```markdown
+````markdown
 # Description
 
 Docs-only change: adds a short "Readers maintained in their own repositories" list under
@@ -59,6 +64,26 @@ finds the sections of a PDF (headings, levels, pages, character spans). Its read
 `llama-index-readers-section-anything` on PyPI, returns one `Document` per section with the
 heading path as flat metadata and PARENT/CHILD/PREVIOUS/NEXT relationships, and works as a
 `SimpleDirectoryReader` file extractor. Its default mode uses rules only (no model, no network).
+
+```sh
+pip install llama-index-readers-section-anything
+```
+
+```python
+from llama_index.core import SimpleDirectoryReader
+from llama_index.readers.section_anything import SectionAnythingReader
+
+reader = SectionAnythingReader()  # mode="free": rules only, no model, no cost
+docs = reader.load_data("paper.pdf")
+docs[2].metadata["heading_path"]  # '1 Introduction > 1.1 Scope'
+# or for a folder: SimpleDirectoryReader("papers/", file_extractor={".pdf": reader}).load_data()
+```
+
+What it adds: one `Document` per real section of the PDF, with its heading path, pages and
+character span, instead of one per page. In our Qasper test (200 papers, 707 questions),
+section-bounded chunks retrieved the gold evidence more often than fixed-size chunks, mostly
+because they are smaller, but answer quality did not change
+([write-up](https://github.com/Omniwot/section-anything/blob/main/docs/rag-qasper.md)).
 
 Since new integration packages are maintained outside this repo (CONTRIBUTING.md), a place on
 this page to link them seemed useful; happy to move or reword it.
@@ -94,4 +119,4 @@ reader's tests run offline on a generated PDF.
 - [x] I have performed a self-review of my own code
 - [x] I have made corresponding changes to the documentation
 - [x] My changes generate no new warnings
-```
+````
