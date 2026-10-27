@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import asyncio
 import concurrent.futures
+import importlib.util
 import json
 import os
 import time
@@ -29,7 +30,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from section_anything.config import LOCAL_PREFIX, Price, Settings
+from section_anything.config import ANTHROPIC_EXTRA, LOCAL_PREFIX, Price, Settings
 from section_anything.errors import ConfigError, CostCapExceeded, PdfError, UnpricedModelError
 from section_anything.export import heading_text, markdown_hashes, section_bodies
 from section_anything.extract import Extraction
@@ -72,9 +73,21 @@ def _require_price(mode: str, model: str | None, settings: Settings) -> Price | 
             f"no price for model {model!r}: pass prices={{{model!r}: {{'input': ..., 'output': ...}}}} "
             "(USD per 1M tokens) or set SECTIONANY_PRICES, so the per-document cost cap can be enforced"
         )
-    if mode in ("quick", "standard") and settings.api_key is None:
-        raise ConfigError(f"{mode} mode needs an API key: set SECTIONANY_API_KEY or pass api_key=")
+    if mode in ("quick", "standard"):
+        _require_provider(mode, model, settings)
     return price
+
+
+def _require_provider(mode: str, model: str, settings: Settings) -> None:
+    """A cloud model's client can be built: its key (and, for Claude, the anthropic extra) is there."""
+    if settings.provider_for(model) == "anthropic":
+        if importlib.util.find_spec("anthropic") is None:
+            raise ConfigError(ANTHROPIC_EXTRA)
+        if settings.api_key_for(model) is None:
+            raise ConfigError(f"{mode} mode with {model!r} needs an Anthropic API key: set ANTHROPIC_API_KEY "
+                              "or SECTIONANY_API_KEY, or pass api_key=")
+    elif settings.api_key_for(model) is None:
+        raise ConfigError(f"{mode} mode needs an API key: set SECTIONANY_API_KEY or pass api_key=")
 
 
 @dataclass
@@ -173,6 +186,7 @@ async def asection(
     api_key: str | None = None,
     base_url: str | None = None,
     model: str | None = None,
+    provider: str | None = None,
     max_usd: float | None = None,
     prices: Mapping[str, Mapping[str, float] | Price] | None = None,
     over_budget: str | None = None,
@@ -183,8 +197,9 @@ async def asection(
     """Async form of `section`."""
     from section_anything import pipeline
 
-    s = _settings_for(settings, api_key=api_key, base_url=base_url, max_usd_per_doc=max_usd, prices=prices,
-                      over_budget=over_budget, max_pages=max_pages, extract_timeout_seconds=extract_timeout)
+    s = _settings_for(settings, api_key=api_key, base_url=base_url, provider=provider, max_usd_per_doc=max_usd,
+                      prices=prices, over_budget=over_budget, max_pages=max_pages,
+                      extract_timeout_seconds=extract_timeout)
     mode, model = resolve_mode(mode, s, model)
     _require_price(mode, model, s)  # before the PDF is read: a refused run costs nothing
     report = progress or (lambda _f, _m: None)
@@ -205,7 +220,7 @@ async def asection(
         price = s.price_for(model) if model else None
         if model and price is not None and strategy.uses_llm:
             est = strategy.estimate(ext)
-            usd = price.cost(est.input_tokens, est.output_tokens)
+            usd = price.estimate(est.input_tokens, est.output_tokens, est.calls)
             if usage.cost_usd + usd > cap:
                 note = f"{mode}: estimated ${usd:.2f}, over the ${cap:.2f} per-document cap"
                 if s.over_budget == "fail" or DOWNGRADE[mode] is None:
@@ -237,9 +252,16 @@ def _next_mode(mode: str, s: Settings, notes: list[str]) -> tuple[str, str | Non
     nxt = DOWNGRADE[mode]
     while nxt is not None:
         nxt_mode, nxt_model = resolve_mode(nxt, s)
-        if nxt_model is None or s.price_for(nxt_model) is not None:
+        if nxt_model is None:
             return nxt_mode, nxt_model
-        notes.append(f"{nxt}: skipped, no price for model {nxt_model!r}")
+        if s.price_for(nxt_model) is None:
+            notes.append(f"{nxt}: skipped, no price for model {nxt_model!r}")
+        else:
+            try:  # the next mode's model can be on another provider, with no key configured
+                _require_provider(nxt_mode, nxt_model, s)
+                return nxt_mode, nxt_model
+            except ConfigError as exc:
+                notes.append(f"{nxt}: skipped, {exc}")
         nxt = DOWNGRADE[nxt]
     raise ConfigError("no mode left to downgrade to")  # unreachable: free is always available
 
@@ -252,7 +274,8 @@ def section(
     """Find the sections of a PDF.
 
     `mode` is "free", "quick", "standard" or "local:<ollama model>". Options (each overrides the
-    matching ``SECTIONANY_*`` environment variable): `api_key`, `base_url`, `model`, `max_usd`
+    matching ``SECTIONANY_*`` environment variable): `api_key`, `base_url`, `model`, `provider`
+    ("openai" or "anthropic"; by default ``claude-*`` models use Anthropic), `max_usd`
     (per-document cap), `prices` ({model: {"input", "output"}} USD per 1M tokens, merged with the
     built-in list), `over_budget` ("downgrade" or "fail"), `max_pages`, `extract_timeout`
     (seconds), `progress` (callback(fraction, message)) and `settings` (a `Settings` object).

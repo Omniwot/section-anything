@@ -3,6 +3,35 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
+## Unreleased
+
+- **Claude models on Anthropic's own API**, as a provider next to OpenAI: `pip install
+  "section-anything[anthropic]"` (`anthropic>=2.0,<3`), then `ANTHROPIC_API_KEY` and a Claude
+  model, for example `SECTIONANY_STANDARD_MODEL=claude-haiku-5-5` or `model="claude-haiku-5-5"`.
+  Requests stream through `messages.stream` with the JSON schema in `output_config.format` and
+  `output_config.effort="medium"` (at `"low"`, Claude Haiku 5.5 skipped thinking and returned one
+  section where there were 21); refusals and answers cut off at `max_tokens` are retried once and
+  counted against the cost cap. Supported but not yet benchmarked: no scores are published for
+  Claude models. The defaults are unchanged (`gpt-6-luna` for `quick` and `standard`), and OpenAI
+  requests are sent exactly as before.
+- **Provider selection**: `SECTIONANY_PROVIDER` / `provider=` / `--provider` (`openai` or
+  `anthropic`); unset, `claude-*` model ids go to Anthropic and all others to OpenAI-compatible
+  endpoints. A `claude-*` model served by an OpenAI-compatible gateway now needs
+  `SECTIONANY_PROVIDER=openai`.
+- **Keys never cross providers**: for Claude models the key is `api_key=`, then
+  `SECTIONANY_API_KEY`, then `ANTHROPIC_API_KEY` (only while requests go to Anthropic's own
+  endpoint). `OPENAI_API_KEY` is never sent to Anthropic, nor `ANTHROPIC_API_KEY` to OpenAI, and a
+  key that is plainly the other provider's is refused before anything is sent.
+  `SECTIONANY_BASE_URL` works for both, so a gateway or local relay can sit in front of either.
+- **Prices**: `claude-haiku-5-5` ($0.10 / $0.50 per 1M tokens; $0.50 / $2.50 for prompts over
+  100,000 tokens), `claude-sonnet-5-5` ($2 / $10), `claude-opus-5-5` ($4 / $20) and
+  `claude-fable-5-1` ($10 / $50), with cache-read and cache-write prices. `Price` gains optional
+  `cache_write`, `cache_write_1h`, `long_prompt_tokens` and `long_prompt`.
+- A downgrade (standard -> quick -> free) skips a mode whose model has no key configured, for
+  example a Claude `standard` with no OpenAI key for `quick`.
+- `lightrag-section-anything`: `ANTHROPIC_API_KEY` also makes the `quick` and `standard` engines
+  ready.
+
 ## 0.1.3 (2026-10-27)
 
 - **`standard` now defaults to `gpt-6-luna`** (was `gpt-6.1-sol`). Every published `standard`

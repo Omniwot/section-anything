@@ -8,8 +8,12 @@ import os
 IMPL = "lightrag_section_anything.parser:{}"
 
 
+KEYS = ("SECTIONANY_API_KEY", "OPENAI_API_KEY", "ANTHROPIC_API_KEY")  # ANTHROPIC_API_KEY: Claude models
+NEED = "SECTIONANY_API_KEY, OPENAI_API_KEY or ANTHROPIC_API_KEY"
+
+
 def _has_key() -> bool:
-    return bool(os.getenv("SECTIONANY_API_KEY") or os.getenv("OPENAI_API_KEY"))
+    return any(os.getenv(k) for k in KEYS)
 
 
 def register_parsers() -> None:
@@ -21,8 +25,8 @@ def register_parsers() -> None:
         concurrency=int(os.getenv("MAX_PARALLEL_PARSE_SECTIONANY", "2"))))
     for mode, cls, ready, need in (
         ("free", "FreeParser", lambda: True, lambda: None),
-        ("quick", "QuickParser", _has_key, lambda: "SECTIONANY_API_KEY or OPENAI_API_KEY"),
-        ("standard", "StandardParser", _has_key, lambda: "SECTIONANY_API_KEY or OPENAI_API_KEY"),
+        ("quick", "QuickParser", _has_key, lambda: NEED),
+        ("standard", "StandardParser", _has_key, lambda: NEED),
         ("local", "LocalParser", lambda: bool(os.getenv("SECTIONANY_LOCAL_MODEL")), lambda: "SECTIONANY_LOCAL_MODEL"),
     ):
         register_parser(ParserSpec(

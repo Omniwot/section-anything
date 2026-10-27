@@ -27,6 +27,7 @@ Python 3.11+:
 
 ```sh
 pip install section-anything
+pip install "section-anything[anthropic]" # optional: Claude models on Anthropic's own API
 pip install "section-anything[langfuse]"  # optional Langfuse tracing
 # latest from GitHub:
 pip install "git+https://github.com/Omniwot/section-anything#subdirectory=packages/section-anything"
@@ -36,6 +37,7 @@ pip install -e ./packages/section-anything
 
 Dependencies: pdfplumber and pdfminer.six (MIT), pypdfium2 (Apache-2.0 / BSD-3-Clause),
 RapidFuzz (MIT), openai (Apache-2.0), pydantic and pydantic-settings (MIT). No PyMuPDF (AGPL).
+The `anthropic` extra adds Anthropic's Python SDK (Apache-2.0).
 
 ## Modes
 
@@ -95,12 +97,13 @@ Arguments win over the environment. **No `.env` file is read, and nothing is eve
 
 | Setting | Default | |
 |---|---|---|
-| `SECTIONANY_API_KEY` / `api_key=` | (none) | Falls back to `OPENAI_API_KEY` only while `base_url` is OpenAI's own endpoint |
-| `SECTIONANY_BASE_URL` / `base_url=` | `https://api.openai.com/v1` | Any OpenAI-compatible endpoint with JSON-schema outputs; always passed explicitly to the client |
+| `SECTIONANY_PROVIDER` / `provider=` | (from the model) | `openai` or `anthropic`; unset, `claude-*` models use Anthropic and all others OpenAI-compatible endpoints (see [Providers](#providers)) |
+| `SECTIONANY_API_KEY` / `api_key=` | (none) | Falls back to `OPENAI_API_KEY` only while `base_url` is OpenAI's own endpoint, and for Claude models to `ANTHROPIC_API_KEY` only while requests go to Anthropic's own endpoint |
+| `SECTIONANY_BASE_URL` / `base_url=` | `https://api.openai.com/v1` | Any OpenAI-compatible endpoint with JSON-schema outputs; always passed explicitly to the client. Left at the default, Claude models go to `https://api.anthropic.com`; set it to put a gateway or relay in front of either provider |
 | `SECTIONANY_QUICK_MODEL`, `SECTIONANY_STANDARD_MODEL` / `model=` | `gpt-6-luna`, `gpt-6-luna` | the models all published scores used; `gpt-6.1-sol` is also priced (see [Modes](#modes)) |
 | `SECTIONANY_LOCAL_MODEL` | (none) | Ollama tag for `local` |
 | `SECTIONANY_OLLAMA_BASE_URL` | `http://localhost:11434/v1` | |
-| `SECTIONANY_PRICES` / `prices=` | built-in list | JSON `{"model": {"input": 2.0, "output": 10.0, "cached": 0.1}}`, USD per 1M tokens, merged over the built-in list |
+| `SECTIONANY_PRICES` / `prices=` | built-in list | JSON `{"model": {"input": 2.0, "output": 10.0, "cached": 0.1}}`, USD per 1M tokens, merged over the built-in list. Optional: `cache_write`, `cache_write_1h`, and `long_prompt_tokens` with a `long_prompt` price for longer prompts |
 | `SECTIONANY_MAX_USD_PER_DOC` / `max_usd=` | `0.50` | hard per-document cap |
 | `SECTIONANY_OVER_BUDGET` / `over_budget=` | `downgrade` | or `fail` |
 | `SECTIONANY_MAX_PAGES`, `SECTIONANY_MAX_CHARS`, `SECTIONANY_MAX_MB` | 500, 5,000,000, 100 | refused above these |
@@ -110,7 +113,7 @@ Arguments win over the environment. **No `.env` file is read, and nothing is eve
 | `SECTIONANY_ISOLATE_EXTRACTION` | `true` | run extraction in a separate process |
 | `SECTIONANY_LLM_TIMEOUT_SECONDS`, `SECTIONANY_LOCAL_TIMEOUT_SECONDS` | 300, 600 | per model call |
 | `SECTIONANY_STORE_PROMPTS` | `false` | keep prompt text in call records passed to a `Usage(sink=...)` |
-| `SECTIONANY_LANGFUSE` | `false` | trace calls with Langfuse (needs the `langfuse` extra and Langfuse's own keys) |
+| `SECTIONANY_LANGFUSE` | `false` | trace calls with Langfuse (needs the `langfuse` extra and Langfuse's own keys); OpenAI-client calls only, Claude calls are not traced |
 
 Or build a `Settings` object once: `section(pdf, "quick", settings=Settings(max_usd_per_doc=1.0))`.
 Async code can `await section_anything.asection(...)`.
@@ -118,14 +121,52 @@ Async code can `await section_anything.asection(...)`.
 ## Providers
 
 `quick` and `standard` call a chat model through the OpenAI Python client
-(`chat.completions.parse` with a JSON schema). `local` calls Ollama.
+(`chat.completions.parse` with a JSON schema), or, for Claude models, through Anthropic's own
+Python SDK (`messages.stream` with a JSON schema in `output_config.format`). `local` calls Ollama.
 
 | Provider | Status | Setup |
 |---|---|---|
 | OpenAI | tested (all benchmarks) | `OPENAI_API_KEY`, or `SECTIONANY_API_KEY` |
 | Ollama (local) | tested | `--mode local:<tag>`; no key, nothing leaves the machine |
+| Anthropic (native API) | supported, not yet benchmarked | `pip install "section-anything[anthropic]"`, `ANTHROPIC_API_KEY`, a Claude model (below) |
 | Other OpenAI-compatible endpoints: Azure OpenAI, OpenRouter, Groq, Together, vLLM, LM Studio, a LiteLLM proxy | not tested | base URL, key, model and price (below) |
-| Anthropic, Google Gemini | not tested | no native client; use an OpenAI-compatible endpoint or gateway that meets the requirements below |
+| Google Gemini | not tested | no native client; use an OpenAI-compatible endpoint or gateway that meets the requirements below |
+
+### Anthropic (Claude)
+
+Claude models are opt-in: the defaults stay `gpt-6-luna`. A model id starting with `claude-` is
+sent to Anthropic's own API; set `SECTIONANY_PROVIDER=openai` to send it to an OpenAI-compatible
+gateway instead. Priced built in: `claude-haiku-5-5`, `claude-sonnet-5-5`, `claude-opus-5-5`,
+`claude-fable-5-1`.
+
+```bash
+pip install "section-anything[anthropic]"
+export ANTHROPIC_API_KEY="..."                       # or SECTIONANY_API_KEY
+export SECTIONANY_STANDARD_MODEL="claude-haiku-5-5"  # or SECTIONANY_QUICK_MODEL
+section-anything paper.pdf --mode standard
+section-anything paper.pdf --mode quick --model claude-haiku-5-5
+```
+
+```python
+tree = section_anything.section("paper.pdf", mode="standard", model="claude-haiku-5-5")
+```
+
+- Each request sends the schema as `output_config.format` and `output_config.effort="medium"`,
+  streams the answer, and checks `stop_reason`:
+  a refusal or an answer cut off at `max_tokens` is retried once and counted against the cost cap.
+  No `temperature`, `top_p`, `top_k` or `thinking` setting is sent.
+- Effort is `"medium"` where OpenAI models get `"low"`: OpenAI's `"low"` still reasons, but in one
+  test Claude Haiku 5.5 at `"low"` did not think at all and returned only the paper's title as a
+  section; at `"medium"` it found the headings.
+- The models need the effort setting: older Claude models without it, such as Claude Haiku 4.5,
+  are not supported.
+- Keys never cross providers: `OPENAI_API_KEY` is never sent to Anthropic, nor `ANTHROPIC_API_KEY`
+  to OpenAI, and a key that is plainly the other provider's is refused rather than sent.
+  `SECTIONANY_BASE_URL` puts a gateway or local relay in front of either provider.
+- Anthropic's OpenAI-compatible endpoint is not used: it ignores `response_format` and
+  `reasoning_effort`, which these modes need.
+
+### Other OpenAI-compatible endpoints
 
 An endpoint works if it:
 
@@ -150,8 +191,8 @@ tree = section_anything.section(
 )
 ```
 
-Benchmark numbers are for the OpenAI models above; other models can score differently. If you run
-one, results are welcome in an issue.
+Benchmark numbers are for the OpenAI models above; other models, Claude included, can score
+differently. If you run one, results are welcome in an issue.
 
 ## Costs and caps
 
@@ -166,6 +207,10 @@ one, results are welcome in an issue.
   same budget. The SDK's own retries are off; one retry on an unusable answer is counted.
 - The built-in prices are list prices from October 2026. Check your provider's prices and
   override them with `SECTIONANY_PRICES`.
+- Claude prices include cache reads and writes, and Claude Haiku 5.5's higher price for prompts
+  over 100,000 tokens (each request is priced on its own prompt). The up-front estimate uses one
+  characters-per-token ratio for every model, so it can be low for a tokenizer that counts more
+  tokens for the same text; the cap during the run is enforced from each response's token counts.
 
 ## Handling untrusted PDFs
 
