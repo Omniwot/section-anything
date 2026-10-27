@@ -10,9 +10,9 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   (about $0.16 per 1,000 pages) was measured on `gpt-6-luna`, so the default now matches them.
   `gpt-6.1-sol` (about $2.90 per 1,000 pages, roughly 18 times the cost) is still priced and can be
   chosen with `SECTIONANY_STANDARD_MODEL=gpt-6.1-sol`, `model="gpt-6.1-sol"` or `--model
-  gpt-6.1-sol`. On development documents only (98 READoc papers and 100 READMEs, `gpt-6.1-sol` on
-  an earlier prompt) it scored about 6 points higher on READMEs and level on papers; this is not
-  confirmed on held-out documents. `quick` (`gpt-6-luna`) and `free` are unchanged.
+  gpt-6.1-sol`. On development documents only (98 READoc papers and 100 READMEs, same code) it scored
+  5.8 points higher on READMEs (95% CI +2.1 to +9.6) and 0.9 higher on papers (CI -0.3 to +2.1,
+  not significant); this is not confirmed on held-out documents. `quick` (`gpt-6-luna`) and `free` are unchanged.
 - The command line's `--model` help names the default models.
 
 ## 0.1.2 (2026-10-26)

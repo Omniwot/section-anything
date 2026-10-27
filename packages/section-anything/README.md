@@ -51,9 +51,9 @@ Costs are measured averages at the built-in list prices; your documents may diff
 
 To run `standard` on the larger `gpt-6.1-sol`, set `SECTIONANY_STANDARD_MODEL=gpt-6.1-sol` or
 pass `model="gpt-6.1-sol"` (`--model gpt-6.1-sol` on the command line). It costs about 18 times
-as much. In one development-set comparison on READoc (98 papers and 100 READMEs; `gpt-6.1-sol` on
-an earlier prompt) it scored about 6 points higher on READMEs and level on papers. This has not
-been confirmed on held-out documents.
+as much. In one development-set comparison on READoc (98 papers and 100 READMEs, same code) it scored
+5.8 points higher on READMEs (95% CI +2.1 to +9.6) and 0.9 higher on papers (CI -0.3 to +2.1,
+not significant). This has not been confirmed on held-out documents.
 
 ## Command line
 

@@ -91,8 +91,8 @@ downgrades (standard → quick → free) or fails, as you choose.
 The default model for `quick` and `standard` is gpt-6-luna, the model behind their READoc scores
 above. `standard` can run on gpt-6.1-sol instead (`SECTIONANY_STANDARD_MODEL=gpt-6.1-sol` or
 `model="gpt-6.1-sol"`) at about 18 times the cost. On development documents only (98 READoc papers
-and 100 READMEs, gpt-6.1-sol on an earlier prompt) it scored about 6 points higher on READMEs and
-level on papers; this is not confirmed on held-out documents.
+and 100 READMEs, same code) it scored 5.8 points higher on READMEs (95% CI +2.1 to +9.6) and 0.9
+higher on papers (CI -0.3 to +2.1, not significant); this is not confirmed on held-out documents.
 
 ## Install
 
