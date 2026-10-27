@@ -267,7 +267,9 @@ def mark_doc_title(sections: list[dict], ext: Extraction) -> None:
 def estimates(ext: Extraction, prices: dict, cap_usd: float) -> list[dict]:
     """Per strategy and model: expected calls, tokens and cost, and whether the
     estimate is over `cap_usd`. `prices` maps model -> {"input", "output"} USD
-    per 1M tokens (dicts or `Price` objects)."""
+    per 1M tokens (dicts or `Price` objects). Each model's cost uses its own
+    provider's token counts (Claude: more tokens, plus thinking); the row's token
+    counts are OpenAI's."""
     out = []
     for s in STRATEGIES:
         e = s.estimate(ext)
@@ -277,7 +279,8 @@ def estimates(ext: Extraction, prices: dict, cap_usd: float) -> list[dict]:
         }
         for model, p in prices.items():
             pin, pout = (p["input"], p["output"]) if isinstance(p, dict) else (p.input, p.output)
-            cost = round((e.input_tokens * pin + e.output_tokens * pout) / 1e6, 4) if s.uses_llm else 0.0
+            em = s.estimate(ext, model) if s.uses_llm else e
+            cost = round((em.input_tokens * pin + em.output_tokens * pout) / 1e6, 4) if s.uses_llm else 0.0
             row["cost_usd"][model] = cost
             row["blocked"][model] = cost > cap_usd
         out.append(row)

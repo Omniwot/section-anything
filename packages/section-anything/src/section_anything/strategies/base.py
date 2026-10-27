@@ -47,5 +47,7 @@ class Strategy:
     async def run(self, ext: Extraction, ctx: Context) -> list[RawSection]:
         raise NotImplementedError
 
-    def estimate(self, ext: Extraction) -> Estimate:
+    def estimate(self, ext: Extraction, model: str = "", settings: Settings | None = None) -> Estimate:
+        """Expected calls and tokens for `ext` on `model` (token counts depend on the model's provider;
+        no model: OpenAI's)."""
         return Estimate(0, 0, 0)

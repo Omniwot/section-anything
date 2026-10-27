@@ -219,7 +219,7 @@ async def asection(
         strategy = pipeline.BY_ID[STRATEGY[mode]]
         price = s.price_for(model) if model else None
         if model and price is not None and strategy.uses_llm:
-            est = strategy.estimate(ext)
+            est = strategy.estimate(ext, model, s)
             usd = price.estimate(est.input_tokens, est.output_tokens, est.calls)
             if usage.cost_usd + usd > cap:
                 note = f"{mode}: estimated ${usd:.2f}, over the ${cap:.2f} per-document cap"

@@ -27,7 +27,7 @@ from typing import Any, TypeVar
 
 from pydantic import BaseModel, ValidationError
 
-from section_anything.config import ANTHROPIC_EXTRA, BROWSER_PREFIX, LOCAL_PREFIX, Price, Settings
+from section_anything.config import ANTHROPIC_EXTRA, BROWSER_PREFIX, CLAUDE_PREFIX, LOCAL_PREFIX, Price, Settings
 from section_anything.errors import ConfigError, CostCapExceeded, LlmCallFailed
 
 __all__ = ["BROWSER_PREFIX", "LOCAL_PREFIX", "CallSink", "CostCapExceeded", "LlmCallFailed", "Usage", "price_of",
@@ -42,6 +42,54 @@ CHARS_PER_TOKEN = 3.0  # conservative (English averages ~4): over- rather than u
 # token on READoc arXiv 0905.3502 (70,700 characters, 38,019 tokens; gpt-6-luna counted 29,612).
 CLAUDE_CHARS_PER_TOKEN = 1.5
 MIN_OUTPUT_TOKENS = 256  # below this a structured answer cannot fit: stop instead of calling
+MAX_OUTPUT_TOKENS = 32_000  # per call, thinking included; lowered further when the cap needs it
+
+# Up-front estimates (`Strategy.estimate`, checked against the per-document cap before any call), in
+# characters of document text per prompt token. OpenAI's 3.6 is unchanged. Claude counts many more tokens:
+# on the 200 READoc development documents' Standard prompts, count_tokens gave 1.52 to 2.76 characters
+# per token (median 2.24), so Claude's estimate uses 1.5, the same ratio as its per-call reserve above.
+ESTIMATE_CHARS_PER_TOKEN = {"openai": 3.6, "anthropic": CLAUDE_CHARS_PER_TOKEN}
+# Thinking Claude may add to a call's output, as a share of the call's prompt tokens, by the effort Claude
+# is sent. Measured at "medium": Claude Haiku 5.5 thought 17,239 tokens on a 38,019-token prompt (0.45;
+# Claude Sonnet 5.5 did not think on the same prompt). The other levels are not measured, only assumed to
+# think more at each step up. No effort sent means the model's default, as much as "high" (Sonnet's).
+# The allowance never takes a call's output past MAX_OUTPUT_TOKENS.
+CLAUDE_THINKING_SHARE = {"low": 0.25, "medium": 0.5, "high": 1.0, "xhigh": 2.0, "max": 2.0}
+
+
+@dataclass(frozen=True)
+class TokenProfile:
+    """How a model's prompts are counted in tokens, for up-front cost estimates."""
+
+    chars_per_token: float
+    thinking_share: float = 0.0  # output tokens of thinking per prompt token (Claude)
+
+    def tokens(self, chars: float) -> int:
+        return int(chars / self.chars_per_token)
+
+    def per_call(self, openai_tokens: int) -> int:
+        """A fixed per-call prompt allowance, given in tokens at OpenAI's ratio, at this ratio."""
+        return round(openai_tokens * ESTIMATE_CHARS_PER_TOKEN["openai"] / self.chars_per_token)
+
+    def output(self, answer_tokens: int, input_tokens: int, calls: int) -> int:
+        """Output tokens for `calls` calls: the answers, plus thinking within each call's output limit."""
+        if not self.thinking_share:
+            return answer_tokens
+        return min(answer_tokens + int(self.thinking_share * input_tokens), max(1, calls) * MAX_OUTPUT_TOKENS)
+
+
+def token_profile(model: str = "", settings: Settings | None = None, effort: str | None = "low") -> TokenProfile:
+    """The estimate profile for `model` called at a strategy's `effort`: Claude's tokenizer ratio and a
+    thinking allowance for Claude models, OpenAI's ratio for every other model (or none given)."""
+    if not model or model.startswith((LOCAL_PREFIX, BROWSER_PREFIX)):
+        return TokenProfile(ESTIMATE_CHARS_PER_TOKEN["openai"])
+    provider = settings.provider_for(model) if settings is not None else (
+        "anthropic" if model.startswith(CLAUDE_PREFIX) else "openai")
+    if provider != "anthropic":
+        return TokenProfile(ESTIMATE_CHARS_PER_TOKEN["openai"])
+    level = _claude_effort(effort) or "high"
+    share = CLAUDE_THINKING_SHARE.get(level, max(CLAUDE_THINKING_SHARE.values()))
+    return TokenProfile(ESTIMATE_CHARS_PER_TOKEN["anthropic"], share)
 
 
 def price_of(model: str, inp: int, cached: int, out: int, settings: Settings | None = None) -> float | None:
@@ -237,7 +285,7 @@ async def structured(
     cost_cap_usd: float,
     step: str,
     effort: str | None = "low",
-    max_output_tokens: int = 32_000,
+    max_output_tokens: int = MAX_OUTPUT_TOKENS,
     attempts: int = 2,
     images: list[str] | None = None,
     settings: Settings | None = None,
@@ -327,6 +375,11 @@ async def structured(
 _CLAUDE_EFFORT = {"none": "medium", "minimal": "medium", "low": "medium"}
 
 
+def _claude_effort(effort: str | None) -> str | None:
+    """The `output_config.effort` sent to Claude for a strategy's (OpenAI-style) effort."""
+    return _CLAUDE_EFFORT.get(effort, effort) if effort else None
+
+
 def _claude_image(url: str) -> dict:
     if url.startswith("data:"):
         header, _, data = url.partition(",")
@@ -356,7 +409,7 @@ async def _structured_anthropic(
     if images:
         content = [_claude_image(url) for url in images] + [{"type": "text", "text": user}]
     output_config: dict[str, Any] = {"format": {"type": "json_schema", "schema": transform_schema(schema)}}
-    claude_effort = _CLAUDE_EFFORT.get(effort, effort) if effort else None
+    claude_effort = _claude_effort(effort)
     if claude_effort:
         output_config["effort"] = claude_effort
     kwargs: dict[str, Any] = {

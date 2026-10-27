@@ -13,9 +13,9 @@ from __future__ import annotations
 
 from pydantic import BaseModel, Field, field_validator
 
-from section_anything.config import BROWSER_PREFIX, LOCAL_PREFIX
+from section_anything.config import BROWSER_PREFIX, LOCAL_PREFIX, Settings
 from section_anything.extract import Extraction
-from section_anything.llm import structured
+from section_anything.llm import structured, token_profile
 from section_anything.markers import canon
 from section_anything.strategies.base import Context, Estimate, RawSection, Strategy
 from section_anything.strategies.rules import LABEL_ONLY, candidates
@@ -144,13 +144,14 @@ class LlmTextStrategy(Strategy):
         ctx.progress(1.0, f"{len(found)} sections proposed")
         return found
 
-    def estimate(self, ext: Extraction) -> Estimate:
+    def estimate(self, ext: Extraction, model: str = "", settings: Settings | None = None) -> Estimate:
+        prof = token_profile(model, settings, self.effort)
         rows = _tagged(ext)
         n = len(_windows(ext, rows, self.window_chars))
         chars = sum(len(r) + 1 for r in rows)
-        inp = int(chars / 3.6) + n * 900
+        inp = prof.tokens(chars) + n * prof.per_call(900)
         out = int(len(ext.lines) / 18) * 90  # ~one section per 18 lines, incl. reasoning
-        return Estimate(inp, out, n)
+        return Estimate(inp, prof.output(out, inp, n), n)
 
 
 # ── Candidate review ────────────────────────────────────────────────────────
@@ -252,9 +253,10 @@ class LlmReviewStrategy(Strategy):
         ctx.progress(1.0, f"{len(found)} headings kept")
         return found
 
-    def estimate(self, ext: Extraction) -> Estimate:
+    def estimate(self, ext: Extraction, model: str = "", settings: Settings | None = None) -> Estimate:
+        prof = token_profile(model, settings, self.effort)
         rows = self._rows(ext)
         n = max(1, -(-len(rows) // self.batch))
-        inp = int(sum(len(r) for _, r in rows) / 3.6) + n * 700
+        inp = prof.tokens(sum(len(r) for _, r in rows)) + n * prof.per_call(700)
         out = len(rows) * 30 + n * 800
-        return Estimate(inp, out, n)
+        return Estimate(inp, prof.output(out, inp, n), n)

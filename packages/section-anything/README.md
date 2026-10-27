@@ -208,9 +208,12 @@ differently. If you run one, results are welcome in an issue.
 - The built-in prices are list prices from October 2026. Check your provider's prices and
   override them with `SECTIONANY_PRICES`.
 - Claude prices include cache reads and writes, and Claude Haiku 5.5's higher price for prompts
-  over 100,000 tokens (each request is priced on its own prompt). The up-front estimate uses one
-  characters-per-token ratio for every model, so it can be low for a tokenizer that counts more
-  tokens for the same text; the cap during the run is enforced from each response's token counts.
+  over 100,000 tokens (each request is priced on its own prompt). For Claude models the up-front
+  estimate counts more tokens for the same text (1.5 characters per token, the low end of what
+  Claude's token counter gave on 200 READoc documents) and adds thinking at the effort sent (half
+  the prompt's tokens at `"medium"`, within each call's 32,000-token output limit), so it errs high:
+  a long document on a pricier model such as Claude Sonnet 5.5 can be downgraded before it runs.
+  The cap during the run is enforced from each response's token counts.
 
 ## Handling untrusted PDFs
 

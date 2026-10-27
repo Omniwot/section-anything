@@ -31,6 +31,11 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   example a Claude `standard` with no OpenAI key for `quick`.
 - `lightrag-section-anything`: `ANTHROPIC_API_KEY` also makes the `quick` and `standard` engines
   ready.
+- **Up-front estimate for Claude models**: the cost estimate checked against `max_usd` before a
+  run now counts Claude prompts at 1.5 characters per token (OpenAI models: 3.6, unchanged) and adds
+  an allowance for thinking at the effort sent (half the prompt's tokens at `"medium"`, capped at each
+  call's 32,000-token output limit). Before, a Claude estimate could be about half the real cost, so
+  the per-document cap and the downgrade could let an over-budget Claude run start.
 
 ## 0.1.3 (2026-10-27)
 
