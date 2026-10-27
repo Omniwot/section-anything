@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: [langchain-section-anything, llama-index-readers-section-anything]
+        package: [langchain-section-anything, llama-index-readers-section-anything, lightrag-section-anything]
     defaults:
       run:
         working-directory: packages/${{ matrix.package }}
@@ -73,8 +73,26 @@ jobs:
         run: ruff check src tests
       - name: Shared helper copies match
         run: cmp ../langchain-section-anything/src/langchain_section_anything/_sections.py ../llama-index-readers-section-anything/src/llama_index/readers/section_anything/_sections.py
+      # The LightRAG end-to-end tests read the PDF in SECTIONANY_TEST_PDF and skip without one: write
+      # the two-page test PDF the other packages' tests use (no download, no dependencies).
+      - name: Test PDF
+        if: matrix.package == 'lightrag-section-anything'
+        run: |
+          python - <<'EOF'
+          import os, sys
+          from pathlib import Path
+          sys.path.insert(0, "../langchain-section-anything/tests")
+          from conftest import body, write_pdf
+          path = write_pdf(Path(os.environ["RUNNER_TEMP"]) / "paper.pdf", [
+              [("A Study of Sectioning", 20, True), ("1 Introduction", 14, True), *body(5),
+               ("1.1 Scope", 12, True), *body(4)],
+              [("2 Methods", 14, True), ("2.1 Data", 12, True), *body(5), ("3 Results", 14, True), *body(4)],
+          ])
+          with open(os.environ["GITHUB_ENV"], "a") as env:
+              env.write(f"SECTIONANY_TEST_PDF={path}\n")
+          EOF
       - name: Test
-        run: pytest -q
+        run: pytest -q -rs
       - name: Build
         run: python -m build && twine check --strict dist/*
 
