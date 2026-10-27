@@ -208,6 +208,17 @@ Docling's 75.5. On 27 UK government reports never used in development (answer ke
 Where others win: our `quick` and `standard` only tie with Docling on READMEs (about 75); Nougat, an OCR model trained on arXiv, scores far higher
 on arXiv papers (88.5, published).
 
+## Integrations
+
+Separate packages on PyPI, each depending only on this library and the framework's core package
+([usage](https://github.com/Omniwot/section-anything#integrations)):
+
+```sh
+pip install langchain-section-anything            # LangChain loader: one Document per section
+pip install llama-index-readers-section-anything  # LlamaIndex reader: one Document per section
+pip install lightrag-section-anything             # LightRAG parser engines
+```
+
 ## Limitations
 
 - Reads the PDF's text layer. Scanned PDFs need OCR first.

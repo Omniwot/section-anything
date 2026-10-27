@@ -114,8 +114,13 @@ model for untrusted PDFs: [packages/section-anything/README.md](packages/section
 ## Integrations
 
 One document per section, with the heading path, pages and character span as metadata. Each
-package depends only on `section-anything` and the framework's core package. Pre-release: not yet
-on PyPI; install from GitHub with `#subdirectory=packages/<name>`.
+package depends only on `section-anything` and the framework's core package.
+
+```sh
+pip install langchain-section-anything
+pip install llama-index-readers-section-anything
+pip install lightrag-section-anything
+```
 
 | Framework | Package | Use |
 |---|---|---|

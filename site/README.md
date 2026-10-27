@@ -46,15 +46,9 @@ Notes:
 - Text from the data file is inserted as plain text, so HTML in it is shown literally.
 - READoc scores are drawn as bars on the full 0-100 Heading TEDS scale.
 
-## Publishing on GitHub Pages (not done yet)
+## Publishing on GitHub Pages
 
-Nothing has been published. When the repository is public and you decide to publish:
-
-1. Set `repoUrl` in `data/results.js`.
-2. Commit the `site/` folder to the repository's default branch.
-3. On GitHub: Settings > Pages > Build and deployment > Source: "GitHub Actions"
-   (to deploy from `site/`) or "Deploy from a branch" with a `/docs` folder
-   (in that case copy or move `site/` to `docs/`).
-4. For the Actions route, add a workflow that uses `actions/upload-pages-artifact`
-   with `path: site` and then `actions/deploy-pages`.
-5. Open the Pages URL GitHub shows and check both themes and a phone-width view.
+The site is live at https://omniwot.github.io/section-anything/.
+[`.github/workflows/pages.yml`](../.github/workflows/pages.yml) deploys `site/` to GitHub Pages
+on every push to `main` that changes `site/` (or by hand from the Actions tab). After a deploy,
+open the page and check both themes and a phone-width view.

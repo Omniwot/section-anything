@@ -22,6 +22,8 @@ The workflow checks that the tag matches the version, builds the sdist and wheel
 
 ## One-time setup
 
+Done (the library is on PyPI); kept for reference.
+
 - On PyPI (Account settings, Publishing), add a pending publisher: project `section-anything`,
   owner `Omniwot`, repository `section-anything`, workflow `release.yml`, environment `pypi`.
 - On GitHub (Settings, Environments), create the environment `pypi`.
@@ -45,7 +47,8 @@ The workflow checks that the tag names one of the three packages and matches its
 it, runs `twine check --strict` and publishes it. A library release that an integration needs
 goes first (the integrations require `section-anything>=0.1.1,<0.2`).
 
-One-time setup, on PyPI (Account settings, Publishing), one pending publisher per package:
+One-time setup, on PyPI (Account settings, Publishing), one pending publisher per package (done:
+all three were published in October 2026; kept for reference):
 
 | PyPI project | Owner | Repository | Workflow | Environment |
 |---|---|---|---|---|

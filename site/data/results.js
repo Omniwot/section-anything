@@ -2,7 +2,7 @@
 // Every number below was measured with the scripts in hustles/.tmp/readoc-pilot (to be moved into the
 // public repo as benchmarks/) unless marked "published".
 window.SA_DATA = {
-  updated: "2026-10-26",
+  updated: "2026-10-27",
   repoUrl: "https://github.com/Omniwot/section-anything",
   appUrl: "",           // the demo app's address; empty hides the "Try it" buttons
   tryIt: {
@@ -139,11 +139,14 @@ window.SA_DATA = {
   ],
   examplesNote: "Examples from the 200-document sample (Standard with gpt-6.1-sol, 2026-10-19). Answer keys are READoc's.",
   integrations: [
-    { name: "LightRAG", status: "built, not yet released",
-      detail: "A parser plugin: engines sectionany_free, sectionany_quick, sectionany_standard and sectionany_local write LightRAG's .blocks.jsonl, so its heading-aware chunker works on PDFs without a MinerU or Docling service." },
+    { name: "LightRAG", status: "on PyPI",
+      detail: "pip install lightrag-section-anything. A parser plugin: engines sectionany_free, sectionany_quick, sectionany_standard and sectionany_local write LightRAG's .blocks.jsonl, so its heading-aware chunker works on PDFs without a MinerU or Docling service." },
+    { name: "LangChain", status: "on PyPI",
+      detail: "pip install langchain-section-anything. SectionAnythingLoader returns one Document per section, with the heading path, pages and character span as metadata." },
+    { name: "LlamaIndex", status: "on PyPI",
+      detail: "pip install llama-index-readers-section-anything. SectionAnythingReader returns one Document per section, with the heading path, pages and parent/child links; it also works as the .pdf reader of SimpleDirectoryReader." },
     { name: "RAG-Anything", status: "planned", detail: "Converter to its content-list format." },
-    { name: "Docling", status: "proposed upstream", detail: "An opt-in option that demotes headers a complete PDF outline does not list: +5.6 TEDS on 796 bookmarked READoc papers, +4.2 on 1,210 READMEs. Issue docling-project/docling#5002 (open)." },
-    { name: "LlamaIndex / LangChain", status: "planned", detail: "Markdown with correct heading levels works with their Markdown header splitters." }
+    { name: "Docling", status: "proposed upstream", detail: "An opt-in option that demotes headers a complete PDF outline does not list: +5.6 TEDS on 796 bookmarked READoc papers, +4.2 on 1,210 READMEs. Issue docling-project/docling#5002 (open)." }
   ],
   limitations: [
     "Scanned PDFs need OCR first; Section Anything reads the PDF's text layer.",
