@@ -1,0 +1,51 @@
+section-anything 0.1.3 | paper 2304.08485v2.pdf sha256 dc8bace378a282ea78caa9b5959306202fbfa3b8cedaf8a66541a9af18f4d3bf | captured 2026-10-27
+------------------------------------------------------------------------
+>>> import section_anything
+>>> tree = section_anything.section("paper.pdf", mode="quick")
+>>> print(tree.to_markdown())
+# Visual Instruction Tuning
+## Abstract
+## 1 Introduction
+## 2 Related Work
+## 3 GPT-assisted Visual Instruction Data Generation
+## 4 Visual Instruction Tuning
+### 4.1 Architecture
+### 4.2 Training
+## 5 Experiments
+### 5.1 Multimodal Chatbot
+### 5.2 ScienceQA
+## 6 Conclusion
+## References
+## A Broader Impact
+## B More Results
+## C Training Details
+## D Assets
+## E Data
+## F Prompts
+
+>>> print(tree.summary())
+{'mode': 'quick', 'model': 'gpt-6-luna', 'pages': 25, 'sections': 19, 'flagged': 1, 'calls': 1, 'input_tokens': 1939, 'output_tokens': 986, 'cost_usd': 0.0007, 'seconds': 16.65, 'downgraded': []}
+>>> s = tree.sections[6]
+>>> s
+{'number': '4.1', 'title': 'Architecture', 'level': 2, 'page_start': 4, 'page_end': 4, 'start': 13633, 'end': 15017, 'flags': []}
+>>> print(tree.text[s["start"]:s["end"]])
+4.1 Architecture
+The primary goal is to effectively leverage the capabilities of both the pre-trained LLM and visual
+model. The network archtecture is illustrated in Figure 1. We choose Vicuna [9] as our LLM fϕ(·)
+parameterized by ϕ, as it has the best instruction following capabilities in language tasks among
+publicly available checkpoints [48, 9, 38].
+Figure 1: LLaVA network architecture.
+For an input image Xv, we consider the pre-trained CLIP visual encoder ViT-L/14 [40], which
+provides the visual feature Zv = g(Xv). The grid features before and after the last Transformer layer
+are considered in our experiments. We consider a simple linear layer to connect image features into
+the word embedding space. Specifically, we apply a trainable projection matrix W to convert Zv into
+language embedding tokens Hv, which have the same dimensionality as the word embedding space
+in the language model:
+Hv = W · Zv, with Zv = g(Xv)
+(1)
+Thus, we have a sequence of visual tokens Hv. Note that our simple projection scheme is lightweight,
+which allows us to iterate data centric experiments quickly. More sophisticated schemes to con-
+nect the image and language representations can also be considered, such as gated cross-attention
+in Flamingo [2] and Q-former in BLIP-2 [28]. We leave exploring possibly more effective and
+sophisticated architecture designs for LLaVA as future work.
+>>> 
