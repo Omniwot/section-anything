@@ -28,7 +28,8 @@ The workflow checks that the tag matches the version, builds the sdist and wheel
 
 ## Integration packages
 
-`langchain-section-anything` and `llama-index-readers-section-anything` are published by
+`langchain-section-anything`, `llama-index-readers-section-anything` and
+`lightrag-section-anything` are published by
 [`.github/workflows/release-integrations.yml`](.github/workflows/release-integrations.yml), one
 package per tag, with the same trusted publishing and the same `pypi` environment.
 
@@ -36,11 +37,11 @@ package per tag, with the same trusted publishing and the same `pypi` environmen
 2. Merge to `main`, then tag that commit with the package name and version and push the tag:
 
    ```sh
-   git tag langchain-section-anything-v0.1.0            # or llama-index-readers-section-anything-v0.1.0
+   git tag langchain-section-anything-v0.1.0  # or llama-index-readers-section-anything-v0.1.0, lightrag-section-anything-v0.1.0
    git push origin langchain-section-anything-v0.1.0
    ```
 
-The workflow checks that the tag names one of the two packages and matches its version, builds
+The workflow checks that the tag names one of the three packages and matches its version, builds
 it, runs `twine check --strict` and publishes it. A library release that an integration needs
 goes first (the integrations require `section-anything>=0.1.1,<0.2`).
 
@@ -50,3 +51,4 @@ One-time setup, on PyPI (Account settings, Publishing), one pending publisher pe
 |---|---|---|---|---|
 | `langchain-section-anything` | `Omniwot` | `section-anything` | `release-integrations.yml` | `pypi` |
 | `llama-index-readers-section-anything` | `Omniwot` | `section-anything` | `release-integrations.yml` | `pypi` |
+| `lightrag-section-anything` | `Omniwot` | `section-anything` | `release-integrations.yml` | `pypi` |

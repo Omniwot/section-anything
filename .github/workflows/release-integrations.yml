@@ -3,12 +3,14 @@ name: Release integrations
 # Builds one integration package and publishes it to PyPI when its tag is pushed:
 #   langchain-section-anything-v0.1.0            -> packages/langchain-section-anything
 #   llama-index-readers-section-anything-v0.1.0  -> packages/llama-index-readers-section-anything
+#   lightrag-section-anything-v0.1.0             -> packages/lightrag-section-anything
 # PyPI trusted publishing: no API token is stored in this repository (see RELEASING.md).
 on:
   push:
     tags:
       - "langchain-section-anything-v*"
       - "llama-index-readers-section-anything-v*"
+      - "lightrag-section-anything-v*"
 
 permissions:
   contents: read
@@ -29,7 +31,7 @@ jobs:
           pkg="${GITHUB_REF_NAME%-v*}"
           ver="${GITHUB_REF_NAME##*-v}"
           case "$pkg" in
-            langchain-section-anything|llama-index-readers-section-anything) ;;
+            langchain-section-anything|llama-index-readers-section-anything|lightrag-section-anything) ;;
             *) echo "tag $GITHUB_REF_NAME names no integration package"; exit 1 ;;
           esac
           v=$(python -c "import sys, tomllib; print(tomllib.load(open(sys.argv[1], 'rb'))['project']['version'])" "packages/$pkg/pyproject.toml")

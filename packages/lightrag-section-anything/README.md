@@ -1,10 +1,25 @@
 # lightrag-section-anything
 
-> **Pre-release.** Not yet published on PyPI.
-
 LightRAG parser engines that turn a PDF into heading-aware blocks (`.blocks.jsonl`) using the
-[`section-anything`](../section-anything) library, so LightRAG's heading-based chunker ("P") and
-its heading context work on PDFs without a MinerU or Docling service.
+[`section-anything`](https://github.com/Omniwot/section-anything) library, so LightRAG's
+heading-based chunker ("P") and its heading context work on PDFs without a MinerU or Docling
+service.
+
+## Install
+
+```sh
+pip install lightrag-section-anything
+# latest from GitHub:
+pip install "git+https://github.com/Omniwot/section-anything#subdirectory=packages/lightrag-section-anything"
+```
+
+Python 3.11+. Depends on `section-anything` and `lightrag-hku` (1.5.7 or later, below 1.7); the
+LightRAG server needs `lightrag-hku[api]`. The engines register through LightRAG's
+`lightrag.parsers` entry point, which the LightRAG server (`lightrag-server`) and the parser debug
+CLI (`python -m lightrag.parser.cli`) load at startup. When you embed LightRAG as a library, call
+`load_third_party_parsers()` from `lightrag.parser.plugins` first.
+
+## Engines
 
 | Engine | Runs | Cost per 1,000 pages |
 |---|---|---|
@@ -14,10 +29,9 @@ its heading context work on PDFs without a MinerU or Docling service.
 | `sectionany_local` | quick-style review on a local Ollama model (`SECTIONANY_LOCAL_MODEL`) | $0 |
 | `sectionany` | the mode in `SECTIONANY_MODE` (default `free`) | |
 
-Setup: install both packages next to `lightrag-hku` (1.5.7 or later, below 1.7), in a dedicated
-environment:
+## Use
 
-    pip install ./packages/section-anything ./packages/lightrag-section-anything
+Route PDFs to an engine with LightRAG's `LIGHTRAG_PARSER` rules, for example:
 
     LIGHTRAG_PARSER=pdf:sectionany_quick-P,pdf:sectionany-P,*:native-teP,*:legacy-R
 

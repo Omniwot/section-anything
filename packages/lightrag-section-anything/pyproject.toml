@@ -4,23 +4,51 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lightrag-section-anything"
-version = "0.1.0.dev1"
+version = "0.1.0"
 description = "Section Anything PDF parser engines for LightRAG: accurate headings for heading-aware chunking, with a cost/accuracy dial."
 readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE", "NOTICE"]
 requires-python = ">=3.11"
 authors = [{ name = "The Section Anything Authors" }]
+keywords = ["lightrag", "parser", "plugin", "pdf", "sections", "headings", "rag", "chunking"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing :: General",
+]
 dependencies = [
-    "section-anything>=0.1,<0.2",
-    "lightrag-hku>=1.5.7,<1.7",
+    "section-anything>=0.1.1,<0.2",  # uses its body export (section_anything.export)
+    "lightrag-hku>=1.5.7,<1.7",  # lightrag.parsers entry points and NativeParserBase, from 1.5.7
 ]
 
+[project.urls]
+Homepage = "https://github.com/Omniwot/section-anything/tree/main/packages/lightrag-section-anything"
+Repository = "https://github.com/Omniwot/section-anything"
+Issues = "https://github.com/Omniwot/section-anything/issues"
+
 [project.optional-dependencies]
-test = ["pytest"]
+test = ["pytest>=8"]
 
 [project.entry-points."lightrag.parsers"]
 sectionany = "lightrag_section_anything.plugin:register_parsers"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "UP", "ASYNC"]
+ignore = ["E501", "E731"]
