@@ -23,7 +23,7 @@ window.SA_DATA = {
     { id: "quick", name: "Quick check", model: "a small LLM (we test gpt-6-luna)", sends: "only the candidate heading lines",
       how: "The rules propose candidate lines; a small model keeps the real headings and sets their levels.",
       costPer1000Pages: 0.07 },
-    { id: "standard", name: "Standard", model: "an LLM (gpt-6-luna or gpt-6.1-sol)", sends: "the document text",
+    { id: "standard", name: "Standard", model: "an LLM (gpt-6-luna by default, as in every READoc table here; gpt-6.1-sol optional)", sends: "the document text",
       how: "The model reads every line, with font hints, and marks where each section starts and ends.",
       costPer1000Pages: 0.16, costPer1000PagesStrong: 2.9 },
     { id: "local", name: "Local", model: "a local model through Ollama", sends: "nothing leaves your machine",

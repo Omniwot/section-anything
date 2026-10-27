@@ -16,6 +16,7 @@ from section_anything.errors import ConfigError, CostCapExceeded, ExtractionFail
 
 def build_parser() -> argparse.ArgumentParser:
     from section_anything import __version__
+    from section_anything.config import Settings
 
     p = argparse.ArgumentParser(
         prog="section-anything",
@@ -29,7 +30,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--max-usd", type=float, default=None, help="per-document cost cap in USD (default 0.50)")
     p.add_argument("--over-budget", choices=("downgrade", "fail"), default=None,
                    help="over the cap: downgrade standard -> quick -> free (default), or fail")
-    p.add_argument("--model", default=None, help="model for quick/standard, overriding the configured one")
+    defaults = Settings.model_fields
+    p.add_argument("--model", default=None,
+                   help="model for quick/standard, overriding the configured one (defaults: quick "
+                        f"{defaults['quick_model'].default}, standard {defaults['standard_model'].default})")
     p.add_argument("--base-url", default=None, help="OpenAI-compatible endpoint (default OpenAI)")
     p.add_argument("--max-pages", type=int, default=None, help="refuse PDFs with more pages (default 500)")
     p.add_argument("--timeout", type=float, default=None, help="extraction time limit in seconds (default 120)")

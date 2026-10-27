@@ -3,6 +3,18 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
+## 0.1.3 (2026-10-27)
+
+- **`standard` now defaults to `gpt-6-luna`** (was `gpt-6.1-sol`). Every published `standard`
+  score (held-out READoc: 70.0 on 905 arXiv papers, 75.5 on 1,124 GitHub READMEs) and its cost
+  (about $0.16 per 1,000 pages) was measured on `gpt-6-luna`, so the default now matches them.
+  `gpt-6.1-sol` (about $2.90 per 1,000 pages, roughly 18 times the cost) is still priced and can be
+  chosen with `SECTIONANY_STANDARD_MODEL=gpt-6.1-sol`, `model="gpt-6.1-sol"` or `--model
+  gpt-6.1-sol`. On development documents only (98 READoc papers and 100 READMEs, `gpt-6.1-sol` on
+  an earlier prompt) it scored about 6 points higher on READMEs and level on papers; this is not
+  confirmed on held-out documents. `quick` (`gpt-6-luna`) and `free` are unchanged.
+- The command line's `--model` help names the default models.
+
 ## 0.1.2 (2026-10-26)
 
 - **Section numbers split off their titles are kept.** The PDF extractor (pdfminer) splits a line

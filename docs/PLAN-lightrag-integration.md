@@ -172,7 +172,8 @@ Environment variables (read at parse time, except concurrency):
   The text after `local:` is the full model tag, including colons.
 - `SECTIONANY_API_KEY` (falls back to `OPENAI_API_KEY`), `SECTIONANY_BASE_URL` (any
   OpenAI-compatible endpoint with JSON-schema outputs), `SECTIONANY_QUICK_MODEL=gpt-6-luna`,
-  `SECTIONANY_STANDARD_MODEL=gpt-6.1-sol`, `SECTIONANY_PRICES_JSON` (USD per 1M tokens).
+  `SECTIONANY_STANDARD_MODEL=gpt-6-luna` (the default since library 0.1.3; was gpt-6.1-sol,
+  which the table above used), `SECTIONANY_PRICES_JSON` (USD per 1M tokens).
 - `SECTIONANY_MAX_USD_PER_DOC=0.50`, `SECTIONANY_BUDGET_USD` (total across documents; ledger
   `<WORKING_DIR>/sectionany_ledger.jsonl`, append-only with a file lock).
 - `SECTIONANY_OVER_BUDGET=downgrade|fail`.

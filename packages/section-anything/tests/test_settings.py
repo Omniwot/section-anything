@@ -22,6 +22,18 @@ def test_environment_and_explicit_arguments(monkeypatch):
     assert s.with_overrides(max_usd_per_doc=0.3, prices={"other": {"input": 1, "output": 1}}).price_for("my-model")
 
 
+def test_default_models_are_the_published_ones(monkeypatch):
+    # The published READoc scores and costs of quick and standard were measured on gpt-6-luna.
+    s = Settings()
+    assert s.quick_model == "gpt-6-luna" and s.standard_model == "gpt-6-luna"
+    assert s.price_for(s.quick_model) is not None and s.price_for(s.standard_model) is not None
+    # gpt-6.1-sol stays available as an opt-in, priced so the cost cap still applies.
+    monkeypatch.setenv("SECTIONANY_STANDARD_MODEL", "gpt-6.1-sol")
+    s = Settings()
+    assert s.standard_model == "gpt-6.1-sol" and s.price_for("gpt-6.1-sol") is not None
+    assert Settings(standard_model="gpt-6-luna").standard_model == "gpt-6-luna"
+
+
 def test_no_env_file_is_read(tmp_path, monkeypatch):
     (tmp_path / ".env").write_text("SECTIONANY_MAX_PAGES=3\nSECTIONANY_API_KEY=from-dotenv\n")
     monkeypatch.chdir(tmp_path)

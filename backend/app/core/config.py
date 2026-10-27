@@ -76,7 +76,7 @@ class Settings(BaseSettings):
     ALLOWED_MODELS: str = "gpt-6.1-sol,gpt-6-luna,gpt-5.5,gpt-5"
     # Default model per stop (owner, 19 Oct): Quick check on the cheap model, Standard on Sol.
     # The UI preselects these; a run can still pick any allowed model.
-    STRATEGY_MODELS_JSON: str = '{"llm_review": "gpt-6-luna", "llm_text": "gpt-6.1-sol"}'
+    STRATEGY_MODELS_JSON: str = '{"llm_review": "gpt-6-luna", "llm_text": "gpt-6-luna"}'
     # USD per 1M tokens. Keep in config so cost readouts track price changes.
     MODEL_PRICES_JSON: str = (
         '{"gpt-5.5": {"input": 5.00, "cached": 0.50, "output": 30.00},'

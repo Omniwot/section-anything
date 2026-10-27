@@ -82,11 +82,17 @@ an OCR model trained on arXiv, scores far higher on arXiv papers (88.5, publishe
 |---|---|---|---|
 | `free` (default) | bookmarks or the printed contents as the outline, then typography and numbering rules; headings a complete-looking outline does not list are dropped | nothing | $0 |
 | `quick` | rules propose candidate heading lines; a small model keeps the real ones and sets levels | candidate lines only | about $0.07 (gpt-6-luna) |
-| `standard` | a model reads every line, with font hints, and marks where sections start and end | the document text | about $0.16 (gpt-6-luna) to $2.90 (gpt-6.1-sol) |
+| `standard` | a model reads every line, with font hints, and marks where sections start and end | the document text | about $0.16 (gpt-6-luna, the default); $2.90 with gpt-6.1-sol |
 | `local:<model>` | `quick`, answered by a local Ollama model | nothing leaves the machine | $0 |
 
 Every paid run is estimated first and capped (default $0.50 per document); over the cap it
 downgrades (standard → quick → free) or fails, as you choose.
+
+The default model for `quick` and `standard` is gpt-6-luna, the model behind their READoc scores
+above. `standard` can run on gpt-6.1-sol instead (`SECTIONANY_STANDARD_MODEL=gpt-6.1-sol` or
+`model="gpt-6.1-sol"`) at about 18 times the cost. On development documents only (98 READoc papers
+and 100 READMEs, gpt-6.1-sol on an earlier prompt) it scored about 6 points higher on READMEs and
+level on papers; this is not confirmed on held-out documents.
 
 ## Install
 

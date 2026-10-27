@@ -59,8 +59,11 @@ class Settings(BaseSettings):
     # Model provider (any OpenAI-compatible endpoint with JSON-schema outputs).
     api_key: SecretStr | None = None
     base_url: str = OPENAI_BASE_URL
+    # Both defaults are the model the published READoc scores and costs of quick and standard were
+    # measured on. gpt-6.1-sol stays priced and can be chosen with SECTIONANY_STANDARD_MODEL or
+    # `model=` (about 18x the cost; better on development READMEs only, not tested on held-out).
     quick_model: str = "gpt-6-luna"
-    standard_model: str = "gpt-6.1-sol"
+    standard_model: str = "gpt-6-luna"
     local_model: str = ""  # Ollama model tag for mode "local"
     ollama_base_url: str = "http://localhost:11434/v1"
     # Extra or overriding prices; merged over DEFAULT_PRICES. Env: JSON object.

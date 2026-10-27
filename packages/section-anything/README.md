@@ -43,10 +43,17 @@ RapidFuzz (MIT), openai (Apache-2.0), pydantic and pydantic-settings (MIT). No P
 |---|---|---|---|
 | `free` (default) | PDF bookmarks or the printed table of contents as the outline, then typography and numbering rules; headings a complete-looking outline does not list are dropped | nothing | $0 |
 | `quick` | the rules propose candidate heading lines; a small model keeps the real ones and sets levels | candidate lines and a 70-character peek at the next line | about $0.07 (`gpt-6-luna`) |
-| `standard` | a model reads every line, with font hints, and marks where sections start and end | the document text | about $0.16 (`gpt-6-luna`), $2.90 (`gpt-6.1-sol`, the default) |
+| `standard` | a model reads every line, with font hints, and marks where sections start and end | the document text | about $0.16 (`gpt-6-luna`, the default); $2.90 with `gpt-6.1-sol` |
 | `local:<model>` | `quick`, answered by a local [Ollama](https://ollama.com) model | nothing leaves the machine | $0 |
 
-Costs are measured averages at the built-in list prices; your documents may differ.
+Costs are measured averages at the built-in list prices; your documents may differ. The
+`quick` and `standard` READoc scores below were measured with the default model, `gpt-6-luna`.
+
+To run `standard` on the larger `gpt-6.1-sol`, set `SECTIONANY_STANDARD_MODEL=gpt-6.1-sol` or
+pass `model="gpt-6.1-sol"` (`--model gpt-6.1-sol` on the command line). It costs about 18 times
+as much. In one development-set comparison on READoc (98 papers and 100 READMEs; `gpt-6.1-sol` on
+an earlier prompt) it scored about 6 points higher on READMEs and level on papers. This has not
+been confirmed on held-out documents.
 
 ## Command line
 
@@ -90,7 +97,7 @@ Arguments win over the environment. **No `.env` file is read, and nothing is eve
 |---|---|---|
 | `SECTIONANY_API_KEY` / `api_key=` | (none) | Falls back to `OPENAI_API_KEY` only while `base_url` is OpenAI's own endpoint |
 | `SECTIONANY_BASE_URL` / `base_url=` | `https://api.openai.com/v1` | Any OpenAI-compatible endpoint with JSON-schema outputs; always passed explicitly to the client |
-| `SECTIONANY_QUICK_MODEL`, `SECTIONANY_STANDARD_MODEL` / `model=` | `gpt-6-luna`, `gpt-6.1-sol` | |
+| `SECTIONANY_QUICK_MODEL`, `SECTIONANY_STANDARD_MODEL` / `model=` | `gpt-6-luna`, `gpt-6-luna` | the models all published scores used; `gpt-6.1-sol` is also priced (see [Modes](#modes)) |
 | `SECTIONANY_LOCAL_MODEL` | (none) | Ollama tag for `local` |
 | `SECTIONANY_OLLAMA_BASE_URL` | `http://localhost:11434/v1` | |
 | `SECTIONANY_PRICES` / `prices=` | built-in list | JSON `{"model": {"input": 2.0, "output": 10.0, "cached": 0.1}}`, USD per 1M tokens, merged over the built-in list |

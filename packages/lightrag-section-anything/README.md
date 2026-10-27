@@ -25,7 +25,7 @@ CLI (`python -m lightrag.parser.cli`) load at startup. When you embed LightRAG a
 |---|---|---|
 | `sectionany_free` | rules (bookmarks, contents, typography) | $0 |
 | `sectionany_quick` | rules + a small model reviewing candidate lines | about $0.07 |
-| `sectionany_standard` | a model reading all lines | about $0.16 (gpt-6-luna) to $2.90 (gpt-6.1-sol) |
+| `sectionany_standard` | a model reading all lines | about $0.16 (gpt-6-luna, the default); $2.90 with gpt-6.1-sol |
 | `sectionany_local` | quick-style review on a local Ollama model (`SECTIONANY_LOCAL_MODEL`) | $0 |
 | `sectionany` | the mode in `SECTIONANY_MODE` (default `free`) | |
 

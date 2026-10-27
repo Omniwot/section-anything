@@ -9,6 +9,9 @@ It uses PyPI trusted publishing, so no API token is stored in the repository.
 1. Bump `version` in `packages/section-anything/pyproject.toml`, `__version__` in
    `packages/section-anything/src/section_anything/__init__.py` and `version` in `CITATION.cff`,
    and add the release to `CHANGELOG.md`.
+   Check that the default models in `packages/section-anything/src/section_anything/config.py`
+   (`quick_model`, `standard_model`, both `gpt-6-luna` since 0.1.3) are the ones the published
+   scores and costs in the READMEs and `site/data/results.js` were measured on.
 2. Merge to `main`.
 3. Tag that commit and push the tag:
 

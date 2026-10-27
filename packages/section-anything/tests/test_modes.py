@@ -73,8 +73,9 @@ def test_quick_mode(paper_pdf, monkeypatch):
 
 def test_standard_mode(paper_pdf, monkeypatch):
     fake = _fake(monkeypatch)
-    tree = section_anything.section(paper_pdf, "standard", api_key="sk-test", model="gpt-6-luna")
-    assert tree.mode == "standard"
+    tree = section_anything.section(paper_pdf, "standard", api_key="sk-test")
+    assert tree.mode == "standard" and tree.model == "gpt-6-luna"  # the model of the published scores
+    assert fake.requests[0]["model"] == "gpt-6-luna"
     assert [s["title"] for s in tree.sections] == ["A Study of Sectioning", "Introduction", "Scope", "Methods",
                                                     "Results"]
     assert [s["level"] for s in tree.sections] == [1, 1, 2, 1, 1]
