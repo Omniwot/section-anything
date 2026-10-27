@@ -34,7 +34,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--model", default=None,
                    help="model for quick/standard, overriding the configured one (defaults: quick "
                         f"{defaults['quick_model'].default}, standard {defaults['standard_model'].default})")
-    p.add_argument("--base-url", default=None, help="OpenAI-compatible endpoint (default OpenAI)")
+    p.add_argument("--provider", choices=("openai", "anthropic"), default=None,
+                   help="API for --model (default: anthropic for claude-* models, otherwise openai)")
+    p.add_argument("--base-url", default=None,
+                   help="endpoint for the provider (default OpenAI's; Anthropic's for Claude models)")
     p.add_argument("--max-pages", type=int, default=None, help="refuse PDFs with more pages (default 500)")
     p.add_argument("--timeout", type=float, default=None, help="extraction time limit in seconds (default 120)")
     p.add_argument("-o", "--output", type=Path, default=None, help="write the result to this file")
@@ -49,7 +52,7 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         tree = section(
-            args.pdf, args.mode, model=args.model, base_url=args.base_url, max_usd=args.max_usd,
+            args.pdf, args.mode, model=args.model, provider=args.provider, base_url=args.base_url, max_usd=args.max_usd,
             over_budget=args.over_budget, max_pages=args.max_pages, extract_timeout=args.timeout,
         )
     except (PdfError, ExtractionTimeout, ExtractionFailed) as exc:

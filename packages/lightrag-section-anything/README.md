@@ -36,7 +36,8 @@ Route PDFs to an engine with LightRAG's `LIGHTRAG_PARSER` rules, for example:
     LIGHTRAG_PARSER=pdf:sectionany_quick-P,pdf:sectionany-P,*:native-teP,*:legacy-R
 
 Settings are the library's `SECTIONANY_*` environment variables (see its README): API key
-(`SECTIONANY_API_KEY`, else `OPENAI_API_KEY` for OpenAI's endpoint), models, prices,
+(`SECTIONANY_API_KEY`, else `OPENAI_API_KEY` for OpenAI's endpoint or `ANTHROPIC_API_KEY` for
+Claude models), models, prices,
 `SECTIONANY_MAX_USD_PER_DOC` (default 0.50), `SECTIONANY_OVER_BUDGET=downgrade|fail`,
 `SECTIONANY_MAX_PAGES` (500), `SECTIONANY_MAX_MB` (100), `SECTIONANY_EXTRACT_TIMEOUT_SECONDS`
 (120). The plugin adds `SECTIONANY_MODE`, `SECTIONANY_SYNTHETIC_TITLES` and

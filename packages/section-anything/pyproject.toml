@@ -41,8 +41,10 @@ Issues = "https://github.com/Omniwot/section-anything/issues"
 Changelog = "https://github.com/Omniwot/section-anything/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
+# Claude models on Anthropic's own API. 2.0 is the first release on API version 2026-10-21.
+anthropic = ["anthropic>=2.0,<3"]
 langfuse = ["langfuse>=2.57"]
-test = ["pytest>=8"]
+test = ["pytest>=8", "anthropic>=2.0,<3"]
 
 [project.scripts]
 section-anything = "section_anything.cli:main"

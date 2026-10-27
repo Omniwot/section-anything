@@ -86,3 +86,13 @@ def test_bad_mode_is_a_value_error(tmp_path):
 
     with pytest.raises(ValueError, match="unknown mode"):
         section_pdf(tmp_path / "x.pdf", "turbo")
+
+
+def test_any_provider_key_makes_the_paid_engines_ready(monkeypatch):
+    from lightrag_section_anything import plugin
+
+    for key in plugin.KEYS:
+        monkeypatch.delenv(key, raising=False)
+    assert not plugin._has_key()
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-test")  # Claude models (SECTIONANY_QUICK_MODEL=claude-...)
+    assert plugin._has_key()

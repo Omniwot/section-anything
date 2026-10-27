@@ -103,9 +103,15 @@ def no_network(monkeypatch):
             raise AssertionError("a test tried to create a model client")
 
     monkeypatch.setattr(openai, "AsyncOpenAI", Refuse)
+    try:
+        import anthropic
+    except ImportError:
+        pass
+    else:
+        monkeypatch.setattr(anthropic, "AsyncAnthropic", Refuse)
     # Tests start from the library defaults, whatever the developer's shell has set.
     for key in list(os.environ):
-        if key.upper().startswith("SECTIONANY_") and key.upper() != "SECTIONANY_TEST_PDF":
+        if key.upper().startswith(("SECTIONANY_", "ANTHROPIC_")) and key.upper() != "SECTIONANY_TEST_PDF":
             monkeypatch.delenv(key)
     for key in ("OPENAI_API_KEY", "OPENAI_BASE_URL"):
         monkeypatch.delenv(key, raising=False)
