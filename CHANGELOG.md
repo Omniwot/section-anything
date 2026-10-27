@@ -9,7 +9,8 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   "section-anything[anthropic]"` (`anthropic>=2.0,<3`), then `ANTHROPIC_API_KEY` and a Claude
   model, for example `SECTIONANY_STANDARD_MODEL=claude-haiku-5-5` or `model="claude-haiku-5-5"`.
   Requests stream through `messages.stream` with the JSON schema in `output_config.format` and
-  `output_config.effort="low"`; refusals and answers cut off at `max_tokens` are retried once and
+  `output_config.effort="medium"` (at `"low"`, Claude Haiku 5.5 skipped thinking and returned one
+  section where there were 21); refusals and answers cut off at `max_tokens` are retried once and
   counted against the cost cap. Supported but not yet benchmarked: no scores are published for
   Claude models. The defaults are unchanged (`gpt-6-luna` for `quick` and `standard`), and OpenAI
   requests are sent exactly as before.

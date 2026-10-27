@@ -38,6 +38,9 @@ T = TypeVar("T", bound=BaseModel)
 
 CallSink = Callable[[dict], Awaitable[None]]
 CHARS_PER_TOKEN = 3.0  # conservative (English averages ~4): over- rather than under-estimates input cost
+# Claude's tokenizer counts many more tokens on the line-numbered, tagged prompts: 1.86 characters per
+# token on READoc arXiv 0905.3502 (70,700 characters, 38,019 tokens; gpt-6-luna counted 29,612).
+CLAUDE_CHARS_PER_TOKEN = 1.5
 MIN_OUTPUT_TOKENS = 256  # below this a structured answer cannot fit: stop instead of calling
 
 
@@ -206,13 +209,14 @@ def _over_cap(usage: Usage, cap: float, price: Price | None) -> bool:
     return usage.priced and usage.cost_usd >= cap and not _is_free(price)
 
 
-def _affordable_output(price: Price | None, prompt_chars: int, usage: Usage, cap: float, wanted: int) -> int:
+def _affordable_output(price: Price | None, prompt_chars: int, usage: Usage, cap: float, wanted: int,
+                       chars_per_token: float = CHARS_PER_TOKEN) -> int:
     """Output tokens this call may use so that its worst case stays within the cap."""
     if price is None or not usage.priced or _is_free(price):
         return wanted
-    price = price.for_prompt(prompt_chars / CHARS_PER_TOKEN)
+    price = price.for_prompt(prompt_chars / chars_per_token)
     left = cap - usage.cost_usd
-    input_cost = prompt_chars / CHARS_PER_TOKEN * price.input / 1e6
+    input_cost = prompt_chars / chars_per_token * price.input / 1e6
     if price.output <= 0:
         if left - input_cost < 0:
             raise CostCapExceeded(f"Run stopped at ${usage.cost_usd:.2f}: the next call would pass the ${cap:.2f} cap.")
@@ -316,9 +320,11 @@ async def structured(
     raise LlmCallFailed(f"model call failed after {attempts} attempts: {describe_error(last) if last else 'unknown'}")
 
 
-# OpenAI-style effort names Anthropic does not have; thinking cannot be turned off on every Claude
-# model (a 400 on Claude Opus 5.5 and Sonnet 5.5), so the lowest effort stands in for "none".
-_CLAUDE_EFFORT = {"none": "low", "minimal": "low"}
+# The strategies ask for OpenAI's "low", which still reasons (gpt-6-luna: 416 reasoning tokens on READoc
+# arXiv 0905.3502, 21 of 21 headings). Claude Haiku 5.5 at "low" did not think at all on the same prompt
+# and returned only the title (1 of 21, two runs); at "medium", its default, 20 of 21. So Claude gets
+# "medium" for the OpenAI levels at or below "low"; higher levels pass through.
+_CLAUDE_EFFORT = {"none": "medium", "minimal": "medium", "low": "medium"}
 
 
 def _claude_image(url: str) -> dict:
@@ -350,8 +356,9 @@ async def _structured_anthropic(
     if images:
         content = [_claude_image(url) for url in images] + [{"type": "text", "text": user}]
     output_config: dict[str, Any] = {"format": {"type": "json_schema", "schema": transform_schema(schema)}}
-    if effort:
-        output_config["effort"] = _CLAUDE_EFFORT.get(effort, effort)
+    claude_effort = _CLAUDE_EFFORT.get(effort, effort) if effort else None
+    if claude_effort:
+        output_config["effort"] = claude_effort
     kwargs: dict[str, Any] = {
         "model": model,
         "system": system,
@@ -362,7 +369,7 @@ async def _structured_anthropic(
     base = {
         "step": step,
         "model": model,
-        "reasoning_effort": effort,
+        "reasoning_effort": claude_effort,
         "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest(),
         "prompt_chars": len(prompt),
         "images": len(images or []),
@@ -374,7 +381,8 @@ async def _structured_anthropic(
         for attempt in range(1, attempts + 1):
             if _over_cap(usage, cost_cap_usd, price):  # re-checked before every paid attempt
                 raise CostCapExceeded(f"Run stopped at ${usage.cost_usd:.2f} (cap ${cost_cap_usd:.2f}).")
-            kwargs["max_tokens"] = _affordable_output(price, len(prompt), usage, cost_cap_usd, max_output_tokens)
+            kwargs["max_tokens"] = _affordable_output(price, len(prompt), usage, cost_cap_usd, max_output_tokens,
+                                                     CLAUDE_CHARS_PER_TOKEN)
             t0 = time.monotonic()
             entry = {**base, "attempt": attempt, "status": "error", "error": None, "response": None}
             try:

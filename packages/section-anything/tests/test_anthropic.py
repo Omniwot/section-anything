@@ -254,7 +254,7 @@ def test_request_shape(claude_api):
     assert body["model"] == HAIKU and body["stream"] is True
     assert body["system"] == "sys" and body["messages"] == [{"role": "user", "content": "doc"}]
     assert body["max_tokens"] == 32_000
-    assert body["output_config"]["effort"] == "low"
+    assert body["output_config"]["effort"] == "medium"  # OpenAI's "low" still reasons; Claude's may not
     assert body["output_config"]["format"] == {"type": "json_schema", "schema": anthropic.transform_schema(Out)}
     for absent in ("temperature", "top_p", "top_k", "thinking", "response_format", "reasoning_effort",
                    "max_completion_tokens"):
@@ -266,10 +266,11 @@ def test_request_shape(claude_api):
 def test_effort_mapping(claude_api):
     fake = claude_api(sse('{"answer": "ok"}'))
     _call(Settings(api_key="sk-ant-k"), effort=None)
+    _call(Settings(api_key="sk-ant-k"), effort="low")
     _call(Settings(api_key="sk-ant-k"), effort="none")
-    _call(Settings(api_key="sk-ant-k"), effort="medium")
+    _call(Settings(api_key="sk-ant-k"), effort="high")
     efforts = [b["output_config"].get("effort") for b in fake.bodies()]
-    assert efforts == [None, "low", "medium"]
+    assert efforts == [None, "medium", "medium", "high"]
     assert all("thinking" not in b for b in fake.bodies())
 
 
@@ -426,3 +427,15 @@ def test_extraction_worker_gets_no_anthropic_key(paper_pdf, monkeypatch):
     monkeypatch.setattr(isolate, "_worker_argv", lambda: [sys.executable, "-c", script])
     with pytest.raises(section_anything.ExtractionFailed, match=r"\(none\)"):
         isolate.extract_pdf(paper_pdf)
+
+
+@needs_sdk
+def test_claude_budget_assumes_more_tokens_per_character(claude_api):
+    # Claude counted 1.86 characters per token on a tagged, line-numbered prompt, so the cap reserves
+    # input cost at 1.5 characters per token (OpenAI-compatible models keep 3).
+    fake = claude_api(sse('{"answer": "ok"}'))
+    s = Settings(api_key="sk-ant-k", prices={HAIKU: {"input": 10.0, "output": 100.0}})
+    asyncio.run(llm.structured(model=HAIKU, system="", user="x" * 29_998, schema=Out, usage=llm.Usage(),
+                               cost_cap_usd=0.5, step="t", settings=s))
+    # $0.50 - 30,000 / 1.5 tokens at $10 per 1M = $0.30 left for output at $100 per 1M: 3,000 tokens.
+    assert fake.bodies()[0]["max_tokens"] == 3_000

@@ -151,10 +151,13 @@ section-anything paper.pdf --mode quick --model claude-haiku-5-5
 tree = section_anything.section("paper.pdf", mode="standard", model="claude-haiku-5-5")
 ```
 
-- Each request sends the schema as `output_config.format` and the effort as
-  `output_config.effort` (`"low"`, as for OpenAI), streams the answer, and checks `stop_reason`:
+- Each request sends the schema as `output_config.format` and `output_config.effort="medium"`,
+  streams the answer, and checks `stop_reason`:
   a refusal or an answer cut off at `max_tokens` is retried once and counted against the cost cap.
   No `temperature`, `top_p`, `top_k` or `thinking` setting is sent.
+- Effort is `"medium"` where OpenAI models get `"low"`: OpenAI's `"low"` still reasons, but in one
+  test Claude Haiku 5.5 at `"low"` did not think at all and returned only the paper's title as a
+  section; at `"medium"` it found the headings.
 - The models need the effort setting: older Claude models without it, such as Claude Haiku 4.5,
   are not supported.
 - Keys never cross providers: `OPENAI_API_KEY` is never sent to Anthropic, nor `ANTHROPIC_API_KEY`
