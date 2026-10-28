@@ -1,9 +1,18 @@
-From 183f1dddbf4e7d2f79c8645d1e0f1b9ef09b0fa4 Mon Sep 17 00:00:00 2001
-From: TBD <tbd@example.invalid>
-Date: Thu, 22 Oct 2026 09:24:51 -0400
+From 1b445e03d5847da19e1acdd2377b5066d28424f8 Mon Sep 17 00:00:00 2001
+From: Omniwot <Omniwot@users.noreply.github.com>
+Date: Wed, 28 Oct 2026 16:04:35 -0400
 Subject: [PATCH 2/2] fix(heading-hierarchy): keep letter-spaced standard
  headings and headings numbered like an unmatched bookmark
 
+Two cases where demote_unmatched_headings demoted a real heading:
+
+- A letter-spaced standard heading, such as "A B S T R A C T", was not read as a standard
+  heading. It is now kept.
+- A bookmark title can differ from the printed heading, for example when hyperref writes
+  unresolved LaTeX references into the bookmark. A heading whose section number belongs to
+  a bookmark that matched no heading now counts as matched, so it is kept.
+
+Signed-off-by: Omniwot <Omniwot@users.noreply.github.com>
 ---
  .../heading_hierarchy_model.py                | 40 +++++++++++--
  docs/usage/heading_levels.md                  |  5 +-
@@ -11,10 +20,10 @@ Subject: [PATCH 2/2] fix(heading-hierarchy): keep letter-spaced standard
  3 files changed, 98 insertions(+), 5 deletions(-)
 
 diff --git a/docling/models/stages/heading_hierarchy/heading_hierarchy_model.py b/docling/models/stages/heading_hierarchy/heading_hierarchy_model.py
-index 5c1c339..626ccbf 100644
+index 9c97733..9e928a2 100644
 --- a/docling/models/stages/heading_hierarchy/heading_hierarchy_model.py
 +++ b/docling/models/stages/heading_hierarchy/heading_hierarchy_model.py
-@@ -572,13 +572,29 @@ _COMPLETE_MATCH_SHARE = 0.5
+@@ -576,13 +576,29 @@ _COMPLETE_MATCH_SHARE = 0.5
  _FONT_SUBSET_PREFIX = re.compile(r"^[A-Z]{6}\+")
  
  
@@ -45,7 +54,7 @@ index 5c1c339..626ccbf 100644
  def _body_size(parsed_pages: dict[int, SegmentedPdfPage]) -> float | None:
      """The median text-line height of the document, weighted by characters.
  
-@@ -692,11 +708,27 @@ def _demote_unmatched_headings(
+@@ -696,11 +712,27 @@ def _demote_unmatched_headings(
      """Demote headings that match no bookmark to text, when the outline looks complete.
  
      ``matched`` holds the ``id`` of every bookmark-matched heading. Standard unnumbered headings
@@ -77,10 +86,10 @@ index 5c1c339..626ccbf 100644
          heading
          for heading in unmatched
 diff --git a/docs/usage/heading_levels.md b/docs/usage/heading_levels.md
-index a176b04..2e5d634 100644
+index 44b05df..a1bd319 100644
 --- a/docs/usage/heading_levels.md
 +++ b/docs/usage/heading_levels.md
-@@ -91,7 +91,10 @@ header, a bold lead-in, a theorem label. When the PDF has a complete outline, th
+@@ -89,7 +89,10 @@ header, a bold lead-in, a theorem label. When the PDF has a complete outline, th
  says which headings are real. Set `demote_unmatched_headings=True` to turn every detected heading
  that matches no bookmark into plain text in that case. Matched headings keep the bookmark level as
  usual, and standard unnumbered headings that outlines often skip (Abstract, Keywords,
@@ -93,7 +102,7 @@ index a176b04..2e5d634 100644
  Many outlines are partial, so Docling demotes nothing unless the outline looks complete. All of
  these must be true:
 diff --git a/tests/test_heading_hierarchy_bookmarks.py b/tests/test_heading_hierarchy_bookmarks.py
-index 08edb4a..44d837c 100644
+index 46e1d14..45b246a 100644
 --- a/tests/test_heading_hierarchy_bookmarks.py
 +++ b/tests/test_heading_hierarchy_bookmarks.py
 @@ -317,6 +317,64 @@ def test_standard_headings_are_never_demoted():

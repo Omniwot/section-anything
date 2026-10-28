@@ -1,7 +1,7 @@
-From 97c09a7abe3f338a382fba358ebf87c775cd0e86 Mon Sep 17 00:00:00 2001
-From: TBD <tbd@example.invalid>
-Date: Wed, 21 Oct 2026 17:32:02 -0400
-Subject: [PATCH] feat(heading-hierarchy): demote section headers that a
+From fdb92fd4453320fa6ccaca62f70bf84166feb289 Mon Sep 17 00:00:00 2001
+From: Omniwot <Omniwot@users.noreply.github.com>
+Date: Wed, 28 Oct 2026 16:04:06 -0400
+Subject: [PATCH 1/2] feat(heading-hierarchy): demote section headers that a
  complete PDF outline does not list
 
 Add the opt-in option HeadingHierarchyOptions.demote_unmatched_headings (default False).
@@ -17,37 +17,39 @@ The outline counts as complete only when all of these are true:
 - no two headings to demote share a heading-like style (larger than the body text, bold,
   or set in a font face other than the body face).
 
-The style check reads the parsed pages, so the stage now also keeps them when only this
-option needs them. Without parsed pages, nothing is demoted.
+The style check compares the headings with the body text. With the option on, the PDF
+pipeline therefore keeps all text lines of each page (not only the heading lines that the
+style signal keeps since #5071) until the stage has run, so generate_parsed_pages=True is
+not needed. Without parsed pages, nothing is demoted.
 
-Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Signed-off-by: Omniwot <Omniwot@users.noreply.github.com>
 ---
  .../skills/docling/references/python-sdk.md   |   3 +
- docling/datamodel/pipeline_options.py         |  27 +-
- .../heading_hierarchy_model.py                | 247 +++++++++++++--
- docs/usage/heading_levels.md                  |  40 ++-
- tests/test_heading_hierarchy_bookmarks.py     | 289 +++++++++++++++++-
- 5 files changed, 571 insertions(+), 35 deletions(-)
+ docling/datamodel/pipeline_options.py         |  24 +-
+ .../heading_hierarchy_model.py                | 263 +++++++++++--
+ docs/usage/heading_levels.md                  |  42 ++-
+ tests/test_heading_hierarchy_bookmarks.py     | 346 +++++++++++++++++-
+ 5 files changed, 642 insertions(+), 36 deletions(-)
 
 diff --git a/docling/.agents/skills/docling/references/python-sdk.md b/docling/.agents/skills/docling/references/python-sdk.md
-index be17238..bbd86db 100644
+index 6b79626..552c0a4 100644
 --- a/docling/.agents/skills/docling/references/python-sdk.md
 +++ b/docling/.agents/skills/docling/references/python-sdk.md
-@@ -135,6 +135,9 @@ opts = PdfPipelineOptions(
+@@ -153,6 +153,9 @@ opts = PdfPipelineOptions(
  )
  ```
  
 +Set `demote_unmatched_headings=True` to also turn detected headings that match no bookmark into
-+text, but only when the PDF outline looks complete (needs `generate_parsed_pages=True`).
++text, but only when the PDF outline looks complete.
 +
  The service equivalent is `do_pdf_heading_hierarchy` plus `pdf_heading_hierarchy_options`.
  
  ### Selecting the accelerator
 diff --git a/docling/datamodel/pipeline_options.py b/docling/datamodel/pipeline_options.py
-index 26ea1ca..30a87b1 100644
+index 428dc53..ea4275b 100644
 --- a/docling/datamodel/pipeline_options.py
 +++ b/docling/datamodel/pipeline_options.py
-@@ -1968,18 +1968,19 @@ class HeadingHierarchyOptions(BaseModel):
+@@ -1989,8 +1989,9 @@ class HeadingHierarchyOptions(BaseModel):
      reading-order model and assigns ``SectionHeaderItem.level`` from (in precedence order)
      PDF bookmarks/ToC, numbering and font style. The step changes heading levels and may
      promote a heading mis-classified as a list-item when it confidently matches a bookmark;
@@ -59,20 +61,17 @@ index 26ea1ca..30a87b1 100644
  
      Notes:
          - ``use_bookmarks`` reads the PDF outline surfaced on ``ConversionResult._pdf_outline``.
-           When a bookmark confidently matches a detected heading it is authoritative; entries
-           that match nothing fall back to numbering/style, so partial/noisy outlines never
-           degrade the numbering result.
--        - ``use_style`` requires the parsed PDF cells to still be available when the
--          heading-hierarchy step runs, i.e.
-+        - ``use_style`` and ``demote_unmatched_headings`` require the parsed PDF cells to still
-+          be available when the heading-hierarchy step runs, i.e.
-           ``PdfPipelineOptions.generate_parsed_pages=True``. Without them, style inference is
--          silently skipped (numbering still applies).
-+          silently skipped (numbering still applies) and no heading is demoted.
+@@ -2000,6 +2001,9 @@ class HeadingHierarchyOptions(BaseModel):
+         - ``use_style`` reads the text lines of the headings from the parsed PDF cells. The PDF
+           pipeline keeps those lines until the heading-hierarchy step has run, so
+           ``PdfPipelineOptions.generate_parsed_pages`` is not needed.
++        - ``demote_unmatched_headings`` compares the headings with the body text, so with it the
++          PDF pipeline keeps all text lines of each page (not the characters or words) until the
++          heading-hierarchy step has run. Without parsed pages, no heading is demoted.
      """
  
      enabled: Annotated[
-@@ -2080,6 +2081,22 @@ class HeadingHierarchyOptions(BaseModel):
+@@ -2100,6 +2104,22 @@ class HeadingHierarchyOptions(BaseModel):
              ),
          ),
      ] = 0.8
@@ -88,7 +87,7 @@ index 26ea1ca..30a87b1 100644
 +                "half of the detected headings match a bookmark, and no two of the headings to "
 +                "demote share a heading-like font style (larger than body text, bold, or in a "
 +                "font face other than the body text's); otherwise nothing is demoted. Requires "
-+                "`use_bookmarks` and `generate_parsed_pages=True`."
++                "`use_bookmarks`."
 +            )
 +        ),
 +    ] = False
@@ -96,10 +95,10 @@ index 26ea1ca..30a87b1 100644
  
  class PdfPipelineOptions(PaginatedPipelineOptions):
 diff --git a/docling/models/stages/heading_hierarchy/heading_hierarchy_model.py b/docling/models/stages/heading_hierarchy/heading_hierarchy_model.py
-index 086116b..5c1c339 100644
+index b484ab0..9c97733 100644
 --- a/docling/models/stages/heading_hierarchy/heading_hierarchy_model.py
 +++ b/docling/models/stages/heading_hierarchy/heading_hierarchy_model.py
-@@ -25,28 +25,35 @@ produced by the PDF path defaults to ``level=1`` and the document hierarchy is f
+@@ -25,13 +25,18 @@ produced by the PDF path defaults to ``level=1`` and the document hierarchy is f
     slant and letter case, so that headings sharing a size are still separated (bold above
     regular, upright above italic, all-caps above mixed).
  
@@ -120,18 +119,18 @@ index 086116b..5c1c339 100644
  import re
  from collections import Counter
  from dataclasses import dataclass
- from difflib import SequenceMatcher
+@@ -39,8 +44,8 @@ from difflib import SequenceMatcher
  from statistics import median
  
--from docling_core.types.doc import DoclingDocument
+ from docling_core.types.doc import DocItemLabel, DoclingDocument
 -from docling_core.types.doc.document import ListItem, SectionHeaderItem
 -from docling_core.types.doc.page import PdfTextCell, SegmentedPdfPage
-+from docling_core.types.doc import DocItemLabel, DoclingDocument
 +from docling_core.types.doc.document import ListItem, SectionHeaderItem, TextItem
 +from docling_core.types.doc.page import PdfTextCell, SegmentedPdfPage, TextCell
  
+ from docling.datamodel.base_models import Page
  from docling.datamodel.document import ConversionResult
- from docling.datamodel.pipeline_options import HeadingHierarchyOptions
+@@ -48,6 +53,8 @@ from docling.datamodel.pipeline_options import HeadingHierarchyOptions
  from docling.utils.font_style import parse_font_style, weight_class
  from docling.utils.pdf_outline import _PdfOutlineItem
  
@@ -140,7 +139,7 @@ index 086116b..5c1c339 100644
  # Default precedence of numbering schemes, highest hierarchy level first. ``dotted`` shares
  # the ``arabic`` rank and is ordered below it by its segment depth (1.1 below 1.).
  _DEFAULT_FAMILY_ORDER = [
-@@ -291,6 +298,28 @@ def _is_all_caps(text: str) -> bool:
+@@ -295,6 +302,28 @@ def _is_all_caps(text: str) -> bool:
      return len(letters) >= 4 and all(char.isupper() for char in letters)
  
  
@@ -169,7 +168,7 @@ index 086116b..5c1c339 100644
  def _heading_style(
      item: SectionHeaderItem,
      parsed_pages: dict[int, SegmentedPdfPage],
-@@ -303,25 +332,11 @@ def _heading_style(
+@@ -307,25 +336,11 @@ def _heading_style(
      output, the pypdfium2 backend, or names that carry no recognizable styling -- contribute
      their size but leave the heading at the regular weight, so the ranking degrades to font size.
      """
@@ -196,7 +195,7 @@ index 086116b..5c1c339 100644
          heights.append(cell.rect.height)
  
          if not options.use_font_style or not isinstance(cell, PdfTextCell):
-@@ -544,6 +559,176 @@ def _infer_from_bookmarks(
+@@ -548,6 +563,176 @@ def _infer_from_bookmarks(
      return result
  
  
@@ -373,7 +372,35 @@ index 086116b..5c1c339 100644
  class HeadingHierarchyModel:
      """Assigns ``SectionHeaderItem.level`` on an already-assembled ``DoclingDocument``.
  
-@@ -562,7 +747,7 @@ class HeadingHierarchyModel:
+@@ -565,13 +750,23 @@ class HeadingHierarchyModel:
+ 
+         The pipeline releases the parsed pages before assembly to save memory, but the style
+         signal reads the text lines of the headings during assembly. Only the text lines that
+-        overlap a section header, or a list item that a bookmark can promote, are kept.
++        overlap a section header, or a list item that a bookmark can promote, are kept. With
++        ``demote_unmatched_headings``, all text lines are kept, because its style check compares
++        the headings with the body text.
+         """
+         parsed = page.parsed_page
+         layout = page.predictions.layout
+-        if not (self.options.enabled and self.options.use_style) or (
+-            parsed is None or layout is None
+-        ):
++        if not self.options.enabled or parsed is None:
++            return None
++        if self.options.demote_unmatched_headings and self.options.use_bookmarks:
++            return SegmentedPdfPage(
++                dimension=parsed.dimension,
++                char_cells=[],
++                word_cells=[],
++                textline_cells=list(parsed.textline_cells),
++                has_lines=bool(parsed.textline_cells),
++            )
++        if not self.options.use_style or layout is None:
+             return None
+         height = parsed.dimension.height
+         boxes = [
+@@ -601,7 +796,7 @@ class HeadingHierarchyModel:
              return document
  
          parsed_pages: dict[int, SegmentedPdfPage] = {}
@@ -382,7 +409,7 @@ index 086116b..5c1c339 100644
              parsed_pages = {
                  page.page_no: page.parsed_page
                  for page in conv_res.pages
-@@ -586,15 +771,25 @@ class HeadingHierarchyModel:
+@@ -625,15 +820,25 @@ class HeadingHierarchyModel:
          """Assign heading levels in place from the configured signals.
  
          Precedence: bookmarks (when confidently matched) > numbering > style. The bookmark pass
@@ -414,12 +441,22 @@ index 086116b..5c1c339 100644
          headings = [
              item for item in document.texts if isinstance(item, SectionHeaderItem)
 diff --git a/docs/usage/heading_levels.md b/docs/usage/heading_levels.md
-index d727555..a176b04 100644
+index 529871c..44b05df 100644
 --- a/docs/usage/heading_levels.md
 +++ b/docs/usage/heading_levels.md
-@@ -84,6 +84,37 @@ Two things are worth knowing about this pass:
-     stricter similarity threshold to compensate. Backends with no embedded outline, image inputs
-     among them, report nothing and the stage moves on to numbering.
+@@ -70,7 +70,8 @@ Two things are worth knowing about this pass:
+ 
+ - Layout models sometimes classify a heading as a list item. When such an item matches a bookmark
+   confidently, it is **promoted** to a section header in place, keeping its text and position.
+-  This is the only structural change the stage ever makes.
++  Apart from the opt-in demotion described below, this is the only structural change the stage
++  makes.
+ - Bookmarks that match nothing are simply dropped. A stale or partial outline can only add
+   correct levels, never take away the ones numbering and style would have found.
+ 
+@@ -81,6 +82,37 @@ Two things are worth knowing about this pass:
+     title alone, with a stricter similarity threshold to compensate. Backends with no embedded
+     outline, image inputs among them, report nothing and the stage moves on to numbering.
  
 +#### Demoting headings that a complete outline leaves out
 +
@@ -441,11 +478,11 @@ index d727555..a176b04 100644
 +  names carry no readable style, such as the TeX font `CMBX10`). A family of such headings usually
 +  means that the outline omits a level.
 +
-+The option is off by default. It never promotes body text, and it reads the parsed PDF cells for
-+the style check, so it needs `generate_parsed_pages=True`; without them nothing is demoted.
++The option is off by default and never promotes body text. Its style check compares the headings
++with the body text, so with the option on the pipeline keeps all text lines of each page (not the
++characters or words) until the stage has run. You do not need `generate_parsed_pages=True`.
 +
 +```python
-+pipeline_options.generate_parsed_pages = True
 +pipeline_options.heading_hierarchy_options = HeadingHierarchyOptions(
 +    enabled=True,
 +    demote_unmatched_headings=True,
@@ -455,7 +492,7 @@ index d727555..a176b04 100644
  ### Numbering
  
  For everything the outline does not cover, the leading marker of the heading text is the most
-@@ -162,8 +193,9 @@ levels at all. Levels deeper than `max_level` (6 by default) are clamped.
+@@ -159,8 +191,9 @@ levels at all. Levels deeper than `max_level` (6 by default) are clamped.
  ## What the stage changes
  
  It rewrites `SectionHeaderItem.level`, and — only through a confident bookmark match — promotes a
@@ -467,29 +504,28 @@ index d727555..a176b04 100644
  document where nothing is recognizable and the output is exactly what you had before.
  
  ## Options
-@@ -182,6 +214,7 @@ All of these live on `HeadingHierarchyOptions`, set as
+@@ -179,6 +212,7 @@ All of these live on `HeadingHierarchyOptions`, set as
  | `numbering_schemes` | `None` | Override the scheme precedence, highest level first. |
  | `max_level` | `6` | Deepest level assigned; anything deeper is clamped. |
  | `bookmark_match_threshold` | `0.8` | Minimum title similarity (0–1) for a bookmark to claim a heading. Higher is stricter. |
-+| `demote_unmatched_headings` | `False` | When the outline looks complete, demote headings that match no bookmark to text. Requires `generate_parsed_pages=True`. |
++| `demote_unmatched_headings` | `False` | When the outline looks complete, demote headings that match no bookmark to text. |
  
  Signals can be switched off individually, which is worth doing when you know what your corpus
  looks like. Legal filings with immaculate numbering and erratic typography do better with
-@@ -199,7 +232,8 @@ pipeline_options.heading_hierarchy_options = HeadingHierarchyOptions(
+@@ -197,6 +231,8 @@ pipeline_options.heading_hierarchy_options = HeadingHierarchyOptions(
+     The style fallback reads the text lines of the headings from the parsed PDF cells. The
+     pipeline keeps only those lines until the heading-hierarchy stage has run, so you do not need
+     `generate_parsed_pages=True`. Set it only if you want the full parsed pages in the result.
++    With `demote_unmatched_headings`, it keeps all text lines of each page instead, because the
++    demotion compares the headings with the body text.
  
-     The style fallback reads the parsed PDF cells, and the pipeline discards those as soon as a
-     page is finished unless `generate_parsed_pages=True`. Without them, style inference is skipped
--    silently — no error, just fewer levels. Bookmarks and numbering do not need this option.
-+    silently — no error, just fewer levels — and `demote_unmatched_headings` demotes nothing.
-+    Bookmarks and numbering do not need this option.
- 
- ## Through the API server
+ ## From the command line
  
 diff --git a/tests/test_heading_hierarchy_bookmarks.py b/tests/test_heading_hierarchy_bookmarks.py
-index 3772e69..08edb4a 100644
+index 3772e69..46e1d14 100644
 --- a/tests/test_heading_hierarchy_bookmarks.py
 +++ b/tests/test_heading_hierarchy_bookmarks.py
-@@ -10,11 +10,12 @@ import pytest
+@@ -10,17 +10,18 @@ import pytest
  from docling_core.types.doc import (
      BoundingBox,
      CoordOrigin,
@@ -503,6 +539,13 @@ index 3772e69..08edb4a 100644
  
  from docling.backend.docling_parse_backend import (
      ThreadedDoclingParseDocumentBackend,
+ )
+ from docling.backend.pypdfium2_backend import PyPdfiumDocumentBackend
+-from docling.datamodel.base_models import InputFormat
++from docling.datamodel.base_models import Cluster, InputFormat, LayoutPrediction, Page
+ from docling.datamodel.document import InputDocument
+ from docling.datamodel.pipeline_options import HeadingHierarchyOptions
+ from docling.models.stages.heading_hierarchy.heading_hierarchy_model import (
 @@ -31,6 +32,7 @@ from docling.utils.pdf_outline import (
      _PdfOutlineItem,
      extract_outline_from_pdfium,
@@ -511,7 +554,7 @@ index 3772e69..08edb4a 100644
  
  SAMPLE_PDF = Path("./tests/data/pdf/bookmark_sample.pdf")
  
-@@ -175,6 +177,291 @@ def test_use_bookmarks_false_ignores_outline():
+@@ -175,6 +177,346 @@ def test_use_bookmarks_false_ignores_outline():
      assert [h.level for h in doc.texts] == [1, 1]  # outline ignored, nothing applies
  
  
@@ -798,6 +841,61 @@ index 3772e69..08edb4a 100644
 +    out = _model(demote_unmatched_headings=True)(conv_res)
 +
 +    assert set(_headings(out)) == {"1 Introduction", "1.1 Background", "2 Method"}
++
++
++@pytest.mark.parametrize("use_style", [True, False], ids=["style-on", "style-off"])
++def test_demotion_works_on_the_lines_the_pipeline_retains(use_style):
++    # Without generate_parsed_pages=True, the stage sees only what retain_parsed_lines keeps.
++    # The style check compares the headings with the body text: with the heading lines alone,
++    # the bold headings would set the body face, and the two unmatched lines in the real body
++    # face would look like a missing outline level.
++    doc, pages = _paged_doc(
++        [
++            _section("1 Introduction"),
++            _PARA,
++            _subsection("1.1 Background"),
++            _PARA,
++            _RUNNING_HEADER,
++            _PARA,
++            _section("2 Method"),
++            _PARA,
++            _subsection("2.1 Setup"),
++            _PARA,
++            ("Draft version", 10, "/Times-Roman"),
++            _PARA,
++            _section("3 Results"),
++            _PARA,
++        ]
++    )
++    page = Page(page_no=1, parsed_page=pages[1])
++    page.predictions.layout = LayoutPrediction(
++        clusters=[
++            Cluster(id=i, label=item.label, bbox=item.prov[0].bbox)
++            for i, item in enumerate(doc.texts)
++        ]
++    )
++    model = _model(use_style=use_style, demote_unmatched_headings=True)
++    conv_res = SimpleNamespace(
++        document=doc,
++        pages=[SimpleNamespace(page_no=1, parsed_page=model.retain_parsed_lines(page))],
++        _pdf_outline=_outline(
++            ("Introduction", 0),
++            ("Background", 1),
++            ("Method", 0),
++            ("Setup", 1),
++            ("Results", 0),
++        ),
++    )
++
++    out = model(conv_res)
++
++    assert set(_headings(out)) == {
++        "1 Introduction",
++        "1.1 Background",
++        "2 Method",
++        "2.1 Setup",
++        "3 Results",
++    }
 +
 +
  # ----------------------------------------------------------------------- extraction
