@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lightrag-section-anything"
-version = "0.1.0"
+version = "0.1.1"
 description = "Section Anything PDF parser engines for LightRAG: accurate headings for heading-aware chunking, with a cost/accuracy dial."
 readme = "README.md"
 license = "Apache-2.0"
@@ -23,7 +23,7 @@ classifiers = [
     "Topic :: Text Processing :: General",
 ]
 dependencies = [
-    "section-anything>=0.1.1,<0.2",  # uses its body export (section_anything.export)
+    "section-anything>=0.1.4,<0.2",  # body export (0.1.1); Claude models with ANTHROPIC_API_KEY (0.1.4)
     "lightrag-hku>=1.5.7,<1.7",  # lightrag.parsers entry points and NativeParserBase, from 1.5.7
 ]
 

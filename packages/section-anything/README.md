@@ -128,7 +128,7 @@ Python SDK (`messages.stream` with a JSON schema in `output_config.format`). `lo
 |---|---|---|
 | OpenAI | tested (all benchmarks) | `OPENAI_API_KEY`, or `SECTIONANY_API_KEY` |
 | Ollama (local) | tested | `--mode local:<tag>`; no key, nothing leaves the machine |
-| Anthropic (native API) | supported, not yet benchmarked | `pip install "section-anything[anthropic]"`, `ANTHROPIC_API_KEY`, a Claude model (below) |
+| Anthropic (native API) | supported; `standard` tested on development documents only (below) | `pip install "section-anything[anthropic]"`, `ANTHROPIC_API_KEY`, a Claude model (below) |
 | Other OpenAI-compatible endpoints: Azure OpenAI, OpenRouter, Groq, Together, vLLM, LM Studio, a LiteLLM proxy | not tested | base URL, key, model and price (below) |
 | Google Gemini | not tested | no native client; use an OpenAI-compatible endpoint or gateway that meets the requirements below |
 
@@ -165,6 +165,19 @@ tree = section_anything.section("paper.pdf", mode="standard", model="claude-haik
   `SECTIONANY_BASE_URL` puts a gateway or local relay in front of either provider.
 - Anthropic's OpenAI-compatible endpoint is not used: it ignores `response_format` and
   `reasoning_effort`, which these modes need.
+
+`standard` on development documents only (98 READoc arXiv papers and 100 GitHub READMEs, same
+code, October 2026; differences against `gpt-6-luna` are paired, with 95% CIs):
+
+| Model | Papers | READMEs | Cost per 1,000 pages | Time per document |
+|---|---|---|---|---|
+| `gpt-6-luna` (default) | 69.4 | 72.0 | $0.16 | 11.9 s |
+| `claude-haiku-5-5` | 69.2 (-0.2, -3.2 to +2.4) | 72.0 (+0.0, -3.8 to +4.0) | $0.49 | 26.6 s |
+| `claude-sonnet-5-5` | 65.0 (-4.5, -7.8 to -1.7) | 63.6 (-8.4, -14.0 to -3.4) | $4.04 | 8.5 s |
+
+Claude Haiku 5.5 ties the default at about 3 times the cost. Claude Sonnet 5.5 at `"medium"` did
+not think on any document and sometimes returned only one or two sections. Not confirmed on
+held-out documents; `quick`, Opus and Fable were not tested.
 
 ### Other OpenAI-compatible endpoints
 

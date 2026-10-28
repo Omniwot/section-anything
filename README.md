@@ -100,6 +100,7 @@ Python 3.11 or newer:
 
 ```sh
 pip install section-anything
+pip install "section-anything[anthropic]" # optional: Claude models on Anthropic's own API
 pip install "section-anything[langfuse]"  # optional Langfuse tracing
 # latest from GitHub:
 pip install "git+https://github.com/Omniwot/section-anything#subdirectory=packages/section-anything"
@@ -114,7 +115,9 @@ section-anything paper.pdf --mode standard --max-usd 0.5  # cap this document at
 ```
 
 API keys come from the environment only (`SECTIONANY_API_KEY`, or `OPENAI_API_KEY` for OpenAI's
-endpoint); any OpenAI-compatible endpoint works. Full options, output format and the security
+endpoint); any OpenAI-compatible endpoint works. Claude models run on Anthropic's own API with
+the `anthropic` extra and `ANTHROPIC_API_KEY`; on development documents Claude Haiku 5.5 tied the
+default at about 3 times the cost ([Providers](packages/section-anything/README.md#providers)). Full options, output format and the security
 model for untrusted PDFs: [packages/section-anything/README.md](packages/section-anything/README.md).
 
 ## Integrations

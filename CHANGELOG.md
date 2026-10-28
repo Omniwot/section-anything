@@ -3,7 +3,7 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
-## Unreleased
+## 0.1.4 (2026-10-28)
 
 - **Claude models on Anthropic's own API**, as a provider next to OpenAI: `pip install
   "section-anything[anthropic]"` (`anthropic>=2.0,<3`), then `ANTHROPIC_API_KEY` and a Claude
@@ -11,9 +11,13 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   Requests stream through `messages.stream` with the JSON schema in `output_config.format` and
   `output_config.effort="medium"` (at `"low"`, Claude Haiku 5.5 skipped thinking and returned one
   section where there were 21); refusals and answers cut off at `max_tokens` are retried once and
-  counted against the cost cap. Supported but not yet benchmarked: no scores are published for
-  Claude models. The defaults are unchanged (`gpt-6-luna` for `quick` and `standard`), and OpenAI
-  requests are sent exactly as before.
+  counted against the cost cap. The defaults are unchanged (`gpt-6-luna` for `quick` and
+  `standard`), and OpenAI requests are sent exactly as before. `standard` on development documents
+  only (98 READoc papers and 100 READMEs, same code): `claude-haiku-5-5` tied `gpt-6-luna` (papers
+  -0.2, 95% CI -3.2 to +2.4; READMEs +0.0, CI -3.8 to +4.0) at about 3 times the cost;
+  `claude-sonnet-5-5` scored lower (papers -4.5, CI -7.8 to -1.7; READMEs -8.4, CI -14.0 to -3.4)
+  at about 26 times the cost. Not confirmed on held-out documents; `quick`, Opus and Fable were
+  not tested.
 - **Provider selection**: `SECTIONANY_PROVIDER` / `provider=` / `--provider` (`openai` or
   `anthropic`); unset, `claude-*` model ids go to Anthropic and all others to OpenAI-compatible
   endpoints. A `claude-*` model served by an OpenAI-compatible gateway now needs
@@ -29,8 +33,8 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   `cache_write`, `cache_write_1h`, `long_prompt_tokens` and `long_prompt`.
 - A downgrade (standard -> quick -> free) skips a mode whose model has no key configured, for
   example a Claude `standard` with no OpenAI key for `quick`.
-- `lightrag-section-anything`: `ANTHROPIC_API_KEY` also makes the `quick` and `standard` engines
-  ready.
+- `lightrag-section-anything` 0.1.1: `ANTHROPIC_API_KEY` also makes the `quick` and `standard`
+  engines ready; it now needs `section-anything>=0.1.4`.
 - **Up-front estimate for Claude models**: the cost estimate checked against `max_usd` before a
   run now counts Claude prompts at 1.5 characters per token (OpenAI models: 3.6, unchanged) and adds
   an allowance for thinking at the effort sent (half the prompt's tokens at `"medium"`, capped at each
