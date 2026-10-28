@@ -43,8 +43,9 @@ such gain: Docling is level with or ahead of our settings. The model settings co
 (Quick check) and $0.16 (Standard) per 1,000 pages with a small model. Without bookmarks, the
 free setting is weaker than Docling on papers, and nothing here works on scanned pages. In a small
 FinanceBench pilot (51 questions), chunks split at headings retrieved the evidence page more
-often than fixed-size chunks, but our headings did not beat MinerU's. We report the development
-history behind each number, including a thread-safety bug that silently dropped bookmarks.
+often than fixed-size chunks, but our headings did no better than MinerU's. We report the
+development history behind each number, including a thread-safety bug that silently dropped
+bookmarks.
 <!-- src: held-out 905 — HANDOFF-section-anything.md L944-961; site/data/results.js readoc.heldout; MinerU 64.8 — results.js readoc.heldoutMinerU, .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct).
      GitHub — results.js readoc.sample (Docling 73.2 vs ours 71.3/70.1/71.5) and HANDOFF L864-877 (full: Standard 75.4, Docling 75.0, Quick 70.3).
      Cost — results.js modes[].costPer1000Pages. Free without bookmarks — HANDOFF L801-802. RAG — HANDOFF L679-704. Bug — HANDOFF L784-794. -->
@@ -364,7 +365,8 @@ TEDS = 1 − TED / max(|T1|, |T2|), reported ×100; higher is better; the "Headi
 READoc paper). As in READoc, averages cover documents whose answer key has headings. Docling is
 scored on its own Markdown export, as READoc scored the tools it compared. Section Anything's
 sections are written as Markdown headings as described in Section 3.7. MinerU is scored on its
-Markdown output.
+Markdown output. Docling and MinerU convert whole documents (layout, tables, figures, formulas,
+OCR); this evaluation measures only their heading trees.
 <!-- src: .tmp/readoc-pilot/score.py (docstring: clean_md -> extract_materials -> calc_head_teds; ours_md); HANDOFF L720-723; results.js readoc.about. -->
 
 ### 4.2 Systems
@@ -423,15 +425,16 @@ points.
 outline check (Free), the abstract-heading candidate and the split section number (both Free and
 Quick check); see Table 7. Before them Free scored 52.0 and Quick check 63.9.
 
-On all 905 papers, Standard leads Docling by 20.6 points (95% CI 19.3 to 21.8) and is better on
-773 papers and worse on 103. On the same papers it leads MinerU with LLM levels on the larger
-model by 5.1 points (95% CI 4.0 to 6.2; p = 1.3e-21; better on 482, worse on 253) and with the
-small model by 7.2 points (95% CI 6.2 to 8.2). MinerU's own LLM step matters: it lifts MinerU from
-53.9 to 64.8 with gpt-6.1-sol. With that model the step gave up on 154 papers (its reply did not
-parse after three tries) and kept MinerU's raw levels; without those papers our lead is 2.8 points
-(95% CI 1.6 to 3.9). Quick check, which sends only candidate lines, scores 3.1 points above MinerU's
-LLM step on the larger model (95% CI 2.1 to 4.1; release 0.1.2), but is level with it without those
-154 papers (+1.0, 95% CI −0.03 to 2.0; better on 296, worse on 253).
+On all 905 papers, Standard scores 20.6 points above Docling (95% CI 19.3 to 21.8) and is better on
+773 papers and worse on 103. On the same papers it scores 5.1 points above MinerU with LLM levels on
+the larger model (95% CI 4.0 to 6.2; p = 1.3e-21; better on 482, worse on 253) and 7.2 points above
+it with the small model (95% CI 6.2 to 8.2). MinerU's own LLM step matters: it lifts MinerU from
+53.9 to 64.8 with gpt-6.1-sol. With that model, run through our relay, the step returned no
+parsable levels on 154 papers (its reply did not parse after three tries; failures in the first 313
+papers were not logged) and kept MinerU's raw levels; without those papers the difference is 2.8
+points (95% CI 1.6 to 3.9). Quick check, which sends only candidate lines, scores 3.1 points above
+MinerU's LLM step on the larger model (95% CI 2.1 to 4.1; release 0.1.2), but is level with it
+without those 154 papers (+1.0, 95% CI −0.03 to 2.0; better on 296, worse on 253).
 <!-- src: HANDOFF L944-962; results.js readoc.heldout.note; MinerU comparisons — .tmp/readoc-pilot/heldout_report_mineru_full.txt (25 Oct) and results.js readoc.heldoutMinerU.note. -->
 
 The papers prompt fix (Section 5.1) was designed on the development sample, where it added 5.7
@@ -458,14 +461,14 @@ results for reference.
 | *Published:* Marker | 39.4 | 37.5 |
 | *Published:* Docling | 38.3 | 22.8 |
 
-Excluding the development sample, Standard leads Docling on arXiv by 15.5 points (95% CI 14.2 to
-16.7; better on 734 papers, worse on 146), Quick check by 10.8 and Free by 2.6. On GitHub the
+Excluding the development sample, Standard scores 15.5 points above Docling on arXiv (95% CI 14.2
+to 16.7; better on 734 papers, worse on 146), Quick check 10.8 and Free 2.6. On GitHub the
 settings tie Docling (Standard +0.5, Free +0.1) except Quick check, which is 4.4 points worse
 because it dropped short bold body-size headings, the failure that the later README fix targeted.
-Free's small lead on arXiv comes from bookmarks: on papers with bookmarks Free scores 56.4 against
-Docling's 48.9, and on papers without them 42.3 against 46.7. Docling matches heading *text* better
-(READoc's edit-distance similarity on concatenated headings, 71 against 57), because bookmark
-titles drop section numbers and mangle mathematics.
+Free's small difference on arXiv comes from bookmarks: on papers with bookmarks Free scores 56.4
+against Docling's 48.9, and on papers without them 42.3 against 46.7. Docling matches heading
+*text* better (READoc's edit-distance similarity on concatenated headings, 71 against 57), because
+bookmark titles drop section numbers and mangle mathematics.
 <!-- src: HANDOFF L873-877 (held-out deltas), L798-803 (bookmark split and EDS 71 vs 57). -->
 
 ### 4.6 More tools on the development sample
@@ -487,10 +490,11 @@ of our settings.*
 | Section Anything Free (no model) | 45.7 | 71.5 |
 
 On arXiv, Standard and MinerU with LLM levels on the larger model are level on this sample (69.5
-against 69.3). Before the papers prompt fix, MinerU with LLM levels on the *same* small model beat
-our Standard by 1.4 points (65.2 against 63.8; MinerU better on 51 papers, ours on 14): our settings
-missed the title, Acknowledgements and References and sometimes promoted theorem labels. On GitHub
-READMEs Docling is best, our three settings are close behind, and MinerU and PyMuPDF4LLM trail.
+against 69.3). Before the papers prompt fix, MinerU with LLM levels on the *same* small model
+scored 1.4 points above our Standard (65.2 against 63.8; MinerU better on 51 papers, ours on 14):
+our settings missed the title, Acknowledgements and References and sometimes promoted theorem
+labels. On GitHub READMEs Docling scores highest, our three settings are close behind, and MinerU
+and PyMuPDF4LLM score lower (48.2 to 57.5).
 <!-- src: HANDOFF L897-901. -->
 
 *Held-out READMEs, final version.* On the 1,124 READoc-GitHub READMEs not used during development,
@@ -667,12 +671,13 @@ held-out papers).
 - **READMEs.** Docling scores higher than all our settings on the GitHub sample (73.2 against
   71.3 for Standard) and ties Standard and Free on the full GitHub subset.
 - **Close competition with an LLM step.** MinerU with its own LLM title levelling on the larger
-  model comes within 4.4 points of Standard on held-out papers and is level on the development
-  sample.
+  model comes within 5.1 points of Standard on the 905 held-out papers (2.8 without the 154 papers
+  where the step returned no parsable levels) and is level on the 98 development-sample papers
+  (69.3 against 69.5).
 - **OCR models on arXiv.** Nougat, trained on arXiv, scored 88.5 in the READoc paper, far above
   every number here.
 - **No bookmarks, no lead.** Without bookmarks, Free is weaker than Docling on papers (42.3 against
-  46.7).
+  46.7 on full READoc arXiv, 20 Oct, before the outline check).
 - **Scanned documents.** Docling and MinerU handle them; we do not.
 - **Highest settings, one document.** On one 46-page legislation PDF, Docling's VLM pipeline with
   gpt-6.1-sol reached F1 0.62 at 5.0 s per page and $0.65 for the document; it split "Article N"
@@ -755,12 +760,13 @@ answer was judged correct; paired comparisons use an exact McNemar test.
 
 Splitting at headings helped against fixed chunks, though not significantly at this size (B against
 A: 7 questions gained and 1 lost, p = 0.07; C against A: 8 gained and 3 lost, p = 0.23). **Our
-headings did not beat MinerU's on these 10-K filings**: C against B gained 4 and lost 5 correct
-answers and gained 6 and lost 6 evidence hits, which looks like noise. 10-K filings have an easy
-Part/Item structure, and MinerU found more headings (6,443 against 4,576); our accuracy lead was
-measured on harder documents. MinerU's LLM levelling failed on one filing in 6 of 6 attempts
-(replies that were not JSON), and its raw levels were kept. The pilot cost $1.52. The answer judge
-is a model and was not checked by hand. TODO: human spot-check of judge decisions.
+headings did no better than MinerU's on these 10-K filings**: C against B gained 4 and lost 5
+correct answers and gained 6 and lost 6 evidence hits, which looks like noise. 10-K filings have an
+easy Part/Item structure, and MinerU found more headings (6,443 against 4,576); the heading-tree
+differences in Section 4 were measured on harder documents. MinerU's LLM levelling failed on one
+filing in 6 of 6 attempts (replies that were not JSON), and its raw levels were kept. The pilot
+cost $1.52. The answer judge is a model and was not checked by hand. TODO: human spot-check of
+judge decisions.
 <!-- src: HANDOFF L698-705. -->
 
 ### 6.2 Qasper
@@ -848,12 +854,14 @@ TODO: total model spend across all runs in this report, summed from the result f
 For born-digital PDFs, the text layer, its typography and the document's own outline carry most of
 what a heading hierarchy needs. A small model that reads candidate lines, or every line in windows,
 fills in the judgement that rules lack, at a cost of cents per thousand pages, provided that its
-output is anchored to verbatim text and checked. On held-out READoc arXiv papers this beats current
-Docling by a wide margin and MinerU's own LLM step by a few points; on READMEs it does not beat
-Docling; and on papers without bookmarks the free setting is weaker than Docling. Whether better
-headings give better RAG answers is still open: in our pilot heading-aware chunks beat fixed chunks
-(not significantly, with 51 questions), and our headings could not be told apart from MinerU's on
-easy 10-K filings.
+output is anchored to verbatim text and checked. On 905 held-out READoc arXiv papers, Standard
+scores 20.6 heading-tree TEDS points above current Docling (2.140, heading hierarchy on) and 5.1
+above MinerU's own LLM step (2.8 without the papers where that step returned no parsable levels);
+on READMEs it ties Docling; and on papers without bookmarks the free setting is weaker than Docling.
+These comparisons cover only the heading tree, not the rest of what these converters produce.
+Whether better headings give better RAG answers is still open: in our pilot heading-aware chunks
+retrieved the evidence page more often than fixed chunks (not significantly, with 51 questions),
+and our headings could not be told apart from MinerU's on easy 10-K filings.
 Next steps are a held-out README evaluation, the Qasper experiment, local-model numbers, Marker
 and PageIndex baselines, and evaluation on Comp-HRDoc and DocHieNet.
 

@@ -12,7 +12,7 @@ isolates heading accuracy.
   prefix find the gold evidence more often than fixed 1,200-token chunks: +3 points at a
   6,000-token context, +10 at 2,400 and +15 at 1,200 (all p < 0.01).
 - **Heading quality does not matter much.** Gold headings (D), Section Anything Standard (C) and
-  Quick check (E) retrieve almost equally well. On the 52 papers Docling finished, Docling (B)
+  Quick check (E) retrieve almost equally well. On the 52 papers with a Docling run, Docling (B)
   matches them too.
 - **Much of the retrieval gain is chunk size, not headings.** Section chunks are smaller
   (about 1,900 vs 4,500 characters). Fixed chunks of that size (control A2) recover nearly all
@@ -158,11 +158,11 @@ model.
 - Wilcoxon p = 0.03 even though nothing changed. Single-run answer F1 differences of 1–2 points
   are therefore not interpretable here.
 
-## Results: the 52 papers Docling finished (178 questions, all five arms)
+## Results: the 52 papers with a Docling run (178 questions, all five arms)
 
-Docling stopped after 52 papers (see Costs and what went wrong). The Docling arm is sorted by
-arXiv id, so these are the **oldest** papers in the sample (2016–2018, ids 1602–1803), not a
-random subset.
+We stopped the Docling run after 52 papers because our laptop was short of memory (see Costs and
+what went wrong). The Docling arm is sorted by arXiv id, so these are the **oldest** papers in the
+sample (2016–2018, ids 1602–1803), not a random subset.
 
 | Arm | Answer F1 @6,000 | Answer F1 @2,400 | Evidence recall @6,000 / @2,400 / @1,200 (n = 164) |
 |---|---|---|---|
@@ -188,8 +188,9 @@ numbers; document title, Abstract and References left out):
 | C SA Standard | 0.850 | 0.953 | 0.899 | 0.485 |
 | E SA Quick check | 0.848 | 0.972 | 0.906 | 0.483 |
 
-- Our headings agree with gold more often than Docling's (fewer extra headings, slightly better
-  nesting).
+- On these 52 papers our headings have higher precision against gold than Docling's (0.850 vs
+  0.756: fewer extra headings), Docling's have higher recall (0.977 vs 0.953), and our nesting
+  matches gold a little more often (0.485 vs 0.416).
 - Parent agreement is low for every arm. Qasper's names often leave out parent sections that the
   PDF prints ("Sexist Tweets" without "3 Datasets"), so this column understates everyone.
 - Even so, none of this made a difference to retrieval or answers.
@@ -208,8 +209,9 @@ numbers; document title, Abstract and References left out):
    through.
 3. **What this does not show.** It says nothing about long documents (filings, manuals,
    textbooks), where a budget covers a small fraction of the text and the heading tree is deep.
-   It also says nothing about documents where Docling or rules get headings badly wrong. Those
-   are the cases where heading quality could matter, and they are where the next test should go.
+   It also says nothing about documents where heading detection (Docling's, ours or plain rules)
+   makes many mistakes. Those are the cases where heading quality could matter, and they are where
+   the next test should go.
 4. **For claims.** We cannot claim "better headings give better answers" from Qasper. We can
    claim "section-aware chunks retrieve the evidence more often at small budgets (+10 to
    +15 points); on Qasper this does not change answer F1".
@@ -229,9 +231,9 @@ numbers; document title, Abstract and References left out):
   the cap.
 
 **What went wrong.**
-- **Docling did not finish.** The laptop's swap was already 13.3 GB at the start. It reached
-  16–17 GB during the run, from other apps and from another job's Docling run under the shared
-  lock.
+- **The Docling run was not completed.** This was our laptop's memory limit, not a Docling error.
+  The laptop's swap was already 13.3 GB at the start. It reached 16–17 GB during the run, from
+  other apps and from another job's Docling run under the shared lock.
   - Each Docling start added about 2 GB of swap within seconds. The watchdog stopped it twice,
     after which `docling_batches.sh` refused to start while swap was over 14.8 GB.
   - We stopped retrying after 52 papers, so arm B covers only those 52.

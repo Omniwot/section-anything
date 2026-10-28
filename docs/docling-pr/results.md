@@ -20,7 +20,8 @@ Docling `main@d01c9c0`, 2.140.0). Nothing was pushed or posted.
 - **Partial bookmarks (risk check).** With a flat outline (top level only), the option changes
   nothing (0 of 200 documents). With the deepest outline level removed, the mean change is small
   (arXiv +0.3, GitHub −0.4), but 3 of 100 GitHub documents lose 10–17 points. In each of them, the
-  removed level held only one heading, and a single unmatched heading cannot be told from junk.
+  removed level held only one heading, and a single unmatched heading cannot be told from a false
+  one.
 - **One change from the spec, based on this run.** The shared-style check now also counts a
   heading as heading-like when its font face differs from the body face, and it groups headings
   by face. Without this, bold TeX fonts (`CMBX10`) do not read as bold, and one arXiv document lost

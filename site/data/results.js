@@ -2,7 +2,7 @@
 // Every number below was measured with the scripts in hustles/.tmp/readoc-pilot (to be moved into the
 // public repo as benchmarks/) unless marked "published".
 window.SA_DATA = {
-  updated: "2026-10-27",
+  updated: "2026-10-28",
   repoUrl: "https://github.com/Omniwot/section-anything",
   appUrl: "",           // the demo app's address; empty hides the "Try it" buttons
   tryIt: {
@@ -32,7 +32,8 @@ window.SA_DATA = {
   ],
   readoc: {
     about: "READoc (ACL Findings 2025; dataset MIT-licensed on Hugging Face) converts real PDFs to Markdown and scores the heading tree " +
-           "with tree edit distance similarity (Heading Tree TEDS, 0-100, higher is better). We use READoc's own scoring code.",
+           "with tree edit distance similarity (Heading Tree TEDS, 0-100, higher is better). We use READoc's own scoring code. " +
+           "Docling and MinerU convert whole documents (layout, tables, figures, formulas, OCR); these tables compare only the heading tree.",
     link: "https://github.com/icip-cas/READoc",
     heldout: {
       title: "arXiv papers not used while developing the method",
@@ -43,7 +44,7 @@ window.SA_DATA = {
         { system: "Section Anything Free (no model)", score: 57.9, ours: true },
         { system: "Docling 2.140 (heading hierarchy on)", score: 49.4 }
       ],
-      note: "Standard leads Docling by 20.6 points on these 905 papers. Free and Quick check are release 0.1.2. Release 0.1.1 found the abstract's heading (journals often set it small, bold or run into the first line): in a pre-registered held-out test it added 2.4 points to Free (95% CI 2.0 to 2.7) and 3.7 to Quick check (95% CI 3.3 to 4.1) on these papers (0.1.0: 54.8 and 63.9). Release 0.1.2 keeps a section number that the PDF extractor split off its title (\"1\" | \"Introduction\"): in a second pre-registered test it added 0.7 to Free (95% CI 0.5 to 1.0) and 0.5 to Quick check (95% CI 0.4 to 0.8; 1.7 on the 291 papers it changes) (0.1.1: 57.2 and 67.4). Standard uses neither. Free includes the outline check (52.0 before it)."
+      note: "Paired per paper, Standard minus Docling is +20.6 points on these 905 papers (95% CI 19.3 to 21.8); Standard scored higher on 773 papers and Docling on 103 (by more than 0.5 points). Free and Quick check are release 0.1.2. Release 0.1.1 found the abstract's heading (journals often set it small, bold or run into the first line): in a pre-registered held-out test it added 2.4 points to Free (95% CI 2.0 to 2.7) and 3.7 to Quick check (95% CI 3.3 to 4.1) on these papers (0.1.0: 54.8 and 63.9). Release 0.1.2 keeps a section number that the PDF extractor split off its title (\"1\" | \"Introduction\"): in a second pre-registered test it added 0.7 to Free (95% CI 0.5 to 1.0) and 0.5 to Quick check (95% CI 0.4 to 0.8; 1.7 on the 291 papers it changes) (0.1.1: 57.2 and 67.4). Standard uses neither. Free includes the outline check (52.0 before it)."
     },
     heldoutMinerU: {
       title: "The same held-out papers with MinerU (every tool on the same papers)",
@@ -56,7 +57,7 @@ window.SA_DATA = {
         { system: "MinerU cloud (3.4.4, vlm)", score: 53.9 },
         { system: "Docling 2.140 (heading hierarchy on)", score: 49.4 }
       ],
-      note: "Paired: Standard beats MinerU + LLM (gpt-6.1-sol) by 5.1 points (95% CI 4.0 to 6.2). MinerU's cloud processed all 905 held-out papers. Its LLM step with gpt-6.1-sol gave up on 154 of them and kept MinerU's raw levels; without those papers the lead is 2.8 points (95% CI 1.6 to 3.9). Quick check (release 0.1.2; 67.4 in 0.1.1, 63.9 in 0.1.0), which sends only candidate lines, is 3.1 points above MinerU + LLM (gpt-6.1-sol) (95% CI 2.1 to 4.1), but level with it without the 154 papers (+1.0, 95% CI −0.03 to 2.0)."
+      note: "Paired per paper, Standard minus MinerU + LLM (gpt-6.1-sol) is +5.1 points (95% CI 4.0 to 6.2). MinerU's cloud processed all 905 held-out papers. We ran its LLM title-level step through our own relay; with gpt-6.1-sol it returned no parsable levels for 154 of them after three tries and kept MinerU's raw levels (failures in the first 313 papers were not logged; with gpt-6-luna none of the 592 logged papers failed); without those 154 papers the difference is +2.8 points (95% CI 1.6 to 3.9). Quick check (release 0.1.2; 67.4 in 0.1.1, 63.9 in 0.1.0), which sends only candidate lines, is 3.1 points above MinerU + LLM (gpt-6.1-sol) (95% CI 2.1 to 4.1), but level with it without the 154 papers (+1.0, 95% CI −0.03 to 2.0)."
     },
     sample: {
       title: "Every tool on the same READoc sample (200 documents drawn; 198 have headings in the answer key)",
@@ -82,10 +83,10 @@ window.SA_DATA = {
         { system: "Section Anything Free (no model)", arxiv: 57.3, github: 81.3, ours: true },
         { system: "Docling 2.140 (heading hierarchy on)", arxiv: 49.3, github: 75.0 }
       ],
-      note: "All documents with headings in READoc's arXiv and GitHub sets. Free is release 0.1.2 (0.1.1: 56.6 / 81.3; 0.1.0: 54.2 / 81.3; 51.3 / 75.0 before the outline check). Quick check is 0.1.0 (its 0.1.1 and 0.1.2 gains were measured on the 905 held-out papers above). On the 1,124 GitHub READMEs not used during development, Standard and Quick check tie with Docling (Standard +0.3, 95% CI -0.9 to +1.6) and Free leads it by 6.2 (95% CI 5.3 to 7.2). Our heading text matches the answer key more closely on READMEs (edit similarity 77.8 vs 73.9)."
+      note: "All documents with headings in READoc's arXiv and GitHub sets. Free is release 0.1.2 (0.1.1: 56.6 / 81.3; 0.1.0: 54.2 / 81.3; 51.3 / 75.0 before the outline check). Quick check is 0.1.0 (its 0.1.1 and 0.1.2 gains were measured on the 905 held-out papers above). On the 1,124 GitHub READMEs not used during development, Standard and Quick check tie with Docling (Standard +0.3, 95% CI -0.9 to +1.6) and Free scores 6.2 higher (95% CI 5.3 to 7.2). Over all 1,224 READMEs, Standard's heading text is a little closer to the answer key than Docling's (READoc heading edit similarity 77.8 vs 73.9)."
     },
     published: {
-      title: "Published READoc results (older tool versions, from the READoc paper)",
+      title: "Published READoc results (older tool versions, from the READoc paper, arXiv 2409.05137)",
       rows: [
         { system: "Nougat-base", arxiv: 88.5, github: 37.0 },
         { system: "GOT-OCR 2.0", arxiv: 57.7, github: 50.1 },
@@ -93,14 +94,15 @@ window.SA_DATA = {
         { system: "Marker", arxiv: 39.4, github: 37.5 },
         { system: "Docling", arxiv: 38.3, github: 22.8 }
       ],
-      note: "Not comparable to our runs: tools have changed since. Nougat, trained on arXiv papers, still leads on arXiv."
+      note: "Not comparable to our runs: tools have changed since (current Docling scores 49.3 on the full arXiv set in our run, against 38.3 published). Nougat, trained on arXiv papers, has the highest published arXiv score."
     }
   },
   where_others_win: [
-    "On GitHub READMEs our quick and standard only tie with Docling (about 75); free with the outline check (25 Oct) leads, 81.9 vs Docling 75.5 on 1,112 bookmarked READMEs not used in development.",
-    "MinerU's own LLM step on a stronger model comes within about 5 points of our Standard on held-out arXiv papers (64.8 vs 70.0), and is level with it on the 200-document sample (69.3 vs 69.5).",
-    "Nougat, an OCR model trained on arXiv, scores far higher on arXiv papers (88.5, published).",
-    "Free mode depends on PDF bookmarks: without them it is weaker than Docling on papers."
+    "On the 1,124 READoc GitHub READMEs not used in development, our quick and standard only tie with Docling (about 75 Heading TEDS). Free with the outline check scores 81.9 vs Docling's 75.5 on the 1,112 of them with bookmarks; Docling reaches 79.7 with the same outline idea, proposed upstream in docling#5002.",
+    "MinerU with its own LLM title levels on gpt-6.1-sol scores 64.8 vs our Standard's 70.0 on the 905 held-out arXiv papers, and is level with it on the 98 arXiv papers of the development sample (69.3 vs 69.5).",
+    "Nougat, an OCR model trained on arXiv, has the highest published Heading TEDS on READoc's arXiv papers (88.5 in the READoc paper, older versions; we have not run it).",
+    "Free mode depends on PDF bookmarks: on full READoc arXiv papers without them, Free (20 Oct, before the outline check) scored 42.3 vs Docling's 46.7.",
+    "Docling and MinerU also read scanned pages with OCR; Section Anything needs a PDF text layer."
   ],
   rag: {
     title: "Do better headings give better RAG answers?",
@@ -109,10 +111,10 @@ window.SA_DATA = {
     rows: [
       { arm: "Fixed-size chunks, no headings", evidence: 27, correct: 25 },
       { arm: "Chunks split at MinerU's headings", evidence: 34, correct: 31 },
-      { arm: "Chunks split at Section Anything's headings", evidence: 34, correct: 30, ours: true }
+      { arm: "Chunks split at Section Anything's headings (Quick check)", evidence: 34, correct: 30, ours: true }
     ],
     of: 51,
-    note: "Heading-aware chunks retrieved the right page more often than fixed chunks. On 10-K filings our headings tied MinerU's. " +
+    note: "Heading-aware chunks retrieved the right page more often than fixed chunks (a pilot; not significant at 51 questions). On these 10-K filings our headings tied MinerU's. " +
           "A larger test on Qasper (200 NLP papers, 707 questions, official answer F1) found the same pattern: section-aware chunks found the " +
           "evidence more often (96.5% vs 93.3%, and 64.9% vs 49.6% with a small context), mostly because their chunks were smaller, but answer " +
           "quality did not change (F1 0.534 vs 0.541), and better headings (ours, the papers' own, Docling's) made no difference on these short papers."
@@ -137,7 +139,7 @@ window.SA_DATA = {
       ours: ["All 14 answer-key headings, at the right levels, nothing extra"],
       scores: { docling: 51, ours: 100 } }
   ],
-  examplesNote: "Examples from the 200-document sample (Standard with gpt-6.1-sol, 2026-10-19). Answer keys are READoc's.",
+  examplesNote: "Examples from the 200-document development sample (Section Anything Standard with gpt-6.1-sol, an earlier version, 2026-10-19; Docling 2.140 with heading hierarchy on). Answer keys are READoc's. They were chosen to show common heading errors, not typical scores: on the 905 held-out papers Docling scored higher than Standard on 103, and on the sample READMEs Docling scored highest of all tools (73.2).",
   integrations: [
     { name: "LightRAG", status: "on PyPI",
       detail: "pip install lightrag-section-anything. A parser plugin: engines sectionany_free, sectionany_quick, sectionany_standard and sectionany_local write LightRAG's .blocks.jsonl, so its heading-aware chunker works on PDFs without a MinerU or Docling service." },
@@ -146,7 +148,7 @@ window.SA_DATA = {
     { name: "LlamaIndex", status: "on PyPI",
       detail: "pip install llama-index-readers-section-anything. SectionAnythingReader returns one Document per section, with the heading path, pages and parent/child links; it also works as the .pdf reader of SimpleDirectoryReader." },
     { name: "RAG-Anything", status: "planned", detail: "Converter to its content-list format." },
-    { name: "Docling", status: "proposed upstream", detail: "An opt-in option that demotes headers a complete PDF outline does not list: +5.6 TEDS on 796 bookmarked READoc papers, +4.2 on 1,210 READMEs. Issue docling-project/docling#5002 (open)." }
+    { name: "Docling", status: "proposed upstream", detail: "An opt-in option that demotes headers a complete PDF outline does not list: +5.6 Heading TEDS on 796 bookmarked READoc papers, +4.2 on 1,210 READMEs (Docling 2.140, option off vs on, same conversion). Issue docling-project/docling#5002 (open)." }
   ],
   limitations: [
     "Scanned PDFs need OCR first; Section Anything reads the PDF's text layer.",

@@ -245,9 +245,10 @@ differently. If you run one, results are welcome in an issue.
 ## Benchmarks (summary)
 
 Heading-tree similarity (TEDS, 0-100, higher is better) with
-[READoc](https://github.com/icip-cas/READoc)'s own scoring code, October 2026. The full tables,
-methods and per-document results are in the repository: `site/data/results.js` (rendered by the
-project site in `site/`) and `corpus/results/`.
+[READoc](https://github.com/icip-cas/READoc)'s own scoring code, October 2026. Docling and MinerU
+convert whole documents (layout, tables, figures, formulas, OCR); these numbers compare only the
+heading tree. The full tables, methods and per-document results are in the repository:
+`site/data/results.js` (rendered by the project site in `site/`) and `corpus/results/`.
 
 | READoc arXiv papers not used during development | Docs | Score |
 |---|---|---|
@@ -264,17 +265,23 @@ CI 0.4 to 0.8; +1.7 on the 291 papers it changes) in a second pre-registered tes
 67.4). `standard` uses neither. See the
 [changelog](https://github.com/Omniwot/section-anything/blob/main/CHANGELOG.md).
 
-On the same 905 papers with MinerU's cloud service: our `standard` 70.0, our `quick` 68.0, MinerU
-+ its LLM title levels (gpt-6.1-sol) 64.8 (`standard` +5.1, 95% CI 4.0 to 6.2, or +2.8 without the
-154 papers where its LLM step gave up and kept its raw levels; `quick` +3.1, 95% CI 2.1 to 4.1, but
-level without those papers: +1.0, 95% CI −0.03 to 2.0),
+On the same 905 papers with MinerU's cloud service (3.4.4, VLM): our `standard` 70.0, our `quick`
+68.0, MinerU + its LLM title levels (gpt-6.1-sol) 64.8 (paired difference: `standard` +5.1, 95% CI
+4.0 to 6.2, or +2.8 without the 154 papers where that step, run by us on gpt-6.1-sol, returned no
+parsable levels and kept MinerU's raw levels; `quick` +3.1, 95% CI 2.1 to 4.1, but level without
+those papers: +1.0, 95% CI −0.03 to 2.0),
 MinerU cloud alone 53.9, Docling 49.4.
 
 On 1,112 bookmarked READoc GitHub READMEs not used in development, `free` scores 81.9 against
-Docling's 75.5. On 27 UK government reports never used in development (answer keys from each report's HTML version), the outline check improved `free` by +5.7 (95% CI +0.4 to +12.2; 43.1 → 48.8; measured on 0.1.0).
+Docling's 75.5; Docling reaches 79.7 with the opt-in outline check we proposed upstream
+([docling#5002](https://github.com/docling-project/docling/issues/5002)), the same idea as
+`free`'s outline check. On 27 UK government reports never used in development (answer keys from each report's HTML version), the outline check improved `free` by +5.7 (95% CI +0.4 to +12.2; 43.1 → 48.8; measured on 0.1.0).
 
-Where others win: our `quick` and `standard` only tie with Docling on READMEs (about 75); Nougat, an OCR model trained on arXiv, scores far higher
-on arXiv papers (88.5, published).
+Where others win: on the 1,124 held-out READoc READMEs our `quick` and `standard` only tie with
+Docling (about 75); on the 905 held-out papers Docling scored higher than `standard` on 103 papers
+and lower on 773 (by more than 0.5 points); Nougat, an OCR model trained on arXiv, has the highest
+published READoc arXiv score (88.5 in the READoc paper, older tool versions; we have not run it).
+Docling and MinerU also read scanned pages with OCR; Section Anything needs a text layer.
 
 ## Integrations
 

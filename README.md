@@ -35,16 +35,18 @@ print(tree.summary())  # mode, model, pages, sections, calls, tokens, cost_usd, 
 
 ## Why
 
-PDF converters guess headings from how a line looks, so paper titles, author names, captions and
-theorem statements often come out as sections, and real subsections get the wrong level. Anything
-that chunks or navigates by headings inherits those mistakes. Section Anything combines the PDF's
-own outline (bookmarks) and printed table of contents, typography and numbering rules, and
-optionally a model that reviews or reads the text.
+PDF converters mostly infer headings from how a line looks, so paper titles, author names,
+captions and theorem statements can come out as sections, and real subsections can get the wrong
+level. Anything that chunks or navigates by headings inherits those mistakes. Section Anything
+combines the PDF's own outline (bookmarks) and printed table of contents, typography and numbering
+rules, and optionally a model that reviews or reads the text.
 
 ## Results
 
 Heading-tree similarity (TEDS, 0–100, higher is better) on [READoc](https://github.com/icip-cas/READoc)
-with READoc's own scoring code, October 2026. Papers not used while developing the method:
+with READoc's own scoring code, October 2026. Docling and MinerU convert whole documents (layout,
+tables, figures, formulas, OCR); these numbers compare only the heading tree. Papers not used while
+developing the method:
 
 | READoc arXiv papers (held out) | Docs | TEDS |
 |---|---|---|
@@ -61,20 +63,25 @@ off its title ("1" | "Introduction"): +0.7 to `free` (95% CI +0.5 to +1.0) and +
 57.2 and 67.4).
 `standard` uses neither. See the [changelog](CHANGELOG.md).
 
-On the same 905 papers with MinerU's cloud: our `standard` 70.0, our `quick` 68.0, MinerU + its own
-LLM title levels (gpt-6.1-sol) 64.8 (`standard` +5.1, 95% CI +4.0 to +6.2, or +2.8 without the 154
-papers where its LLM step gave up and kept its raw levels; `quick` +3.1, 95% CI +2.1 to +4.1, but
-level without those papers: +1.0, 95% CI −0.03 to +2.0),
+On the same 905 papers with MinerU's cloud (3.4.4, VLM): our `standard` 70.0, our `quick` 68.0,
+MinerU + its own LLM title levels (gpt-6.1-sol) 64.8 (paired difference: `standard` +5.1, 95% CI
++4.0 to +6.2, or +2.8 without the 154 papers where that step, run by us on gpt-6.1-sol, returned no
+parsable levels and kept MinerU's raw levels; `quick` +3.1, 95% CI +2.1 to +4.1, but level without
+those papers: +1.0, 95% CI −0.03 to +2.0),
 MinerU alone 53.9, Docling 49.4.
 
-On GitHub READMEs, `free` leads: on 1,112 bookmarked READMEs not used in development it scores
-81.9 against Docling's 75.5 (79.7 with the change we proposed upstream,
-[docling#5002](https://github.com/docling-project/docling/issues/5002)).
+On GitHub READMEs, `free` scores higher than Docling: on 1,112 bookmarked READoc READMEs not used
+in development, 81.9 against 75.5, and Docling reaches 79.7 with the opt-in outline check we
+proposed upstream ([docling#5002](https://github.com/docling-project/docling/issues/5002)), the
+same idea as `free`'s outline check.
 On 27 UK government reports never used in development (answer keys from each report's HTML
 version), the outline check improved `free` by +5.7 (95% CI +0.4 to +12.2; 43.1 → 48.8; measured on 0.1.0).
 
-**Where others win:** on READMEs our `quick` and `standard` only tie with Docling (about 75). Nougat,
-an OCR model trained on arXiv, scores far higher on arXiv papers (88.5, published). Better headings improved RAG retrieval in our
+**Where others win:** on the 1,124 held-out READoc READMEs our `quick` and `standard` only tie with
+Docling (about 75). On the 905 held-out papers Docling scored higher than `standard` on 103 papers
+and lower on 773 (by more than 0.5 points). Nougat, an OCR model trained on arXiv, has the highest published READoc arXiv score
+(88.5 in the READoc paper, older tool versions; we have not run it). Docling and MinerU also read
+scanned pages with OCR; Section Anything needs a text layer. Better headings improved RAG retrieval in our
 [Qasper test](docs/rag-qasper.md) but not answer quality.
 
 ## Settings and cost
