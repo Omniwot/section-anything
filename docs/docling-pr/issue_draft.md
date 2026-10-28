@@ -24,8 +24,8 @@
 I was benchmarking a PDF heading library I'm building
 ([Section Anything](https://github.com/Omniwot/section-anything)) against Docling on
 [READoc](https://arxiv.org/abs/2409.05137). Its rule-based mode, which uses the PDF outline as the
-skeleton, scored higher than Docling on READoc's arXiv papers only when the PDF had an outline: 56.4 vs 48.9 with
-one, 42.3 vs 46.7 without. Docling already reads the outline, but only to set levels for headers
+skeleton, scored higher than Docling on READoc's arXiv papers only when the PDF had an outline: 53.6 vs 49.1 on the
+825 papers with one, 41.0 vs 50.2 on the 178 without (heading-tree TEDS, our 20 Oct run). Docling already reads the outline, but only to set levels for headers
 that match it. So I tried using it the other way, to drop headers that match nothing, first on
 Docling's saved output and then as a change to the stage itself.
 

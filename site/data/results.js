@@ -101,7 +101,7 @@ window.SA_DATA = {
     "On the 1,124 READoc GitHub READMEs not used in development, our quick and standard only tie with Docling (about 75 Heading TEDS). Free with the outline check scores 81.9 vs Docling's 75.5 on the 1,112 of them with bookmarks; Docling reaches 79.7 with the same outline idea, proposed upstream in docling#5002.",
     "MinerU with its own LLM title levels on gpt-6.1-sol scores 64.8 vs our Standard's 70.0 on the 905 held-out arXiv papers, and is level with it on the 98 arXiv papers of the development sample (69.3 vs 69.5).",
     "Nougat, an OCR model trained on arXiv, has the highest published Heading TEDS on READoc's arXiv papers (88.5 in the READoc paper, older versions; we have not run it).",
-    "Free mode depends on PDF bookmarks: on full READoc arXiv papers without them, Free (20 Oct, before the outline check) scored 42.3 vs Docling's 46.7.",
+    "Free mode depends on PDF bookmarks: on full READoc arXiv papers without them, Free (20 Oct, before the outline check) scored 41.0 vs Docling's 50.2 on the 178 papers without bookmarks, and 53.6 vs 49.1 on the 825 with them (heading-tree TEDS).",
     "Docling and MinerU also read scanned pages with OCR; Section Anything needs a PDF text layer."
   ],
   rag: {

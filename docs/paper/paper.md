@@ -465,8 +465,9 @@ Excluding the development sample, Standard scores 15.5 points above Docling on a
 to 16.7; better on 734 papers, worse on 146), Quick check 10.8 and Free 2.6. On GitHub the
 settings tie Docling (Standard +0.5, Free +0.1) except Quick check, which is 4.4 points worse
 because it dropped short bold body-size headings, the failure that the later README fix targeted.
-Free's small difference on arXiv comes from bookmarks: on papers with bookmarks Free scores 56.4
-against Docling's 48.9, and on papers without them 42.3 against 46.7. Docling matches heading
+Free's small difference on arXiv comes from bookmarks: on the 825 papers with bookmarks Free scores
+53.6 against Docling's 49.1, and on the 178 without them 41.0 against 50.2 (20 Oct, before the
+outline check). Docling matches heading
 *text* better (READoc's edit-distance similarity on concatenated headings, 71 against 57), because
 bookmark titles drop section numbers and mangle mathematics.
 <!-- src: HANDOFF L873-877 (held-out deltas), L798-803 (bookmark split and EDS 71 vs 57). -->
@@ -676,8 +677,8 @@ held-out papers).
   (69.3 against 69.5).
 - **OCR models on arXiv.** Nougat, trained on arXiv, scored 88.5 in the READoc paper, far above
   every number here.
-- **No bookmarks, no lead.** Without bookmarks, Free is weaker than Docling on papers (42.3 against
-  46.7 on full READoc arXiv, 20 Oct, before the outline check).
+- **No bookmarks, no lead.** Without bookmarks, Free is weaker than Docling on papers (41.0 against
+  50.2 on the 178 full-READoc arXiv papers without bookmarks, 20 Oct, before the outline check).
 - **Scanned documents.** Docling and MinerU handle them; we do not.
 - **Highest settings, one document.** On one 46-page legislation PDF, Docling's VLM pipeline with
   gpt-6.1-sol reached F1 0.62 at 5.0 s per page and $0.65 for the document; it split "Article N"
