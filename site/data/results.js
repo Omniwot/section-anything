@@ -4,9 +4,9 @@
 window.SA_DATA = {
   updated: "2026-10-28",
   repoUrl: "https://github.com/Omniwot/section-anything",
-  appUrl: "",           // the demo app's address; empty hides the "Try it" buttons
+  appUrl: "https://huggingface.co/spaces/Omniwot/section-anything",  // the demo app's address; empty hides the "Try it" buttons
   tryIt: {
-    intro: "The demo app is not online yet. The library and command line work today: install from PyPI (Python 3.11 or newer) and run it on your own PDFs.",
+    intro: "Try Free mode in the browser on the Hugging Face Space (no key; up to 100 pages and 20 MB; don't upload confidential documents), or install the library and run it on your own PDFs (Python 3.11 or newer).",
     steps: [
       "Install: pip install section-anything (latest from GitHub: pip install \"git+https://github.com/Omniwot/section-anything#subdirectory=packages/section-anything\")",
       "Free mode, no model and no key: section-anything paper.pdf",

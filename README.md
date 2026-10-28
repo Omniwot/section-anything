@@ -4,6 +4,7 @@
 [![CI](https://github.com/Omniwot/section-anything/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Omniwot/section-anything/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Omniwot/section-anything/blob/main/notebooks/quickstart.ipynb)
+[![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces/Omniwot/section-anything)
 
 Find the real sections of a PDF: every heading, its level, the pages it spans and the exact text
 under it. Built for RAG pipelines and document tools that need structure, with a dial from free
@@ -15,7 +16,8 @@ Real output of section-anything 0.1.3, Quick mode (gpt-6-luna), on *Visual Instr
 [arXiv:2304.08485](https://arxiv.org/abs/2304.08485), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/);
 the wait for the run is shortened ([capture](docs/assets/demo-capture.txt), [script](docs/assets/make_demo.py)).
 Quick mode's output can vary slightly between runs. Try it on that paper in the [Colab notebook](https://colab.research.google.com/github/Omniwot/section-anything/blob/main/notebooks/quickstart.ipynb)
-(Free mode, no key needed).
+(Free mode, no key needed), or in the browser on the [Hugging Face Space](https://huggingface.co/spaces/Omniwot/section-anything) (Free mode;
+don't upload confidential documents).
 
 > **Pre-release (0.1).** The API may change before 1.0.
 
