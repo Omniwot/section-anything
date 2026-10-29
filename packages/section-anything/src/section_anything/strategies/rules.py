@@ -190,6 +190,33 @@ def _levels_from_outline(styles: set[Style], known: dict[Style, int]) -> dict[St
     return out
 
 
+def _style_levels(heads: list[tuple[Line, str]]) -> dict[Style, int]:
+    """Give every heading style a level when there is no outline.
+
+    Numbered headings take their numbering depth ("2.1" -> 2). A style that two or more of them
+    share, on two or more pages, takes their most common depth, and the other styles slot in
+    around it by size (`_levels_from_outline`). An unnumbered heading in a section's style
+    (References, Acknowledgements, an appendix "A Proofs") then sits beside the numbered
+    sections, not one level below them.
+
+    Otherwise, and when no such style holds top-level numbers (1, 2, 3), the levels are the
+    styles' ranks: bigger first, bold before regular. Numbered lines on one page (a list of
+    affiliations under the title) are not a document's numbering, and with only "2.1"-style
+    numbers seen the top level is missing, so depth says nothing about the other styles."""
+    depths: dict[Style, list[tuple[int, int]]] = defaultdict(list)
+    for ln, num in heads:
+        if re.fullmatch(r"\d+(?:\.\d+)*\.?", num):
+            depths[(ln.size, ln.bold)].append((num.rstrip(".").count(".") + 1, ln.page))
+    known = {}
+    for s, seen in depths.items():
+        ds = [d for d, _ in seen]
+        if len(ds) >= 2 and len({p for _, p in seen}) >= 2:
+            known[s] = min(set(ds), key=lambda d: (-ds.count(d), d))
+    if 1 not in known.values():
+        known = {}
+    return _levels_from_outline({(ln.size, ln.bold) for ln, _ in heads}, known)
+
+
 class RulesStrategy(Strategy):
     # The id predates the outline sources; kept so saved runs stay readable.
     id = "rules"
@@ -251,11 +278,10 @@ class RulesStrategy(Strategy):
 
     def _rules(self, ext: Extraction) -> list[RawSection]:
         cands = _merge_wrapped(candidates(ext))
-        # Rank distinct heading styles: bigger first, bold before regular. The abstract's heading
-        # does not take part, so its style cannot shift the other levels (see _abstract_levels).
+        # The abstract's heading does not take part in the style levels, so its style cannot shift
+        # the other levels (see _abstract_levels).
         abstract = {ln.i for ln, _, _ in cands if _abstract_heading(ln)}
-        styles = sorted({(ln.size, ln.bold) for ln, _, _ in cands if ln.i not in abstract}, key=lambda s: (-s[0], not s[1]))
-        style_level = {s: i + 1 for i, s in enumerate(styles)}
+        style_level = _style_levels([(ln, num) for ln, num, _ in cands if ln.i not in abstract])
         out = []
         for ln, num, text in cands:
             dotted = re.fullmatch(r"\d+(?:\.\d+)*\.?", num)
