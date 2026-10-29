@@ -3,6 +3,23 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
+## Unreleased
+
+- **`free`: back matter and appendices sit beside the numbered sections** (the cause left open in
+  0.1.2). Without a usable PDF outline, `free` gave numbered headings their numbering depth as
+  level and unnumbered ones the rank of their font style, where the paper title takes the top
+  rank. References, Acknowledgements, Appendix and appendix sections lettered without a dot ("A
+  Broader Impact") therefore came out one level below "1 Introduction", and "A.1" subsections one
+  level below "2.1". A style that two or more numbered headings share, on two or more pages, now
+  takes their numbering depth, and the other styles fit in around it by size, as they already did
+  around an outline. Without such a style holding top-level numbers (1, 2, 3), the levels are the
+  style ranks as before, so documents without numbered headings are unchanged. Pre-registered
+  held-out test, READoc heading-tree TEDS, `free` 0.1.4 vs this change, paired (95% bootstrap CI):
+  905 arXiv papers 57.9 -> 60.0, +2.05 (CI +1.70 to +2.42; 136 better, 765 the same, 4 worse at
+  +-0.5 points); 1,124 GitHub READMEs 81.4 -> 81.4, +0.00 (one README changed). `quick` and
+  `standard` are unchanged: they do not use `free`'s levels and their prompts are byte-identical. A
+  run downgraded to `free` gets the same change.
+
 ## 0.1.4 (2026-10-28)
 
 - **Claude models on Anthropic's own API**, as a provider next to OpenAI: `pip install
