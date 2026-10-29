@@ -29,6 +29,7 @@ Python 3.11+:
 pip install section-anything
 pip install "section-anything[anthropic]" # optional: Claude models on Anthropic's own API
 pip install "section-anything[langfuse]"  # optional Langfuse tracing
+pip install "section-anything[mcp]"       # optional MCP server: section-anything-mcp
 # latest from GitHub:
 pip install "git+https://github.com/Omniwot/section-anything#subdirectory=packages/section-anything"
 # from a checkout of the repository:
@@ -94,6 +95,32 @@ be read. API keys are read from the environment only, never from the command lin
 - `section_anything.Section` and `TreeDict` type the sections and `to_dict()`;
   `SectionTree.json_schema()` returns the JSON Schema of the JSON output.
 - `tree.extraction` holds the lines with their boxes (PDF points), for highlighting.
+
+## MCP server
+
+`pip install "section-anything[mcp]"` adds `section-anything-mcp`, an MCP server on stdio for
+Claude Code, Claude Desktop, Cursor and other MCP hosts:
+
+```sh
+claude mcp add --transport stdio section-anything -- section-anything-mcp --max-usd 0.10
+```
+
+| Tool | Returns |
+|---|---|
+| `section_pdf(path, mode="free", model=None, max_usd=None)` | the `to_dict()` output: every section with level, pages, `parent`, `heading_path` and span, no text |
+| `read_sections(path, indexes, mode="free", ..., max_chars=20000)` | the chosen sections' text, reflowed as `--body` prints it (at most 50 per call) |
+| `estimate_cost(path, max_usd=None)` | calls, tokens and dollars for each mode, without calling a model |
+
+- All three are read-only. Results are cached (the last 8 PDFs and modes), so `read_sections` after
+  `section_pdf` does not extract or pay again.
+- Paid modes use the API keys in the server's environment and are capped per document by
+  `--max-usd` (default 0.50); a call can lower that cap, not raise it, and `--max-usd 0` keeps every
+  run in free mode.
+- `--root DIR` (repeatable) limits the folders the tools may open; paths must be absolute `.pdf`
+  files.
+- Errors (no text layer, no API key, unknown mode, a path outside `--root`) come back as tool errors
+  the agent can read.
+- Section text is the PDF's content: the server's instructions tell the agent to treat it as data.
 
 ## Configuration
 

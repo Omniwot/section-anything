@@ -35,6 +35,36 @@ print(tree.to_markdown())
 print(tree.summary())  # mode, model, pages, sections, calls, tokens, cost_usd, seconds
 ```
 
+## Use from an agent
+
+An agent can take a PDF's outline first and then read only the sections it needs (0.1.6 or newer).
+
+**MCP server** for Claude Code, Claude Desktop, Cursor and other MCP hosts, with three read-only
+tools: `section_pdf` (the heading tree; free mode by default, no model, $0), `read_sections` (the
+text of chosen sections) and `estimate_cost` (what `quick` and `standard` would cost).
+
+```sh
+claude mcp add --transport stdio section-anything -- uvx --from "section-anything[mcp]" section-anything-mcp
+```
+
+Other hosts take the same command in their `mcpServers` JSON:
+
+```json
+{"mcpServers": {"section-anything": {"command": "uvx",
+  "args": ["--from", "section-anything[mcp]", "section-anything-mcp", "--max-usd", "0"]}}}
+```
+
+Paid modes use the API keys in the server's environment (`claude mcp add --env OPENAI_API_KEY=...`)
+and are capped per document by `--max-usd` (default 0.50; `0` keeps every run free). `--root DIR`
+limits the folders the server may read.
+
+**Agent skill:** copy [`skills/section-anything`](skills/section-anything/SKILL.md) into your
+agent's skills folder (Claude Code: `~/.claude/skills/`) and the agent uses the command line the
+same way: outline, then the sections it needs.
+
+**Shell:** `section-anything paper.pdf --format json --body` prints every section with its
+`heading_path`, `parent`, pages and `text`.
+
 ## Why
 
 PDF converters mostly infer headings from how a line looks, so paper titles, author names,
@@ -115,6 +145,7 @@ Python 3.11 or newer:
 pip install section-anything
 pip install "section-anything[anthropic]" # optional: Claude models on Anthropic's own API
 pip install "section-anything[langfuse]"  # optional Langfuse tracing
+pip install "section-anything[mcp]"       # optional MCP server: section-anything-mcp
 # latest from GitHub:
 pip install "git+https://github.com/Omniwot/section-anything#subdirectory=packages/section-anything"
 ```

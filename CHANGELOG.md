@@ -28,6 +28,14 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   definitions and validation. New dependency: `typing-extensions>=4.6` (already installed with
   pydantic).
 
+- **MCP server:** `pip install "section-anything[mcp]"` adds `section-anything-mcp` (stdio, `mcp>=2.3,<3`)
+  with three read-only tools: `section_pdf` (the heading tree), `read_sections` (chosen sections'
+  text, reflowed) and `estimate_cost`. Free mode by default; paid modes use the server's API keys and
+  are capped per document by `--max-usd` (a call can lower it, not raise it); `--root` limits the
+  folders it may read.
+- **Agent skill:** `skills/section-anything/SKILL.md` teaches an agent the command-line workflow
+  (outline first, then only the sections it needs, and when a paid mode is worth asking for).
+
 ## 0.1.5 (2026-10-28)
 
 - **`free`: back matter and appendices sit beside the numbered sections** (the cause left open in
