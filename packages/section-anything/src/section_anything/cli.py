@@ -26,7 +26,9 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--mode", default="free",
                    help="free (default), quick, standard, or local:<ollama model>")
     p.add_argument("--format", choices=("md", "json"), default="md", help="output format (default md)")
-    p.add_argument("--body", action="store_true", help="md: include each section's text, not only headings")
+    p.add_argument("--body", action="store_true",
+                   help="include each section's text: md reflowed under its heading; json as `text`, "
+                        "exactly tree.text[start:end]")
     p.add_argument("--max-usd", type=float, default=None, help="per-document cost cap in USD (default 0.50)")
     p.add_argument("--over-budget", choices=("downgrade", "fail"), default=None,
                    help="over the cap: downgrade standard -> quick -> free (default), or fail")
@@ -65,7 +67,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"section-anything: {exc}", file=sys.stderr)
         return 2
 
-    out = tree.to_json() + "\n" if args.format == "json" else tree.to_markdown(body=args.body)
+    out = tree.to_json(text=args.body) + "\n" if args.format == "json" else tree.to_markdown(body=args.body)
     if args.output:
         args.output.write_text(out, encoding="utf-8")
     else:

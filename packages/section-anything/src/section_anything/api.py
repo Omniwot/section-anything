@@ -28,7 +28,9 @@ import time
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, NotRequired
+
+from typing_extensions import TypedDict  # pydantic needs typing_extensions' TypedDict before Python 3.12
 
 from section_anything.config import ANTHROPIC_EXTRA, LOCAL_PREFIX, Price, Settings
 from section_anything.errors import ConfigError, CostCapExceeded, PdfError, UnpricedModelError
@@ -41,8 +43,64 @@ MODES = ("free", "quick", "standard", "local")
 STRATEGY = {"free": "rules", "quick": "llm_review", "standard": "llm_text", "local": "llm_review"}
 DOWNGRADE = {"standard": "quick", "quick": "free", "local": None, "free": None}
 SECTION_KEYS = ("number", "title", "level", "page_start", "page_end", "start", "end", "flags")
+LINK_KEYS = ("parent", "heading_path")  # derived from the levels by `SectionTree`
 
 Progress = Callable[[float, str], None]
+
+
+class Section(TypedDict):
+    """One section of `SectionTree.sections`, in reading order."""
+
+    number: str  # numbering as printed ("2.3", "Chapter 4") or ""
+    title: str
+    level: int  # 1 = top level
+    page_start: int  # 1-based physical pages
+    page_end: int
+    start: int  # character range of the section's own text in `SectionTree.text`
+    end: int
+    flags: list[str]
+    parent: int | None  # index of the nearest enclosing section, or None
+    heading_path: list[str]  # headings from the outermost enclosing section down to this one
+    text: NotRequired[str]  # only from `to_dict(text=True)`: text[start:end]
+
+
+class TreeDict(TypedDict):
+    """What `SectionTree.to_dict()` returns and `to_json()` writes."""
+
+    section_anything: str  # library version
+    mode: str  # after any downgrade
+    model: str | None
+    pages: int
+    sections: list[Section]
+    flagged: int
+    calls: int
+    input_tokens: int
+    output_tokens: int
+    cost_usd: float
+    seconds: float
+    downgraded: list[str]
+    usage: dict[str, Any]
+
+
+def link_sections(sections: list[dict]) -> None:
+    """Set each section's `parent` (index of the nearest enclosing section, or None) and
+    `heading_path` (headings from the outermost enclosing section down to this one, as
+    "number title"). The document title (flag ``doc_title``) and front matter are outside the
+    hierarchy: the title's path is the title alone, front matter's is empty, and neither is a
+    parent. The LangChain and LlamaIndex loaders' `heading_path` follows the same rule."""
+    open_: list[tuple[int, int]] = []  # (level, index) of the sections enclosing the next one
+    for k, sec in enumerate(sections):
+        flags = sec.get("flags") or []
+        if "front_matter" in flags or "doc_title" in flags:
+            sec["parent"] = None
+            sec["heading_path"] = [heading_text(sec)] if "doc_title" in flags else []
+            continue
+        level = int(sec.get("level") or 1)
+        open_ = [p for p in open_ if p[0] < level]
+        parent = open_[-1][1] if open_ else None
+        sec["parent"] = parent
+        sec["heading_path"] = [*(sections[parent]["heading_path"] if parent is not None else []), heading_text(sec)]
+        open_.append((level, k))
 
 
 def resolve_mode(mode: str, settings: Settings, model: str | None = None) -> tuple[str, str | None]:
@@ -94,11 +152,11 @@ def _require_provider(mode: str, model: str, settings: Settings) -> None:
 class SectionTree:
     """The sections of one document, in reading order.
 
-    `sections` holds one dict per section with number, title, level (1 = top), page_start,
-    page_end, start and end (character offsets into `text`) and flags (for example
-    ``doc_title``, ``front_matter``, ``start_marker_fuzzy``)."""
+    `sections` holds one dict per section (`Section`) with number, title, level (1 = top),
+    page_start, page_end, start and end (character offsets into `text`), flags (for example
+    ``doc_title``, ``front_matter``, ``start_marker_fuzzy``), parent and heading_path."""
 
-    sections: list[dict]
+    sections: list[Section]
     mode: str
     model: str | None
     pages: int
@@ -107,6 +165,11 @@ class SectionTree:
     downgraded: list[str] = field(default_factory=list)
     extraction: Extraction | None = field(default=None, repr=False)
     resolved: list[dict] = field(default_factory=list, repr=False)  # full pipeline output
+
+    def __post_init__(self) -> None:
+        if any(k not in s for s in self.sections for k in LINK_KEYS):
+            self.sections = [dict(s) for s in self.sections]  # type: ignore[misc]
+            link_sections(self.sections)  # type: ignore[arg-type]
 
     @property
     def text(self) -> str:
@@ -153,14 +216,25 @@ class SectionTree:
             out.append(f"{markdown_hashes(sec)} {heading_text(sec)}")
         return "\n".join(out) + ("\n" if out else "")
 
-    def to_dict(self) -> dict:
+    def to_dict(self, text: bool = False) -> TreeDict:
+        """The run summary, usage and sections (`TreeDict`). With `text`, each section also
+        carries `text`: ``self.text[start:end]``, its own text exactly as extracted, from its
+        heading up to the next heading of any level."""
         from section_anything import __version__
 
-        return {"section_anything": __version__, **self.summary(), "usage": self.usage,
-                "sections": self.sections}
+        sections = [{**s, "text": self.text[s["start"]:s["end"]]} for s in self.sections] if text else self.sections
+        return {"section_anything": __version__, **self.summary(), "usage": self.usage,  # type: ignore[typeddict-item]
+                "sections": sections}
 
-    def to_json(self, indent: int | None = 2) -> str:
-        return json.dumps(self.to_dict(), ensure_ascii=False, indent=indent)
+    def to_json(self, indent: int | None = 2, text: bool = False) -> str:
+        return json.dumps(self.to_dict(text=text), ensure_ascii=False, indent=indent)
+
+    @staticmethod
+    def json_schema() -> dict:
+        """JSON Schema of `to_dict()` / `to_json()` output, for tool definitions and validation."""
+        from pydantic import TypeAdapter
+
+        return TypeAdapter(TreeDict).json_schema()
 
 
 def _public(sec: dict) -> dict:

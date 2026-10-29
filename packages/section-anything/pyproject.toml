@@ -32,6 +32,7 @@ dependencies = [
     "openai>=1.99",  # chat.completions.parse
     "pydantic>=2.7",
     "pydantic-settings>=2.6",
+    "typing-extensions>=4.6",  # TypedDict with NotRequired that pydantic accepts on 3.11
 ]
 
 [project.urls]

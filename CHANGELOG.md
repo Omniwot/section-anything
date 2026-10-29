@@ -3,6 +3,31 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
+## Unreleased
+
+- **The same PDF now gives the same text every time.** pdfminer's layout analysis breaks ties
+  between equally distant text boxes (table cells, for example) by `id()`, a memory address, so
+  such lines could come out in a different order in each process: one arXiv paper gave 3 different
+  texts in 6 extractions. Extraction now breaks those ties by the boxes' order (a copy of pdfminer's
+  `group_textboxes` with that one change, used for our pages only; pdfminer itself is not patched).
+  On the 200 READoc development documents, 25 (22 papers, 3 READMEs) now extract to a different line
+  order than before: the same lines with the same total length, 2 to 45 of them moved. `free` finds
+  the same headings on all 25; `quick`'s candidate lines are unchanged on 21. No held-out score was
+  re-measured. `EXTRACTOR_VERSION` and `TEXT_COMPATIBLE_SINCE` are now 5: character offsets saved
+  from earlier versions may not match the new text for such documents.
+- **Every section has `parent` and `heading_path`.** `parent` is the index of the nearest enclosing
+  section (or `None`); `heading_path` lists the headings from the outermost enclosing section down to
+  this one (`["1 Introduction", "1.1 Scope"]`). The document title and front matter are outside the
+  hierarchy, as in the LangChain and LlamaIndex loaders. They are in `tree.sections`, `to_dict()`,
+  `to_json()` and the command line's JSON.
+- **Section text in the JSON:** `to_dict(text=True)`, `to_json(text=True)` and
+  `section-anything paper.pdf --format json --body` add each section's `text`, exactly
+  `tree.text[start:end]`.
+- **Typed output:** `section_anything.Section` and `TreeDict` (TypedDicts) describe the sections and
+  `to_dict()`; `SectionTree.json_schema()` gives the JSON Schema of the JSON output, for tool
+  definitions and validation. New dependency: `typing-extensions>=4.6` (already installed with
+  pydantic).
+
 ## 0.1.5 (2026-10-28)
 
 - **`free`: back matter and appendices sit beside the numbered sections** (the cause left open in

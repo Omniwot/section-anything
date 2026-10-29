@@ -64,6 +64,7 @@ section-anything paper.pdf                                   # free, Markdown he
 section-anything paper.pdf --mode quick --format json        # JSON with spans and cost
 section-anything paper.pdf --mode standard --max-usd 0.5     # cap this document at $0.50
 section-anything paper.pdf --mode local:qwen3:4b --body      # headings plus section text
+section-anything paper.pdf --format json --body              # JSON with each section's text
 ```
 
 The result goes to stdout (or `-o FILE`), a one-line summary with the cost to stderr. Exit codes:
@@ -81,12 +82,17 @@ be read. API keys are read from the environment only, never from the command lin
 | `page_start`, `page_end` | 1-based physical pages |
 | `start`, `end` | character range of the section's own text in `tree.text` (up to the next heading) |
 | `flags` | `doc_title` (the document's own title), `front_matter` (text before the first heading), `generated_title` (`standard` wrote a title for text that has no printed heading), and checks such as `start_marker_fuzzy`, `title_not_in_text`, `end_mismatch` |
+| `parent` | index in `tree.sections` of the nearest enclosing section, or `None` |
+| `heading_path` | headings from the outermost enclosing section down to this one: `["1 Introduction", "1.1 Scope"]`. The document title's path is the title alone and front matter's is empty; neither is a parent |
 
 - `tree.to_markdown()`: the document title as `#`, every other heading as `#` x (level + 1),
   capped at six. `to_markdown(body=True)` adds each section's text, reflowed into paragraphs,
   with running headers and footers removed.
 - `tree.to_json()` / `tree.to_dict()`: the sections plus mode, model, pages, calls, tokens,
-  cost and any downgrades.
+  cost and any downgrades. With `text=True` (`--format json --body` on the command line), each
+  section also has `text`: exactly `tree.text[start:end]`, from its heading to the next heading.
+- `section_anything.Section` and `TreeDict` type the sections and `to_dict()`;
+  `SectionTree.json_schema()` returns the JSON Schema of the JSON output.
 - `tree.extraction` holds the lines with their boxes (PDF points), for highlighting.
 
 ## Configuration

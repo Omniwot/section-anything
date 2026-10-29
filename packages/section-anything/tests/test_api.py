@@ -8,7 +8,7 @@ import os
 import pytest
 
 import section_anything
-from section_anything.api import SECTION_KEYS, SectionTree
+from section_anything.api import LINK_KEYS, SECTION_KEYS, SectionTree
 
 
 def test_free_mode_on_generated_paper(paper_pdf):
@@ -21,7 +21,7 @@ def test_free_mode_on_generated_paper(paper_pdf):
     assert "doc_title" in tree.sections[0]["flags"]
     assert [s["page_start"] for s in tree.sections] == [1, 1, 1, 2, 2]
     for s in tree.sections:
-        assert tuple(s) == SECTION_KEYS
+        assert tuple(s) == (*SECTION_KEYS, *LINK_KEYS)
         assert 0 <= s["start"] < s["end"] <= len(tree.text)
     assert tree.text[tree.sections[3]["start"]:].startswith("2 Methods")
     assert tree.mode == "free" and tree.model is None and tree.pages == 2

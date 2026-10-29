@@ -18,6 +18,8 @@ _EXPORTS = {
     "section": "section_anything.api",
     "asection": "section_anything.api",
     "SectionTree": "section_anything.api",
+    "Section": "section_anything.api",
+    "TreeDict": "section_anything.api",
     "resolve_mode": "section_anything.api",
     "Settings": "section_anything.config",
     "Price": "section_anything.config",
@@ -47,9 +49,11 @@ __all__ = [
     "PdfError",
     "PdfTooLarge",
     "Price",
+    "Section",
     "SectionAnythingError",
     "SectionTree",
     "Settings",
+    "TreeDict",
     "UnpricedModelError",
     "__version__",
     "asection",
@@ -60,7 +64,7 @@ __all__ = [
 ]
 
 if TYPE_CHECKING:
-    from section_anything.api import SectionTree, asection, resolve_mode, section
+    from section_anything.api import Section, SectionTree, TreeDict, asection, resolve_mode, section
     from section_anything.config import DEFAULT_PRICES, Price, Settings
     from section_anything.errors import (
         ConfigError,
