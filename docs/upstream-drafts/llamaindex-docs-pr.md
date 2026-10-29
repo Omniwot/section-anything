@@ -1,4 +1,7 @@
-# LlamaIndex: docs listing PR (ready to open, not opened)
+# LlamaIndex: docs listing PR (opened 29 Oct 2026: run-llama/llama_index#23794)
+
+Opened on 29 Oct 2026 as https://github.com/run-llama/llama_index/pull/23794 (branch
+`Omniwot:patch-2`), with the change, title and body below unchanged. Waiting for review.
 
 Status, 27 Oct 2026: `llama-index-readers-section-anything` 0.1.0 is on PyPI
 (https://pypi.org/project/llama-index-readers-section-anything/). The integrations page, its

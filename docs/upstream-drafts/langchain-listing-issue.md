@@ -1,4 +1,9 @@
-# LangChain: integration listing issue (ready to paste, not filed)
+# LangChain: integration listing issue (filed and merged)
+
+Filed on 27 Oct 2026 as https://github.com/langchain-ai/docs/issues/7112. On 29 Oct the
+listing automation opened https://github.com/langchain-ai/docs/pull/7171, which was merged the
+same day: `SectionAnythingLoader` is in `packages.yml`, the external docs list and the
+providers page.
 
 Status, 27 Oct 2026: `langchain-section-anything` 0.1.0 is on PyPI
 (https://pypi.org/project/langchain-section-anything/). The issue form was re-checked on
