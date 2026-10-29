@@ -31,10 +31,11 @@ T = TypeVar("T")
 
 # Bump when the canonical text or the saved geometry changes. Extractions saved by an older
 # version should be redone; runs record the version their character offsets refer to.
-EXTRACTOR_VERSION = 4  # 4: LaTeX bold fonts (CMBX, SFBX, ...) count as bold
+EXTRACTOR_VERSION = 5  # 5: deterministic reading order for equidistant boxes; 4: LaTeX bold fonts count as bold
 # Oldest version whose canonical text is identical to the current one: offsets from that version
-# on still map onto the page. Raise it only when `Extraction.text` changes.
-TEXT_COMPATIBLE_SINCE = 1
+# on still map onto the page. Raise it only when `Extraction.text` changes. 5: lines of tied boxes
+# (table cells) can come in another order (25 of 200 READoc development documents).
+TEXT_COMPATIBLE_SINCE = 5
 
 LAPARAMS = {
     "line_overlap": 0.5,
@@ -274,6 +275,66 @@ def _line_text_and_words(tl, dx: float) -> tuple[str, list[float]]:
     return text, words
 
 
+def _stable_group_textboxes(self, laparams, boxes):
+    """pdfminer's `LTLayoutContainer.group_textboxes` with ties broken by creation order.
+
+    pdfminer merges the closest pair of boxes first and breaks equal distances by `id()`, a memory
+    address that differs from process to process, so a page with equidistant boxes (table cells)
+    could come out in a different reading order on every run. Here each box is numbered by its
+    position in `boxes` and each group by when it was made; everything else is unchanged.
+
+    Adapted from pdfminer.six 20260107, pdfminer/layout.py (MIT licence, Copyright (c) 2004-2016
+    Yusuke Shinyama)."""
+    import heapq
+
+    from pdfminer.layout import LTTextBoxVertical, LTTextGroupLRTB, LTTextGroupTBRL
+    from pdfminer.utils import Plane
+
+    plane = Plane(self.bbox)
+    seq: dict[int, int] = {id(b): k for k, b in enumerate(boxes)}
+
+    def dist(obj1, obj2) -> float:
+        x0, y0 = min(obj1.x0, obj2.x0), min(obj1.y0, obj2.y0)
+        x1, y1 = max(obj1.x1, obj2.x1), max(obj1.y1, obj2.y1)
+        return (x1 - x0) * (y1 - y0) - obj1.width * obj1.height - obj2.width * obj2.height
+
+    def isany(obj1, obj2) -> set:
+        x0, y0 = min(obj1.x0, obj2.x0), min(obj1.y0, obj2.y0)
+        x1, y1 = max(obj1.x1, obj2.x1), max(obj1.y1, obj2.y1)
+        return set(plane.find((x0, y0, x1, y1))).difference((obj1, obj2))
+
+    dists = [(False, dist(b1, b2), i, j, b1, b2)
+             for i, b1 in enumerate(boxes) for j, b2 in enumerate(boxes) if j > i]
+    heapq.heapify(dists)
+    plane.extend(boxes)
+    done: set[int] = set()
+    while dists:
+        skip_isany, d, s1, s2, obj1, obj2 = heapq.heappop(dists)
+        if s1 in done or s2 in done:
+            continue
+        if not skip_isany and isany(obj1, obj2):
+            heapq.heappush(dists, (True, d, s1, s2, obj1, obj2))
+            continue
+        vertical = (LTTextBoxVertical, LTTextGroupTBRL)
+        group = (LTTextGroupTBRL if isinstance(obj1, vertical) or isinstance(obj2, vertical)
+                 else LTTextGroupLRTB)([obj1, obj2])
+        plane.remove(obj1)
+        plane.remove(obj2)
+        done.update((s1, s2))
+        sg = seq[id(group)] = len(seq)
+        for other in plane:
+            heapq.heappush(dists, (False, dist(group, other), sg, seq[id(other)], group, other))
+        plane.add(group)
+    return list(plane)
+
+
+def _analyze(layout, laparams) -> None:
+    """pdfminer's layout analysis of one page, with `_stable_group_textboxes` for this page only
+    (pdfminer itself is not patched)."""
+    layout.group_textboxes = _stable_group_textboxes.__get__(layout)
+    layout.analyze(laparams)
+
+
 def extract(
     path: Path,
     on_page: Callable[[int, int], None] | None = None,
@@ -285,7 +346,7 @@ def extract(
     checked with PDFium before layout analysis starts, and the character cap again while lines
     are collected."""
     import pdfplumber
-    from pdfminer.layout import LTChar, LTTextBox, LTTextLine
+    from pdfminer.layout import LAParams, LTChar, LTTextBox, LTTextLine
 
     path = Path(path)
     if max_pages is not None or max_chars is not None:
@@ -293,14 +354,19 @@ def extract(
     pages: list[Page] = []
     lines: list[Line] = []
     cursor = 0
-    with pdfplumber.open(path, laparams=LAPARAMS) as pdf:
+    laparams = LAParams(**LAPARAMS)
+    # pdfplumber gets no LAParams, so its pages come back unanalysed and `_analyze` runs the layout
+    # analysis with a deterministic tie-break.
+    with pdfplumber.open(path) as pdf:
         total = len(pdf.pages)
         if max_pages is not None and total > max_pages:
             raise PdfTooLarge(f"PDF has {total} pages; the limit is {max_pages} (max_pages, SECTIONANY_MAX_PAGES)")
         for n, page in enumerate(pdf.pages, 1):
             mb = page.mediabox
             before = len(lines)
-            for box in page.layout:
+            layout = page.layout
+            _analyze(layout, laparams)
+            for box in layout:
                 if not isinstance(box, LTTextBox):
                     continue
                 for tl in box:

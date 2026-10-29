@@ -85,6 +85,13 @@ def three_page_pdf(tmp_path: Path) -> Path:
 
 
 @pytest.fixture
+def table_pdf(tmp_path: Path) -> Path:
+    """One page: a heading over ten rows of numbers, like a results table."""
+    rows = [(f"{a:.2f}  {a + 1:.2f}  {a + 2:.2f}", 10, False) for a in range(10)]
+    return write_pdf(tmp_path / "table.pdf", [[("Results", 14, True), *rows]])
+
+
+@pytest.fixture
 def readoc_pdf() -> Path:
     """A real paper, when SECTIONANY_TEST_PDF points to one (for example a READoc arXiv PDF)."""
     path = os.environ.get("SECTIONANY_TEST_PDF")

@@ -8,5 +8,32 @@ PDFium (Apache-2.0 / BSD-3-Clause), RapidFuzz (MIT), the OpenAI Python library
 (Apache-2.0) and pydantic (MIT). Each is installed separately under its own
 licence.
 
+section_anything/extract.py contains `_stable_group_textboxes`, adapted from
+`LTLayoutContainer.group_textboxes` in pdfminer.six 20260107 (pdfminer/layout.py),
+under the following licence:
+
+Copyright (c) 2004-2016  Yusuke Shinyama <yusuke at shinyama dot jp>
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or
+sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 The data under corpus/ is not covered by the Apache License: it is derived from third-party
 documents that keep their own licences (see corpus/DATA-LICENSES.md).
