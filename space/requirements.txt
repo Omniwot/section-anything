@@ -1,2 +1,7 @@
 section-anything==0.1.5
 gradio==6.30.0
+# The saved example runs (examples/*.json) hold character spans into the text these versions extract.
+# If you change them, run the app and check that the examples still show section text (DEPLOY.md).
+pdfplumber==0.11.10
+pdfminer.six==20260107
+pypdfium2==5.14.0

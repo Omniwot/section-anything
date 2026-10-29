@@ -16,8 +16,8 @@ Real output of section-anything 0.1.3, Quick mode (gpt-6-luna), on *Visual Instr
 [arXiv:2304.08485](https://arxiv.org/abs/2304.08485), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/);
 the wait for the run is shortened ([capture](docs/assets/demo-capture.txt), [script](docs/assets/make_demo.py)).
 Quick mode's output can vary slightly between runs. Try it on that paper in the [Colab notebook](https://colab.research.google.com/github/Omniwot/section-anything/blob/main/notebooks/quickstart.ipynb)
-(Free mode, no key needed), or in the browser on the [Hugging Face Space](https://huggingface.co/spaces/Omniwot/section-anything) (Free mode;
-don't upload confidential documents).
+(Free mode, no key needed), or in the browser on the [Hugging Face Space](https://huggingface.co/spaces/Omniwot/section-anything) (Free mode
+on any PDF, plus saved Quick check and Standard runs on three example papers; don't upload confidential documents).
 
 > **Pre-release (0.1).** The API may change before 1.0.
 
