@@ -46,7 +46,7 @@ public demo.
 - 100 pages and 20 MB per PDF; text extraction is stopped after 120 seconds.
 - Reads the PDF's text layer. Scanned PDFs need OCR first.
 - Free mode only. In the library, `quick` and `standard` use a model with your own API key and
-  score higher on papers (READoc heading-tree TEDS on 905 held-out arXiv papers: `free` 57.9,
+  score higher on papers (READoc heading-tree TEDS on 905 held-out arXiv papers: `free` 60.0,
   `quick` 68.0, `standard` 70.0); `local` runs `quick` with an Ollama model on your machine. See
   the [README](https://github.com/Omniwot/section-anything#readme).
 

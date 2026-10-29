@@ -254,15 +254,19 @@ heading tree. The full tables, methods and per-document results are in the repos
 |---|---|---|
 | Section Anything `standard` (gpt-6-luna) | 905 | **70.0** |
 | Section Anything `quick` (gpt-6-luna) | 905 | 68.0 |
-| Section Anything `free` | 905 | 57.9 |
+| Section Anything `free` | 905 | 60.0 |
 | Docling 2.140 (heading hierarchy on) | 905 | 49.4 |
 
-`free` and `quick` are release 0.1.2. 0.1.1 found the abstract's heading (journals often set it
+`quick` is release 0.1.2 and `free` release 0.1.5. 0.1.1 found the abstract's heading (journals often set it
 small, bold or run into the first line): +2.4 to `free` and +3.7 to `quick` in a pre-registered
 held-out test (0.1.0: 54.8 and 63.9). 0.1.2 keeps a section number that the PDF extractor split
 off its title ("1" | "Introduction"): +0.7 to `free` (95% CI 0.5 to 1.0) and +0.5 to `quick` (95%
 CI 0.4 to 0.8; +1.7 on the 291 papers it changes) in a second pre-registered test (0.1.1: 57.2 and
-67.4). `standard` uses neither. See the
+67.4).
+0.1.5 gives back matter (References, Acknowledgements, Appendix) and appendix sections the level of the
+numbered sections: +2.1 to `free` (95% CI 1.7 to 2.4; 136 papers better, 4 worse) in a fourth
+pre-registered test on these papers (0.1.4: 57.9); READMEs unchanged.
+`standard` uses none of these. See the
 [changelog](https://github.com/Omniwot/section-anything/blob/main/CHANGELOG.md).
 
 On the same 905 papers with MinerU's cloud service (3.4.4, VLM): our `standard` 70.0, our `quick`

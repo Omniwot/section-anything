@@ -37,14 +37,14 @@ window.SA_DATA = {
     link: "https://github.com/icip-cas/READoc",
     heldout: {
       title: "arXiv papers not used while developing the method",
-      date: "2026-10-26", docs: 905, subset: "READoc-arXiv",
+      date: "2026-10-28", docs: 905, subset: "READoc-arXiv",
       rows: [
         { system: "Section Anything Standard (gpt-6-luna)", score: 70.0, ours: true },
         { system: "Section Anything Quick check (gpt-6-luna)", score: 68.0, ours: true },
-        { system: "Section Anything Free (no model)", score: 57.9, ours: true },
+        { system: "Section Anything Free (no model)", score: 60.0, ours: true },
         { system: "Docling 2.140 (heading hierarchy on)", score: 49.4 }
       ],
-      note: "Paired per paper, Standard minus Docling is +20.6 points on these 905 papers (95% CI 19.3 to 21.8); Standard scored higher on 773 papers and Docling on 103 (by more than 0.5 points). Free and Quick check are release 0.1.2. Release 0.1.1 found the abstract's heading (journals often set it small, bold or run into the first line): in a pre-registered held-out test it added 2.4 points to Free (95% CI 2.0 to 2.7) and 3.7 to Quick check (95% CI 3.3 to 4.1) on these papers (0.1.0: 54.8 and 63.9). Release 0.1.2 keeps a section number that the PDF extractor split off its title (\"1\" | \"Introduction\"): in a second pre-registered test it added 0.7 to Free (95% CI 0.5 to 1.0) and 0.5 to Quick check (95% CI 0.4 to 0.8; 1.7 on the 291 papers it changes) (0.1.1: 57.2 and 67.4). Standard uses neither. Free includes the outline check (52.0 before it)."
+      note: "Paired per paper, Standard minus Docling is +20.6 points on these 905 papers (95% CI 19.3 to 21.8); Standard scored higher on 773 papers and Docling on 103 (by more than 0.5 points). Quick check is release 0.1.2 and Free release 0.1.5. Release 0.1.1 found the abstract's heading (journals often set it small, bold or run into the first line): in a pre-registered held-out test it added 2.4 points to Free (95% CI 2.0 to 2.7) and 3.7 to Quick check (95% CI 3.3 to 4.1) on these papers (0.1.0: 54.8 and 63.9). Release 0.1.2 keeps a section number that the PDF extractor split off its title (\"1\" | \"Introduction\"): in a second pre-registered test it added 0.7 to Free (95% CI 0.5 to 1.0) and 0.5 to Quick check (95% CI 0.4 to 0.8; 1.7 on the 291 papers it changes) (0.1.1: 57.2 and 67.4). Release 0.1.5 gives back matter (References, Acknowledgements, Appendix) and appendix sections the level of the numbered sections: in a fourth pre-registered test on these papers it added 2.1 points to Free (95% CI 1.7 to 2.4; 136 papers better, 4 worse) (0.1.4: 57.9), with READMEs unchanged. Standard uses none of these. Free includes the outline check (52.0 before it)."
     },
     heldoutMinerU: {
       title: "The same held-out papers with MinerU (every tool on the same papers)",
@@ -76,14 +76,14 @@ window.SA_DATA = {
     },
     full: {
       title: "Full READoc, latest measured version of every setting",
-      date: "2026-10-26", docs: { arxiv: 1003, github: 1224 },
+      date: "2026-10-28", docs: { arxiv: 1003, github: 1224 },
       rows: [
         { system: "Section Anything Standard (gpt-6-luna)", arxiv: 69.9, github: 75.2, ours: true },
         { system: "Section Anything Quick check (gpt-6-luna, 0.1.0)", arxiv: 63.9, github: 74.3, ours: true },
-        { system: "Section Anything Free (no model)", arxiv: 57.3, github: 81.3, ours: true },
+        { system: "Section Anything Free (no model)", arxiv: 59.4, github: 81.3, ours: true },
         { system: "Docling 2.140 (heading hierarchy on)", arxiv: 49.3, github: 75.0 }
       ],
-      note: "All documents with headings in READoc's arXiv and GitHub sets. Free is release 0.1.2 (0.1.1: 56.6 / 81.3; 0.1.0: 54.2 / 81.3; 51.3 / 75.0 before the outline check). Quick check is 0.1.0 (its 0.1.1 and 0.1.2 gains were measured on the 905 held-out papers above). On the 1,124 GitHub READMEs not used during development, Standard and Quick check tie with Docling (Standard +0.3, 95% CI -0.9 to +1.6) and Free scores 6.2 higher (95% CI 5.3 to 7.2). Over all 1,224 READMEs, Standard's heading text is a little closer to the answer key than Docling's (READoc heading edit similarity 77.8 vs 73.9)."
+      note: "All documents with headings in READoc's arXiv and GitHub sets. Free is release 0.1.5 (0.1.4: 57.3 / 81.3; 0.1.1: 56.6 / 81.3; 0.1.0: 54.2 / 81.3; 51.3 / 75.0 before the outline check). Quick check is 0.1.0 (its 0.1.1 and 0.1.2 gains were measured on the 905 held-out papers above). On the 1,124 GitHub READMEs not used during development, Standard and Quick check tie with Docling (Standard +0.3, 95% CI -0.9 to +1.6) and Free scores 6.2 higher (95% CI 5.3 to 7.2). Over all 1,224 READMEs, Standard's heading text is a little closer to the answer key than Docling's (READoc heading edit similarity 77.8 vs 73.9)."
     },
     published: {
       title: "Published READoc results (older tool versions, from the READoc paper, arXiv 2409.05137)",

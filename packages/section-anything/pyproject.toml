@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "section-anything"
-version = "0.1.4"
+version = "0.1.5"
 description = "Find the sections of a PDF (headings, levels, page and character spans), from free rules to LLM review, with hard cost caps."
 readme = "README.md"
 license = "Apache-2.0"

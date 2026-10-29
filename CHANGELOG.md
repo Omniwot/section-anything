@@ -3,7 +3,7 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
-## Unreleased
+## 0.1.5 (2026-10-28)
 
 - **`free`: back matter and appendices sit beside the numbered sections** (the cause left open in
   0.1.2). Without a usable PDF outline, `free` gave numbered headings their numbering depth as
