@@ -336,4 +336,4 @@ with gr.Blocks(title="Section Anything", delete_cache=(3600, 3600), analytics_en
     picker.change(section_view, inputs=[picker, doc], outputs=text, api_name=False)
 
 if __name__ == "__main__":
-    demo.queue(default_concurrency_limit=2, max_size=20).launch(max_file_size=f"{MAX_MB}mb")
+    demo.queue(default_concurrency_limit=2, max_size=100).launch(max_file_size=f"{MAX_MB}mb")
