@@ -2,7 +2,9 @@
 
 Order of checks:
 
-1. File size (`max_mb`), before the file is opened.
+1. File size (`max_mb`), before the file is opened. A PDF passed as bytes or a stream is measured
+   before anything is written to disk, checked for a ``%PDF-`` header, then written to a private
+   temporary file (removed afterwards) so the rest runs as for a path.
 2. Page count from the PDF's page tree with PDFium (`max_pages`), in this process, under
    `PDFIUM_LOCK`. No page content is parsed.
 3. In a worker process: the text size counted with PDFium (`max_chars`), then pdfminer's layout
@@ -16,6 +18,7 @@ needs to start. It returns the extraction as JSON, never as a pickle.
 
 from __future__ import annotations
 
+import contextlib
 import json
 import math
 import os
@@ -25,8 +28,9 @@ import sys
 import tempfile
 import threading
 import time
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
 from pathlib import Path
+from typing import Protocol
 
 from section_anything.config import Settings
 from section_anything.errors import (
@@ -40,8 +44,21 @@ from section_anything.errors import (
 from section_anything.extract import Extraction, count_pages, extract
 
 MB = 1024 * 1024
+# PDFium (like Acrobat) accepts the %PDF- header anywhere in the first 1024 bytes, after a BOM,
+# whitespace or other junk; pdfminer does not look for it at all.
+HEADER_WINDOW = 1024
 # Environment variables the worker may inherit: enough to start Python, nothing else.
 _ENV_KEEP = ("PATH", "SYSTEMROOT", "WINDIR", "TMPDIR", "TEMP", "TMP", "LANG", "LC_ALL", "LC_CTYPE", "HOME")
+
+
+class Readable(Protocol):
+    """A binary file-like object: an open file, `io.BytesIO`, an upload or download stream."""
+
+    def read(self, size: int = -1, /) -> bytes: ...
+
+
+# A path, or the PDF itself: bytes, a bytearray, a memoryview or a binary file-like object.
+PdfInput = str | os.PathLike[str] | bytes | bytearray | memoryview | Readable
 
 
 def check_pdf(path: Path, settings: Settings) -> int:
@@ -53,18 +70,67 @@ def check_pdf(path: Path, settings: Settings) -> int:
         raise PdfError(f"cannot read {path.name}") from None
     if not path.is_file():
         raise PdfError(f"not a file: {path}")
+    _check_size(size, settings, path.name)
+    return _check_pages(path, settings)
+
+
+def _check_size(size: int, settings: Settings, name: str) -> None:
     if size > settings.max_mb * MB:
         need = math.ceil(size / MB)
         raise PdfTooLarge(
-            f"{path.name} is {size / MB:.1f} MB; the limit is {settings.max_mb:g} MB "
+            f"{name} is {size / MB:.1f} MB; the limit is {settings.max_mb:g} MB "
             + limit_hint("SECTIONANY_MAX_MB", need, python=f"Settings(max_mb={need})")
         )
+
+
+def _check_pages(path: Path, settings: Settings) -> int:
     n = count_pages(path)
     if n == 0:
         raise PdfError("PDF has no pages")
     if n > settings.max_pages:
         raise too_many_pages(n, settings.max_pages)
     return n
+
+
+def _read_stream(f: Readable, limit: float) -> tuple[bytearray, int]:
+    """Read `f` to the end, once. Past `limit` bytes the rest is only counted, so a stream over the
+    size cap costs no more memory than the cap. Returns the data (empty when over) and the size."""
+    buf = bytearray()
+    size = 0
+    while chunk := f.read(MB):
+        if isinstance(chunk, str):
+            raise TypeError("the file is open in text mode: open it with 'rb'")
+        size += len(chunk)
+        if size <= limit:
+            buf += chunk
+        elif buf:
+            buf = bytearray()
+    return buf, size
+
+
+def _pdf_bytes(pdf: bytes | bytearray | memoryview | Readable, settings: Settings) -> bytes | bytearray | memoryview:
+    """The PDF's bytes, checked against the size cap and for a header, before anything is written."""
+    if isinstance(pdf, (bytes, bytearray, memoryview)):
+        data, size = pdf, memoryview(pdf).nbytes
+    elif callable(getattr(pdf, "read", None)):
+        data, size = _read_stream(pdf, settings.max_mb * MB)
+    else:
+        raise TypeError(f"expected a path, bytes or a binary file object, not {type(pdf).__name__}")
+    _check_size(size, settings, "PDF")
+    if b"%PDF-" not in bytes(data[:HEADER_WINDOW]):
+        raise PdfError(f"not a PDF: no %PDF- header in the first {HEADER_WINDOW} bytes")
+    return data
+
+
+@contextlib.contextmanager
+def _private_copy(data: bytes | bytearray | memoryview) -> Iterator[Path]:
+    """`data` in a file only this user can read (mkstemp: mode 0600), in a new temporary directory
+    (mode 0700) that is removed on the way out, after an error or a timeout too."""
+    with tempfile.TemporaryDirectory(prefix="section-anything-") as tmp:
+        fd, name = tempfile.mkstemp(suffix=".pdf", dir=tmp)
+        with open(fd, "wb") as f:
+            f.write(data)
+        yield Path(name)
 
 
 def _timeout_needed(limit: float, page: int, pages: int) -> int:
@@ -75,16 +141,27 @@ def _timeout_needed(limit: float, page: int, pages: int) -> int:
 
 
 def extract_pdf(
-    path: str | os.PathLike[str],
+    path: PdfInput,
     *,
     settings: Settings | None = None,
     on_page: Callable[[int, int], None] | None = None,
 ) -> Extraction:
-    """Check the caps, then extract `path` (in a worker process unless `isolate_extraction` is
-    off). Raises PdfError / PdfTooLarge / ExtractionTimeout / ExtractionFailed."""
+    """Check the caps, then extract the PDF (in a worker process unless `isolate_extraction` is
+    off). `path` is a path, or the PDF itself as bytes, a bytearray, a memoryview or a binary
+    file-like object (read to the end once and left open). Raises PdfError / PdfTooLarge /
+    ExtractionTimeout / ExtractionFailed, and TypeError for any other kind of `path`."""
     s = settings or Settings()
-    src = Path(path).resolve()
-    check_pdf(src, s)
+    if isinstance(path, (str, os.PathLike)):
+        src = Path(path).resolve()
+        check_pdf(src, s)
+        return _extract(src, s, on_page)
+    data = _pdf_bytes(path, s)  # size and header first: a refused PDF never reaches the disk
+    with _private_copy(data) as src:
+        _check_pages(src, s)
+        return _extract(src, s, on_page)
+
+
+def _extract(src: Path, s: Settings, on_page: Callable[[int, int], None] | None) -> Extraction:
     if not s.isolate_extraction:
         return extract(src, on_page, max_pages=s.max_pages, max_chars=s.max_chars)
     return _extract_in_worker(src, s, on_page)

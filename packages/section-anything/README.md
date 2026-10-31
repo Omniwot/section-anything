@@ -72,6 +72,27 @@ The result goes to stdout (or `-o FILE`), a one-line summary with the cost to st
 0 done, 2 configuration (for example no API key), 3 refused by the cost cap, 4 the PDF could not
 be read. API keys are read from the environment only, never from the command line.
 
+## PDFs as bytes
+
+`section`, `asection` and `extract_pdf` also take the PDF itself: `bytes`, `bytearray`,
+`memoryview` or a binary file-like object (an open file, `io.BytesIO`, an upload stream). This is
+for data platforms and serverless functions that hand over a file's bytes, not a path.
+
+```python
+tree = section_anything.section(pdf_bytes)  # from object storage, a request body or a table column
+with open("paper.pdf", "rb") as f:
+    tree = section_anything.section(f)      # read to the end once and left open
+```
+
+- The size cap is checked on the bytes before anything is written to disk. A stream over the cap
+  is read to the end to measure it, but no more than the cap is kept in memory.
+- Data without a `%PDF-` header in its first 1,024 bytes is refused with `PdfError`.
+- The bytes then go to a private temporary file (its own folder, readable only by the current
+  user), so the page, text, time and memory limits and the extraction worker apply as for a path.
+  The file and its folder are removed afterwards, after an error or a timeout too.
+- Errors call the document "PDF", never by the temporary file's name.
+- `section_anything.PdfInput` is the type of everything these functions accept.
+
 ## Output
 
 `tree.sections` is a list of dicts in reading order:

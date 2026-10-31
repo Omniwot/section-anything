@@ -26,6 +26,7 @@ _EXPORTS = {
     "DEFAULT_PRICES": "section_anything.config",
     "extract_pdf": "section_anything.isolate",
     "check_pdf": "section_anything.isolate",
+    "PdfInput": "section_anything.isolate",
     "Extraction": "section_anything.extract",
     "SectionAnythingError": "section_anything.errors",
     "ConfigError": "section_anything.errors",
@@ -47,6 +48,7 @@ __all__ = [
     "ExtractionTimeout",
     "LlmCallFailed",
     "PdfError",
+    "PdfInput",
     "PdfTooLarge",
     "Price",
     "Section",
@@ -78,7 +80,7 @@ if TYPE_CHECKING:
         UnpricedModelError,
     )
     from section_anything.extract import Extraction
-    from section_anything.isolate import check_pdf, extract_pdf
+    from section_anything.isolate import PdfInput, check_pdf, extract_pdf
 
 
 def __getattr__(name: str) -> Any:

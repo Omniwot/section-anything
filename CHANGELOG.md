@@ -15,6 +15,13 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   held-out READMEs 81.42 -> 81.44 (2 changed: +32.6 and -5.8), development READMEs 79.59 -> 79.70
   (1 changed), development papers and the 29-document public corpus unchanged. Quick check and
   Standard do not run the outline check by default and are unaffected.
+- **PDFs as bytes.** `section`, `asection` and `extract_pdf` also take the PDF itself as `bytes`,
+  `bytearray`, `memoryview` or a binary file-like object (an open file, `io.BytesIO`), for data
+  platforms and serverless functions that hand over bytes, not paths. The size cap is checked before
+  anything is written to disk, and data without a `%PDF-` header is refused with `PdfError`. The bytes
+  then go to a private temporary file, removed afterwards, so the other limits and the extraction
+  worker apply unchanged. A file object is read once and left open. `section_anything.PdfInput` types
+  the accepted inputs.
 
 ## 0.1.6 (2026-10-31)
 
