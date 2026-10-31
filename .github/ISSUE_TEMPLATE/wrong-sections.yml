@@ -1,0 +1,51 @@
+name: Wrong sections on a PDF
+description: A heading was missed, a non-heading became a section, or a level is wrong.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks: every report like this becomes a test case. Only share PDFs that are public;
+        don't attach confidential documents.
+  - type: input
+    id: pdf
+    attributes:
+      label: PDF
+      description: A public link (arXiv, a project page) or an attached file you are allowed to share.
+      placeholder: https://arxiv.org/pdf/2304.08485
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Mode
+      options:
+        - free
+        - quick
+        - standard
+        - local (Ollama)
+        - Hugging Face Space (Free)
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: "`section-anything --version`, and the model if not the default."
+      placeholder: 0.1.5
+  - type: textarea
+    id: got
+    attributes:
+      label: What you got
+      description: "The relevant part of `section-anything file.pdf` (the heading tree), or of `--format json`."
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+      description: The headings and levels as they should be, for the same part of the document.
+      render: text
+    validations:
+      required: true
