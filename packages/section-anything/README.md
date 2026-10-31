@@ -28,6 +28,7 @@ Python 3.11+:
 ```sh
 pip install section-anything
 pip install "section-anything[anthropic]" # optional: Claude models on Anthropic's own API
+pip install "section-anything[docling]"   # optional: tree.to_docling_document()
 pip install "section-anything[langfuse]"  # optional Langfuse tracing
 pip install "section-anything[mcp]"       # optional MCP server: section-anything-mcp
 # latest from GitHub:
@@ -38,7 +39,7 @@ pip install -e ./packages/section-anything
 
 Dependencies: pdfplumber and pdfminer.six (MIT), pypdfium2 (Apache-2.0 / BSD-3-Clause),
 RapidFuzz (MIT), openai (Apache-2.0), pydantic and pydantic-settings (MIT). No PyMuPDF (AGPL).
-The `anthropic` extra adds Anthropic's Python SDK (Apache-2.0).
+The `anthropic` extra adds Anthropic's Python SDK (Apache-2.0), the `docling` extra docling-core (MIT).
 
 ## Modes
 
@@ -170,6 +171,48 @@ with open("paper.pdf", "rb") as f:
 - `section_anything.Section` and `TreeDict` type the sections and `to_dict()`;
   `SectionTree.json_schema()` returns the JSON Schema of the JSON output.
 - `tree.extraction` holds the lines with their boxes (PDF points), for highlighting.
+
+### Use Docling's or Unstructured's chunkers
+
+Section Anything finds the headings but has no chunker that caps chunk size. Export the tree to
+Unstructured's or Docling's format and run their section-aware chunkers on these headings.
+
+Unstructured (`pip install unstructured`; the export itself needs no extra):
+
+```python
+from unstructured.chunking.title import chunk_by_title
+from unstructured.staging.base import elements_from_dicts
+
+tree = section_anything.section("paper.pdf")
+elements = elements_from_dicts(tree.to_unstructured_elements("paper.pdf"))
+chunks = chunk_by_title(elements, max_characters=1500)
+```
+
+Docling (`pip install "section-anything[docling]" "docling-core[chunking]"`):
+
+```python
+from docling_core.transforms.chunker.hybrid_chunker import HybridChunker
+
+tree = section_anything.section("paper.pdf")
+doc = tree.to_docling_document("paper.pdf")
+for chunk in HybridChunker().chunk(doc):
+    print(chunk.meta.headings, chunk.text[:60])
+```
+
+- `to_unstructured_elements()` returns Unstructured's element dicts (its JSON format): a `Title`
+  per heading, then a `NarrativeText` per body paragraph. A `Title`'s `category_depth` is 0 for
+  the document title and level - 1 for other headings; `parent_id` points to the enclosing
+  heading. Front matter has no `Title`. Each element has `page_number` and `coordinates`.
+- `chunk_by_title` starts a chunk at every `Title`. By default it also merges short sections into
+  one chunk; `combine_text_under_n_chars=0` keeps every section apart.
+- `to_docling_document()` returns a `DoclingDocument`: the document title as a `TitleItem`, other
+  headings as `SectionHeaderItem`s at their level, and body paragraphs as text items under their
+  heading, with page, box and character span.
+- `HybridChunker` gives each chunk `meta.headings`: the document title, then the section's
+  `heading_path`. Its default tokenizer downloads a Hugging Face model; pass `tokenizer=` to use
+  another.
+- The body text is what `to_markdown(body=True)` prints. Tables, figures and lists come through as
+  plain paragraphs.
 
 ## MCP server
 

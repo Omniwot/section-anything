@@ -25,10 +25,11 @@ import concurrent.futures
 import importlib.util
 import json
 import math
+import os
 import time
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
-from typing import Any, NotRequired
+from typing import TYPE_CHECKING, Any, NotRequired
 
 from typing_extensions import TypedDict  # pydantic needs typing_extensions' TypedDict before Python 3.12
 
@@ -38,6 +39,9 @@ from section_anything.export import heading_text, markdown_hashes, section_bodie
 from section_anything.extract import Extraction
 from section_anything.isolate import PdfInput, extract_pdf
 from section_anything.llm import Usage
+
+if TYPE_CHECKING:
+    from docling_core.types.doc import DoclingDocument
 
 MODES = ("free", "quick", "standard", "local")
 STRATEGY = {"free": "rules", "quick": "llm_review", "standard": "llm_text", "local": "llm_review"}
@@ -228,6 +232,34 @@ class SectionTree:
 
     def to_json(self, indent: int | None = 2, text: bool = False) -> str:
         return json.dumps(self.to_dict(text=text), ensure_ascii=False, indent=indent)
+
+    def to_unstructured_elements(self, filename: str | os.PathLike[str] | None = None) -> list[dict[str, Any]]:
+        """The sections as Unstructured element dicts (its JSON format), for its `chunk_by_title`.
+
+        In reading order: a ``Title`` per heading (``category_depth`` 0 for the document title and
+        level - 1 for the others, ``parent_id`` the enclosing heading's ``element_id``), then a
+        ``NarrativeText`` per body paragraph (``parent_id`` its heading). Front matter has no
+        ``Title`` and no ``parent_id``. Every element has ``page_number`` and, from the
+        extraction, ``coordinates`` (PDF points, top-left origin, on its first page); ids are
+        Unstructured's own deterministic hash. `filename` sets ``filename`` (and
+        ``file_directory``). Load with ``unstructured.staging.base.elements_from_dicts``; no extra
+        package is needed to export."""
+        from section_anything.interop import unstructured_elements
+
+        return unstructured_elements(self, filename)
+
+    def to_docling_document(self, filename: str | os.PathLike[str] | None = None) -> DoclingDocument:
+        """The sections as a Docling `DoclingDocument`, for its `HybridChunker`.
+
+        The document title (flag ``doc_title``) is a ``TitleItem``; every other heading a
+        ``SectionHeaderItem`` at its level, under its enclosing heading; body paragraphs are
+        ``TextItem``s under their heading (front matter's at the top level). Items carry
+        provenance (page, box, character span) from the extraction, one per page a paragraph
+        is on. `filename` names the document and, when it is the PDF's path, sets ``origin``
+        with Docling's file hash. Needs the docling extra (``docling-core``)."""
+        from section_anything.interop import docling_document
+
+        return docling_document(self, filename)
 
     @staticmethod
     def json_schema() -> dict:

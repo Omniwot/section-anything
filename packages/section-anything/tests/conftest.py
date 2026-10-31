@@ -80,6 +80,24 @@ def paper_pdf(tmp_path: Path) -> Path:
 
 
 @pytest.fixture
+def front_matter_pdf(tmp_path: Path) -> Path:
+    """Body text before the first heading, and no document title."""
+    return write_pdf(tmp_path / "front.pdf", [
+        [*body(6), ("1 Introduction", 14, True), *body(4), ("2 Methods", 14, True), *body(3)],
+    ])
+
+
+@pytest.fixture
+def across_pages_pdf(tmp_path: Path) -> Path:
+    """A paragraph that runs from page 1 onto page 2."""
+    return write_pdf(tmp_path / "across.pdf", [
+        [("Report on Sections", 20, True), ("1 Background", 14, True), *body(3),
+         ("The last paragraph of this page continues", 10, False), ("onto the next page without a full stop and", 10, False)],
+        [("then ends on the second page here.", 10, False), *body(2), ("2 Next", 14, True), *body(2)],
+    ])
+
+
+@pytest.fixture
 def three_page_pdf(tmp_path: Path) -> Path:
     return write_pdf(tmp_path / "three.pdf", [[("Page one", 14, True), *body(2)], [*body(3)], [*body(3)]])
 

@@ -144,6 +144,7 @@ Python 3.11 or newer:
 ```sh
 pip install section-anything
 pip install "section-anything[anthropic]" # optional: Claude models on Anthropic's own API
+pip install "section-anything[docling]"   # optional: tree.to_docling_document()
 pip install "section-anything[langfuse]"  # optional Langfuse tracing
 pip install "section-anything[mcp]"       # optional MCP server: section-anything-mcp
 # latest from GitHub:
@@ -180,6 +181,10 @@ pip install lightrag-section-anything
 | LangChain | [`langchain-section-anything`](packages/langchain-section-anything) | `SectionAnythingLoader("paper.pdf", mode="free").load()` |
 | LlamaIndex | [`llama-index-readers-section-anything`](packages/llama-index-readers-section-anything) | `SectionAnythingReader(mode="free").load_data("paper.pdf")`, or as the `.pdf` reader of `SimpleDirectoryReader` |
 | LightRAG | [`lightrag-section-anything`](packages/lightrag-section-anything) | parser engines (`sectionany_free`, `sectionany_quick`, ...) for LightRAG's heading-based chunker, without a MinerU or Docling service |
+
+To run Docling's `HybridChunker` or Unstructured's `chunk_by_title` on these headings, export the
+tree with `tree.to_docling_document()` or `tree.to_unstructured_elements()`
+([how](packages/section-anything/README.md#use-doclings-or-unstructureds-chunkers)).
 
 ## Limitations
 

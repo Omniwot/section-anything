@@ -44,6 +44,8 @@ Changelog = "https://github.com/Omniwot/section-anything/blob/main/CHANGELOG.md"
 [project.optional-dependencies]
 # Claude models on Anthropic's own API. 2.0 is the first release on API version 2026-10-21.
 anthropic = ["anthropic>=2.0,<3"]
+# tree.to_docling_document(). Checked on docling-core 2.0, 2.10 and 2.105 (3.0.0 on PyPI was yanked).
+docling = ["docling-core>=2,<3"]
 langfuse = ["langfuse>=2.57"]
 # The MCP server (section-anything-mcp). mcp 2.x: MCPServer, typed tool output.
 mcp = ["mcp>=2.3,<3"]
