@@ -3,6 +3,19 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
+## Unreleased
+
+- **Free no longer trusts an outline that skips most of the document.** The outline check (Free
+  only, by default) drops headings a complete-looking PDF outline does not list. A long EU
+  regulation bookmarked only at its title and annexes passed as complete, so Free returned 13
+  sections and none of its articles. The check now also needs no long run of pages without a
+  bookmark (more than half the document and at least 10 pages) holding three or more of the
+  headings it would drop. On READoc this changes 6 of 2,262 documents, all with outlines that cover
+  a small part of the document: held-out papers 59.97 -> 60.10 (3 changed, each +35 or more),
+  held-out READMEs 81.42 -> 81.44 (2 changed: +32.6 and -5.8), development READMEs 79.59 -> 79.70
+  (1 changed), development papers and the 29-document public corpus unchanged. Quick check and
+  Standard do not run the outline check by default and are unaffected.
+
 ## 0.1.6 (2026-10-31)
 
 - **The same PDF now gives the same text every time.** pdfminer's layout analysis breaks ties

@@ -10,7 +10,10 @@ only when the outline looks complete:
 
 - the outline has more than one level (a flat outline usually lists only the top level);
 - every dotted-numbered section ("2.1 ...") matches a bookmark;
-- at least half of the bookmarks match a section (the outline describes this document).
+- at least half of the bookmarks match a section (the outline describes this document);
+- no long run of pages without a bookmark (more than half the document and at least 10 pages)
+  holds three or more of the sections to drop. Such an outline covers only part of the document:
+  an EU regulation bookmarked at its title and annexes only, with its articles in between.
 
 ``strict`` adds Docling's two other checks, used for sections a model chose (Quick check,
 Standard), where a missing bookmark is weaker evidence against a heading:
@@ -47,6 +50,7 @@ MATCH_THRESHOLD = 0.8  # title similarity (0..1) for a section to match a bookma
 CONTAINED_SCORE = 0.92  # one title contains the other (bookmarks are often truncated)
 COMPLETE_SHARE = 0.5  # share that must match for the outline to count as complete
 SIZE_TOLERANCE = 0.05  # relative size difference treated as the same size
+GAP_PAGES, GAP_SHARE, GAP_HEADINGS = 10, 0.5, 3  # a run of pages without bookmarks: see module docstring
 
 # Unnumbered headings that documents commonly leave out of their bookmarks. Never demoted.
 STANDARD_HEADING = re.compile(
@@ -163,6 +167,12 @@ def match_bookmarks(body: list[dict], ext: Extraction) -> dict[int, OutlineItem]
     return claimed
 
 
+def outline_gap(bookmarks: list[OutlineItem], n_pages: int) -> range:
+    """The longest run of pages that no bookmark points to."""
+    edges = [0, *sorted({bm.page for bm in bookmarks}), n_pages + 1]
+    return max((range(a + 1, b) for a, b in zip(edges, edges[1:], strict=False)), key=len)
+
+
 def _size_clusters(sizes: set[float]) -> dict[float, int]:
     out: dict[float, int] = {}
     index, prev = 0, None
@@ -236,6 +246,9 @@ def demote_unlisted_headings(sections: list[dict], ext: Extraction, *, strict: b
         result.reason = "unmatched numbered heading"
     elif len(matched) < COMPLETE_SHARE * len(bookmarks):
         result.reason = "outline not found"
+    elif (len(gap := outline_gap(bookmarks, len(ext.pages))) >= max(GAP_PAGES, GAP_SHARE * len(ext.pages))
+          and sum(int(s.get("page_start") or 0) in gap for s in demotable) >= GAP_HEADINGS):
+        result.reason = "outline gap"
     elif strict and len(body) - len(unmatched) < COMPLETE_SHARE * len(body):
         result.reason = "under half matched"
     elif strict and share_a_style(demotable, ext):

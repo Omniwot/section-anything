@@ -135,6 +135,27 @@ def test_outline_that_names_other_headings_is_not_trusted():
     assert demote_unlisted_headings(secs, ext, strict=False).reason == "outline not found"
 
 
+def test_outline_that_skips_most_pages_is_not_trusted():
+    # An EU regulation bookmarked only at its title and annexes: the articles in between are real.
+    rows = [("Regulation on things", 14, True), (BODY, 10, False)]
+    rows += [r for k in range(1, 21) for r in ((f"Scope of part {k}", 11, True), (BODY, 10, False))]
+    rows += [("ANNEX I", 12, True), (BODY, 10, False), ("ANNEX II", 12, True), (BODY, 10, False)]
+    ext = _ext(rows, [(1, "Regulation on things", 1), (2, "ANNEX I", 22), (2, "ANNEX II", 23)], per_page=2)
+    secs = _sections(ext, [(0, 1, "")] + [(2 * k, 2, "") for k in range(1, 21)] + [(42, 2, ""), (44, 2, "")])
+    res = demote_unlisted_headings(secs, ext)
+    assert res.reason == "outline gap" and not res.demoted
+
+
+def test_short_run_without_bookmarks_still_demotes():
+    rows = [r for k in range(1, 21) for r in ((f"{k} Part {k}", 14, True), (BODY, 10, False))]
+    rows[13] = ("Note", 10, True)  # an unlisted bold label on page 7
+    outline = [(1 if k % 2 else 2, f"{k} Part {k}", k) for k in range(1, 21) if k != 7]
+    ext = _ext(rows, outline, per_page=2)
+    secs = _sections(ext, [(2 * k - 2, 1 if k % 2 else 2, str(k)) for k in range(1, 21) if k != 7] + [(13, 2, "")])
+    res = demote_unlisted_headings(sorted(secs, key=lambda s: s["start"]), ext)
+    assert res.reason == "demoted" and titles(res.demoted) == ["Note"]
+
+
 def test_bookmark_matches_on_its_page_or_the_next_only():
     ext, secs = _paper()
     ext.outline = [OutlineItem(o.level, o.title, 3) for o in ext.outline]  # every bookmark two pages off
