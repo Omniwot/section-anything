@@ -21,6 +21,9 @@ _EXPORTS = {
     "Section": "section_anything.api",
     "TreeDict": "section_anything.api",
     "resolve_mode": "section_anything.api",
+    "section_many": "section_anything.batch",
+    "asection_many": "section_anything.batch",
+    "DocumentResult": "section_anything.batch",
     "Settings": "section_anything.config",
     "Price": "section_anything.config",
     "DEFAULT_PRICES": "section_anything.config",
@@ -43,6 +46,7 @@ __all__ = [
     "DEFAULT_PRICES",
     "ConfigError",
     "CostCapExceeded",
+    "DocumentResult",
     "Extraction",
     "ExtractionFailed",
     "ExtractionTimeout",
@@ -59,14 +63,17 @@ __all__ = [
     "UnpricedModelError",
     "__version__",
     "asection",
+    "asection_many",
     "check_pdf",
     "extract_pdf",
     "resolve_mode",
     "section",
+    "section_many",
 ]
 
 if TYPE_CHECKING:
     from section_anything.api import Section, SectionTree, TreeDict, asection, resolve_mode, section
+    from section_anything.batch import DocumentResult, asection_many, section_many
     from section_anything.config import DEFAULT_PRICES, Price, Settings
     from section_anything.errors import (
         ConfigError,

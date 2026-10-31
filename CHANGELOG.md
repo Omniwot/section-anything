@@ -5,6 +5,16 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
 ## Unreleased
 
+- **Many PDFs with a total budget.** `section_many(pdfs, mode, max_usd_total=...)` (and
+  `asection_many`) sections PDFs one at a time and yields a `DocumentResult` for each: path, tree or
+  error, cost, and the cap it ran with. Each PDF's cap is the smaller of the per-document cap and
+  what is left of the total, so paid runs are downgraded (or refused with `over_budget="fail"`) as
+  the total runs out; spending on PDFs that then failed counts too. Errors are recorded and the run
+  goes on (`on_error="raise"` stops at the first); configuration errors are always raised, before any
+  PDF is read. On the command line, a folder or several PDFs write one output per PDF into
+  `-o DIR`, with `--recursive`, `--skip-existing` (resume a stopped run) and `--max-usd-total`, one
+  line per PDF and a total on stderr. Folder mode exits 4 when one or more PDFs failed, 0 when all
+  were done or skipped. A single file works as before.
 - **Free no longer trusts an outline that skips most of the document.** The outline check (Free
   only, by default) drops headings a complete-looking PDF outline does not list. A long EU
   regulation bookmarked only at its title and annexes passed as complete, so Free returned 13

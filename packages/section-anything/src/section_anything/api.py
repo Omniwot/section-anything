@@ -267,6 +267,7 @@ async def asection(
     max_pages: int | None = None,
     extract_timeout: float | None = None,
     progress: Progress | None = None,
+    _usage: Usage | None = None,
 ) -> SectionTree:
     """Async form of `section`."""
     from section_anything import pipeline
@@ -287,7 +288,9 @@ async def asection(
         raise PdfError("no text layer: the PDF needs OCR first")
 
     cap = s.max_usd_per_doc
-    usage = Usage()  # one tally per document: a downgrade continues the same budget
+    # One tally per document: a downgrade continues the same budget. `section_many` passes its own
+    # (`_usage`) so that it can count what a document spent even when the run then fails.
+    usage = _usage if _usage is not None else Usage()
     downgraded: list[str] = []
     while True:
         strategy = pipeline.BY_ID[STRATEGY[mode]]

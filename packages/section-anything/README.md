@@ -70,7 +70,61 @@ section-anything paper.pdf --format json --body              # JSON with each se
 
 The result goes to stdout (or `-o FILE`), a one-line summary with the cost to stderr. Exit codes:
 0 done, 2 configuration (for example no API key), 3 refused by the cost cap, 4 the PDF could not
-be read. API keys are read from the environment only, never from the command line.
+be read. In folder mode (below): 0 every PDF done or skipped, 4 one or more PDFs failed (the others
+are written), 2 configuration, before any PDF is read. API keys are read from the environment only,
+never from the command line.
+
+## Many PDFs
+
+```python
+from section_anything import section_many
+
+for r in section_many(["a.pdf", "b.pdf", "c.pdf"], "quick", max_usd_total=2.00, max_usd=0.10):
+    if r.ok:
+        print(r.path, len(r.tree.sections), f"${r.cost_usd:.4f}")
+    else:
+        print(r.path, type(r.error).__name__, r.error)
+```
+
+- `section_many(pdfs, mode, *, max_usd_total=None, on_error="record", progress=None, **options)`
+  takes paths and returns an iterator of `DocumentResult`: `path`, `tree` (or `None`), `error` (the
+  exception, or `None`), `cost_usd` and `max_usd` (the cap the document ran with). Each PDF is read
+  when its result is asked for, so outputs can be written as the run goes and breaking the loop stops
+  it; `list(...)` collects them all. Other options go to `section` (`model`, `max_usd`,
+  `over_budget`, `settings`, ...). `asection_many` is the async form.
+- **Total budget.** With `max_usd_total`, each PDF's cap is the smaller of its own (`max_usd` or
+  `SECTIONANY_MAX_USD_PER_DOC`) and what is left of the total. As the total runs out, paid runs are
+  downgraded (standard -> quick -> free), or refused with `CostCapExceeded` when
+  `over_budget="fail"`; once nothing is left, those refusals happen without reading the PDF. What is
+  spent counts every model call, including those of a PDF that then failed. Free and local modes
+  never spend.
+- **Errors.** `on_error="record"` (the default) keeps going and records a `SectionAnythingError` in
+  the PDF's result; `"raise"` raises the first one. A `ConfigError` (unknown mode, no API key, a
+  model with no price) is always raised, before any PDF is read: it would fail every PDF the same way.
+- PDFs run one at a time, in the order given. Extraction already runs in a worker process, and one at
+  a time keeps a laptop usable and the total budget exact. `progress(fraction, message)` reports on
+  the whole run.
+
+On the command line, a folder or several PDFs run in folder mode, with one output per PDF in
+`-o DIR`:
+
+```sh
+section-anything papers/ -o out/                              # out/<name>.md for each papers/*.pdf
+section-anything papers/ -o out/ --recursive --format json    # subfolders too: out/sub/<name>.json
+section-anything papers/ -o out/ --mode quick --max-usd-total 2  # at most $2 for the whole run
+section-anything papers/ -o out/ --skip-existing              # resume: skip PDFs already written
+section-anything a.pdf b.pdf -o out/                          # several files
+```
+
+- A folder's PDFs (`*.pdf` in any case; hidden files and folders left out) keep their place below it,
+  so `papers/a/x.pdf` and `papers/b/x.pdf` give `out/a/x.md` and `out/b/x.md`. PDFs named on their
+  own go straight into `out/`; names that would still clash (ignoring case) get `-2`, `-3`, ...
+- Each output is written as soon as its PDF is done, through a temporary file, so a stopped run can
+  be resumed with `--skip-existing`. A PDF that failed leaves no output and is retried.
+- One line per PDF and a total (PDFs done, failed and skipped, model calls, cost) go to stderr,
+  unless `-q`.
+- `--recursive`, `--skip-existing` and `--max-usd-total` are for folder mode only; with a single
+  file they exit with code 2. A single file works exactly as before.
 
 ## PDFs as bytes
 
@@ -272,6 +326,8 @@ differently. If you run one, results are welcome in an issue.
 - **Hard cap while running.** The cap is re-checked before every model call, and each call's
   output tokens are limited to what the remaining budget can pay for. A downgrade continues the
   same budget. The SDK's own retries are off; one retry on an unusable answer is counted.
+- **A total for many PDFs.** `section_many(..., max_usd_total=)` and `--max-usd-total` lower each
+  PDF's cap to what is left of the total (see [Many PDFs](#many-pdfs)).
 - The built-in prices are list prices from October 2026. Check your provider's prices and
   override them with `SECTIONANY_PRICES`.
 - Claude prices include cache reads and writes, and Claude Haiku 5.5's higher price for prompts
