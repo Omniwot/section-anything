@@ -39,7 +39,7 @@ def main(argv: list[str] | None = None) -> int:
         proto.flush()
 
     _limit_memory(memory_mb)
-    from section_anything.errors import PdfError, PdfTooLarge
+    from section_anything.errors import PdfError, PdfTooLarge, limit_hint
     from section_anything.extract import extract
 
     try:
@@ -53,7 +53,10 @@ def main(argv: list[str] | None = None) -> int:
         emit({"error": "pdf", "message": str(exc)})
         return 2
     except MemoryError:
-        emit({"error": "memory", "message": f"out of memory (extract_memory_mb={memory_mb})"})
+        need = memory_mb * 2
+        message = ("out of memory" if not memory_mb else f"out of memory: the extraction worker's limit is {memory_mb} MB "
+                   + limit_hint("SECTIONANY_EXTRACT_MEMORY_MB", need, python=f"Settings(extract_memory_mb={need})"))
+        emit({"error": "memory", "message": message})
         return 3
     except Exception as exc:  # noqa: BLE001 — reported by type only: messages may quote the PDF
         emit({"error": "internal", "message": type(exc).__name__})

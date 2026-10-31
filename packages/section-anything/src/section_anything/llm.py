@@ -28,7 +28,7 @@ from typing import Any, TypeVar
 from pydantic import BaseModel, ValidationError
 
 from section_anything.config import ANTHROPIC_EXTRA, BROWSER_PREFIX, CLAUDE_PREFIX, LOCAL_PREFIX, Price, Settings
-from section_anything.errors import ConfigError, CostCapExceeded, LlmCallFailed
+from section_anything.errors import ConfigError, CostCapExceeded, LlmCallFailed, limit_hint
 
 __all__ = ["BROWSER_PREFIX", "LOCAL_PREFIX", "CallSink", "CostCapExceeded", "LlmCallFailed", "Usage", "price_of",
            "structured"]
@@ -257,6 +257,14 @@ def _over_cap(usage: Usage, cap: float, price: Price | None) -> bool:
     return usage.priced and usage.cost_usd >= cap and not _is_free(price)
 
 
+def _cap_reached(usage: Usage, cap: float) -> CostCapExceeded:
+    more = f"{max(cap * 2, 0.5):.2f}"
+    return CostCapExceeded(
+        f"Run stopped at ${usage.cost_usd:.2f}: the next call would pass the ${cap:.2f} per-document cap "
+        + limit_hint("SECTIONANY_MAX_USD_PER_DOC", more, flag="--max-usd", python=f"max_usd={more}")
+    )
+
+
 def _affordable_output(price: Price | None, prompt_chars: int, usage: Usage, cap: float, wanted: int,
                        chars_per_token: float = CHARS_PER_TOKEN) -> int:
     """Output tokens this call may use so that its worst case stays within the cap."""
@@ -267,11 +275,11 @@ def _affordable_output(price: Price | None, prompt_chars: int, usage: Usage, cap
     input_cost = prompt_chars / chars_per_token * price.input / 1e6
     if price.output <= 0:
         if left - input_cost < 0:
-            raise CostCapExceeded(f"Run stopped at ${usage.cost_usd:.2f}: the next call would pass the ${cap:.2f} cap.")
+            raise _cap_reached(usage, cap)
         return wanted
     afford = int((left - input_cost) * 1e6 / price.output)
     if afford < MIN_OUTPUT_TOKENS:
-        raise CostCapExceeded(f"Run stopped at ${usage.cost_usd:.2f}: the next call would pass the ${cap:.2f} cap.")
+        raise _cap_reached(usage, cap)
     return min(wanted, afford)
 
 
@@ -299,7 +307,7 @@ async def structured(
                                          settings=s)
     price = s.price_for(model)
     if _over_cap(usage, cost_cap_usd, price):
-        raise CostCapExceeded(f"Run stopped at ${usage.cost_usd:.2f} (cap ${cost_cap_usd:.2f}).")
+        raise _cap_reached(usage, cost_cap_usd)
     if _is_anthropic(model, s):
         return await _structured_anthropic(model=model, system=system, user=user, schema=schema, usage=usage,
                                            cost_cap_usd=cost_cap_usd, step=step, effort=effort,
@@ -338,7 +346,7 @@ async def structured(
     try:
         for attempt in range(1, attempts + 1):
             if _over_cap(usage, cost_cap_usd, price):  # re-checked before every paid attempt
-                raise CostCapExceeded(f"Run stopped at ${usage.cost_usd:.2f} (cap ${cost_cap_usd:.2f}).")
+                raise _cap_reached(usage, cost_cap_usd)
             kwargs[max_key] = _affordable_output(price, len(prompt), usage, cost_cap_usd, max_output_tokens)
             t0 = time.monotonic()
             entry = {**base, "attempt": attempt, "status": "error", "error": None, "response": None}
@@ -433,7 +441,7 @@ async def _structured_anthropic(
     try:
         for attempt in range(1, attempts + 1):
             if _over_cap(usage, cost_cap_usd, price):  # re-checked before every paid attempt
-                raise CostCapExceeded(f"Run stopped at ${usage.cost_usd:.2f} (cap ${cost_cap_usd:.2f}).")
+                raise _cap_reached(usage, cost_cap_usd)
             kwargs["max_tokens"] = _affordable_output(price, len(prompt), usage, cost_cap_usd, max_output_tokens,
                                                      CLAUDE_CHARS_PER_TOKEN)
             t0 = time.monotonic()

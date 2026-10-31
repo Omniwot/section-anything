@@ -23,6 +23,7 @@ import asyncio
 import concurrent.futures
 import importlib.util
 import json
+import math
 import os
 import time
 from collections.abc import Callable, Mapping
@@ -33,7 +34,7 @@ from typing import Any, NotRequired
 from typing_extensions import TypedDict  # pydantic needs typing_extensions' TypedDict before Python 3.12
 
 from section_anything.config import ANTHROPIC_EXTRA, LOCAL_PREFIX, Price, Settings
-from section_anything.errors import ConfigError, CostCapExceeded, PdfError, UnpricedModelError
+from section_anything.errors import ConfigError, CostCapExceeded, PdfError, UnpricedModelError, limit_hint
 from section_anything.export import heading_text, markdown_hashes, section_bodies
 from section_anything.extract import Extraction
 from section_anything.isolate import extract_pdf
@@ -298,7 +299,9 @@ async def asection(
             if usage.cost_usd + usd > cap:
                 note = f"{mode}: estimated ${usd:.2f}, over the ${cap:.2f} per-document cap"
                 if s.over_budget == "fail" or DOWNGRADE[mode] is None:
-                    raise CostCapExceeded(f"{note} (max_usd, SECTIONANY_MAX_USD_PER_DOC)")
+                    need = f"{math.ceil((usage.cost_usd + usd) * 100) / 100:.2f}"
+                    raise CostCapExceeded(f"{note} " + limit_hint("SECTIONANY_MAX_USD_PER_DOC", need, flag="--max-usd",
+                                                                   python=f"max_usd={need}"))
                 downgraded.append(note)
                 mode, model = _next_mode(mode, s, downgraded)
                 continue

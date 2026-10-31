@@ -30,6 +30,11 @@ def test_page_cap_is_checked_before_any_parsing(three_page_pdf, monkeypatch):
         extract_pdf(three_page_pdf, settings=Settings(max_pages=2))
 
 
+def test_a_folder_is_refused(tmp_path):
+    with pytest.raises(PdfError, match="not a file"):
+        extract_pdf(tmp_path)
+
+
 def test_size_cap_is_checked_before_opening(three_page_pdf, monkeypatch):
     monkeypatch.setattr(isolate, "count_pages", lambda _p: pytest.fail("the PDF was opened"))
     with pytest.raises(PdfTooLarge, match="SECTIONANY_MAX_MB"):

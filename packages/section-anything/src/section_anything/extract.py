@@ -17,6 +17,7 @@ separate process with a time limit.
 from __future__ import annotations
 
 import json
+import math
 import re
 import statistics
 import threading
@@ -25,7 +26,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, TypeVar
 
-from section_anything.errors import PdfError, PdfTooLarge
+from section_anything.errors import PdfError, too_many_pages, too_much_text
 
 T = TypeVar("T")
 
@@ -170,6 +171,12 @@ def count_pages(path: Path) -> int:
             pdf.close()
 
 
+def chars_needed(seen: int, pages_read: int, pages: int) -> int:
+    """A `max_chars` that should fit the whole text: the characters per page so far times the
+    page count, with a 10% margin, rounded up to a million."""
+    return math.ceil(seen / max(pages_read, 1) * pages * 1.1 / 1e6) * 1_000_000
+
+
 def count_chars(path: Path, max_pages: int, max_chars: int) -> int:
     """Characters in the text layer, counted page by page with PDFium (much cheaper than layout
     analysis). Raises PdfTooLarge as soon as a cap is passed."""
@@ -178,7 +185,7 @@ def count_chars(path: Path, max_pages: int, max_chars: int) -> int:
         try:
             n_pages = len(pdf)
             if n_pages > max_pages:
-                raise PdfTooLarge(f"PDF has {n_pages} pages; the limit is {max_pages} (max_pages, SECTIONANY_MAX_PAGES)")
+                raise too_many_pages(n_pages, max_pages)
             total = 0
             for k in range(n_pages):
                 page = pdf[k]
@@ -191,9 +198,7 @@ def count_chars(path: Path, max_pages: int, max_chars: int) -> int:
                 finally:
                     page.close()
                 if total > max_chars:
-                    raise PdfTooLarge(
-                        f"PDF has more than {max_chars:,} characters of text (max_chars, SECTIONANY_MAX_CHARS)"
-                    )
+                    raise too_much_text(max_chars, chars_needed(total, k + 1, n_pages))
             return total
         finally:
             pdf.close()
@@ -360,7 +365,7 @@ def extract(
     with pdfplumber.open(path) as pdf:
         total = len(pdf.pages)
         if max_pages is not None and total > max_pages:
-            raise PdfTooLarge(f"PDF has {total} pages; the limit is {max_pages} (max_pages, SECTIONANY_MAX_PAGES)")
+            raise too_many_pages(total, max_pages)
         for n, page in enumerate(pdf.pages, 1):
             mb = page.mediabox
             before = len(lines)
@@ -388,7 +393,7 @@ def extract(
                     )
                     cursor += len(text) + 1  # lines are joined with "\n"
             if max_chars is not None and cursor > max_chars:
-                raise PdfTooLarge(f"PDF has more than {max_chars:,} characters of text (max_chars, SECTIONANY_MAX_CHARS)")
+                raise too_much_text(max_chars, chars_needed(cursor, n, total))
             pages.append(
                 Page(
                     n=n, width=float(page.width), height=float(page.height),

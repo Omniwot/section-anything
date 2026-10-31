@@ -33,6 +33,14 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   text, reflowed) and `estimate_cost`. Free mode by default; paid modes use the server's API keys and
   are capped per document by `--max-usd` (a call can lower it, not raise it); `--root` limits the
   folders it may read.
+- **Safety limits say how to raise them.** Every limit's error (pages, file size, text size,
+  extraction time, the worker's memory, the per-document cost cap) now says it is a safety limit and
+  gives the command-line flag, Python setting and environment variable that raise it, set to a value
+  that would fit this PDF (the page count, the file size, an estimate from the pages read so far), for
+  example `PDF has 5000 pages; the limit is 500 (a safety limit; to allow more, use --max-pages 5000,
+  max_pages=5000 in Python, or SECTIONANY_MAX_PAGES=5000)`. The MCP server adds that its limits are set
+  in its environment.
+- A folder given as the PDF is refused with a `PdfError` instead of a pypdfium2 traceback.
 - **Agent skill:** `skills/section-anything/SKILL.md` teaches an agent the command-line workflow
   (outline first, then only the sections it needs, and when a paid mode is worth asking for).
 

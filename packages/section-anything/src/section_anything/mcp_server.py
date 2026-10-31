@@ -110,6 +110,17 @@ class _Trees:
             self._items.popitem(last=False)
 
 
+def _server_hint(exc: Exception) -> str:
+    """What the user can change about this server: API keys and safety limits live in its environment."""
+    if "API key" in str(exc):
+        return (" The key must be in the MCP server's environment (for example: claude mcp add --env "
+                "OPENAI_API_KEY=... section-anything -- section-anything-mcp).")
+    if "safety limit" in str(exc):
+        return (" For this MCP server, set the SECTIONANY_ variable in its environment (claude mcp add --env "
+                "...); a paid run's cap is also bounded by the server's --max-usd.")
+    return ""
+
+
 def _tool_error(message: str) -> Exception:
     from mcp.server.mcpserver.exceptions import ToolError
 
@@ -164,9 +175,7 @@ def build_server(roots: list[str | os.PathLike[str]] | None = None, max_usd: flo
         try:
             tree = await asection(p, mode, model=model, max_usd=cap(max_usd), progress=progress)
         except SectionAnythingError as exc:  # messages name the problem, never document text
-            hint = (" The key must be in the MCP server's environment (for example: claude mcp add --env "
-                    "OPENAI_API_KEY=... section-anything -- section-anything-mcp)." if "API key" in str(exc) else "")
-            raise _tool_error(f"{exc}{hint}") from None
+            raise _tool_error(f"{exc}{_server_hint(exc)}") from None
         trees.put(key, tree)
         return tree
 
@@ -230,7 +239,7 @@ def build_server(roots: list[str | os.PathLike[str]] | None = None, max_usd: flo
         try:
             return await asyncio.to_thread(_estimate, p, cap(max_usd))
         except SectionAnythingError as exc:
-            raise _tool_error(str(exc)) from None
+            raise _tool_error(f"{exc}{_server_hint(exc)}") from None
 
     return server
 

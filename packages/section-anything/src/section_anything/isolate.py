@@ -17,6 +17,7 @@ needs to start. It returns the extraction as JSON, never as a pickle.
 from __future__ import annotations
 
 import json
+import math
 import os
 import queue
 import subprocess
@@ -28,7 +29,14 @@ from collections.abc import Callable
 from pathlib import Path
 
 from section_anything.config import Settings
-from section_anything.errors import ExtractionFailed, ExtractionTimeout, PdfError, PdfTooLarge
+from section_anything.errors import (
+    ExtractionFailed,
+    ExtractionTimeout,
+    PdfError,
+    PdfTooLarge,
+    limit_hint,
+    too_many_pages,
+)
 from section_anything.extract import Extraction, count_pages, extract
 
 MB = 1024 * 1024
@@ -43,16 +51,27 @@ def check_pdf(path: Path, settings: Settings) -> int:
         size = path.stat().st_size
     except OSError:
         raise PdfError(f"cannot read {path.name}") from None
+    if not path.is_file():
+        raise PdfError(f"not a file: {path}")
     if size > settings.max_mb * MB:
+        need = math.ceil(size / MB)
         raise PdfTooLarge(
-            f"{path.name} is {size / MB:.1f} MB; the limit is {settings.max_mb:g} MB (max_mb, SECTIONANY_MAX_MB)"
+            f"{path.name} is {size / MB:.1f} MB; the limit is {settings.max_mb:g} MB "
+            + limit_hint("SECTIONANY_MAX_MB", need, python=f"Settings(max_mb={need})")
         )
     n = count_pages(path)
     if n == 0:
         raise PdfError("PDF has no pages")
     if n > settings.max_pages:
-        raise PdfTooLarge(f"PDF has {n} pages; the limit is {settings.max_pages} (max_pages, SECTIONANY_MAX_PAGES)")
+        raise too_many_pages(n, settings.max_pages)
     return n
+
+
+def _timeout_needed(limit: float, page: int, pages: int) -> int:
+    """A time limit that should fit the whole extraction: the pace so far with a 25% margin (four
+    times the limit before the first page), rounded up to a minute."""
+    est = limit * pages / page * 1.25 if page and pages else limit * 4
+    return math.ceil(est / 60) * 60
 
 
 def extract_pdf(
@@ -104,13 +123,16 @@ def _extract_in_worker(src: Path, s: Settings, on_page: Callable[[int, int], Non
         threading.Thread(target=pump, name="section-anything-extract", daemon=True).start()
         deadline = time.monotonic() + s.extract_timeout_seconds
         result: dict | None = None
+        reached = (0, 0)  # the last page the worker reported, and the page count
         try:
             while True:
                 left = deadline - time.monotonic()
                 if left <= 0:
+                    need = _timeout_needed(s.extract_timeout_seconds, *reached)
                     raise ExtractionTimeout(
                         f"PDF extraction took longer than {s.extract_timeout_seconds:g} s and was stopped "
-                        "(extract_timeout_seconds, SECTIONANY_EXTRACT_TIMEOUT_SECONDS)"
+                        + limit_hint("SECTIONANY_EXTRACT_TIMEOUT_SECONDS", need, flag="--timeout",
+                                     python=f"extract_timeout={need}")
                     )
                 try:
                     line = messages.get(timeout=left)
@@ -124,8 +146,10 @@ def _extract_in_worker(src: Path, s: Settings, on_page: Callable[[int, int], Non
                     continue
                 if not isinstance(msg, dict):
                     continue
-                if "page" in msg and on_page:
-                    on_page(int(msg["page"]), int(msg["total"]))
+                if "page" in msg:
+                    reached = (int(msg["page"]), int(msg["total"]))
+                    if on_page:
+                        on_page(*reached)
                 elif "done" in msg or "error" in msg:
                     result = msg
                     break
@@ -146,6 +170,8 @@ def _extract_in_worker(src: Path, s: Settings, on_page: Callable[[int, int], Non
                 raise PdfTooLarge(message)
             if kind == "pdf":
                 raise PdfError(message)
+            if kind == "memory":
+                raise ExtractionFailed(message)
             raise ExtractionFailed(f"extraction failed ({message or kind})")
         try:
             return Extraction.load(out)
