@@ -1,4 +1,5 @@
-"""Public API: `section(pdf, mode)` -> `SectionTree`.
+"""Public API: `section(pdf, mode)` -> `SectionTree`. `pdf` is a path, or the PDF itself as bytes
+or a binary file-like object.
 
 Modes, cheapest first:
 
@@ -24,11 +25,9 @@ import concurrent.futures
 import importlib.util
 import json
 import math
-import os
 import time
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Any, NotRequired
 
 from typing_extensions import TypedDict  # pydantic needs typing_extensions' TypedDict before Python 3.12
@@ -37,7 +36,7 @@ from section_anything.config import ANTHROPIC_EXTRA, LOCAL_PREFIX, Price, Settin
 from section_anything.errors import ConfigError, CostCapExceeded, PdfError, UnpricedModelError, limit_hint
 from section_anything.export import heading_text, markdown_hashes, section_bodies
 from section_anything.extract import Extraction
-from section_anything.isolate import extract_pdf
+from section_anything.isolate import PdfInput, extract_pdf
 from section_anything.llm import Usage
 
 MODES = ("free", "quick", "standard", "local")
@@ -254,7 +253,7 @@ def _settings_for(settings: Settings | None, **overrides: Any) -> Settings:
 
 
 async def asection(
-    pdf_path: str | os.PathLike[str],
+    pdf_path: PdfInput,
     mode: str = "free",
     *,
     settings: Settings | None = None,
@@ -281,7 +280,7 @@ async def asection(
 
     t0 = time.monotonic()
     ext = await asyncio.to_thread(
-        extract_pdf, Path(pdf_path), settings=s,
+        extract_pdf, pdf_path, settings=s,
         on_page=lambda n, total: report(0.5 * n / total, f"Reading page {n} of {total}"),
     )
     if not ext.text.strip():
@@ -344,11 +343,16 @@ def _next_mode(mode: str, s: Settings, notes: list[str]) -> tuple[str, str | Non
 
 
 def section(
-    pdf_path: str | os.PathLike[str],
+    pdf_path: PdfInput,
     mode: str = "free",
     **opts: Any,
 ) -> SectionTree:
     """Find the sections of a PDF.
+
+    `pdf_path` is a path, or the PDF itself as bytes, a bytearray, a memoryview or a binary
+    file-like object such as an open file or `io.BytesIO` (read to the end once and left open).
+    Bytes go through the same caps and isolated extraction as a path, from a private temporary
+    file that is removed afterwards.
 
     `mode` is "free", "quick", "standard" or "local:<ollama model>". Options (each overrides the
     matching ``SECTIONANY_*`` environment variable): `api_key`, `base_url`, `model`, `provider`
