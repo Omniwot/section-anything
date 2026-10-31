@@ -102,11 +102,28 @@ def test_size_cap_is_checked_before_any_temp_file(paper_pdf, no_temp_files, kind
         extract_pdf(pdf, settings=Settings(max_mb=0.0001))
 
 
-def test_a_stream_over_the_cap_is_counted_not_kept():
-    data, size = isolate._read_stream(io.BytesIO(b"x" * (3 * isolate.MB + 5)), isolate.MB)
-    assert size == 3 * isolate.MB + 5 and data == b""
-    data, size = isolate._read_stream(io.BytesIO(b"%PDF-1.4"), isolate.MB)
-    assert data == b"%PDF-1.4" and size == 8
+def test_a_seekable_stream_over_the_cap_is_measured_not_read():
+    f = io.BytesIO(b"x" * (3 * isolate.MB + 5))
+    assert isolate._read_stream(f, isolate.MB) == (b"", 3 * isolate.MB + 5, True)
+    assert f.tell() == 0  # measured by seeking, position restored
+    assert isolate._read_stream(io.BytesIO(b"%PDF-1.4"), isolate.MB) == (b"%PDF-1.4", 8, True)
+
+
+class _Endless:
+    """A stream that never ends and cannot seek, like a hostile upload."""
+
+    reads = 0
+
+    def read(self, size: int = -1) -> bytes:
+        self.reads += 1
+        return b"%PDF-1.4" + b"x" * (size - 8)
+
+
+def test_an_endless_stream_is_refused_once_it_passes_the_cap(no_temp_files):
+    f = _Endless()
+    with pytest.raises(PdfTooLarge, match=r"^PDF is more than 2\.0 MB; the limit is 1 MB .*SECTIONANY_MAX_MB=4\)"):
+        extract_pdf(f, settings=Settings(max_mb=1))
+    assert f.reads == 2
 
 
 @pytest.mark.parametrize("data", [b"", b"this is not a pdf", b" " * 1100 + b"%PDF-1.4"])

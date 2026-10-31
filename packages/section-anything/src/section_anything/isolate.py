@@ -74,11 +74,12 @@ def check_pdf(path: Path, settings: Settings) -> int:
     return _check_pages(path, settings)
 
 
-def _check_size(size: int, settings: Settings, name: str) -> None:
+def _check_size(size: int, settings: Settings, name: str, *, exact: bool = True) -> None:
+    """`exact` False: `size` is only how far a stream was read before it passed the cap."""
     if size > settings.max_mb * MB:
-        need = math.ceil(size / MB)
+        need = math.ceil(size / MB) * (1 if exact else 2)
         raise PdfTooLarge(
-            f"{name} is {size / MB:.1f} MB; the limit is {settings.max_mb:g} MB "
+            f"{name} is {'' if exact else 'more than '}{size / MB:.1f} MB; the limit is {settings.max_mb:g} MB "
             + limit_hint("SECTIONANY_MAX_MB", need, python=f"Settings(max_mb={need})")
         )
 
@@ -92,31 +93,45 @@ def _check_pages(path: Path, settings: Settings) -> int:
     return n
 
 
-def _read_stream(f: Readable, limit: float) -> tuple[bytearray, int]:
-    """Read `f` to the end, once. Past `limit` bytes the rest is only counted, so a stream over the
-    size cap costs no more memory than the cap. Returns the data (empty when over) and the size."""
+def _remaining(f: Readable) -> int | None:
+    """Bytes left in a seekable stream, measured without reading it; None if it cannot seek."""
+    try:
+        if not f.seekable():  # type: ignore[attr-defined]
+            return None
+        pos = f.tell()  # type: ignore[attr-defined]
+        end = f.seek(0, os.SEEK_END)  # type: ignore[attr-defined]
+        f.seek(pos)  # type: ignore[attr-defined]
+        return end - pos
+    except (AttributeError, OSError, ValueError):
+        return None
+
+
+def _read_stream(f: Readable, limit: float) -> tuple[bytearray, int, bool]:
+    """Read `f` once, stopping as soon as it passes `limit` bytes, so an endless or huge upload is
+    refused early and costs no more memory than the cap. A seekable stream over the cap is not read
+    at all. Returns the data (empty when over), the size, and whether that size is exact."""
+    left = _remaining(f)
+    if left is not None and left > limit:
+        return bytearray(), left, True
     buf = bytearray()
-    size = 0
     while chunk := f.read(MB):
         if isinstance(chunk, str):
             raise TypeError("the file is open in text mode: open it with 'rb'")
-        size += len(chunk)
-        if size <= limit:
-            buf += chunk
-        elif buf:
-            buf = bytearray()
-    return buf, size
+        buf += chunk
+        if len(buf) > limit:
+            return bytearray(), len(buf), False
+    return buf, len(buf), True
 
 
 def _pdf_bytes(pdf: bytes | bytearray | memoryview | Readable, settings: Settings) -> bytes | bytearray | memoryview:
     """The PDF's bytes, checked against the size cap and for a header, before anything is written."""
     if isinstance(pdf, (bytes, bytearray, memoryview)):
-        data, size = pdf, memoryview(pdf).nbytes
+        data, size, exact = pdf, memoryview(pdf).nbytes, True
     elif callable(getattr(pdf, "read", None)):
-        data, size = _read_stream(pdf, settings.max_mb * MB)
+        data, size, exact = _read_stream(pdf, settings.max_mb * MB)
     else:
         raise TypeError(f"expected a path, bytes or a binary file object, not {type(pdf).__name__}")
-    _check_size(size, settings, "PDF")
+    _check_size(size, settings, "PDF", exact=exact)
     if b"%PDF-" not in bytes(data[:HEADER_WINDOW]):
         raise PdfError(f"not a PDF: no %PDF- header in the first {HEADER_WINDOW} bytes")
     return data
