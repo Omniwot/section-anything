@@ -33,8 +33,8 @@ Done (the library is on PyPI); kept for reference.
 
 ## Integration packages
 
-`langchain-section-anything`, `llama-index-readers-section-anything` and
-`lightrag-section-anything` are published by
+`langchain-section-anything`, `llama-index-readers-section-anything`, `lightrag-section-anything`
+and `section-anything-mcp` (the MCP server wrapper, see below) are published by
 [`.github/workflows/release-integrations.yml`](.github/workflows/release-integrations.yml), one
 package per tag, with the same trusted publishing and the same `pypi` environment.
 
@@ -46,7 +46,7 @@ package per tag, with the same trusted publishing and the same `pypi` environmen
    git push origin langchain-section-anything-v0.1.0
    ```
 
-The workflow checks that the tag names one of the three packages and matches its version, builds
+The workflow checks that the tag names one of the four packages and matches its version, builds
 it, runs `twine check --strict` and publishes it. A library release that an integration needs
 goes first (the integrations require `section-anything>=0.1.1,<0.2`).
 
@@ -58,3 +58,25 @@ all three were published in October 2026; kept for reference):
 | `langchain-section-anything` | `Omniwot` | `section-anything` | `release-integrations.yml` | `pypi` |
 | `llama-index-readers-section-anything` | `Omniwot` | `section-anything` | `release-integrations.yml` | `pypi` |
 | `lightrag-section-anything` | `Omniwot` | `section-anything` | `release-integrations.yml` | `pypi` |
+| `section-anything-mcp` | `Omniwot` | `section-anything` | `release-integrations.yml` | `pypi` |
+
+## MCP Registry
+
+The MCP server is listed in the official MCP Registry as `io.github.Omniwot/section-anything`,
+from [`server.json`](server.json). Registry clients start it with `uvx section-anything-mcp`,
+which is why `packages/section-anything-mcp` exists: it depends on `section-anything[mcp]` and
+provides the same `section-anything-mcp` command. The registry checks ownership from the
+`mcp-name:` comment in that package's PyPI README.
+
+1. Publish `section-anything-mcp` to PyPI first (tag `section-anything-mcp-vX.Y.Z`; one-time:
+   its pending publisher, table above).
+2. Set `version` in `server.json` (top level and the package entry) to that version.
+3. Publish, signed in to GitHub as `Omniwot`
+   ([`mcp-publisher`](https://github.com/modelcontextprotocol/registry/releases)):
+
+   ```sh
+   mcp-publisher login github
+   mcp-publisher publish
+   ```
+
+The registry is in preview and may reset its data; publish again if the listing disappears.

@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=77"]  # SPDX licence expression and license-files
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "section-anything-mcp"
+version = "0.1.0"
+description = "MCP server for Section Anything: a PDF's real sections (heading tree, pages, text) as tools for agents."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+requires-python = ">=3.11"
+authors = [{ name = "The Section Anything Authors" }]
+keywords = ["mcp", "model context protocol", "pdf", "sections", "headings", "rag", "agents"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing :: General",
+]
+# The server lives in section-anything (section_anything.mcp_server); this package exists so that
+# `uvx section-anything-mcp` installs it with the mcp extra and runs it, as MCP registry clients do.
+dependencies = ["section-anything[mcp]>=0.1.6,<0.2"]
+
+[project.scripts]
+section-anything-mcp = "section_anything_mcp:main"  # same command as section-anything[mcp] provides
+
+[project.urls]
+Homepage = "https://github.com/Omniwot/section-anything/tree/main/packages/section-anything-mcp"
+Repository = "https://github.com/Omniwot/section-anything"
+Issues = "https://github.com/Omniwot/section-anything/issues"
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

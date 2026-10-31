@@ -1,0 +1,37 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Omniwot/section-anything",
+  "title": "Section Anything",
+  "description": "A PDF's real sections for agents: heading tree, pages and section text. Free mode is local.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/Omniwot/section-anything",
+    "source": "github"
+  },
+  "websiteUrl": "https://omniwot.github.io/section-anything/",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "section-anything-mcp",
+      "version": "0.1.0",
+      "runtimeHint": "uvx",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "OPENAI_API_KEY",
+          "description": "Only for the paid quick and standard modes with OpenAI models",
+          "isSecret": true,
+          "isRequired": false
+        },
+        {
+          "name": "ANTHROPIC_API_KEY",
+          "description": "Only for the paid modes with a Claude model",
+          "isSecret": true,
+          "isRequired": false
+        }
+      ]
+    }
+  ]
+}

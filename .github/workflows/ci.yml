@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: [langchain-section-anything, llama-index-readers-section-anything, lightrag-section-anything]
+        package: [langchain-section-anything, llama-index-readers-section-anything, lightrag-section-anything, section-anything-mcp]
     defaults:
       run:
         working-directory: packages/${{ matrix.package }}
