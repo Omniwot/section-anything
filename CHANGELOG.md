@@ -3,7 +3,7 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
-## Unreleased
+## 0.1.6 (2026-10-31)
 
 - **The same PDF now gives the same text every time.** pdfminer's layout analysis breaks ties
   between equally distant text boxes (table cells, for example) by `id()`, a memory address, so

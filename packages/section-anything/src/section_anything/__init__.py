@@ -12,7 +12,7 @@ from __future__ import annotations
 from importlib import import_module
 from typing import TYPE_CHECKING, Any
 
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 
 _EXPORTS = {
     "section": "section_anything.api",
