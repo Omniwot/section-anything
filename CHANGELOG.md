@@ -5,6 +5,15 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
 ## Unreleased
 
+- **Use Docling's or Unstructured's chunkers on our headings.** `tree.to_unstructured_elements()`
+  returns Unstructured's element dicts (a `Title` per heading with `category_depth` and
+  `parent_id`, a `NarrativeText` per body paragraph, page numbers and boxes) for its
+  `chunk_by_title`; it needs no new dependency. `tree.to_docling_document()` returns a Docling
+  `DoclingDocument` (`TitleItem`, `SectionHeaderItem` at each level, text items under their
+  heading, page provenance) for its `HybridChunker`; it needs the new `docling` extra
+  (`pip install "section-anything[docling]"`, docling-core 2.x). Tests run both chunkers on the
+  exports: every chunk starts at one of our headings (Unstructured) or carries our heading path
+  (Docling).
 - **Free no longer trusts an outline that skips most of the document.** The outline check (Free
   only, by default) drops headings a complete-looking PDF outline does not list. A long EU
   regulation bookmarked only at its title and annexes passed as complete, so Free returned 13
