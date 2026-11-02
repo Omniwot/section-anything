@@ -173,22 +173,47 @@ def _table_cells(ext: Extraction, skip: set[int]) -> set[int]:
     """Lines that share their row with two or more other lines on the page: cells of a table row
     ("Total", "£ million", "Males Females Total"), not headings. A heading has its row to itself,
     or shares it with one line of another column. Numbers alone and furniture don't count as
-    neighbours (a heading's split-off number, a page number)."""
+    neighbours (a heading's split-off number, a page number).
+
+    On a two-column page, a numbered heading in one column often shares its row with an equation
+    and its number, or a table, in the other ("4. EXPERIMENTS" beside "BatchNorm 4 | (l / 8) × 16
+    × 32"): for a numbered line, lines of the other column count only in its own style. The
+    abstract's heading is never a cell ("Abstract—We study ..." split by a font change)."""
     rows: dict[int, list[Line]] = defaultdict(list)
     for ln in ext.lines:
         if ln.i not in skip and not NUMBER_ALONE.match(ln.text.strip()):
             rows[ln.page].append(ln)
     out = set()
-    for lines in rows.values():
+    for page, lines in rows.items():
+        mid = _two_column_middle(ext, page, lines)
         lines.sort(key=lambda ln: ln.y0)
         for k, ln in enumerate(lines):
-            same = 0
-            for other in lines[max(0, k - 12): k + 13]:
-                if other is not ln and abs(other.y0 - ln.y0) <= 2 and (other.x0 >= ln.x1 or other.x1 <= ln.x0):
-                    same += 1
-            if same >= 2:
+            row = [o for o in lines[max(0, k - 12): k + 13]
+                   if o is not ln and abs(o.y0 - ln.y0) <= 2 and (o.x0 >= ln.x1 or o.x1 <= ln.x0)]
+            if len(row) >= 2 and mid is not None and (ln.x1 <= mid or ln.x0 >= mid) and _numbered_title(ln.text):
+                row = [o for o in row if (o.x1 <= mid) == (ln.x1 <= mid) and (o.x0 >= mid) == (ln.x0 >= mid)
+                       or (o.bold == ln.bold and abs(o.size - ln.size) <= 0.5)]
+            if len(row) >= 2 and not _abstract_heading(ln):
                 out.add(ln.i)
     return out
+
+
+def _numbered_title(text: str) -> bool:
+    """A section number and a capitalised title ("4. EXPERIMENTS", "2.2. Proposed Problem")."""
+    m = NUMBERING.match(text.strip())
+    return bool(m) and text.strip()[m.end():][:1].isupper()
+
+
+def _two_column_middle(ext: Extraction, page: int, lines: list[Line]) -> float | None:
+    """The middle of the page if it is set in two columns (five or more text lines, each a quarter
+    of the page wide, wholly on either side of the middle), else None."""
+    pg = ext.pages[page - 1] if 0 < page <= len(ext.pages) and ext.pages[page - 1].n == page else None
+    if pg is None or pg.rotation % 180:
+        return None
+    mid, wide = pg.origin_x + pg.width / 2, pg.width / 4
+    left = sum(1 for ln in lines if ln.x1 <= mid and ln.x1 - ln.x0 >= wide)
+    right = sum(1 for ln in lines if ln.x0 >= mid and ln.x1 - ln.x0 >= wide)
+    return mid if left >= 5 and right >= 5 else None
 
 
 def _label_text(text: str) -> str:

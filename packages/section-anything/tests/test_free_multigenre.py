@@ -87,6 +87,31 @@ def test_a_heading_beside_another_column_is_kept():
     assert "2 Methods" in [ln.text for ln, _ in candidates(_ext(rows))]
 
 
+def _two_columns(y0: float) -> list[tuple[int, str, float, bool, float, float]]:
+    """Body text of a two-column page, five lines per column, from y0 down."""
+    text = "Column body text runs on for a while."
+    return [(1, text, 10, False, x0, y0 - 15 * k) for k in range(5) for x0 in (72, 320)]
+
+
+def test_a_heading_beside_an_equation_in_the_other_column_is_kept():
+    rows = _two_columns(500) + [(1, "f + r = g", 10, False, 72, 700), (1, "(3.1)", 10, False, 250, 700),
+                                (1, "4. EXPERIMENTS", 10, True, 320, 700)]
+    assert "4. EXPERIMENTS" in [ln.text for ln, _ in candidates(_ext(rows))]
+
+
+def test_a_table_row_across_both_columns_is_still_cells():
+    rows = _two_columns(500) + [(1, "Total", 10, True, 72, 700), (1, "1,234", 10, True, 200, 700),
+                                (1, "5,678", 10, True, 400, 700)]
+    assert "Total" not in [ln.text for ln, _ in candidates(_ext(rows))]
+
+
+def test_the_abstract_heading_is_never_a_cell():
+    rows = [(1, "Abstract—", 10, True, 72, 700), (1, "We study a thing", 10, False, 125, 700),
+            (1, "and its use.", 10, False, 300, 700),
+            (1, "Ordinary body text runs here for a while.", 10, False, 72, 680)]
+    assert "Abstract—" in [ln.text for ln, _ in candidates(_ext(rows))]
+
+
 def test_bare_label_above_its_title_joins_it(tmp_path):
     pdf = write_pdf(tmp_path / "reg.pdf", [
         [("CHAPITRE I", 9, False), ("OBJET ET DEFINITIONS", 9, True), ("Article premier", 10, False),
