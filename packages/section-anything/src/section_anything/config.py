@@ -163,6 +163,11 @@ class Settings(BaseSettings):
     demote_unlisted_headings: list[Literal["free", "quick", "standard"]] = Field(
         default_factory=lambda: ["free"]
     )
+    # Standard's coverage check: a window whose answer leaves many heading-like lines unlisted (the
+    # model stopped early or skipped a run of headings) is read once more, and the answer that lists
+    # more of them is kept. At most one extra call per window, and only while the per-document cap
+    # still covers it and the windows after it (research finding F043).
+    coverage_retry: bool = True
 
     # Model calls.
     llm_timeout_seconds: float = Field(default=300.0, gt=0)

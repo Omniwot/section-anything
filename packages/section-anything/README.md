@@ -298,6 +298,7 @@ Arguments win over the environment. **No `.env` file is read, and nothing is eve
 | `SECTIONANY_OVER_BUDGET` / `over_budget=` | `downgrade` | or `fail` |
 | `SECTIONANY_MAX_PAGES`, `SECTIONANY_MAX_CHARS`, `SECTIONANY_MAX_MB` | 500, 5,000,000, 100 | refused above these; the error says how to raise them |
 | `SECTIONANY_DEMOTE_UNLISTED_HEADINGS` / `demote_unlisted_headings=` | `["free"]` | modes in which sections that a complete-looking PDF outline does not list are dropped (JSON list; `[]` turns it off) |
+| `SECTIONANY_COVERAGE_RETRY` / `coverage_retry=` | `true` | `standard`: a window whose answer leaves many heading-like lines unlisted is read once more, and the answer that lists more of them is kept. At most one extra call per window, only while the per-document cap covers it and the windows after it; not counted in the up-front estimate. Each re-read is listed in `tree.usage["coverage_retries"]` |
 | `SECTIONANY_EXTRACT_TIMEOUT_SECONDS` / `extract_timeout=` | 120 | extraction worker is killed after this |
 | `SECTIONANY_EXTRACT_MEMORY_MB` | 4096 | worker memory limit (Linux only; 0 = none) |
 | `SECTIONANY_ISOLATE_EXTRACTION` | `true` | run extraction in a separate process |

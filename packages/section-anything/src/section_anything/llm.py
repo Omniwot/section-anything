@@ -114,6 +114,8 @@ class Usage:
     seq: int = 0
     bridge: Any | None = None  # BrowserBridge for "browser/<model>" runs
     by_step: dict[str, float] = field(default_factory=dict)
+    # Standard's coverage check: one entry per window read again (see llm_text.LlmTextStrategy).
+    coverage_retries: list[dict] = field(default_factory=list)
 
     def add(self, model: str, usage, price: Price | None = None) -> dict:
         tokens = {"input_tokens": 0, "cached_tokens": 0, "output_tokens": 0, "reasoning_tokens": 0, "cost_usd": 0.0}
@@ -175,6 +177,7 @@ class Usage:
             "reasoning_tokens": self.reasoning_tokens,
             "cost_usd": round(self.cost_usd, 4) if self.priced else None,
             "cost_by_step": {k: round(v, 4) for k, v in self.by_step.items()},
+            **({"coverage_retries": self.coverage_retries} if self.coverage_retries else {}),
         }
 
 
