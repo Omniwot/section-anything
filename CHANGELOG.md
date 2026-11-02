@@ -5,6 +5,23 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
 ## Unreleased
 
+- **Standard reads a window again when its answer leaves many headings out.** gpt-6-luna sometimes
+  stops listing early or skips a run of headings: asked the same thing six times, it once listed
+  none of the 83 sections in the first part of a 75-page act, and in 3 of 6 runs left 70 to 100
+  headings of a 125-page manual out. When a window's answer leaves at least 10 heading-like lines
+  unlisted, and at least 30% of them (rule candidates after its last section, or lines set in the
+  style of its own larger headings that it skipped), Standard reads that window once more and keeps
+  the answer that lists more of them. Replayed on 60 saved Standard runs of 26 corpus documents, the
+  check fired on all 4 runs that had this problem, on none of the 52 runs with heading recall of
+  0.80 or more, and on the 2 runs of a manual whose index letters Standard always leaves out.
+  In a paid check (gpt-6-luna, 5 new runs per document), the check fired in 3 of 5 runs of the
+  manual and each re-read listed the skipped headings: recall 0.955 to 0.965 in all 5 runs, against
+  0.32 to 0.955 in the 6 earlier runs; a re-read cost $0.005 to $0.009. It does not catch every miss:
+  on the act, runs that skipped some section titles set in bold at body size were not flagged
+  (F1 0.74 to 0.90 over 5 runs). At most one extra call per window, only while the per-document
+  cap still covers it and the windows after it (it is not in the up-front estimate). Each re-read
+  is listed in `tree.usage["coverage_retries"]`; `SECTIONANY_COVERAGE_RETRY=false` turns the check
+  off.
 - **Many PDFs with a total budget.** `section_many(pdfs, mode, max_usd_total=...)` (and
   `asection_many`) sections PDFs one at a time and yields a `DocumentResult` for each: path, tree or
   error, cost, and the cap it ran with. Each PDF's cap is the smaller of the per-document cap and
