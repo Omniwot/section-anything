@@ -68,6 +68,30 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   (`pip install "section-anything[docling]"`, docling-core 2.x). Tests run both chunkers on the
   exports: every chunk starts at one of our headings (Unstructured) or carries our heading path
   (Docling).
+- **Free on laws, standards and reports: more text read, fewer false headings, levels from labels.**
+  Tested on a new multi-genre set of public documents (RFCs, German, EU and UK legislation, NIST and
+  GOV.UK reports, GOV.UK annual reports, arXiv PhD theses; split frozen before any change). On its
+  100 held-out documents Free's mean F1 went from 0.710 to 0.739 with the PDFs' bookmarks and from
+  0.660 to 0.699 without, up in every genre; heading levels from 0.895 to 0.925 and 0.905 to 0.919.
+  READoc held-out: 905 arXiv papers 60.10 to 60.41 (95% CI +0.08 to +0.56; 48 papers worse, 19 of
+  them by more than 5 points), 1,124 READMEs 81.44 to 81.46.
+  - The extractor (version 6, so saved extractions are redone) reads text drawn inside a form that
+    covers the page, which printed UK Acts of 2011-2016 use for every page (they came out with no
+    text: "needs OCR"), and CID fonts whose encoding is a CMap embedded in the PDF (Official Journal
+    of the EU body text came out as symbols). Both change the text of the PDFs concerned, in every
+    mode.
+  - A table of contents whose title is on its first page only is followed onto the next pages, and
+    the same line at the same height on three pages in a row (a running header that changes with
+    each part, a table's repeated header row) is furniture. Both apply in every mode.
+  - Free: cells of table rows ("Total", "£ million") are no longer headings; a bare label on its own
+    line ("CHAPITRE I", "Article premier", "T e i l 1", now also German and French label words) is
+    joined with the bold, larger or capitalised title under it; a bookmark glued to its number
+    ("Teil 1Gemeinsame Bestimmungen") is matched; and when an outline is flat, or typography ranks
+    the labels upside down, the labels set the levels (parts above chapters above sections above
+    articles, corrected by where the numbering starts again).
+  - Known cost: the cell rule also drops a heading that shares its row with a line of the other
+    column split in two (most of the READoc losses), and with fewer stray numbered lines the outline
+    check now demotes headings that a partial outline leaves out on some annual reports.
 - **Free no longer trusts an outline that skips most of the document.** The outline check (Free
   only, by default) drops headings a complete-looking PDF outline does not list. A long EU
   regulation bookmarked only at its title and annexes passed as complete, so Free returned 13
