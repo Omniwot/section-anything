@@ -34,7 +34,15 @@ from typing import TYPE_CHECKING, Any, NotRequired
 from typing_extensions import TypedDict  # pydantic needs typing_extensions' TypedDict before Python 3.12
 
 from section_anything.config import ANTHROPIC_EXTRA, LOCAL_PREFIX, Price, Settings
-from section_anything.errors import ConfigError, CostCapExceeded, PdfError, UnpricedModelError, limit_hint
+from section_anything.errors import (
+    ConfigError,
+    CostCapExceeded,
+    PdfError,
+    UnpricedModelError,
+    limit_hint,
+    too_many_pages,
+    too_much_text,
+)
 from section_anything.export import heading_text, markdown_hashes, section_bodies
 from section_anything.extract import Extraction
 from section_anything.isolate import PdfInput, extract_pdf
@@ -285,7 +293,7 @@ def _settings_for(settings: Settings | None, **overrides: Any) -> Settings:
 
 
 async def asection(
-    pdf_path: PdfInput,
+    pdf_path: PdfInput | DoclingDocument | Mapping[str, Any],
     mode: str = "free",
     *,
     settings: Settings | None = None,
@@ -299,10 +307,11 @@ async def asection(
     max_pages: int | None = None,
     extract_timeout: float | None = None,
     progress: Progress | None = None,
+    docling: DoclingDocument | Mapping[str, Any] | str | os.PathLike[str] | None = None,
     _usage: Usage | None = None,
 ) -> SectionTree:
     """Async form of `section`."""
-    from section_anything import pipeline
+    from section_anything import docling_input, pipeline
 
     s = _settings_for(settings, api_key=api_key, base_url=base_url, provider=provider, max_usd_per_doc=max_usd,
                       prices=prices, over_budget=over_budget, max_pages=max_pages,
@@ -312,12 +321,25 @@ async def asection(
     report = progress or (lambda _f, _m: None)
 
     t0 = time.monotonic()
-    ext = await asyncio.to_thread(
-        extract_pdf, pdf_path, settings=s,
-        on_page=lambda n, total: report(0.5 * n / total, f"Reading page {n} of {total}"),
-    )
-    if not ext.text.strip():
-        raise PdfError("no text layer: the PDF needs OCR first")
+    if docling_input.is_docling_document(pdf_path):
+        if docling is not None:
+            raise ConfigError("docling= gives hints for a PDF's own lines; the input is already a Docling document")
+        ext = await asyncio.to_thread(docling_input.extraction_from_docling, pdf_path)
+        if len(ext.pages) > s.max_pages:
+            raise too_many_pages(len(ext.pages), s.max_pages)
+        if len(ext.text) > s.max_chars:
+            raise too_much_text(s.max_chars, len(ext.text))
+        if not ext.text.strip():
+            raise PdfError("the Docling document has no text")
+    else:
+        ext = await asyncio.to_thread(
+            extract_pdf, pdf_path, settings=s,
+            on_page=lambda n, total: report(0.5 * n / total, f"Reading page {n} of {total}"),
+        )
+        if not ext.text.strip():
+            raise PdfError("no text layer: the PDF needs OCR first (or pass Docling's output of it)")
+        if docling is not None:
+            await asyncio.to_thread(docling_input.attach_hints, ext, docling)
 
     cap = s.max_usd_per_doc
     # One tally per document: a downgrade continues the same budget. `section_many` passes its own
@@ -378,7 +400,7 @@ def _next_mode(mode: str, s: Settings, notes: list[str]) -> tuple[str, str | Non
 
 
 def section(
-    pdf_path: PdfInput,
+    pdf_path: PdfInput | DoclingDocument | Mapping[str, Any],
     mode: str = "free",
     **opts: Any,
 ) -> SectionTree:
@@ -388,6 +410,13 @@ def section(
     file-like object such as an open file or `io.BytesIO` (read to the end once and left open).
     Bytes go through the same caps and isolated extraction as a path, from a private temporary
     file that is removed afterwards.
+
+    `pdf_path` can also be a Docling `DoclingDocument` (the object, its JSON as a dict, or the path
+    of a ``.json`` file): its text items are then the lines, so a scanned PDF works through
+    Docling's OCR. `docling=` passes Docling's output of the same PDF (in any of those forms) as
+    hints: its section headers become heading candidates and its page headers and footers
+    furniture, while the PDF's own fonts, bookmarks and table of contents still count. Hints from
+    another PDF are refused with `ConfigError`. docling-core is not needed for either.
 
     `mode` is "free", "quick", "standard" or "local:<ollama model>". Options (each overrides the
     matching ``SECTIONANY_*`` environment variable): `api_key`, `base_url`, `model`, `provider`

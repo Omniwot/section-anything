@@ -205,7 +205,9 @@ def _furniture(ext: Extraction) -> set[int]:
             out.add(ln.i)
     # A heading's number split off its title looks like a page number; it is furniture only
     # when its title line is.
-    return {i for i in out if i + 1 in out or not split_number(ext, ext.lines[i])}
+    out = {i for i in out if i + 1 in out or not split_number(ext, ext.lines[i])}
+    hints = ext._derived.get("docling")  # Docling's page headers and footers (docling_input)
+    return out | hints.furniture if hints is not None else out
 
 
 @dataclass

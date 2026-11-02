@@ -184,11 +184,15 @@ pip install lightrag-section-anything
 
 To run Docling's `HybridChunker` or Unstructured's `chunk_by_title` on these headings, export the
 tree with `tree.to_docling_document()` or `tree.to_unstructured_elements()`
-([how](packages/section-anything/README.md#use-doclings-or-unstructureds-chunkers)).
+([how](packages/section-anything/README.md#use-doclings-or-unstructureds-chunkers)). If you already
+run Docling, `section("report.pdf", docling=doc)` takes its layout labels as hints, and
+`section(doc)` sections a scanned PDF from Docling's text
+([how](packages/section-anything/README.md#use-with-docling)).
 
 ## Limitations
 
-- Reads the PDF's text layer; scanned PDFs need OCR first.
+- Reads the PDF's text layer; scanned PDFs need OCR first, or Docling's output of them
+  ([Use with Docling](packages/section-anything/README.md#use-with-docling), opt-in).
 - Tables, figures and equations are not structured; their text stays in the section text.
 - `free` is best when the PDF has bookmarks or a printed table of contents. When the bookmarks look
   complete, it drops headings they do not list; if the bookmarks stop at the top levels, real deeper
