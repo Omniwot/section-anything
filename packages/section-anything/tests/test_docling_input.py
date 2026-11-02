@@ -129,17 +129,6 @@ def test_round_trip_through_our_own_docling_export(paper_pdf):
 # -- Hints for a PDF's own lines -----------------------------------------------------------------
 
 
-@pytest.fixture
-def plain_pdf(tmp_path):
-    """Headings set like body text, so typography alone finds none; one bold line in the body."""
-    return write_pdf(tmp_path / "plain.pdf", [[
-        ("Getting started", 10, False), *body(3),
-        ("Note well", 10, True), *body(2),
-        ("Installing", 10, False), *body(3),
-        ("Report title", 10, False),
-    ]])
-
-
 def boxed(lines: list[Line], labels: dict[str, str], dx: float = 0.0, dy: float = 0.0) -> list[dict]:
     """Docling items over our own lines, labelled by text (default `text`), shifted by (dx, dy)."""
     return [{"label": labels.get(ln.text, "text"), "text": ln.text, "page": ln.page,

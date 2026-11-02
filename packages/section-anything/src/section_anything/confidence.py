@@ -24,6 +24,7 @@ import math
 import re
 from collections import Counter
 
+from section_anything.docling_input import hints_of
 from section_anything.extract import Extraction
 from section_anything.outline_check import heading_text, is_standard_heading, match_bookmarks
 from section_anything.structure import furniture_of, outline_backbone
@@ -58,11 +59,14 @@ def _outline_lines(ext: Extraction) -> set[int]:
 
 
 def evidence(sections: list[dict], ext: Extraction) -> list[dict[str, float] | None]:
-    """Per section, the evidence `WEIGHTS` scores (None for front matter)."""
+    """Per section, the evidence `WEIGHTS` scores (None for front matter). The outline of a Docling
+    document is Docling's own heading list, so it is no evidence for those same headings."""
     lines = ext.lines
-    outline = _outline_lines(ext)
+    hints = hints_of(ext)
+    own_outline = hints is None or not hints.lines_from_docling
+    outline = _outline_lines(ext) if own_outline else set()
     body = [s for s in sections if "front_matter" not in s["flags"]]
-    bookmarked = {id(body[k]) for k in match_bookmarks(body, ext)} if ext.outline else set()
+    bookmarked = {id(body[k]) for k in match_bookmarks(body, ext)} if ext.outline and own_outline else set()
     furniture = furniture_of(ext)
     style_lines = Counter((ln.size, ln.bold) for ln in lines if ln.i not in furniture)
     style_of = {id(s): (lines[s["first_line"]].size, lines[s["first_line"]].bold) for s in body}

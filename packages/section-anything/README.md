@@ -64,11 +64,11 @@ not significant). This has not been confirmed on held-out documents.
 fewer than three headings, or their mean confidence is below 0.72 (`SECTIONANY_AUTO_THRESHOLD`),
 the document goes to `quick` instead; `tree.auto` says which mode ran and why. It needs the same
 API key as `quick` and stays within the same per-document cap. On READoc documents not used to
-choose the threshold, it sent 28% of 905 arXiv papers to `quick` and scored 68.4, level with
-`quick` (68.0; +0.5, 95% CI -0.5 to +1.6) and above `free` (60.1); it sent 3.5% of 1,124 READMEs
-and scored 81.6, level with `free` (81.4) and above `quick` (70.8). That is 29% of `quick`'s cost
-on those papers and 3% on those READMEs. Other kinds of documents (laws, manuals, reports) have not
-been tested on held-out documents yet.
+choose the threshold (an earlier version was scored on them once), it sent 28% of 905 arXiv papers
+to `quick` and scored 68.4, level with `quick` (68.0; +0.5, 95% CI -0.5 to +1.6) and above `free`
+(60.1); it sent 3.5% of 1,124 READMEs and scored 81.6, level with `free` (81.4) and above `quick`
+(70.8). That is 29% of `quick`'s cost on those papers and 3% on those READMEs. Other kinds of
+documents (laws, manuals, reports) have not been tested on held-out documents yet.
 
 ## Command line
 
@@ -186,7 +186,7 @@ section-anything scanned.json                        # the Docling document itse
   footers. In `free` mode, styled lines Docling labels as body text, list items, captions or code
   are not taken as headings; lines outside every Docling box keep their own style. `quick` reviews
   the candidates as usual. `standard` reads every line anyway, so only the page headers and footers
-  change what it sees.
+  change what it sees. `auto` runs `free` with the hints and decides on that result.
 - The hints must be Docling's output of the same PDF. When too few of the PDF's lines match the
   text in Docling's boxes, `section` raises `ConfigError`. A Docling run on some of the pages gives
   hints for those pages only.
@@ -195,6 +195,8 @@ section-anything scanned.json                        # the Docling document itse
   differ (its heading-hierarchy stage), and otherwise from the height of each heading's box.
   `tree.text` puts Docling's page headers first and its page footers last on each page. The page
   and character caps apply; the file-size cap and the extraction worker do not, as no PDF is read.
+  With `auto`, Docling's levels are not counted as outline evidence for its own headings, so Free's
+  confidence rests on numbering, style and heading names.
 - `docling=` belongs to one PDF: `section_many` and folder mode refuse it. The MCP server does not
   take Docling output yet.
 

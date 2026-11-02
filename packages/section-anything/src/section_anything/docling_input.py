@@ -52,6 +52,7 @@ class DoclingHints:
     furniture: set[int] = field(default_factory=set)
     body: set[int] = field(default_factory=set)  # any other labelled text: text, list items, captions, code
     item: dict[int, int] = field(default_factory=dict)  # heading line -> its Docling item, to keep items apart
+    lines_from_docling: bool = False  # the lines (and any outline) are Docling's own, not a PDF's
 
     def same_item(self, a: int, b: int) -> bool:
         """Lines `a` and `b` belong to one Docling heading, or Docling does not say otherwise."""
@@ -307,5 +308,6 @@ def extraction_from_docling(doc: Any, levels: str = "outline") -> Extraction:
                                title=text, page=page, y=box[3])
                    for it, page, text, box, _s, _b in sized if it.get("label") in HEADING]
     ext = Extraction(pages, lines, "\n".join(ln.text for ln in lines), outline=outline)
+    hints.lines_from_docling = True
     ext._derived["docling"] = hints
     return ext

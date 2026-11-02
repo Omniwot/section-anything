@@ -80,6 +80,17 @@ def paper_pdf(tmp_path: Path) -> Path:
 
 
 @pytest.fixture
+def plain_pdf(tmp_path: Path) -> Path:
+    """Headings set like body text, so typography alone finds none; one bold line in the body."""
+    return write_pdf(tmp_path / "plain.pdf", [[
+        ("Getting started", 10, False), *body(3),
+        ("Note well", 10, True), *body(2),
+        ("Installing", 10, False), *body(3),
+        ("Report title", 10, False),
+    ]])
+
+
+@pytest.fixture
 def front_matter_pdf(tmp_path: Path) -> Path:
     """Body text before the first heading, and no document title."""
     return write_pdf(tmp_path / "front.pdf", [
