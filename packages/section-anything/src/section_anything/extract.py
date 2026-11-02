@@ -32,11 +32,13 @@ T = TypeVar("T")
 
 # Bump when the canonical text or the saved geometry changes. Extractions saved by an older
 # version should be redone; runs record the version their character offsets refer to.
-EXTRACTOR_VERSION = 5  # 5: deterministic reading order for equidistant boxes; 4: LaTeX bold fonts count as bold
+EXTRACTOR_VERSION = 6  # 6: text in page-sized forms and in fonts with an embedded CMap; 5: deterministic reading
+# order for equidistant boxes; 4: LaTeX bold fonts count as bold
 # Oldest version whose canonical text is identical to the current one: offsets from that version
 # on still map onto the page. Raise it only when `Extraction.text` changes. 5: lines of tied boxes
-# (table cells) can come in another order (25 of 200 READoc development documents).
-TEXT_COMPATIBLE_SINCE = 5
+# (table cells) can come in another order (25 of 200 READoc development documents). 6: PDFs that
+# draw their page text in a form or set it in a font with an embedded CMap gain that text.
+TEXT_COMPATIBLE_SINCE = 6
 
 LAPARAMS = {
     "line_overlap": 0.5,
@@ -340,6 +342,70 @@ def _analyze(layout, laparams) -> None:
     layout.analyze(laparams)
 
 
+def _lift_page_forms(layout) -> None:
+    """Put the contents of a form that covers most of the page onto the page itself.
+
+    Some publishers draw each page's text inside a form XObject (printed UK Acts from 2011-2016
+    do). pdfminer returns a form as an LTFigure, and layout analysis skips text inside figures,
+    so those pages came out empty. Smaller figures (charts, logos) stay figures, so their labels
+    still don't become lines."""
+    from pdfminer.layout import LTFigure
+
+    x0, y0, x1, y1 = layout.bbox
+    area = (x1 - x0) * (y1 - y0)
+    if area <= 0:
+        return
+    objs = []
+    for obj in layout._objs:
+        if isinstance(obj, LTFigure):
+            w = min(obj.x1, x1) - max(obj.x0, x0)
+            h = min(obj.y1, y1) - max(obj.y0, y0)
+            if w > 0 and h > 0 and w * h >= 0.5 * area:
+                objs.extend(obj._objs)
+                continue
+        objs.append(obj)
+    layout._objs = objs
+
+
+def _read_embedded_cmaps(rsrcmgr) -> None:
+    """Make this resource manager read CID fonts whose encoding is a CMap embedded in the PDF.
+
+    pdfminer looks such a CMap up by name among its predefined ones and, not finding it, decodes
+    every string in the font to nothing. Official Journal of the EU PDFs set their body text in a
+    font like that. Only fonts that would otherwise decode to nothing are changed, and only for
+    this document's resource manager."""
+    from io import BytesIO
+
+    from pdfminer.cmapdb import CMap, CMapParser, FileCMap
+    from pdfminer.pdffont import PDFCIDFont
+    from pdfminer.pdftypes import PDFStream, resolve1
+
+    class EmbeddedCMap(FileCMap):
+        # CMapParser hands cidrange and cidchar entries over as (cid, code bytes), the way it
+        # fills a ToUnicode map; in an encoding CMap they map that code to that CID.
+        def add_cid2unichr(self, cid, code) -> None:
+            if isinstance(cid, int) and isinstance(code, bytes) and code:
+                self.add_code2cid(code.decode("latin1"), cid)
+
+    get_font = rsrcmgr.get_font
+
+    def get_font_reading_cmaps(objid, spec):
+        font = get_font(objid, spec)
+        if isinstance(font, PDFCIDFont) and type(font.cmap) is CMap and not font.cmap.code2cid:
+            encoding = resolve1(spec.get("Encoding")) if hasattr(spec, "get") else None
+            if isinstance(encoding, PDFStream):
+                cmap = EmbeddedCMap()
+                try:
+                    CMapParser(cmap, BytesIO(encoding.get_data())).run()
+                except Exception:  # noqa: BLE001 — a broken CMap leaves the font as pdfminer made it
+                    return font
+                if cmap.code2cid:
+                    font.cmap = cmap
+        return font
+
+    rsrcmgr.get_font = get_font_reading_cmaps
+
+
 def extract(
     path: Path,
     on_page: Callable[[int, int], None] | None = None,
@@ -363,6 +429,7 @@ def extract(
     # pdfplumber gets no LAParams, so its pages come back unanalysed and `_analyze` runs the layout
     # analysis with a deterministic tie-break.
     with pdfplumber.open(path) as pdf:
+        _read_embedded_cmaps(pdf.rsrcmgr)
         total = len(pdf.pages)
         if max_pages is not None and total > max_pages:
             raise too_many_pages(total, max_pages)
@@ -370,6 +437,7 @@ def extract(
             mb = page.mediabox
             before = len(lines)
             layout = page.layout
+            _lift_page_forms(layout)
             _analyze(layout, laparams)
             for box in layout:
                 if not isinstance(box, LTTextBox):

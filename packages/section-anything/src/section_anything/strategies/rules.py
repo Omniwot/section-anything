@@ -13,7 +13,7 @@ from section_anything.docling_input import DoclingHints, hints_of
 from section_anything.extract import Extraction, Line
 from section_anything.outline_check import LETTER_SPACED
 from section_anything.strategies.base import Context, RawSection, Strategy
-from section_anything.structure import furniture_of, outline_backbone, split_number, toc_of
+from section_anything.structure import NUMBER_ALONE, furniture_of, outline_backbone, split_number, toc_of
 
 NUMBERING = re.compile(
     r"^(?P<num>(?:chapter|part|section|appendix|article|annex|unit|lesson)\s+[\dA-Z]+[.:]?"
@@ -90,7 +90,10 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     callout labels; and bold terms that run on into a paragraph.
 
     With Docling hints (`docling_input`), lines Docling labels as headings are candidates whatever
-    their style, and strict mode drops lines it labels as body text, list items, captions or code."""
+    their style, and strict mode drops lines it labels as body text, list items, captions or code.
+
+    Strict mode also drops the cells of table rows and takes a bare structural label ("CHAPITRE I")
+    together with the bold, larger or capitalised title line under it."""
     body = ext.body_size()
     furniture = furniture_of(ext)
     toc = toc_of(ext).lines
@@ -99,9 +102,14 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     bump = 0.4 if loose else 0.8
     out: list[tuple[Line, str]] = []
     split: set[int] = set()
+    labelled = set() if loose else _label_lines(ext, furniture | toc, body, bump)
+    cells = set() if loose else _table_cells(ext, furniture | toc)
     for ln in ext.lines:
         text = ln.text
-        if ln.i in furniture or ln.i in toc or CAPTION.match(text):
+        if ln.i in furniture or ln.i in toc or ln.i in cells or CAPTION.match(text):
+            continue
+        if ln.i in labelled:
+            out.append((ln, ""))  # joined with its title line by _merge_wrapped
             continue
         if split_number(ext, ln):
             # Joined with its title line by _merge_wrapped (Free) and LlmReviewStrategy._rows.
@@ -134,7 +142,7 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
         ):
             continue
         m = NUMBERING.match(text)
-        styled = ln.size >= body + bump or (ln.bold and ln.size >= body - 0.3)
+        styled = ln.size >= body + bump or (ln.bold and ln.size >= body - 0.3) or ln.i - 1 in labelled
         numbered = bool(m) and not text.rstrip().endswith((",", ";")) and words <= 14
         if not loose:
             if text.strip().lower() in labels or THEOREM.match(text):
@@ -143,20 +151,70 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
                 num = m.group("num")
                 numbered = bool(re.match(r"\d+\.\d+", num) or re.match(r"[A-Za-z]{3,}", num))
                 numbered = numbered and not text.rstrip().endswith((".", "?", ":"))
-            if styled and not numbered and ln.size < body + bump and _runs_on(ext, ln):
+            if styled and not numbered and ln.size < body + bump and ln.i - 1 not in labelled and _runs_on(ext, ln):
                 continue
         if styled or numbered:
             out.append((ln, m.group("num").strip() if m else ""))
-    # A split-off number counts only when its title line is a candidate too.
+    # A split-off number or a bare label counts only when its title line is a candidate too.
     kept = {ln.i for ln, _ in out if ln.i not in split}
-    return [(ln, num) for ln, num in out if ln.i not in split or ln.i + 1 in kept]
+    return [(ln, num) for ln, num in out if (ln.i not in split and ln.i not in labelled) or ln.i + 1 in kept]
 
 
 LABEL_ONLY = re.compile(
-    r"^(chapter|part|section|appendix|unit|lesson|module|book|article|schedule|annex|title|rule|clause|regulation)"
-    r"\s+(\d+[A-Za-z]?|[IVXLC]+|[A-Z])[.:]?$",
+    r"^(?:(?:chapter|part|section|appendix|unit|lesson|module|book|article|schedule|annex|title|rule|clause|regulation"
+    r"|teil|kapitel|abschnitt|unterabschnitt|titel|untertitel|buch|artikel|anlage|anhang"
+    r"|chapitre|titre|partie|livre|annexe|sous-section)\s+(?:\d+[A-Za-z]?|[IVXLC]+|[A-Z]|premier|première|unique)"
+    r"|§+\s*\d+[a-z]?)[.:]?$",
     re.I,
 )
+
+
+def _table_cells(ext: Extraction, skip: set[int]) -> set[int]:
+    """Lines that share their row with two or more other lines on the page: cells of a table row
+    ("Total", "£ million", "Males Females Total"), not headings. A heading has its row to itself,
+    or shares it with one line of another column. Numbers alone and furniture don't count as
+    neighbours (a heading's split-off number, a page number)."""
+    rows: dict[int, list[Line]] = defaultdict(list)
+    for ln in ext.lines:
+        if ln.i not in skip and not NUMBER_ALONE.match(ln.text.strip()):
+            rows[ln.page].append(ln)
+    out = set()
+    for lines in rows.values():
+        lines.sort(key=lambda ln: ln.y0)
+        for k, ln in enumerate(lines):
+            same = 0
+            for other in lines[max(0, k - 12): k + 13]:
+                if other is not ln and abs(other.y0 - ln.y0) <= 2 and (other.x0 >= ln.x1 or other.x1 <= ln.x0):
+                    same += 1
+            if same >= 2:
+                out.add(ln.i)
+    return out
+
+
+def _label_text(text: str) -> str:
+    """The line's text with letter spacing removed ("T e i l 1" -> "Teil 1"), for label matching."""
+    t = text.strip()
+    tokens = t.split()
+    if len(tokens) >= 4 and all(len(x) == 1 for x in tokens):
+        t = re.sub(r"(?<=[^\W\d_]) (?=[^\W\d_])", "", t)
+    return t
+
+
+def _label_lines(ext: Extraction, skip: set[int], body: float, bump: float) -> set[int]:
+    """Bare structural labels ("CHAPITRE I", "Article premier", "T e i l 1") set on their own line
+    above a title in bold, a larger size or capitals. The label is often in the body face, so
+    typography alone keeps the title and loses the label; both lines become candidates, and
+    _merge_wrapped joins them."""
+    out = set()
+    lines = ext.lines
+    for ln in lines[:-1]:
+        nxt = lines[ln.i + 1]
+        if (ln.i in skip or nxt.i in skip or nxt.page != ln.page or not LABEL_ONLY.match(_label_text(ln.text))
+                or len(nxt.text.split()) > 20 or LABEL_ONLY.match(_label_text(nxt.text))):
+            continue
+        if nxt.bold or nxt.size >= body + bump or (nxt.text.isupper() and not nxt.text.rstrip().endswith((".", ","))):
+            out.add(ln.i)
+    return out
 
 
 def _merge_wrapped(cands: list[tuple[Line, str]], hints: DoclingHints | None = None) -> list[tuple[Line, str, str]]:
@@ -164,19 +222,158 @@ def _merge_wrapped(cands: list[tuple[Line, str]], hints: DoclingHints | None = N
     bare "CHAPTER 10" label with the title line right after it. Lines that Docling
     puts in two different heading items stay two headings."""
     merged: list[tuple[Line, str, str]] = []
+    last: Line | None = None  # the last line joined into merged[-1]
     for ln, num in cands:
-        if merged:
+        if merged and last is not None:
             prev, pnum, ptext = merged[-1]
-            last_i = prev.i + ptext.count("\n")
-            adjacent = ln.i == last_i + 1 and ln.page == prev.page and (hints is None or hints.same_item(last_i, ln.i))
-            if adjacent and not num and ln.size == prev.size and ln.bold == prev.bold:
+            adjacent = ln.i == last.i + 1 and ln.page == prev.page and (hints is None or hints.same_item(last.i, ln.i))
+            if adjacent and not num and ln.size == last.size and ln.bold == last.bold:
                 merged[-1] = (prev, pnum, ptext + "\n" + ln.text)
+                last = ln
                 continue
-            if adjacent and not num and "\n" not in ptext and LABEL_ONLY.match(ptext.strip()):
-                merged[-1] = (prev, ptext.strip(), ptext + "\n" + ln.text)
+            if adjacent and not num and "\n" not in ptext and LABEL_ONLY.match(_label_text(ptext)):
+                merged[-1] = (prev, _label_text(ptext), ptext + "\n" + ln.text)
+                last = ln
                 continue
         merged.append((ln, num, ln.text))
+        last = ln
     return merged
+
+
+# The structural label an outline entry opens with, and its number: "Teil 2", "CHAPTER 1", "§ 12",
+# "Artikel 5", "Annexe IV".
+STRUCTURE_LABEL = re.compile(
+    r"^(?P<kind>§+|(?:book|buch|livre|part|teil|partie|title|titel|titre|untertitel|chapter|kapitel|chapitre"
+    r"|division|subdivision|section|abschnitt|unterabschnitt|subsection|sous-section|article|artikel|art\."
+    r"|schedule|anlage|anhang|annex|annexe|appendix)\b)\s*\.?\s*(?P<n>\d+|[IVXLC]+\b|[A-Z]\b)",
+    re.I,
+)
+LEADING_NUMBER = re.compile(r"^(\d+(?:\.\d+)*)\.?\s+\S")
+
+
+# The usual nesting of structural labels, outermost first, used when an outline has no levels of its
+# own. Annexes and schedules sit at the top, beside parts; plain numbers ("12 Duties") rank as articles.
+LABEL_RANK = {
+    **dict.fromkeys(("annex", "annexe", "anhang", "anlage", "schedule", "appendix"), 0),
+    **dict.fromkeys(("book", "buch", "livre"), 1),
+    **dict.fromkeys(("part", "teil", "partie"), 2),
+    **dict.fromkeys(("title", "titre"), 3),
+    **dict.fromkeys(("chapter", "kapitel", "chapitre"), 4),
+    **dict.fromkeys(("division", "section", "abschnitt"), 5),
+    **dict.fromkeys(("subdivision", "subsection", "sous-section", "unterabschnitt", "titel"), 6),
+    "untertitel": 6.5,
+    **dict.fromkeys(("article", "artikel", "art", "§", "#"), 7),
+}
+
+
+# Annexes, schedules and appendices take the level of the document's top kind (a UK Act's schedules sit
+# beside its parts, an EU regulation's annexes beside its chapters).
+TOP_KINDS = {"annex", "annexe", "anhang", "anlage", "schedule", "appendix"}
+
+
+def _label_kind(text: str) -> tuple[str | None, str, int]:
+    """(kind, number, extra depth) of a heading's text: ("teil", "2", 0) for "Teil 2 Allgemeines",
+    ("#", "3.1", 1) for "3.1 Scope", (None, "", 0) for an unlabeled heading."""
+    text = _label_text(text) if "\n" not in text else text
+    m = STRUCTURE_LABEL.match(text)
+    if m:
+        kind = m.group("kind").lower().rstrip(".")
+        return ("§" if kind.startswith("§") else kind), m.group("n").lower(), 0
+    n = LEADING_NUMBER.match(text)
+    if n:
+        return "#", n.group(1), n.group(1).count(".")
+    return None, "", 0
+
+
+def _label_levels(texts: list[str], *, numbers_count: bool, min_share: float) -> list[int] | None:
+    """Levels implied by the headings' structural labels, or None when the labels don't say enough:
+    at least two kinds besides annexes, schedules and appendices (plain section numbers count as a
+    kind only with `numbers_count`), and at least `min_share` of the headings labeled or numbered.
+    A paper's numbered sections and "Appendix A" are therefore left to the other rules.
+
+    Kinds are ranked by their usual nesting (part, chapter, section, article), corrected by the
+    document itself: a kind whose numbering starts again at 1 after another kind's entry sits below
+    that kind. A dotted number goes one level deeper per dot, annexes and schedules take the top
+    kind's level, and an unlabeled heading sits just above the kind of the next labeled one (a UK
+    Act's cross-heading above its sections, a regulation's title above its first chapter), or, when
+    the next one is of the top kind, just below the kind of the previous labeled one."""
+    parsed = [_label_kind(t) for t in texts]
+    # A label that occurs once ("PART 385 OF THE CODE ...", a cross-reference that opens a line) says
+    # nothing about the structure; its line counts as unlabeled.
+    once = {k for k, _, _ in parsed if k not in TOP_KINDS and sum(x == k for x, _, _ in parsed) == 1}
+    parsed = [(None, "", 0) if k in once else (k, n, d) for k, n, d in parsed]
+    kinds = [k for k, _, _ in parsed]
+    labeled = [k for k in kinds if k is not None]
+    if (len({k for k in labeled if (numbers_count or k != "#") and k not in TOP_KINDS}) < 2
+            or len(labeled) < min_share * len(kinds)):
+        return None
+    first = {k: kinds.index(k) for k in set(labeled)}
+    order: list = sorted(set(labeled) - TOP_KINDS, key=lambda k: (LABEL_RANK.get(k, 7), labeled.count(k), first[k]))
+    if not order:
+        return None
+    # Numbering that starts again after another kind's entry puts that kind above it. The most
+    # common kind is the innermost one and is never put above another (its last entry before a
+    # restart only means the label in between was missed).
+    leaf = max(set(labeled) - TOP_KINDS, key=labeled.count)
+    below: set[tuple[str, str]] = set()
+    prev = None
+    for i, (k, n, _) in enumerate(parsed):
+        if k is None or k in TOP_KINDS:
+            continue
+        if prev is not None and prev not in (k, leaf) and n in ("1", "i", "a") and i != first[k]:
+            below.add((prev, k))
+        prev = k
+    for _ in range(len(order)):
+        moved = False
+        for upper, lower in below:
+            if (lower, upper) not in below and order.index(upper) > order.index(lower):
+                order.remove(upper)
+                order.insert(order.index(lower), upper)
+                moved = True
+        if not moved:
+            break
+    # An unlabeled heading ranks just above the kind of the next labeled one (a cross-heading above
+    # its sections); when that is the top kind, just below the kind of the previous labeled one.
+    outer = order[0]
+    slot: list = []
+    for i, k in enumerate(kinds):
+        if k is not None:
+            slot.append(None)
+            continue
+        b = next((x for x in kinds[i + 1:] if x is not None and x not in TOP_KINDS), None)
+        p = next((x for x in reversed(kinds[:i]) if x is not None and x not in TOP_KINDS), None)
+        slot.append(("before", b) if b is not None and (b != outer or p is None) else ("after", p) if p else None)
+    for sl in sorted({x for x in slot if x is not None}, key=lambda x: (order.index(x[1]), x[0] == "after")):
+        order.insert(order.index(sl[1]) + (sl[0] == "after"), sl)
+    rank = {k: r + 1 for r, k in enumerate(order)}
+    top = rank[outer]
+    out = []
+    for (k, _, d), sl in zip(parsed, slot, strict=True):
+        if k in TOP_KINDS:
+            out.append(top)
+        elif k is not None:
+            out.append(rank[k] + d)
+        else:
+            out.append(rank[sl] if sl is not None else 1)
+    return out
+
+
+def _flat_outline_levels(backbone: list, lines: list[Line]) -> None:
+    """Give a one-level outline the levels its entries' own labels imply (`_label_levels`).
+
+    Many PDFs carry a flat outline (German federal laws list every "Teil", "Kapitel" and "§" at
+    one level), which says nothing about the hierarchy. Changes levels in place, and only when
+    most entries open with a structural label or a section number."""
+    if len(backbone) < 6 or len({a.level for a in backbone}) != 1:
+        return
+    texts = []
+    for a in backbone:
+        text = f"{a.number} {a.title}".strip() if a.number else a.title
+        texts.append(text if _label_kind(text)[0] else lines[a.line].text.strip())
+    levels = _label_levels(texts, numbers_count=True, min_share=0.5)
+    if levels:
+        for a, level in zip(backbone, levels, strict=True):
+            a.level = level
 
 
 Style = tuple[float, bool]
@@ -248,6 +445,7 @@ class RulesStrategy(Strategy):
             return rules
 
         lines = ext.lines
+        _flat_outline_levels(backbone, lines)
         by_line = {a.line: a for a in backbone}
         votes: dict[Style, list[int]] = defaultdict(list)
         for a in backbone:
@@ -295,22 +493,28 @@ class RulesStrategy(Strategy):
         # the other levels (see _abstract_levels).
         abstract = {ln.i for ln, _, _ in cands if _abstract_heading(ln)}
         style_level = _style_levels([(ln, num) for ln, num, _ in cands if ln.i not in abstract])
+        # Legislation sets its structure in labels ("KAPITEL I", "Artikel 5"), often in the body face
+        # or smaller, so typography ranks it upside down; when the labels are clear they set the levels.
+        by_label = _label_levels([f"{num} {text}" if num and not text.startswith(num) else text.replace("\n", " ")
+                                  for _, num, text in cands], numbers_count=False, min_share=0.3)
         out = []
-        for ln, num, text in cands:
+        for k, (ln, num, text) in enumerate(cands):
             dotted = re.fullmatch(r"\d+(?:\.\d+)*\.?", num)
             if ln.i in abstract:
                 level = 1  # set by _abstract_levels below
+            elif by_label:
+                level = by_label[k]
             else:
                 level = num.rstrip(".").count(".") + 1 if dotted else style_level[(ln.size, ln.bold)]
             title = marker = text.replace("\n", " ")
+            first, _, rest = text.partition("\n")
+            if num and rest and _label_text(first) == num:
+                title = rest.replace("\n", " ")  # "T e i l 1" / "Gemeinsame Bestimmungen"
+            elif num and title.startswith(num):
+                title = title[len(num):].strip()
             if ABSTRACT_RUNIN.match(title):
                 title = re.match(r"\W*(\w+)", title).group(1)  # "Abstract", as printed
-            out.append(
-                RawSection(
-                    title=title[len(num):].strip() if num and title.startswith(num) else title,
-                    level=level, number=num, start_marker=marker[:160], start_line=ln.i,
-                )
-            )
+            out.append(RawSection(title=title, level=level, number=num, start_marker=marker[:160], start_line=ln.i))
         _abstract_levels(out, abstract)
         # Compress levels to 1..n so a document's top level is always 1.
         used = sorted({s.level for s in out})

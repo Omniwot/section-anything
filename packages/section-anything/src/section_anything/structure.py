@@ -44,6 +44,8 @@ NUMBER = re.compile(
 )
 # A section number alone on its extracted line: "1", "4.2", "1.", "A", "A.1", "IV.".
 NUMBER_ALONE = re.compile(r"^(?:\d+(?:\.\d+)*\.?|[A-Z](?:\.\d+)*\.?|[IVXLC]+\.?)$")
+# A number run into the next word ("Kapitel 2Rechte"), as bookmark titles joined from two lines are.
+GLUED = re.compile(r"(\d)([^\W\d_]{2,})")
 
 
 def split_number(ext: Extraction, ln: Line) -> bool:
@@ -142,17 +144,29 @@ def _page_number_runs(ext: Extraction) -> list[list[int]]:
 
 
 def _titled_runs(ext: Extraction, gap: float) -> list[list[int]]:
-    """A TOC title line plus the run of entries after it."""
+    """A TOC title line plus the run of entries after it. A run that fills its page to the bottom
+    goes on at the top of the next page (past the running header), as long as the entries keep
+    their style: contents pages often span several pages with the title on the first only."""
     out = []
     lines = ext.lines
+    furniture = furniture_of(ext)
     for ln in lines:
         if not TOC_TITLE.match(ln.text.strip()):
             continue
         run = [ln.i]
         first: Line | None = None
         prev = ln
-        for nxt in lines[ln.i + 1 : ln.i + 400]:
-            if nxt.page != prev.page or (prev.y0 - nxt.y1) > gap:
+        for nxt in lines[ln.i + 1 : ln.i + 2000]:
+            if nxt.page != prev.page:
+                if first is None or nxt.page != prev.page + 1 or prev.i in furniture:
+                    break
+                if nxt.i in furniture:
+                    continue
+                if abs(nxt.size - first.size) >= 0.6 or nxt.bold != first.bold:
+                    break
+            elif nxt.i in furniture and first is not None:
+                continue
+            elif (prev.y0 - nxt.y1) > gap:
                 break
             words = len(nxt.text.split())
             numbered = bool(NUMBER.match(nxt.text))
@@ -181,13 +195,18 @@ def _titled_runs(ext: Extraction, gap: float) -> list[list[int]]:
 
 def _furniture(ext: Extraction) -> set[int]:
     """Running headers/footers and page numbers: text that repeats (digits
-    masked) at about the same height on many pages."""
+    masked) at about the same height on many pages, or the same text at the
+    same height on three pages in a row (a header that changes with each part,
+    a table's repeated header row)."""
     seen: dict[tuple[str, int], set[int]] = {}
+    exact: dict[tuple[str, int], set[int]] = {}
     for ln in ext.lines:
-        key = (re.sub(r"\d+", "#", ln.text.lower()), round(ln.y0 / 12))
-        seen.setdefault(key, set()).add(ln.page)
+        band = round(ln.y0 / 12)
+        seen.setdefault((re.sub(r"\d+", "#", ln.text.lower()), band), set()).add(ln.page)
+        exact.setdefault((ln.text.strip().lower(), band), set()).add(ln.page)
     threshold = max(3, int(len(ext.pages) * 0.3))
     repeated = {k for k, pages in seen.items() if len(pages) >= threshold}
+    in_a_row = {k for k, pages in exact.items() if len(pages) >= 3 and any(p + 1 in pages and p + 2 in pages for p in pages)}
     body = ext.body_size()
     heights = {p.n: (p.origin_y, p.height) for p in ext.pages}
     out = set()
@@ -199,6 +218,7 @@ def _furniture(ext: Extraction) -> set[int]:
         in_margin = (ln.y1 - oy) > h * 0.94 or (ln.y0 - oy) < h * 0.06
         if (
             (masked, round(ln.y0 / 12)) in repeated
+            or (ln.text.strip().lower(), round(ln.y0 / 12)) in in_a_row
             or re.fullmatch(r"[#\s\-–—|.]*(page\s*#)?[#\s]*", masked)
             or (in_margin and ln.size <= body)
         ):
@@ -316,10 +336,15 @@ def anchor_bookmarks(ext: Extraction) -> list[Anchored]:
     out: list[Anchored] = []
     used: set[int] = set()
     for it in ext.outline:
-        want = canon(it.title)
+        title = it.title
+        want = canon(title)
         if not want:
             continue
         found = index.lines_naming(want)
+        if not found and GLUED.search(title):
+            # "Teil 1Gemeinsame Bestimmungen": the label and title lines were joined without a space.
+            title = GLUED.sub(r"\1 \2", title)
+            found = index.lines_naming(canon(title))
         best = None
         for p in (it.page, it.page + 1):
             a, b = index.page_range(p)
@@ -331,9 +356,9 @@ def anchor_bookmarks(ext: Extraction) -> list[Anchored]:
         if best is None:
             continue
         used.add(best.i)
-        m = NUMBER.match(it.title)
+        m = NUMBER.match(title)
         num = m.group("num").strip() if m else ""
-        out.append(Anchored(best.i, it.level, num, it.title[m.end():].strip() if m else it.title))
+        out.append(Anchored(best.i, it.level, num, title[m.end():].strip() if m else title))
     return out
 
 
