@@ -9,6 +9,7 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 
+from section_anything.docling_input import DoclingHints, hints_of
 from section_anything.extract import Extraction, Line
 from section_anything.outline_check import LETTER_SPACED
 from section_anything.strategies.base import Context, RawSection, Strategy
@@ -86,11 +87,15 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     Strict mode also drops what our test corpus showed to be noise: numbered
     lines in body type ("1. Describe…", "a. E6 activates p53") unless the
     number is multi-level or keyword-led ("2.3", "Chapter 4"); repeated
-    callout labels; and bold terms that run on into a paragraph."""
+    callout labels; and bold terms that run on into a paragraph.
+
+    With Docling hints (`docling_input`), lines Docling labels as headings are candidates whatever
+    their style, and strict mode drops lines it labels as body text, list items, captions or code."""
     body = ext.body_size()
     furniture = furniture_of(ext)
     toc = toc_of(ext).lines
     labels = set() if loose else _labels(ext, body)
+    hints = hints_of(ext)
     bump = 0.4 if loose else 0.8
     out: list[tuple[Line, str]] = []
     split: set[int] = set()
@@ -102,6 +107,13 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
             # Joined with its title line by _merge_wrapped (Free) and LlmReviewStrategy._rows.
             out.append((ln, text.strip()))
             split.add(ln.i)
+            continue
+        if hints is not None and ln.i in hints.headers:
+            if loose or not (THEOREM.match(text) or text.strip().lower() in labels):
+                m = NUMBERING.match(text)
+                out.append((ln, m.group("num").strip() if m else ""))
+            continue
+        if hints is not None and not loose and ln.i in hints.body:
             continue
         if not re.search(r"[A-Za-z]", text):
             continue
@@ -147,15 +159,16 @@ LABEL_ONLY = re.compile(
 )
 
 
-def _merge_wrapped(cands: list[tuple[Line, str]]) -> list[tuple[Line, str, str]]:
+def _merge_wrapped(cands: list[tuple[Line, str]], hints: DoclingHints | None = None) -> list[tuple[Line, str, str]]:
     """Join a heading that wraps onto a second line with the same style, and a
-    bare "CHAPTER 10" label with the title line right after it."""
+    bare "CHAPTER 10" label with the title line right after it. Lines that Docling
+    puts in two different heading items stay two headings."""
     merged: list[tuple[Line, str, str]] = []
     for ln, num in cands:
         if merged:
             prev, pnum, ptext = merged[-1]
             last_i = prev.i + ptext.count("\n")
-            adjacent = ln.i == last_i + 1 and ln.page == prev.page
+            adjacent = ln.i == last_i + 1 and ln.page == prev.page and (hints is None or hints.same_item(last_i, ln.i))
             if adjacent and not num and ln.size == prev.size and ln.bold == prev.bold:
                 merged[-1] = (prev, pnum, ptext + "\n" + ln.text)
                 continue
@@ -277,7 +290,7 @@ class RulesStrategy(Strategy):
         return out
 
     def _rules(self, ext: Extraction) -> list[RawSection]:
-        cands = _merge_wrapped(candidates(ext))
+        cands = _merge_wrapped(candidates(ext), hints_of(ext))
         # The abstract's heading does not take part in the style levels, so its style cannot shift
         # the other levels (see _abstract_levels).
         abstract = {ln.i for ln, _, _ in cands if _abstract_heading(ln)}
