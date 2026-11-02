@@ -49,6 +49,7 @@ The `anthropic` extra adds Anthropic's Python SDK (Apache-2.0), the `docling` ex
 | `quick` | the rules propose candidate heading lines; a small model keeps the real ones and sets levels | candidate lines and a 70-character peek at the next line | about $0.07 (`gpt-6-luna`) |
 | `standard` | a model reads every line, with font hints, and marks where sections start and end | the document text | about $0.16 (`gpt-6-luna`, the default); $2.90 with `gpt-6.1-sol` |
 | `local:<model>` | `quick`, answered by a local [Ollama](https://ollama.com) model | nothing leaves the machine | $0 |
+| `auto` | `free`, then `quick` only when Free is unsure of its headings | nothing, or what `quick` sends | $0 for documents Free is sure of, `quick`'s cost for the rest |
 
 Costs are measured averages at the built-in list prices; your documents may differ. The
 `quick` and `standard` READoc scores below were measured with the default model, `gpt-6-luna`.
@@ -58,6 +59,16 @@ pass `model="gpt-6.1-sol"` (`--model gpt-6.1-sol` on the command line). It costs
 as much. In one development-set comparison on READoc (98 papers and 100 READMEs, same code) it scored
 5.8 points higher on READMEs (95% CI +2.1 to +9.6) and 0.9 higher on papers (CI -0.3 to +2.1,
 not significant). This has not been confirmed on held-out documents.
+
+`auto` runs `free` first and gives every heading a `confidence` (see Output). When Free found
+fewer than three headings, or their mean confidence is below 0.72 (`SECTIONANY_AUTO_THRESHOLD`),
+the document goes to `quick` instead; `tree.auto` says which mode ran and why. It needs the same
+API key as `quick` and stays within the same per-document cap. On READoc documents not used to
+choose the threshold, it sent 28% of 905 arXiv papers to `quick` and scored 68.4, level with
+`quick` (68.0; +0.5, 95% CI -0.5 to +1.6) and above `free` (60.1); it sent 3.5% of 1,124 READMEs
+and scored 81.6, level with `free` (81.4) and above `quick` (70.8). That is 29% of `quick`'s cost
+on those papers and 3% on those READMEs. Other kinds of documents (laws, manuals, reports) have not
+been tested on held-out documents yet.
 
 ## Command line
 
@@ -198,6 +209,7 @@ section-anything scanned.json                        # the Docling document itse
 | `page_start`, `page_end` | 1-based physical pages |
 | `start`, `end` | character range of the section's own text in `tree.text` (up to the next heading) |
 | `flags` | `doc_title` (the document's own title), `front_matter` (text before the first heading), `generated_title` (`standard` wrote a title for text that has no printed heading), and checks such as `start_marker_fuzzy`, `title_not_in_text`, `end_mismatch` |
+| `confidence` | `free` only: 0 to 1, how much of Free's own evidence backs the heading (the PDF's outline lists it; its style is used on several pages and for little else; its number follows the previous one; a standard name such as References; not over ten words). A ranking within a document, fitted mostly on papers and READMEs, not a probability. `None` for front matter and in the model modes |
 | `parent` | index in `tree.sections` of the nearest enclosing section, or `None` |
 | `heading_path` | headings from the outermost enclosing section down to this one: `["1 Introduction", "1.1 Scope"]`. The document title's path is the title alone and front matter's is empty; neither is a parent |
 
@@ -205,8 +217,10 @@ section-anything scanned.json                        # the Docling document itse
   capped at six. `to_markdown(body=True)` adds each section's text, reflowed into paragraphs,
   with running headers and footers removed.
 - `tree.to_json()` / `tree.to_dict()`: the sections plus mode, model, pages, calls, tokens,
-  cost and any downgrades. With `text=True` (`--format json --body` on the command line), each
-  section also has `text`: exactly `tree.text[start:end]`, from its heading to the next heading.
+  cost, any downgrades and, for `auto`, `auto`: the mode it took (`path`), why (`reason`), Free's
+  document `confidence` and the `threshold`. With `text=True` (`--format json --body` on the
+  command line), each section also has `text`: exactly `tree.text[start:end]`, from its heading to
+  the next heading.
 - `section_anything.Section` and `TreeDict` type the sections and `to_dict()`;
   `SectionTree.json_schema()` returns the JSON Schema of the JSON output.
 - `tree.extraction` holds the lines with their boxes (PDF points), for highlighting.

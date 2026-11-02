@@ -69,6 +69,18 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   then go to a private temporary file, removed afterwards, so the other limits and the extraction
   worker apply unchanged. A file object is read once and left open. `section_anything.PdfInput` types
   the accepted inputs.
+- **Mode `auto`, and a confidence for each Free heading.** Every `free` section now has `confidence`
+  (0 to 1): how much of Free's own evidence backs it (the PDF's outline lists it; its style is used
+  on several pages and for little else; its number follows the previous one; a standard name; ten
+  words or fewer). It is `None` for front matter and in the model modes; nothing else in any mode's
+  output changes. Mode `auto` runs `free`, then `quick` only when Free found fewer than three
+  headings or their mean confidence is below `auto_threshold` (0.72, `SECTIONANY_AUTO_THRESHOLD`);
+  `tree.auto` (and `auto` in `to_dict()`) gives the mode taken, the reason, the confidence and the
+  threshold. It needs `quick`'s API key and keeps the per-document cap (over it, Free's result
+  stands). The weights and threshold were chosen on development documents only (200 READoc, 21
+  public corpus documents). On held-out READoc: 905 arXiv papers 68.4 with 28% sent to `quick`
+  (`quick` 68.0, `free` 60.1); 1,124 READMEs 81.6 with 3.5% sent (`free` 81.4, `quick` 70.8). Other
+  genres are not yet tested on held-out documents.
 
 ## 0.1.6 (2026-10-31)
 

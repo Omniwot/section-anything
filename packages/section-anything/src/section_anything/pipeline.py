@@ -29,6 +29,7 @@ import re
 import time
 from collections.abc import Callable
 
+from section_anything.confidence import annotate
 from section_anything.config import Settings
 from section_anything.extract import Extraction
 from section_anything.llm import Usage
@@ -240,6 +241,8 @@ async def run(
         check = demote_unlisted_headings(sections, ext, strict=strategy.uses_llm)
         sections = check.sections
         extra["outline_check"] = check.summary()
+    if not strategy.uses_llm:
+        annotate(sections, ext)  # Free's own evidence for each heading; mode "auto" decides on it
     return raw, sections, metrics(sections, ext, usage, time.monotonic() - t0, extra)
 
 

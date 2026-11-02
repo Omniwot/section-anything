@@ -37,7 +37,8 @@ def build_parser() -> argparse.ArgumentParser:
                    help="PDF file, or Docling's JSON of one; a folder or several PDFs run in folder mode "
                         "(needs -o DIR)")
     p.add_argument("--mode", default="free",
-                   help="free (default), quick, standard, or local:<ollama model>")
+                   help="free (default), quick, standard, auto (free, then quick only where free is unsure), "
+                        "or local:<ollama model>")
     p.add_argument("--format", choices=("md", "json"), default="md", help="output format (default md)")
     p.add_argument("--body", action="store_true",
                    help="include each section's text: md reflowed under its heading; json as `text`, "

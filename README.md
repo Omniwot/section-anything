@@ -127,6 +127,7 @@ scanned pages with OCR; Section Anything needs a text layer. Better headings imp
 | `quick` | rules propose candidate heading lines; a small model keeps the real ones and sets levels | candidate lines only | about $0.07 (gpt-6-luna) |
 | `standard` | a model reads every line, with font hints, and marks where sections start and end | the document text | about $0.16 (gpt-6-luna, the default); $2.90 with gpt-6.1-sol |
 | `local:<model>` | `quick`, answered by a local Ollama model | nothing leaves the machine | $0 |
+| `auto` | `free`, then `quick` only for documents where Free is unsure of its headings | nothing, or what `quick` sends | $0 for documents Free is sure of; `quick`'s cost for the rest |
 
 Every paid run is estimated first and capped (default $0.50 per document); over the cap it
 downgrades (standard → quick → free) or fails, as you choose.
