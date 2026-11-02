@@ -46,6 +46,8 @@ class _Batch:
             raise ConfigError(f"on_error must be 'record' or 'raise', not {on_error!r}")
         if max_usd_total is not None and not max_usd_total >= 0:  # also refuses NaN
             raise ConfigError(f"max_usd_total must be 0 or more, not {max_usd_total!r}")
+        if kwargs.get("docling") is not None:
+            raise ConfigError("docling= is Docling's output of one PDF: call section() on each PDF with its own")
         self.paths = [Path(p) for p in pdfs]
         self.mode, self.total, self.on_error, self.progress, self.kwargs = mode, max_usd_total, on_error, progress, kwargs
         s = _settings_for(kwargs.get("settings"), max_usd_per_doc=kwargs.get("max_usd"),

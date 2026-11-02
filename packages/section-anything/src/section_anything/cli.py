@@ -1,5 +1,9 @@
 """Command line: ``section-anything FILE.pdf --mode quick --format md``.
 
+Docling's output works too: ``section-anything FILE.pdf --docling FILE.json`` uses it as hints for
+the PDF's own lines, and ``section-anything FILE.json`` sections the Docling document itself (for a
+scanned PDF).
+
 The result goes to stdout (or ``--output``); a one-line cost summary goes to stderr.
 Exit codes: 0 done, 2 bad arguments or configuration, 3 refused by a cost cap, 4 the PDF could not
 be read, 1 anything else.
@@ -30,7 +34,8 @@ def build_parser() -> argparse.ArgumentParser:
         description="Find the sections (headings, levels, page and character spans) of a PDF.",
     )
     p.add_argument("pdf", type=Path, nargs="+",
-                   help="PDF file; a folder or several PDFs run in folder mode (needs -o DIR)")
+                   help="PDF file, or Docling's JSON of one; a folder or several PDFs run in folder mode "
+                        "(needs -o DIR)")
     p.add_argument("--mode", default="free",
                    help="free (default), quick, standard, or local:<ollama model>")
     p.add_argument("--format", choices=("md", "json"), default="md", help="output format (default md)")
@@ -48,6 +53,9 @@ def build_parser() -> argparse.ArgumentParser:
                    help="API for --model (default: anthropic for claude-* models, otherwise openai)")
     p.add_argument("--base-url", default=None,
                    help="endpoint for the provider (default OpenAI's; Anthropic's for Claude models)")
+    p.add_argument("--docling", type=Path, default=None, metavar="JSON",
+                   help="Docling's output of the same PDF (saved as JSON) as hints: its section headers, page "
+                        "headers and footers (one PDF only)")
     p.add_argument("--max-pages", type=int, default=None, help="refuse PDFs with more pages (default 500)")
     p.add_argument("--timeout", type=float, default=None, help="extraction time limit in seconds (default 120)")
     p.add_argument("-o", "--output", type=Path, default=None,
@@ -84,6 +92,9 @@ def _summary(tree) -> str:
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     if len(args.pdf) > 1 or args.pdf[0].is_dir():
+        if args.docling is not None:
+            print("section-anything: --docling: only for a single PDF", file=sys.stderr)
+            return 2
         return _folder_mode(args)
     batch_only = [flag for flag, on in (("--recursive", args.recursive), ("--skip-existing", args.skip_existing),
                                         ("--max-usd-total", args.max_usd_total is not None)) if on]
@@ -94,7 +105,7 @@ def main(argv: list[str] | None = None) -> int:
     from section_anything.api import section
 
     try:
-        tree = section(args.pdf[0], args.mode, **_options(args))
+        tree = section(args.pdf[0], args.mode, docling=args.docling, **_options(args))
     except (PdfError, ExtractionTimeout, ExtractionFailed) as exc:
         print(f"section-anything: {exc}", file=sys.stderr)
         return 4

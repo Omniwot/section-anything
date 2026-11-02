@@ -1,7 +1,8 @@
 """Docling's output as input: its layout labels as hints for a PDF's own lines, or its text items as
 the lines themselves.
 
-Two ways in, both from a `DoclingDocument` (the object, or its JSON form as a dict):
+Two ways in, both from a `DoclingDocument` (the object, its JSON form as a dict, or the path of a
+JSON file saved with `save_as_json`):
 
 - Hints (`attach_hints`): the PDF is extracted as usual, so font sizes, bold, bookmarks and the
   printed table of contents still count. Each line that sits inside a Docling item takes that
@@ -20,18 +21,27 @@ docling-core is not needed: everything here reads the JSON form (`export_to_dict
 
 from __future__ import annotations
 
+import json
 import math
+import os
 import re
 from collections.abc import Iterator, Mapping
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any
 
+from section_anything.errors import ConfigError
 from section_anything.extract import CONTROL, Extraction, Line, OutlineItem, Page
 from section_anything.markers import canon
 
 HEADING = frozenset({"section_header", "title"})
 FURNITURE = frozenset({"page_header", "page_footer"})
 BODY_SIZE = 10.0  # Docling gives no font sizes: body lines get this one, headings a bigger one
+# Hints from Docling's output of another PDF would label lines at random. Of the PDF's lines inside
+# Docling's text boxes, the share whose text is in the text of a box that holds them was 0.57 to
+# 1.00 on 26 matching pairs (slides lowest) and 0.00 to 0.24 with each document's JSON swapped for
+# another's (F041's documents, 2 Nov 2026).
+MIN_AGREEMENT = 0.4
 
 
 @dataclass
@@ -49,21 +59,32 @@ class DoclingHints:
 
 
 def is_docling_document(obj: Any) -> bool:
-    """A `DoclingDocument`, or its JSON form as a dict."""
+    """A `DoclingDocument`, its JSON form as a dict, or the path of a ``.json`` file (checked when read)."""
     if isinstance(obj, Mapping):
         return obj.get("schema_name") == "DoclingDocument"
+    if isinstance(obj, str | os.PathLike):
+        return Path(obj).suffix.lower() == ".json"
     return type(obj).__name__ == "DoclingDocument" and hasattr(obj, "export_to_dict")
 
 
 def as_dict(doc: Any) -> dict:
-    if isinstance(doc, Mapping):
+    if isinstance(doc, str | os.PathLike):
+        try:
+            d = json.loads(Path(doc).read_text(encoding="utf-8"))
+        except OSError as exc:
+            raise ConfigError(f"cannot read the Docling JSON {os.fspath(doc)!r}: {exc.strerror or exc}") from None
+        except ValueError:  # also UnicodeDecodeError
+            raise ConfigError(f"{os.fspath(doc)!r} is not JSON: expected a DoclingDocument saved as JSON") from None
+        if not isinstance(d, dict):
+            raise ConfigError(f"{os.fspath(doc)!r} is not a DoclingDocument's JSON")
+    elif isinstance(doc, Mapping):
         d = dict(doc)
     elif hasattr(doc, "export_to_dict"):
         d = doc.export_to_dict()
     else:
-        raise TypeError(f"expected a DoclingDocument or its JSON as a dict, got {type(doc).__name__}")
+        raise TypeError(f"expected a DoclingDocument, its JSON as a dict or a .json path, got {type(doc).__name__}")
     if d.get("schema_name") != "DoclingDocument":
-        raise ValueError("not a DoclingDocument: its JSON has no schema_name 'DoclingDocument'")
+        raise ConfigError("not a DoclingDocument: its JSON has no schema_name 'DoclingDocument'")
     return d
 
 
@@ -133,6 +154,13 @@ def _pieces(d: dict) -> Iterator[tuple[dict, int, str, tuple[float, float, float
                 yield item, p["page_no"], piece, _box(p, heights[p["page_no"]])
 
 
+def _read(d: dict) -> list[tuple[dict, int, str, tuple[float, float, float, float]]]:
+    try:
+        return list(_pieces(d))
+    except (KeyError, IndexError, TypeError, ValueError, AttributeError) as exc:  # a hand-edited or truncated JSON
+        raise ConfigError(f"malformed DoclingDocument JSON ({type(exc).__name__}: {exc})") from None
+
+
 def _offsets(ext: Extraction, by_page: dict[int, list]) -> dict[int, tuple[float, float]]:
     """Per page, what to subtract from a line's coordinates to get Docling's. Docling measures from
     the page's crop box, the extraction from the PDF's own origin; the two differ when a PDF is
@@ -159,32 +187,56 @@ def attach_hints(ext: Extraction, doc: Any, *, veto: bool = True) -> DoclingHint
     """Label the extraction's lines from the Docling items whose boxes hold them. A line counts as
     a heading only when its text is also in the item's text, so a box that covers more than its
     heading does not pull body lines in. `veto` keeps the body labels, which strict mode uses to
-    drop styled lines Docling reads as body text. Call before the extraction's TOC or furniture is
-    computed."""
+    drop styled lines Docling reads as body text. Lines outside every Docling box get no label.
+    Call before the extraction's TOC or furniture is computed.
+
+    Raises `ConfigError` when the document is not Docling's output of this PDF: too few of the
+    lines inside its boxes have the item's text (`MIN_AGREEMENT`). A document with no text items
+    gives no hints."""
     d = as_dict(doc)
     by_page: dict[int, list[tuple[float, str, str, tuple[float, float, float, float], int]]] = {}
-    for k, (item, page, text, (x0, y0, x1, y1)) in enumerate(_pieces(d)):
+    for k, (item, page, text, (x0, y0, x1, y1)) in enumerate(_read(d)):
         area = max(x1 - x0, 0.0) * max(y1 - y0, 0.0)
         by_page.setdefault(page, []).append((area, item.get("label", ""), canon(text), (x0 - 2, y0 - 2, x1 + 2, y1 + 2), k))
     offset = _offsets(ext, by_page)
     hints = DoclingHints()
+    checked = agreed = 0  # lines with text inside a Docling box; those whose text is in such a box's
     for ln in ext.lines:
         ox, oy = offset.get(ln.page, (0.0, 0.0))
         cx, cy = (ln.x0 + ln.x1) / 2 - ox, (ln.y0 + ln.y1) / 2 - oy
         inside = sorted(c for c in by_page.get(ln.page, []) if c[3][0] <= cx <= c[3][2] and c[3][1] <= cy <= c[3][3])
         if not inside:
             continue
+        own = canon(ln.text)
+        if own:
+            checked += 1
+            agreed += any(own in c[2] for c in inside)  # table rows share their table's box
         _area, label, text, _box, k = inside[0]  # the smallest box that holds the line
         if label in HEADING:
-            if canon(ln.text) and canon(ln.text) in text:
+            if own and own in text:
                 hints.headers.add(ln.i)
                 hints.item[ln.i] = k
         elif label in FURNITURE:
             hints.furniture.add(ln.i)
         elif veto:
             hints.body.add(ln.i)
+    _check_match(ext, d, bool(by_page), checked, agreed)
     ext._derived["docling"] = hints
     return hints
+
+
+def _check_match(ext: Extraction, d: dict, has_items: bool, checked: int, agreed: int) -> None:
+    """Refuse hints from Docling's output of another PDF (see `MIN_AGREEMENT`)."""
+    if not has_items or not ext.text.strip():
+        return  # no Docling text, or no PDF text: nothing to label
+    if checked and agreed / checked >= MIN_AGREEMENT:
+        return
+    found = (f"only {agreed / checked:.0%} of the PDF's lines inside Docling's text boxes have the same text"
+             if checked else "none of the PDF's lines is inside Docling's text boxes")
+    raise ConfigError(
+        f"docling= does not look like Docling's output of this PDF: {found} (PDF {len(ext.pages)} pages, "
+        f"Docling {len(d.get('pages', {}))}). Pass the DoclingDocument that Docling made from this same PDF."
+    )
 
 
 def _height_sizes(heights: list[float]) -> dict[float, float]:
@@ -214,7 +266,7 @@ def extraction_from_docling(doc: Any, levels: str = "outline") -> Extraction:
     levels), they are used as the document's outline (`levels="outline"`), as bookmarks would
     be, or stand in for the size (`levels="size"`)."""
     d = as_dict(doc)
-    pieces = list(_pieces(d))
+    pieces = _read(d)
     found = {it.get("level") for it, *_ in pieces if it.get("label") == "section_header"}
     leveled = len(found - {None}) > 1
     top = max((lv for lv in found if lv), default=1)

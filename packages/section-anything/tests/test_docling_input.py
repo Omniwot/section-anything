@@ -8,11 +8,13 @@ unless docling-core is installed.
 
 from __future__ import annotations
 
+import json
 from typing import Any
 
 import pytest
 
 import section_anything
+from section_anything.cli import main
 from section_anything.docling_input import attach_hints, extraction_from_docling, is_docling_document
 from section_anything.extract import Line, extract
 from section_anything.strategies.rules import candidates
@@ -186,3 +188,120 @@ def test_two_docling_headers_on_adjacent_lines_stay_two(tmp_path):
                                  "box": (head["box"][0], title["box"][1], max(head["box"][2], title["box"][2]), head["box"][3])}]
     tree = section_anything.section(pdf, docling=docling_json(items))
     assert [t for _, t in headings(tree)] == ["CHAPTER 1 Definitions", "Purpose of this Act", "Application"]
+
+
+def test_lines_docling_did_not_box_keep_their_own_style(plain_pdf):
+    """The veto only drops lines Docling labels as body text: a styled line outside every Docling
+    box (Docling missed it) is still a heading."""
+    lines = extract(plain_pdf).lines
+    labels = {"Getting started": "section_header", "Installing": "section_header"}
+    items = [it for it in boxed(lines, labels) if it["text"] != "Note well"]
+    tree = section_anything.section(plain_pdf, docling=docling_json(items))
+    assert [t for _, t in headings(tree)] == ["Getting started", "Note well", "Installing"]
+
+
+def test_docling_with_no_headers(plain_pdf):
+    """Docling saw only body text: as hints, its body labels drop the one bold line (strict mode);
+    as the input, the document has no headings."""
+    lines = extract(plain_pdf).lines
+    assert headings(section_anything.section(plain_pdf, docling=docling_json(boxed(lines, {})))) == []
+    text_only = docling_json([item("text", "Plain text without any heading. " * 4, 700, 40),
+                              item("text", "More plain text on the same page. " * 4, 640, 40)])
+    tree = section_anything.section(text_only)
+    assert headings(tree) == [] and tree.text.startswith("Plain text without any heading.")
+
+
+def test_empty_docling_document_gives_no_hints(plain_pdf):
+    """Docling found no text at all (say, it ran without OCR on images): nothing is labelled."""
+    alone = section_anything.section(plain_pdf)
+    assert headings(section_anything.section(plain_pdf, docling=docling_json([]))) == headings(alone)
+
+
+def test_hints_from_another_pdf_are_refused(plain_pdf, tmp_path):
+    """Docling's output of another PDF would label lines at random: its boxes sit over our lines
+    but hold other text."""
+    other = write_pdf(tmp_path / "other.pdf", [[(f"Line {k} of a different document entirely", 10, k == 0)
+                                                for k in range(12)]])
+    wrong = docling_json(boxed(extract(other).lines, {"Line 0 of a different document entirely": "section_header"}))
+    with pytest.raises(section_anything.ConfigError, match="does not look like Docling's output of this PDF"):
+        section_anything.section(plain_pdf, docling=wrong)
+
+
+def test_page_counts_that_differ(tmp_path):
+    """Docling read page 2 only (a page range): page 2 gets hints, page 1 keeps its own styles.
+    A document whose pages the PDF does not have is refused."""
+    pdf = write_pdf(tmp_path / "two.pdf", [
+        [("Bold opening", 10, True), *body(3)],
+        [("Plain heading", 10, False), *body(3)],
+    ])
+    lines = extract(pdf).lines
+    doc = docling_json(boxed([ln for ln in lines if ln.page == 2], {"Plain heading": "section_header"}), pages=2)
+    del doc["pages"]["1"]
+    tree = section_anything.section(pdf, docling=doc)
+    assert [t for _, t in headings(tree)] == ["Bold opening", "Plain heading"]
+
+    beyond = docling_json([{**it, "page": 3} for it in boxed(lines, {})], pages=3)
+    with pytest.raises(section_anything.ConfigError, match="none of the PDF's lines"):
+        section_anything.section(pdf, docling=beyond)
+
+
+def test_docling_json_files(plain_pdf, tmp_path):
+    scan = tmp_path / "scan.json"
+    scan.write_text(json.dumps(SCANNED), encoding="utf-8")
+    assert is_docling_document(scan) and is_docling_document(str(scan))
+    assert headings(section_anything.section(scan)) == headings(section_anything.section(SCANNED))
+
+    hints = tmp_path / "plain.json"
+    labels = {"Getting started": "section_header", "Installing": "section_header"}
+    hints.write_text(json.dumps(docling_json(boxed(extract(plain_pdf).lines, labels))), encoding="utf-8")
+    assert [t for _, t in headings(section_anything.section(plain_pdf, docling=str(hints)))] == [
+        "Getting started", "Installing"]
+
+    (tmp_path / "bad.json").write_text("{not json", encoding="utf-8")
+    (tmp_path / "other.json").write_text('{"schema_name": "Other"}', encoding="utf-8")
+    for path, message in [(tmp_path / "bad.json", "is not JSON"), (tmp_path / "other.json", "not a DoclingDocument"),
+                          (tmp_path / "missing.json", "cannot read the Docling JSON")]:
+        with pytest.raises(section_anything.ConfigError, match=message):
+            section_anything.section(plain_pdf, docling=path)
+    with pytest.raises(TypeError, match="expected a DoclingDocument"):
+        section_anything.section(plain_pdf, docling=42)
+    broken = docling_json([item("section_header", "1 Overview", 680)])
+    broken["body"]["children"].append({"$ref": "#/texts/7"})  # no such item
+    with pytest.raises(section_anything.ConfigError, match="malformed DoclingDocument JSON"):
+        section_anything.section(broken)
+
+
+def test_docling_document_object_as_hints(plain_pdf):
+    pytest.importorskip("docling_core")
+    from docling_core.types.doc import DoclingDocument
+
+    labels = {"Getting started": "section_header", "Installing": "section_header"}
+    doc = DoclingDocument.model_validate(docling_json(boxed(extract(plain_pdf).lines, labels)))
+    assert [t for _, t in headings(section_anything.section(plain_pdf, docling=doc))] == [
+        "Getting started", "Installing"]
+
+
+def test_docling_hints_are_per_pdf(plain_pdf):
+    with pytest.raises(section_anything.ConfigError, match="already a Docling document"):
+        section_anything.section(SCANNED, docling=SCANNED)
+    with pytest.raises(section_anything.ConfigError, match="Docling's output of one PDF"):
+        list(section_anything.section_many([plain_pdf], docling=SCANNED))
+
+
+def test_cli_docling(plain_pdf, tmp_path, capsys):
+    hints = tmp_path / "plain.json"
+    labels = {"Getting started": "section_header", "Installing": "section_header"}
+    hints.write_text(json.dumps(docling_json(boxed(extract(plain_pdf).lines, labels))), encoding="utf-8")
+    assert main([str(plain_pdf), "--docling", str(hints), "-q"]) == 0
+    assert capsys.readouterr().out == "## Getting started\n## Installing\n"  # "#" is kept for a document title
+
+    scan = tmp_path / "scan.json"
+    scan.write_text(json.dumps(SCANNED), encoding="utf-8")
+    assert main([str(scan), "--format", "json", "-q"]) == 0
+    assert [s["title"] for s in json.loads(capsys.readouterr().out)["sections"]] == [
+        "Annual Report", "Overview", "Highlights", "Outlook"]
+
+    assert main([str(plain_pdf), "--docling", str(scan)]) == 2  # another document's output
+    assert "does not look like" in capsys.readouterr().err
+    assert main([str(tmp_path), "-o", str(tmp_path / "out"), "--docling", str(hints)]) == 2
+    assert "--docling: only for a single PDF" in capsys.readouterr().err

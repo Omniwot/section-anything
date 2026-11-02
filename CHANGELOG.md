@@ -5,6 +5,17 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
 ## Unreleased
 
+- **Docling's output as input (opt-in).** `section("report.pdf", docling=doc)` takes Docling's
+  layout labels as hints for the PDF's own lines: its section headers and titles become heading
+  candidates whatever their style, its page headers and footers are treated as running headers and
+  footers, and in `free` mode styled lines it labels as body text are not taken as headings. The
+  PDF's fonts, bookmarks and printed table of contents still count. `section(doc)` sections a
+  `DoclingDocument` itself, for scanned PDFs or any format Docling reads: its text items become the
+  lines, and heading levels come from Docling's levels or the heights of the heading boxes. Both
+  take the `DoclingDocument` object, its JSON as a dict or a saved `.json` file, and neither needs
+  docling-core. Hints from another PDF are refused with `ConfigError`. On the command line:
+  `--docling FILE.json` for hints, or a Docling `.json` file in place of the PDF. Not in
+  `section_many`, folder mode or the MCP server yet.
 - **Many PDFs with a total budget.** `section_many(pdfs, mode, max_usd_total=...)` (and
   `asection_many`) sections PDFs one at a time and yields a `DocumentResult` for each: path, tree or
   error, cost, and the cap it ran with. Each PDF's cap is the smaller of the per-document cap and

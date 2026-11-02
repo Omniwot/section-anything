@@ -41,6 +41,7 @@ from section_anything.errors import (
     UnpricedModelError,
     limit_hint,
     too_many_pages,
+    too_much_text,
 )
 from section_anything.export import heading_text, markdown_hashes, section_bodies
 from section_anything.extract import Extraction
@@ -306,7 +307,7 @@ async def asection(
     max_pages: int | None = None,
     extract_timeout: float | None = None,
     progress: Progress | None = None,
-    docling: DoclingDocument | Mapping[str, Any] | None = None,
+    docling: DoclingDocument | Mapping[str, Any] | str | os.PathLike[str] | None = None,
     _usage: Usage | None = None,
 ) -> SectionTree:
     """Async form of `section`."""
@@ -321,9 +322,13 @@ async def asection(
 
     t0 = time.monotonic()
     if docling_input.is_docling_document(pdf_path):
-        ext = docling_input.extraction_from_docling(pdf_path)
+        if docling is not None:
+            raise ConfigError("docling= gives hints for a PDF's own lines; the input is already a Docling document")
+        ext = await asyncio.to_thread(docling_input.extraction_from_docling, pdf_path)
         if len(ext.pages) > s.max_pages:
             raise too_many_pages(len(ext.pages), s.max_pages)
+        if len(ext.text) > s.max_chars:
+            raise too_much_text(s.max_chars, len(ext.text))
         if not ext.text.strip():
             raise PdfError("the Docling document has no text")
     else:
@@ -334,7 +339,7 @@ async def asection(
         if not ext.text.strip():
             raise PdfError("no text layer: the PDF needs OCR first (or pass Docling's output of it)")
         if docling is not None:
-            docling_input.attach_hints(ext, docling)
+            await asyncio.to_thread(docling_input.attach_hints, ext, docling)
 
     cap = s.max_usd_per_doc
     # One tally per document: a downgrade continues the same budget. `section_many` passes its own
@@ -406,11 +411,12 @@ def section(
     Bytes go through the same caps and isolated extraction as a path, from a private temporary
     file that is removed afterwards.
 
-    `pdf_path` can also be a Docling `DoclingDocument` (or its JSON as a dict): its text items are
-    then the lines, so a scanned PDF works through Docling's OCR. `docling=` passes Docling's
-    output of the same PDF as hints: its section headers become heading candidates and its page
-    headers and footers furniture, while the PDF's own fonts, bookmarks and table of contents
-    still count.
+    `pdf_path` can also be a Docling `DoclingDocument` (the object, its JSON as a dict, or the path
+    of a ``.json`` file): its text items are then the lines, so a scanned PDF works through
+    Docling's OCR. `docling=` passes Docling's output of the same PDF (in any of those forms) as
+    hints: its section headers become heading candidates and its page headers and footers
+    furniture, while the PDF's own fonts, bookmarks and table of contents still count. Hints from
+    another PDF are refused with `ConfigError`. docling-core is not needed for either.
 
     `mode` is "free", "quick", "standard" or "local:<ollama model>". Options (each overrides the
     matching ``SECTIONANY_*`` environment variable): `api_key`, `base_url`, `model`, `provider`

@@ -67,6 +67,7 @@ section-anything paper.pdf --mode quick --format json        # JSON with spans a
 section-anything paper.pdf --mode standard --max-usd 0.5     # cap this document at $0.50
 section-anything paper.pdf --mode local:qwen3:4b --body      # headings plus section text
 section-anything paper.pdf --format json --body              # JSON with each section's text
+section-anything paper.pdf --docling paper.json              # Docling's labels as hints (below)
 ```
 
 The result goes to stdout (or `-o FILE`), a one-line summary with the cost to stderr. Exit codes:
@@ -147,6 +148,44 @@ with open("paper.pdf", "rb") as f:
   The file and its folder are removed afterwards, after an error or a timeout too.
 - Errors call the document "PDF", never by the temporary file's name.
 - `section_anything.PdfInput` is the type of everything these functions accept.
+
+## Use with Docling
+
+Opt-in, for when you already run [Docling](https://github.com/docling-project/docling). Pass its
+output in one of two ways. Neither needs docling-core: the `DoclingDocument` object, its JSON as a
+dict (`doc.export_to_dict()`) and a JSON file saved with `doc.save_as_json(...)` all work.
+
+```python
+from docling.document_converter import DocumentConverter
+
+doc = DocumentConverter().convert("report.pdf").document
+
+tree = section_anything.section("report.pdf", docling=doc)  # a PDF with a text layer: Docling's labels as hints
+tree = section_anything.section(doc)                        # a scanned PDF: Docling's text as the lines
+```
+
+```sh
+section-anything report.pdf --docling report.json    # hints
+section-anything scanned.json                        # the Docling document itself
+```
+
+- **Hints** (`docling=`): the PDF is read as usual, so its fonts, bookmarks and printed table of
+  contents still count. Lines Docling labels `section_header` or `title` become heading candidates
+  whatever their style, and its page headers and footers are treated as running headers and
+  footers. In `free` mode, styled lines Docling labels as body text, list items, captions or code
+  are not taken as headings; lines outside every Docling box keep their own style. `quick` reviews
+  the candidates as usual. `standard` reads every line anyway, so only the page headers and footers
+  change what it sees.
+- The hints must be Docling's output of the same PDF. When too few of the PDF's lines match the
+  text in Docling's boxes, `section` raises `ConfigError`. A Docling run on some of the pages gives
+  hints for those pages only.
+- **A Docling document as the input** (`section(doc)`): for scanned PDFs, or any format Docling
+  reads. Docling gives no font sizes, so heading levels come from Docling's own levels when they
+  differ (its heading-hierarchy stage), and otherwise from the height of each heading's box.
+  `tree.text` puts Docling's page headers first and its page footers last on each page. The page
+  and character caps apply; the file-size cap and the extraction worker do not, as no PDF is read.
+- `docling=` belongs to one PDF: `section_many` and folder mode refuse it. The MCP server does not
+  take Docling output yet.
 
 ## Output
 
@@ -453,7 +492,8 @@ pip install lightrag-section-anything             # LightRAG parser engines
 
 ## Limitations
 
-- Reads the PDF's text layer. Scanned PDFs need OCR first.
+- Reads the PDF's text layer. Scanned PDFs need OCR first, or Docling's output of them
+  ([Use with Docling](#use-with-docling)).
 - Tables, figures and equations are not structured; their text is part of the section text.
 - `free` relies on bookmarks or a printed table of contents for its best results; without them it
   is weaker than `quick` on papers. When the bookmarks look complete it drops headings they do not
