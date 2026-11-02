@@ -3,8 +3,24 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
-## Unreleased
+## 0.1.7 (unreleased)
 
+- **Mode `auto`, and a confidence for each Free heading.** Every `free` section now has `confidence`
+  (0 to 1): how much of Free's own evidence backs it (the PDF's outline lists it; its style is used
+  on several pages and for little else; its number follows the previous one; a standard name; ten
+  words or fewer). It is `None` for front matter and in the model modes; nothing else in any mode's
+  output changes. Mode `auto` runs `free`, then `quick` only when Free found fewer than three
+  headings or their mean confidence is below `auto_threshold` (0.72, `SECTIONANY_AUTO_THRESHOLD`);
+  `tree.auto` (and `auto` in `to_dict()`) gives the mode taken, the reason, the confidence and the
+  threshold. It needs `quick`'s API key and keeps the per-document cap (over it, Free's result
+  stands). The weights and threshold were chosen on development documents only (200 READoc, 21
+  public corpus documents; an earlier version was also scored once on the held-out documents
+  before the threshold was fixed). On held-out READoc: 905 arXiv papers 68.4 with 28% sent to
+  `quick` (`quick` 68.0, `free` 60.1); 1,124 READMEs 81.6 with 3.5% sent (`free` 81.4, `quick` 70.8).
+  Other genres are not yet tested on held-out documents. With `docling=`, Free runs with Docling's
+  hints and auto judges that result (the confidence weights do not use Docling's labels). On a
+  Docling document, `section(doc, "auto")`, Docling's own heading levels are not counted as outline
+  evidence for its own headings.
 - **Docling's output as input (opt-in).** `section("report.pdf", docling=doc)` takes Docling's
   layout labels as hints for the PDF's own lines: its section headers and titles become heading
   candidates whatever their style, its page headers and footers are treated as running headers and
@@ -32,7 +48,7 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   (F1 0.74 to 0.90 over 5 runs). At most one extra call per window, only while the per-document
   cap still covers it and the windows after it (it is not in the up-front estimate). Each re-read
   is listed in `tree.usage["coverage_retries"]`; `SECTIONANY_COVERAGE_RETRY=false` turns the check
-  off.
+  off. Standard only: Quick check, and mode `auto` when it escalates, make one review call as before.
 - **Many PDFs with a total budget.** `section_many(pdfs, mode, max_usd_total=...)` (and
   `asection_many`) sections PDFs one at a time and yields a `DocumentResult` for each: path, tree or
   error, cost, and the cap it ran with. Each PDF's cap is the smaller of the per-document cap and
@@ -69,18 +85,6 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   then go to a private temporary file, removed afterwards, so the other limits and the extraction
   worker apply unchanged. A file object is read once and left open. `section_anything.PdfInput` types
   the accepted inputs.
-- **Mode `auto`, and a confidence for each Free heading.** Every `free` section now has `confidence`
-  (0 to 1): how much of Free's own evidence backs it (the PDF's outline lists it; its style is used
-  on several pages and for little else; its number follows the previous one; a standard name; ten
-  words or fewer). It is `None` for front matter and in the model modes; nothing else in any mode's
-  output changes. Mode `auto` runs `free`, then `quick` only when Free found fewer than three
-  headings or their mean confidence is below `auto_threshold` (0.72, `SECTIONANY_AUTO_THRESHOLD`);
-  `tree.auto` (and `auto` in `to_dict()`) gives the mode taken, the reason, the confidence and the
-  threshold. It needs `quick`'s API key and keeps the per-document cap (over it, Free's result
-  stands). The weights and threshold were chosen on development documents only (200 READoc, 21
-  public corpus documents). On held-out READoc: 905 arXiv papers 68.4 with 28% sent to `quick`
-  (`quick` 68.0, `free` 60.1); 1,124 READMEs 81.6 with 3.5% sent (`free` 81.4, `quick` 70.8). Other
-  genres are not yet tested on held-out documents.
 
 ## 0.1.6 (2026-10-31)
 
