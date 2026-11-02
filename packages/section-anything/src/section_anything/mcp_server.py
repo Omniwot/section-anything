@@ -188,7 +188,8 @@ def build_server(roots: list[str | os.PathLike[str]] | None = None, max_usd: flo
 
         path: absolute path to a PDF with a text layer (scanned PDFs need OCR first).
         mode: "free" (default; rules, PDF bookmarks and printed contents; no model, $0), "quick" (a small
-        model reviews candidate headings), "standard" (a model reads the whole text) or "local:<ollama
+        model reviews candidate headings), "standard" (a model reads the whole text), "auto" (free, then
+        quick only when free is unsure; `auto` in the result says which ran) or "local:<ollama
         model>". Paid modes need an API key in the server's environment and are capped per document.
         model: overrides the configured model of quick or standard.
         max_usd: lower this call's per-document cost cap (the server's cap is the most it can be).

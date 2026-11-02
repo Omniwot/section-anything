@@ -10,6 +10,8 @@ Modes, cheapest first:
 - ``standard``: a model reads every line, with font hints, and marks where sections start and
   end. Sends the document text.
 - ``local:<model>``: quick, answered by a local Ollama model. Free; nothing leaves the machine.
+- ``auto``: free first, then quick only when Free is unsure of its headings (fewer than three, or
+  their mean ``confidence`` below ``Settings.auto_threshold``). Most documents cost nothing.
 
 Costs: a cloud model with no known price is refused before anything is read. Before a paid mode
 runs, its estimated cost is checked against the per-document cap (`max_usd`); a run over the cap
@@ -43,10 +45,10 @@ from section_anything.llm import Usage
 if TYPE_CHECKING:
     from docling_core.types.doc import DoclingDocument
 
-MODES = ("free", "quick", "standard", "local")
+MODES = ("free", "quick", "standard", "local", "auto")
 STRATEGY = {"free": "rules", "quick": "llm_review", "standard": "llm_text", "local": "llm_review"}
 DOWNGRADE = {"standard": "quick", "quick": "free", "local": None, "free": None}
-SECTION_KEYS = ("number", "title", "level", "page_start", "page_end", "start", "end", "flags")
+SECTION_KEYS = ("number", "title", "level", "page_start", "page_end", "start", "end", "flags", "confidence")
 LINK_KEYS = ("parent", "heading_path")  # derived from the levels by `SectionTree`
 
 Progress = Callable[[float, str], None]
@@ -63,9 +65,19 @@ class Section(TypedDict):
     start: int  # character range of the section's own text in `SectionTree.text`
     end: int
     flags: list[str]
+    confidence: float | None  # Free only: 0-1, how much of Free's evidence backs this heading; else None
     parent: int | None  # index of the nearest enclosing section, or None
     heading_path: list[str]  # headings from the outermost enclosing section down to this one
     text: NotRequired[str]  # only from `to_dict(text=True)`: text[start:end]
+
+
+class AutoInfo(TypedDict):
+    """Mode "auto": which mode ran and why."""
+
+    path: str  # "free", or "quick" when Free was unsure (or what a downgrade left)
+    reason: str
+    confidence: float  # Free's document confidence: mean heading confidence, 0 with under three headings
+    threshold: float
 
 
 class TreeDict(TypedDict):
@@ -83,6 +95,7 @@ class TreeDict(TypedDict):
     cost_usd: float
     seconds: float
     downgraded: list[str]
+    auto: NotRequired[AutoInfo]  # only from mode "auto"
     usage: dict[str, Any]
 
 
@@ -108,9 +121,9 @@ def link_sections(sections: list[dict]) -> None:
 
 
 def resolve_mode(mode: str, settings: Settings, model: str | None = None) -> tuple[str, str | None]:
-    """'free' | 'quick' | 'standard' | 'local:<ollama model>' -> (mode, model id or None).
+    """'free' | 'quick' | 'standard' | 'auto' | 'local:<ollama model>' -> (mode, model id or None).
 
-    `model` replaces the configured model of a quick or standard run, or names the local model."""
+    `model` replaces the configured model of a quick, standard or auto run, or names the local model."""
     m = (mode or "free").strip()
     if m == "local" or m.startswith("local:"):
         tag = m.partition(":")[2].strip() or (model or "").strip() or settings.local_model.strip()
@@ -119,11 +132,11 @@ def resolve_mode(mode: str, settings: Settings, model: str | None = None) -> tup
         return "local", LOCAL_PREFIX + tag
     if m == "free":
         return "free", None
-    if m == "quick":
-        return "quick", model or settings.quick_model
+    if m in ("quick", "auto"):
+        return m, model or settings.quick_model
     if m == "standard":
         return "standard", model or settings.standard_model
-    raise ConfigError(f"unknown mode {m!r}: use free, quick, standard or local:<ollama model>")
+    raise ConfigError(f"unknown mode {m!r}: use free, quick, standard, auto or local:<ollama model>")
 
 
 def _require_price(mode: str, model: str | None, settings: Settings) -> Price | None:
@@ -135,7 +148,7 @@ def _require_price(mode: str, model: str | None, settings: Settings) -> Price | 
             f"no price for model {model!r}: pass prices={{{model!r}: {{'input': ..., 'output': ...}}}} "
             "(USD per 1M tokens) or set SECTIONANY_PRICES, so the per-document cost cap can be enforced"
         )
-    if mode in ("quick", "standard"):
+    if mode in ("quick", "standard", "auto"):
         _require_provider(mode, model, settings)
     return price
 
@@ -158,7 +171,8 @@ class SectionTree:
 
     `sections` holds one dict per section (`Section`) with number, title, level (1 = top),
     page_start, page_end, start and end (character offsets into `text`), flags (for example
-    ``doc_title``, ``front_matter``, ``start_marker_fuzzy``), parent and heading_path."""
+    ``doc_title``, ``front_matter``, ``start_marker_fuzzy``), confidence (Free only), parent and
+    heading_path. `auto` says which mode a mode "auto" run took and why."""
 
     sections: list[Section]
     mode: str
@@ -169,6 +183,7 @@ class SectionTree:
     downgraded: list[str] = field(default_factory=list)
     extraction: Extraction | None = field(default=None, repr=False)
     resolved: list[dict] = field(default_factory=list, repr=False)  # full pipeline output
+    auto: AutoInfo | None = None
 
     def __post_init__(self) -> None:
         if any(k not in s for s in self.sections for k in LINK_KEYS):
@@ -185,8 +200,8 @@ class SectionTree:
         return float(self.usage.get("cost_usd") or 0.0)
 
     def summary(self) -> dict:
-        """Mode, model, size, calls, tokens and cost of the run."""
-        return {
+        """Mode, model, size, calls, tokens and cost of the run (and `auto`, for mode "auto")."""
+        out = {
             "mode": self.mode,
             "model": self.model,
             "pages": self.pages,
@@ -199,6 +214,9 @@ class SectionTree:
             "seconds": self.seconds,
             "downgraded": list(self.downgraded),
         }
+        if self.auto is not None:
+            out["auto"] = dict(self.auto)
+        return out
 
     def to_markdown(self, body: bool = False) -> str:
         """Headings as Markdown: the document title (flag ``doc_title``) as '#', other headings
@@ -270,7 +288,7 @@ class SectionTree:
 
 
 def _public(sec: dict) -> dict:
-    out = {k: (list(sec[k]) if k == "flags" else sec[k]) for k in SECTION_KEYS}
+    out = {k: (list(sec[k]) if k == "flags" else sec.get(k) if k == "confidence" else sec[k]) for k in SECTION_KEYS}
     if sec.get("title_from_text") is False and "front_matter" not in out["flags"]:
         out["flags"].append("generated_title")
     return out
@@ -324,6 +342,18 @@ async def asection(
     # (`_usage`) so that it can count what a document spent even when the run then fails.
     usage = _usage if _usage is not None else Usage()
     downgraded: list[str] = []
+    auto: AutoInfo | None = None
+    if mode == "auto":
+        _raw, resolved, _metrics = await pipeline.run(
+            ext, "rules", "", cap, lambda f, msg: report(0.5 + 0.1 * f, msg), usage=usage, settings=s)
+        auto = _auto_choice(resolved, s.auto_threshold)
+        if auto["path"] == "free":
+            return SectionTree(
+                sections=[_public(x) for x in resolved], mode="free", model=None, pages=len(ext.pages),
+                usage=usage.summary(), seconds=round(time.monotonic() - t0, 2), extraction=ext, resolved=resolved,
+                auto=auto,
+            )
+        mode = "quick"
     while True:
         strategy = pipeline.BY_ID[STRATEGY[mode]]
         price = s.price_for(model) if model else None
@@ -352,11 +382,28 @@ async def asection(
             downgraded.append(f"{mode}: {exc}")
             mode, model = _next_mode(mode, s, downgraded)
             continue
+        if auto is not None:
+            auto["path"] = mode
         return SectionTree(
             sections=[_public(x) for x in resolved], mode=mode, model=model, pages=len(ext.pages),
             usage=usage.summary(), seconds=round(time.monotonic() - t0, 2), downgraded=downgraded,
-            extraction=ext, resolved=resolved,
+            extraction=ext, resolved=resolved, auto=auto,
         )
+
+
+def _auto_choice(free: list[dict], threshold: float) -> AutoInfo:
+    """Mode "auto": keep Free's sections, or escalate to Quick check when Free is unsure."""
+    from section_anything.confidence import MIN_HEADINGS, document_confidence
+
+    conf = document_confidence(free)
+    heads = sum("front_matter" not in s["flags"] and "doc_title" not in s["flags"] for s in free)
+    if heads < MIN_HEADINGS:
+        path, reason = "quick", f"Free found {heads} heading{'s' if heads != 1 else ''} (under {MIN_HEADINGS})"
+    elif conf < threshold:
+        path, reason = "quick", f"Free is unsure: confidence {conf:.2f} < {threshold:.2f}"
+    else:
+        path, reason = "free", f"Free is sure: confidence {conf:.2f} >= {threshold:.2f}"
+    return {"path": path, "reason": reason, "confidence": conf, "threshold": threshold}
 
 
 def _next_mode(mode: str, s: Settings, notes: list[str]) -> tuple[str, str | None]:
@@ -389,7 +436,8 @@ def section(
     Bytes go through the same caps and isolated extraction as a path, from a private temporary
     file that is removed afterwards.
 
-    `mode` is "free", "quick", "standard" or "local:<ollama model>". Options (each overrides the
+    `mode` is "free", "quick", "standard", "auto" (free, then quick only when Free is unsure: see
+    `SectionTree.auto`) or "local:<ollama model>". Options (each overrides the
     matching ``SECTIONANY_*`` environment variable): `api_key`, `base_url`, `model`, `provider`
     ("openai" or "anthropic"; by default ``claude-*`` models use Anthropic), `max_usd`
     (per-document cap), `prices` ({model: {"input", "output"}} USD per 1M tokens, merged with the
