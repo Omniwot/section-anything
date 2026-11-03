@@ -5,6 +5,17 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
 ## 0.1.7 (unreleased)
 
+- **`quick` finds structural headings set small or plain.** A bare division label (Part, Chapter,
+  Schedule, Annex, Appendix, Title, Book and their German and French forms) is now a candidate
+  with the title line under it, however small or plain it is set; `free` already took it. A short
+  reference printed smaller beside a label (a UK Act's "Section 5" next to "SCHEDULE 1") is passed
+  over, so a schedule's heading starts at its label in both modes. On held-out legislation, Claude
+  Haiku 5.5, 3 runs each (research finding F052): UK Acts heading F1 0.623 -> 0.677 (15 documents,
+  +0.054, CI +0.024 to +0.085), with recall of Parts 0.20 -> 0.96, Chapters 0.01 -> 0.96 and
+  Schedules 0.03 -> 0.87; EU regulations 0.819 -> 0.875 (11 documents, +0.057, CI +0.027 to
+  +0.087), Chapters 0.27 -> 0.85. `free` gains schedule headings on UK Acts (recall 0.83 -> 0.88)
+  and is unchanged on five other genres; `quick` is level on the 15 documents of those genres whose
+  candidates changed (theses, reports, German laws; no RFC changed).
 - **Mode `auto`, and a confidence for each Free heading.** Every `free` section now has `confidence`
   (0 to 1): how much of Free's own evidence backs it (the PDF's outline lists it; its style is used
   on several pages and for little else; its number follows the previous one; a standard name; ten
