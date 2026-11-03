@@ -95,8 +95,8 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     Both modes take a bare structural label ("CHAPITRE I", "PART 2", "SCHEDULE 1") together with the
     bold, larger or capitalised title line under it, however small or plain the label is set, and
     leave out the references printed beside a label (`side_notes`). Loose mode also keeps a bare
-    label with no such title line ("ANNEX II" above a numbered paragraph). Strict mode also drops the
-    cells of table rows."""
+    division label with no such title line ("ANNEX II" above a numbered paragraph). Strict mode also
+    drops the cells of table rows."""
     body = ext.body_size()
     furniture = furniture_of(ext)
     toc = toc_of(ext).lines
@@ -113,7 +113,7 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
         text = ln.text
         if ln.i in furniture or ln.i in toc or ln.i in side or ln.i in cells or CAPTION.match(text):
             continue
-        if ln.i in labelled or (loose and LABEL_ONLY.match(_label_text(text))):
+        if ln.i in labelled or (loose and DIVISION_ONLY.match(_label_text(text))):
             out.append((ln, ""))  # joined with its title line by _merge_wrapped
             continue
         if split_number(ext, ln):
@@ -177,6 +177,15 @@ LABEL_ONLY = re.compile(
     r"|teil|kapitel|abschnitt|unterabschnitt|titel|untertitel|buch|artikel|anlage|anhang"
     r"|chapitre|titre|partie|livre|annexe|sous-section)\s+(?:\d+[A-Za-z]?|[IVXLC]+|[A-Z]|premier|première|unique)"
     r"|§+\s*\d+[a-z]?)[.:]?$",
+    re.I,
+)
+
+
+# The bare labels of larger divisions. Not "Section", "Article" or "§": their bare numbers also fill
+# contents lists and cross-reference columns.
+DIVISION_ONLY = re.compile(
+    r"^(?:part|chapter|schedule|annex|appendix|title|book|division|teil|kapitel|buch|titel|anlage|anhang"
+    r"|chapitre|titre|partie|livre|annexe)\s+(?:\d+[A-Za-z]?|[IVXLC]+|[A-Z]|premier|première|unique)[.:]?$",
     re.I,
 )
 
