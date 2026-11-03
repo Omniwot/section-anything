@@ -35,8 +35,10 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 - **Docling's output as input (opt-in).** `section("report.pdf", docling=doc)` takes Docling's
   layout labels as hints for the PDF's own lines: its section headers and titles become heading
   candidates whatever their style, its page headers and footers are treated as running headers and
-  footers, and in `free` mode styled lines it labels as body text are not taken as headings. The
-  PDF's fonts, bookmarks and printed table of contents still count. `section(doc)` sections a
+  footers, and in `free` mode styled lines it labels as body text are not taken as headings. A bare
+  label and the title line under it ("Article 3" / "Subject matter") stay one heading even when
+  Docling gives each its own item, as it often does in EU regulations. The PDF's fonts, bookmarks
+  and printed table of contents still count. `section(doc)` sections a
   `DoclingDocument` itself, for scanned PDFs or any format Docling reads: its text items become the
   lines, and heading levels come from Docling's levels or the heights of the heading boxes. Both
   take the `DoclingDocument` object, its JSON as a dict or a saved `.json` file, and neither needs
