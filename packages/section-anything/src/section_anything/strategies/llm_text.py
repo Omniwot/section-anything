@@ -181,8 +181,9 @@ def _too_few(unlisted: set[int], pool: set[int]) -> bool:
 
 # An answer cut off at the output limit fails the call, retry included: Claude Haiku 5.5, thinking at its
 # default effort, ran out of its 32,000 output tokens on both 120,000-character windows of the Requests
-# manual, and on a window of POPIA in 2 of 10 runs (F051). Such a window is read as two halves, split at
-# the page break nearest its middle, while each half keeps at least SPLIT_MIN_LINES lines.
+# manual, and on a window of POPIA in 2 of 10 runs (F051). Such a window, or one whose coverage re-read is
+# cut off, is read as two halves, split at the page break nearest its middle, while each half keeps at
+# least SPLIT_MIN_LINES lines.
 SPLIT_MIN_LINES = 60
 
 
@@ -239,7 +240,16 @@ class LlmTextStrategy(Strategy):
                 windows[k:k + 1] = halves
                 continue
             if sig is not None:
-                secs = await self._check_coverage(ctx, sig, rows, windows, k, user, secs)
+                checked = await self._check_coverage(ctx, sig, rows, windows, k, user, secs)
+                halves = _halves(ext, a, b) if checked is None else None
+                if halves is not None:
+                    # The re-read was cut off: read the window as two halves instead of keeping an
+                    # answer that left many headings out.
+                    ctx.usage.coverage_retries[-1]["kept"] = "halves"
+                    ctx.usage.window_splits.append({"lines": [a, b - 1], "halves": [[x, y - 1] for x, y in halves]})
+                    windows[k:k + 1] = halves
+                    continue
+                secs = secs if checked is None else checked
             found += [
                 RawSection(
                     title=s.title.strip(), level=s.level, number=s.number.strip(),
@@ -267,9 +277,10 @@ class LlmTextStrategy(Strategy):
         return [s for s in res.sections if a <= s.start_line < b]
 
     async def _check_coverage(self, ctx: Context, sig: _Signals, rows: list[str], windows: list[tuple[int, int]],
-                              k: int, user: str, secs: list[TextSection]) -> list[TextSection]:
+                              k: int, user: str, secs: list[TextSection]) -> list[TextSection] | None:
         """Read window `k` once more if its answer leaves many heading-like lines unlisted, and keep
-        the answer that lists more of them. Each check is recorded in `usage.coverage_retries`."""
+        the answer that lists more of them; None if the re-read was cut off at the output limit. Each
+        check is recorded in `usage.coverage_retries`."""
         a, b = windows[k]
         starts = [s.start_line for s in secs]
         unlisted, pool = _unlisted(sig, a, b, starts, _styles(sig, starts))
@@ -290,7 +301,7 @@ class LlmTextStrategy(Strategy):
                                      f"re-read window {k + 1}/{len(windows)} (coverage)")
         except (CostCapExceeded, LlmCallFailed) as exc:
             note["skipped"] = type(exc).__name__
-            return secs
+            return None if isinstance(exc, LlmCallFailed) and _cut_off(exc) else secs
         finally:
             note["cost_usd"] = round(ctx.usage.cost_usd - before, 6)
         # Both answers are measured against the same lines: the styles either of them listed.
