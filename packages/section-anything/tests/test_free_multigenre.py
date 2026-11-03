@@ -210,8 +210,11 @@ def _act_with_schedules() -> Extraction:
 def test_schedule_heading_starts_at_its_label_not_the_reference_beside_it():
     from section_anything.strategies.rules import RulesStrategy
 
-    secs = {(s.number, s.title) for s in RulesStrategy()._rules(_act_with_schedules())}
+    raw = RulesStrategy()._rules(_act_with_schedules())
+    secs = {(s.number, s.title) for s in raw}
     assert ("SCHEDULE 1", "INFORMATION TO BE INCLUDED IN A PROSPECTUS") in secs
+    # The start marker is the text as printed, side note included, so it is found at the label.
+    assert "SCHEDULE 1 Section 5 INFORMATION TO BE INCLUDED IN A PROSPECTUS" in {s.start_marker for s in raw}
     assert ("SCHEDULE 2", "ACCOUNTING") in secs
     assert not any("Section" in f"{n} {t}" for n, t in secs)
 

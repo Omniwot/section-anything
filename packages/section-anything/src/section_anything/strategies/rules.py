@@ -281,6 +281,18 @@ def side_notes(ext: Extraction) -> set[int]:
     return out
 
 
+def _printed(ext: Extraction, first: Line, text: str, side: set[int]) -> str:
+    """The text of a heading joined by _merge_wrapped as printed, in reading order: with the side note
+    that sits between a label and its title ("SCHEDULE 1 Section 5 INFORMATION ..."), so that the
+    start marker is found where the heading is."""
+    parts, j, need = [], first.i, text.count("\n") + 1
+    while need and j < len(ext.lines):
+        parts.append(ext.lines[j].text)
+        need -= j not in side
+        j += 1
+    return " ".join(parts)
+
+
 def _merge_wrapped(cands: list[tuple[Line, str]], hints: DoclingHints | None = None,
                    side: set[int] = frozenset()) -> list[tuple[Line, str, str]]:
     """Join a heading that wraps onto a second line with the same style, and a
@@ -555,7 +567,8 @@ class RulesStrategy(Strategy):
         return out
 
     def _rules(self, ext: Extraction) -> list[RawSection]:
-        cands = _merge_wrapped(candidates(ext), hints_of(ext), side_notes(ext))
+        side = side_notes(ext)
+        cands = _merge_wrapped(candidates(ext), hints_of(ext), side)
         # The abstract's heading does not take part in the style levels, so its style cannot shift
         # the other levels (see _abstract_levels).
         abstract = {ln.i for ln, _, _ in cands if _abstract_heading(ln)}
@@ -573,7 +586,8 @@ class RulesStrategy(Strategy):
                 level = by_label[k]
             else:
                 level = num.rstrip(".").count(".") + 1 if dotted else style_level[(ln.size, ln.bold)]
-            title = marker = text.replace("\n", " ")
+            title = text.replace("\n", " ")
+            marker = _printed(ext, ln, text, side)
             first, _, rest = text.partition("\n")
             if num and rest and _label_text(first) == num:
                 title = rest.replace("\n", " ")  # "T e i l 1" / "Gemeinsame Bestimmungen"
