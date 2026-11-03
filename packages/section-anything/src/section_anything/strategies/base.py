@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from section_anything.config import Settings
 from section_anything.extract import Extraction
 from section_anything.llm import Usage
+from section_anything.structure import Toc, toc_of
 
 
 @dataclass
@@ -46,6 +47,10 @@ class Strategy:
 
     async def run(self, ext: Extraction, ctx: Context) -> list[RawSection]:
         raise NotImplementedError
+
+    def contents(self, ext: Extraction) -> Toc:
+        """Contents lines whose copies of a heading are never section starts, for the pipeline's resolve."""
+        return toc_of(ext)
 
     def estimate(self, ext: Extraction, model: str = "", settings: Settings | None = None) -> Estimate:
         """Expected calls and tokens for `ext` on `model` (token counts depend on the model's provider;

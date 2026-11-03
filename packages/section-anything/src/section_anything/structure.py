@@ -410,6 +410,86 @@ def toc_of(ext: Extraction) -> Toc:
     return _cached("toc", ext, detect_toc)
 
 
+def listing_of(ext: Extraction) -> set[int]:
+    """Lines of contents lists that `toc_of` misses (see `detect_listings`)."""
+    return _cached("listing", ext, detect_listings)
+
+
+# A contents list without page numbers or a known title ("CONTENTS OF ACT", "Arrangement of
+# sections", a chapter's list of its sections, a contents page whose dot leaders were split off) is
+# recognised by its entries: they come back later, in the same order, as heading-like lines spread
+# over the document. Repeated material (the same table header row, the same clause list) also comes
+# back in order, but as one block of adjacent lines, so most of the later lines must be apart.
+LISTING_MIN_ENTRIES = 8
+LISTING_MAX_GAP = 4  # unmatched lines with letters allowed between two entries
+LISTING_MIN_SHARE = 0.5  # of the lines with letters from the first entry to the last
+LISTING_MIN_AHEAD = 30  # lines between an entry and its later copy
+LISTING_MIN_SPREAD = 0.15  # of the document's lines, from the first later copy to the last
+LISTING_MIN_APART = 0.5  # share of consecutive later copies more than 3 lines apart
+
+
+def detect_listings(ext: Extraction) -> set[int]:
+    furniture = furniture_of(ext)
+    body = ext.body_size()
+    keys: dict[int, str] = {}
+    for ln in ext.lines:
+        if ln.i in furniture:
+            continue
+        t = ln.text.strip()
+        m = NUMBER.match(t)
+        t = t[m.end():] if m else t
+        if re.search(r"[^\W\d_]{2}", t):
+            keys[ln.i] = canon(t)
+    heading_like = {
+        ln.i for ln in ext.lines if ln.bold or ln.size >= body + 0.8 or NUMBER.match(ln.text.strip())
+    }
+    copies: dict[str, list[int]] = {}
+    for i, k in keys.items():
+        if i in heading_like:
+            copies.setdefault(k, []).append(i)
+
+    lines: set[int] = set()
+    entries: list[int] = []
+    later: list[int] = []
+    gap = 0
+
+    def close() -> None:
+        if len(entries) < LISTING_MIN_ENTRIES:
+            return
+        span = sum(1 for i in keys if entries[0] <= i <= entries[-1])
+        apart = 1 + sum(b - a > 3 for a, b in zip(later, later[1:], strict=False))
+        if not (len(entries) >= LISTING_MIN_SHARE * span and later[-1] - later[0] >= LISTING_MIN_SPREAD * len(ext.lines)
+                and apart >= LISTING_MIN_APART * len(entries)):
+            return
+        # The first entries of a short list sit closer than LISTING_MIN_AHEAD to their copies: take the
+        # lines before the list whose copies come after it and before the copies already matched.
+        first, end, missed = entries[0], later[0], 0
+        for i in sorted((x for x in keys if x < entries[0]), reverse=True):
+            x = next((c for c in copies.get(keys[i], ()) if entries[-1] < c < end), None)
+            if x is None:
+                missed += 1
+                if missed > LISTING_MAX_GAP:
+                    break
+                continue
+            first, end, missed = i, x, 0
+        lines.update(range(first, entries[-1] + 1))
+
+    for i in sorted(keys):
+        k = keys[i]
+        j = next((x for x in copies.get(k, ()) if x > i + LISTING_MIN_AHEAD), None) if len(k) >= 4 else None
+        if j is not None and (not entries or (j > later[-1] and i < later[0])):
+            entries.append(i)
+            later.append(j)
+            gap = 0
+        elif entries:
+            gap += 1
+            if gap > LISTING_MAX_GAP:
+                close()
+                entries, later, gap = [], [], 0
+    close()
+    return lines
+
+
 def furniture_of(ext: Extraction) -> set[int]:
     return _cached("furniture", ext, _furniture)
 
@@ -439,11 +519,26 @@ def detect_toc(ext: Extraction) -> Toc:
     for e in toc.entries:
         e.level = _depth(e.number) if re.match(r"\d", e.number) else rank[round(e.x0 / 6)]
 
-    # Char spans of contiguous TOC lines, so marker hits inside them can be rejected.
-    for i in sorted(toc.lines):
-        ln = ext.lines[i]
-        if toc.spans and toc.spans[-1][1] >= ln.start - 1:
-            toc.spans[-1] = (toc.spans[-1][0], ln.end + 1)
-        else:
-            toc.spans.append((ln.start, ln.end + 1))
+    toc.spans = _spans(ext, toc.lines)
     return toc
+
+
+def _spans(ext: Extraction, lines: set[int]) -> list[tuple[int, int]]:
+    """Char spans of contiguous TOC lines, so marker hits inside them can be rejected."""
+    spans: list[tuple[int, int]] = []
+    for i in sorted(lines):
+        ln = ext.lines[i]
+        if spans and spans[-1][1] >= ln.start - 1:
+            spans[-1] = (spans[-1][0], ln.end + 1)
+        else:
+            spans.append((ln.start, ln.end + 1))
+    return spans
+
+
+def toc_with(ext: Extraction, extra: set[int]) -> Toc:
+    """`toc_of(ext)` with more contents lines (no entries for them)."""
+    toc = toc_of(ext)
+    if extra <= toc.lines:
+        return toc
+    lines = toc.lines | extra
+    return Toc(lines=lines, entries=toc.entries, spans=_spans(ext, lines))
