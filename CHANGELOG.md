@@ -73,7 +73,7 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   GOV.UK reports, GOV.UK annual reports, arXiv PhD theses; split frozen before any change). On its
   100 held-out documents Free's mean F1 went from 0.710 to 0.739 with the PDFs' bookmarks and from
   0.660 to 0.699 without, up in every genre; heading levels from 0.895 to 0.925 and 0.905 to 0.919.
-  READoc held-out: 905 arXiv papers 60.10 to 60.41 (95% CI +0.08 to +0.56; 48 papers worse, 19 of
+  READoc held-out: 905 arXiv papers 60.10 to 60.57 (95% CI +0.25 to +0.70; 25 papers worse, 7 of
   them by more than 5 points), 1,124 READMEs 81.44 to 81.46.
   - The extractor (version 6, so saved extractions are redone) reads text drawn inside a form that
     covers the page, which printed UK Acts of 2011-2016 use for every page (they came out with no
@@ -89,9 +89,10 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
     ("Teil 1Gemeinsame Bestimmungen") is matched; and when an outline is flat, or typography ranks
     the labels upside down, the labels set the levels (parts above chapters above sections above
     articles, corrected by where the numbering starts again).
-  - Known cost: the cell rule also drops a heading that shares its row with a line of the other
-    column split in two (most of the READoc losses), and with fewer stray numbered lines the outline
-    check now demotes headings that a partial outline leaves out on some annual reports.
+    On a two-column page a numbered heading that shares its row with an equation, its number or a
+    table in the other column is not a cell, and neither is the abstract's heading.
+  - Known cost: with fewer stray numbered lines the outline check now demotes headings that a
+    partial outline leaves out on some annual reports.
 - **Free no longer trusts an outline that skips most of the document.** The outline check (Free
   only, by default) drops headings a complete-looking PDF outline does not list. A long EU
   regulation bookmarked only at its title and annexes passed as complete, so Free returned 13
