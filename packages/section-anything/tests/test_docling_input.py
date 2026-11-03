@@ -179,6 +179,19 @@ def test_two_docling_headers_on_adjacent_lines_stay_two(tmp_path):
     assert [t for _, t in headings(tree)] == ["CHAPTER 1 Definitions", "Purpose of this Act", "Application"]
 
 
+def test_a_label_and_its_title_in_two_docling_items_are_one_heading(tmp_path):
+    """EU regulations: Docling gives "Article 3" and its title an item each (F054)."""
+    pdf = write_pdf(tmp_path / "reg.pdf", [[
+        ("CHAPTER II", 10, False), ("Article 3", 10, False), ("Subject matter", 10, True), *body(3),
+        ("Article 4", 10, False), ("Definitions", 10, True), *body(3),
+    ]])
+    lines = extract(pdf).lines
+    labels = dict.fromkeys(["CHAPTER II", "Article 3", "Subject matter", "Article 4", "Definitions"], "section_header")
+    tree = section_anything.section(pdf, docling=docling_json(boxed(lines, labels)))
+    # A bare label never takes another bare label as its title.
+    assert [t for _, t in headings(tree)] == ["CHAPTER II", "Article 3 Subject matter", "Article 4 Definitions"]
+
+
 def test_lines_docling_did_not_box_keep_their_own_style(plain_pdf):
     """The veto only drops lines Docling labels as body text: a styled line outside every Docling
     box (Docling missed it) is still a heading."""

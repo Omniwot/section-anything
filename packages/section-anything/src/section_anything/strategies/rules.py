@@ -245,18 +245,23 @@ def _label_lines(ext: Extraction, skip: set[int], body: float, bump: float) -> s
 def _merge_wrapped(cands: list[tuple[Line, str]], hints: DoclingHints | None = None) -> list[tuple[Line, str, str]]:
     """Join a heading that wraps onto a second line with the same style, and a
     bare "CHAPTER 10" label with the title line right after it. Lines that Docling
-    puts in two different heading items stay two headings."""
+    puts in two different heading items stay two headings, except a bare label and
+    its title: Docling often gives each its own item ("Article 3" / "Objet"), which
+    as two headings matches neither ("Article 3 Objet"). A bare label never takes
+    another bare label as its title."""
     merged: list[tuple[Line, str, str]] = []
     last: Line | None = None  # the last line joined into merged[-1]
     for ln, num in cands:
         if merged and last is not None:
             prev, pnum, ptext = merged[-1]
-            adjacent = ln.i == last.i + 1 and ln.page == prev.page and (hints is None or hints.same_item(last.i, ln.i))
-            if adjacent and not num and ln.size == last.size and ln.bold == last.bold:
+            next_line = ln.i == last.i + 1 and ln.page == prev.page
+            if next_line and not num and ln.size == last.size and ln.bold == last.bold and (
+                    hints is None or hints.same_item(last.i, ln.i)):
                 merged[-1] = (prev, pnum, ptext + "\n" + ln.text)
                 last = ln
                 continue
-            if adjacent and not num and "\n" not in ptext and LABEL_ONLY.match(_label_text(ptext)):
+            if (next_line and not num and "\n" not in ptext and LABEL_ONLY.match(_label_text(ptext))
+                    and not LABEL_ONLY.match(_label_text(ln.text))):
                 merged[-1] = (prev, _label_text(ptext), ptext + "\n" + ln.text)
                 last = ln
                 continue
