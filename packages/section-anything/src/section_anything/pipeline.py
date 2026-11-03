@@ -233,7 +233,7 @@ async def run(
     ctx = Context(model=model, usage=usage, cost_cap_usd=cost_cap_usd,
                   progress=progress or (lambda _f, _m: None), settings=settings)
     raw = await strategy.run(ext, ctx)
-    sections, extra = resolve(raw, ext, Locator(ext.text))
+    sections, extra = resolve(raw, ext, Locator(ext.text), strategy.contents(ext))
     mark_doc_title(sections, ext)
     if MODE_OF.get(strategy_id) in (settings or Settings()).demote_unlisted_headings:
         # Free's extra sections come from typography rules: the strict checks would measure their

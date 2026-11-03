@@ -62,6 +62,27 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   cap still covers it and the windows after it (it is not in the up-front estimate). Each re-read
   is listed in `tree.usage["coverage_retries"]`; `SECTIONANY_COVERAGE_RETRY=false` turns the check
   off. Standard only: Quick check, and mode `auto` when it escalates, make one review call as before.
+- **Standard swings less from run to run.** Three more causes of runs that differ on the same input:
+  - **Contents lists without page numbers** ("CONTENTS OF ACT") were listed as sections. They are now
+    recognised because their entries come back later, in the same order, as headings spread over the
+    document, and Standard treats them like a table of contents.
+  - **Section titles in bold at body size** were skipped without the coverage check noticing. With
+    contents lists left out, it now counts them too; labels repeated through a document
+    ("Parameters", "Returns") are not counted.
+  - **A cut-off answer** at the model's output limit, whether a window's first read or its coverage
+    re-read, used to fail the document. That window is now read as two halves, split at the page
+    break nearest its middle. Each split is listed in `tree.usage["window_splits"]`.
+
+  With Claude Haiku 5.5:
+  - South Africa's POPIA act: F1 0.68 to 0.89 over 4 runs plus 1 failed, now 0.87 to 0.90 over 5
+    runs.
+  - The 125-page Requests manual: 4 of 5 runs failed and the fifth found 15% of the known headings;
+    now recall 0.955 to 1.00 in all 5 runs.
+  - 7 other public documents, 3 runs each: the worst run's F1 averaged 0.635, now 0.710. Two
+    documents are better, three the same and two worse by 0.025.
+
+  Development data and one model (research finding F051). A cut-off answer is paid for before the
+  split, and splits are not in the up-front estimate.
 - **Many PDFs with a total budget.** `section_many(pdfs, mode, max_usd_total=...)` (and
   `asection_many`) sections PDFs one at a time and yields a `DocumentResult` for each: path, tree or
   error, cost, and the cap it ran with. Each PDF's cap is the smaller of the per-document cap and

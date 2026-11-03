@@ -116,6 +116,8 @@ class Usage:
     by_step: dict[str, float] = field(default_factory=dict)
     # Standard's coverage check: one entry per window read again (see llm_text.LlmTextStrategy).
     coverage_retries: list[dict] = field(default_factory=list)
+    # Standard: one entry per window read again as two halves after its answer was cut off.
+    window_splits: list[dict] = field(default_factory=list)
 
     def add(self, model: str, usage, price: Price | None = None) -> dict:
         tokens = {"input_tokens": 0, "cached_tokens": 0, "output_tokens": 0, "reasoning_tokens": 0, "cost_usd": 0.0}
@@ -178,6 +180,7 @@ class Usage:
             "cost_usd": round(self.cost_usd, 4) if self.priced else None,
             "cost_by_step": {k: round(v, 4) for k, v in self.by_step.items()},
             **({"coverage_retries": self.coverage_retries} if self.coverage_retries else {}),
+            **({"window_splits": self.window_splits} if self.window_splits else {}),
         }
 
 
