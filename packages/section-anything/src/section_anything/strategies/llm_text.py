@@ -23,7 +23,7 @@ from section_anything.extract import Extraction
 from section_anything.llm import structured, token_profile
 from section_anything.markers import canon
 from section_anything.strategies.base import Context, Estimate, RawSection, Strategy
-from section_anything.strategies.rules import CAPTION, LABEL_ONLY, candidates
+from section_anything.strategies.rules import CAPTION, LABEL_ONLY, NUMBERING, candidates, side_notes
 from section_anything.structure import furniture_of, split_number, toc_of
 
 UNTRUSTED = (
@@ -308,18 +308,27 @@ class LlmReviewStrategy(Strategy):
         body = ext.body_size()
         rows = []
         cands = candidates(ext, loose=True)
+        side = side_notes(ext)
         skip: set[int] = set()
         for k, (ln, _num) in enumerate(cands):
             if ln.i in skip:
                 continue
             text, last = ln.text, ln.i
-            # A bare label ("Article 9", "Title I") with its name on the next line is one heading, and
-            # so is a number split off its title on the same baseline ("1" | "Introduction").
-            bare = LABEL_ONLY.match(text.strip()) or split_number(ext, ln)
-            if bare and k + 1 < len(cands) and cands[k + 1][0].i == ln.i + 1:
-                text, last = f"{text} {cands[k + 1][0].text}", ln.i + 1
-                skip.add(ln.i + 1)
-            nxt = ext.lines[last + 1].text[:70] if last + 1 < len(ext.lines) else ""
+            # A bare label ("Article 9", "Title I", "SCHEDULE 1") with its name on the next line is one
+            # heading (a reference printed beside the label sits between them in reading order), and so
+            # is a number split off its title on the same baseline ("1" | "Introduction"). Two labels in
+            # a row ("TITLE II" over "CHAPTER I"), or a label over a numbered paragraph, stay two.
+            nx = cands[k + 1][0] if k + 1 < len(cands) else None
+            if nx is not None and (
+                split_number(ext, ln) and nx.i == ln.i + 1
+                or LABEL_ONLY.match(text.strip()) and not LABEL_ONLY.match(nx.text.strip())
+                and not NUMBERING.match(nx.text) and nx.page == ln.page
+                and nx.i > ln.i and all(j in side for j in range(ln.i + 1, nx.i))
+            ):
+                text, last = f"{text} {nx.text}", nx.i
+                skip.add(nx.i)
+            after = next((j for j in range(last + 1, len(ext.lines)) if j not in side), None)
+            nxt = ext.lines[after].text[:70] if after is not None else ""
             delta = round(ln.size - body)
             tags = (f"⟨H+{delta}⟩" if delta > 0 else "⟨=⟩" if delta == 0 else f"⟨H{delta}⟩") + ("⟨B⟩" if ln.bold else "")
             rows.append((ln.i, f"{ln.i}| p{ln.page} {tags} {text}  ⟶ {nxt}"))

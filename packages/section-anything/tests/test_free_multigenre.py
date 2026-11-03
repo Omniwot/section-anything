@@ -184,3 +184,44 @@ def test_thesis_chapters_and_appendices_keep_typography_levels():
 
     texts = ["Abstract", "Chapter 1 Introduction", "1.1 Background", "Chapter 2 Method", "Appendix A Proofs"]
     assert _label_levels(texts, numbers_count=False, min_share=0.3) is None
+
+
+def _act_with_schedules() -> Extraction:
+    """A UK Act's parts and schedules: small or plain labels over a title in capitals, and the section
+    that brings each schedule in printed smaller beside its label (before or after the title in reading
+    order)."""
+    text = "Ordinary body text of the act runs on for a while here."
+    rows = [(1, "PART 1", 9, True, 280, 700), (1, "LEGAL AID", 8, False, 272, 680)]
+    rows += [(1, text, 10, False, 72, 660 - 15 * k) for k in range(8)]
+    rows += [(2, "SCHEDULE 1", 10, False, 245, 700), (2, "Section 5", 7, False, 454, 701),
+             (2, "INFORMATION TO BE INCLUDED IN A PROSPECTUS", 8, False, 139, 680)]
+    rows += [(2, text, 10, False, 72, 660 - 15 * k) for k in range(8)]
+    rows += [(3, "SCHEDULE 2", 10, False, 245, 700), (3, "ACCOUNTING", 8, False, 247, 680),
+             (3, "Section 23", 7, False, 450, 701)]
+    rows += [(3, text, 10, False, 72, 660 - 15 * k) for k in range(8)]
+    rows += [(4, "TITLE II", 9, False, 280, 700), (4, "CHAPTER I", 9, False, 280, 680),
+             (4, "General provisions", 10, True, 245, 660)]
+    rows += [(4, text, 10, False, 72, 640 - 15 * k) for k in range(8)]
+    rows += [(5, "ANNEX II", 9, False, 280, 700), (5, "1. Information the supplier is to register in the database", 10, False, 72, 680)]
+    rows += [(5, text, 10, False, 72, 660 - 15 * k) for k in range(8)]
+    return _ext(rows)
+
+
+def test_schedule_heading_starts_at_its_label_not_the_reference_beside_it():
+    from section_anything.strategies.rules import RulesStrategy
+
+    secs = {(s.number, s.title) for s in RulesStrategy()._rules(_act_with_schedules())}
+    assert ("SCHEDULE 1", "INFORMATION TO BE INCLUDED IN A PROSPECTUS") in secs
+    assert ("SCHEDULE 2", "ACCOUNTING") in secs
+    assert not any("Section" in f"{n} {t}" for n, t in secs)
+
+
+def test_quick_check_sees_structural_labels_set_small_or_plain():
+    from section_anything.strategies.llm_text import LlmReviewStrategy
+
+    rows = [r.split(" ", 3)[3].split("  ⟶")[0] for _, r in LlmReviewStrategy()._rows(_act_with_schedules())]
+    assert "PART 1 LEGAL AID" in rows
+    assert "SCHEDULE 1 INFORMATION TO BE INCLUDED IN A PROSPECTUS" in rows and "SCHEDULE 2 ACCOUNTING" in rows
+    assert "TITLE II" in rows and "CHAPTER I General provisions" in rows  # two labels stay two rows
+    assert "ANNEX II" in rows  # a bare label with no title line under it
+    assert not any(r.startswith("Section") for r in rows)

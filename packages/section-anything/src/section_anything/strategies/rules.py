@@ -92,8 +92,11 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     With Docling hints (`docling_input`), lines Docling labels as headings are candidates whatever
     their style, and strict mode drops lines it labels as body text, list items, captions or code.
 
-    Strict mode also drops the cells of table rows and takes a bare structural label ("CHAPITRE I")
-    together with the bold, larger or capitalised title line under it."""
+    Both modes take a bare structural label ("CHAPITRE I", "PART 2", "SCHEDULE 1") together with the
+    bold, larger or capitalised title line under it, however small or plain the label is set, and
+    leave out the references printed beside a label (`side_notes`). Loose mode also keeps a bare
+    label with no such title line ("ANNEX II" above a numbered paragraph). Strict mode also drops the
+    cells of table rows."""
     body = ext.body_size()
     furniture = furniture_of(ext)
     toc = toc_of(ext).lines
@@ -102,13 +105,15 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     bump = 0.4 if loose else 0.8
     out: list[tuple[Line, str]] = []
     split: set[int] = set()
-    labelled = set() if loose else _label_lines(ext, furniture | toc, body, bump)
-    cells = set() if loose else _table_cells(ext, furniture | toc)
+    side = side_notes(ext)
+    labelled = _label_lines(ext, furniture | toc, body, bump, side)
+    titles = set(labelled.values())
+    cells = set() if loose else _table_cells(ext, furniture | toc | side)
     for ln in ext.lines:
         text = ln.text
-        if ln.i in furniture or ln.i in toc or ln.i in cells or CAPTION.match(text):
+        if ln.i in furniture or ln.i in toc or ln.i in side or ln.i in cells or CAPTION.match(text):
             continue
-        if ln.i in labelled:
+        if ln.i in labelled or (loose and LABEL_ONLY.match(_label_text(text))):
             out.append((ln, ""))  # joined with its title line by _merge_wrapped
             continue
         if split_number(ext, ln):
@@ -142,7 +147,7 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
         ):
             continue
         m = NUMBERING.match(text)
-        styled = ln.size >= body + bump or (ln.bold and ln.size >= body - 0.3) or ln.i - 1 in labelled
+        styled = ln.size >= body + bump or (ln.bold and ln.size >= body - 0.3) or ln.i in titles
         numbered = bool(m) and not text.rstrip().endswith((",", ";")) and words <= 14
         if not loose:
             if text.strip().lower() in labels or THEOREM.match(text):
@@ -151,13 +156,20 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
                 num = m.group("num")
                 numbered = bool(re.match(r"\d+\.\d+", num) or re.match(r"[A-Za-z]{3,}", num))
                 numbered = numbered and not text.rstrip().endswith((".", "?", ":"))
-            if styled and not numbered and ln.size < body + bump and ln.i - 1 not in labelled and _runs_on(ext, ln):
+            if styled and not numbered and ln.size < body + bump and ln.i not in titles and _runs_on(ext, ln):
                 continue
         if styled or numbered:
             out.append((ln, m.group("num").strip() if m else ""))
-    # A split-off number or a bare label counts only when its title line is a candidate too.
+    # A split-off number, or (strict mode) a bare label, counts only when its title line is a
+    # candidate too.
     kept = {ln.i for ln, _ in out if ln.i not in split}
-    return [(ln, num) for ln, num in out if (ln.i not in split and ln.i not in labelled) or ln.i + 1 in kept]
+
+    def stays(ln: Line) -> bool:
+        if ln.i in split:
+            return ln.i + 1 in kept
+        return loose or ln.i not in labelled or labelled[ln.i] in kept
+
+    return [(ln, num) for ln, num in out if stays(ln)]
 
 
 LABEL_ONLY = re.compile(
@@ -225,33 +237,63 @@ def _label_text(text: str) -> str:
     return t
 
 
-def _label_lines(ext: Extraction, skip: set[int], body: float, bump: float) -> set[int]:
+def _label_lines(ext: Extraction, skip: set[int], body: float, bump: float, side: set[int]) -> dict[int, int]:
     """Bare structural labels ("CHAPITRE I", "Article premier", "T e i l 1") set on their own line
-    above a title in bold, a larger size or capitals. The label is often in the body face, so
-    typography alone keeps the title and loses the label; both lines become candidates, and
-    _merge_wrapped joins them."""
-    out = set()
+    above a title in bold, a larger size or capitals, as {label line: title line}. The label is
+    often in the body face, so typography alone keeps the title and loses the label; both lines
+    become candidates, and _merge_wrapped joins them. A reference printed beside the label
+    (`side_notes`) is passed over: the title is the line after it."""
+    out = {}
     lines = ext.lines
     for ln in lines[:-1]:
-        nxt = lines[ln.i + 1]
-        if (ln.i in skip or nxt.i in skip or nxt.page != ln.page or not LABEL_ONLY.match(_label_text(ln.text))
+        j = ln.i + 1
+        while j < len(lines) - 1 and j in side:
+            j += 1
+        nxt = lines[j]
+        if (ln.i in skip or ln.i in side or nxt.i in skip or nxt.i in side or nxt.page != ln.page
+                or not LABEL_ONLY.match(_label_text(ln.text))
                 or len(nxt.text.split()) > 20 or LABEL_ONLY.match(_label_text(nxt.text))):
             continue
         if nxt.bold or nxt.size >= body + bump or (nxt.text.isupper() and not nxt.text.rstrip().endswith((".", ","))):
-            out.add(ln.i)
+            out[ln.i] = nxt.i
     return out
 
 
-def _merge_wrapped(cands: list[tuple[Line, str]], hints: DoclingHints | None = None) -> list[tuple[Line, str, str]]:
+def side_notes(ext: Extraction) -> set[int]:
+    """References printed smaller beside a bare structural label, on its row and to its right: a UK
+    Act sets the section that brings a schedule in next to the schedule's label ("SCHEDULE 1" ...
+    "Section 5"). They belong to the label's heading block; they are neither headings nor the
+    label's title, and the heading starts at the label."""
+    skip = furniture_of(ext) | toc_of(ext).lines
+    by_page: dict[int, list[Line]] = defaultdict(list)
+    for ln in ext.lines:
+        if ln.i not in skip:
+            by_page[ln.page].append(ln)
+    out = set()
+    for lab in ext.lines:
+        if lab.i in skip or not LABEL_ONLY.match(_label_text(lab.text)):
+            continue
+        out |= {
+            o.i for o in by_page[lab.page]
+            if abs(o.y0 - lab.y0) <= 3 and o.x0 >= lab.x1 + 10 and o.size <= lab.size - 1
+            and len(o.text.split()) <= 6 and re.search(r"\d", o.text)
+        }
+    return out
+
+
+def _merge_wrapped(cands: list[tuple[Line, str]], hints: DoclingHints | None = None,
+                   side: set[int] = frozenset()) -> list[tuple[Line, str, str]]:
     """Join a heading that wraps onto a second line with the same style, and a
-    bare "CHAPTER 10" label with the title line right after it. Lines that Docling
-    puts in two different heading items stay two headings."""
+    bare "CHAPTER 10" label with the title line right after it (or after the reference
+    printed beside the label, `side_notes`). Lines that Docling puts in two different
+    heading items stay two headings."""
     merged: list[tuple[Line, str, str]] = []
     last: Line | None = None  # the last line joined into merged[-1]
     for ln, num in cands:
         if merged and last is not None:
             prev, pnum, ptext = merged[-1]
-            adjacent = ln.i == last.i + 1 and ln.page == prev.page and (hints is None or hints.same_item(last.i, ln.i))
+            adjacent = (ln.i > last.i and all(j in side for j in range(last.i + 1, ln.i)) and ln.page == prev.page
+                        and (hints is None or hints.same_item(last.i, ln.i)))
             if adjacent and not num and ln.size == last.size and ln.bold == last.bold:
                 merged[-1] = (prev, pnum, ptext + "\n" + ln.text)
                 last = ln
@@ -513,7 +555,7 @@ class RulesStrategy(Strategy):
         return out
 
     def _rules(self, ext: Extraction) -> list[RawSection]:
-        cands = _merge_wrapped(candidates(ext), hints_of(ext))
+        cands = _merge_wrapped(candidates(ext), hints_of(ext), side_notes(ext))
         # The abstract's heading does not take part in the style levels, so its style cannot shift
         # the other levels (see _abstract_levels).
         abstract = {ln.i for ln, _, _ in cands if _abstract_heading(ln)}
