@@ -179,6 +179,27 @@ def _too_few(unlisted: set[int], pool: set[int]) -> bool:
     return len(unlisted) >= COVERAGE_MIN_UNLISTED and len(unlisted) >= COVERAGE_MIN_SHARE * len(pool)
 
 
+# An answer cut off at the output limit fails the call, retry included: Claude Haiku 5.5, thinking at its
+# default effort, ran out of its 32,000 output tokens on both 120,000-character windows of the Requests
+# manual, and on a window of POPIA in 2 of 10 runs (F051). Such a window is read as two halves, split at
+# the page break nearest its middle, while each half keeps at least SPLIT_MIN_LINES lines.
+SPLIT_MIN_LINES = 60
+
+
+def _cut_off(exc: LlmCallFailed) -> bool:
+    msg = str(exc)
+    return "cut off at max_tokens" in msg or "finish=length" in msg
+
+
+def _halves(ext: Extraction, a: int, b: int) -> list[tuple[int, int]] | None:
+    if b - a < 2 * SPLIT_MIN_LINES:
+        return None
+    mid = (a + b) // 2
+    breaks = [i for i in range(a + SPLIT_MIN_LINES, b - SPLIT_MIN_LINES + 1) if ext.lines[i].page != ext.lines[i - 1].page]
+    cut = min(breaks, key=lambda i: abs(i - mid), default=mid)
+    return [(a, cut), (cut, b)]
+
+
 def _prev_block(found: list[RawSection]) -> str:
     if not found:
         return "(none: this slice is the start of the document)"
@@ -200,13 +221,23 @@ class LlmTextStrategy(Strategy):
         windows = _windows(ext, rows, 30_000 if small else self.window_chars)
         sig = _signals(ext) if (ctx.settings or Settings()).coverage_retry else None
         found: list[RawSection] = []
-        for k, (a, b) in enumerate(windows):
+        k = 0
+        while k < len(windows):
+            a, b = windows[k]
             ctx.progress(k / len(windows), f"Reading lines {a}–{b - 1} ({k + 1}/{len(windows)})")
             user = (
                 f"PREVIOUS SECTIONS (most recent last):\n{_prev_block(found)}\n\n"
                 f"DOCUMENT SLICE (lines {a}–{b - 1} of {len(rows)}):\n" + "\n".join(rows[a:b])
             )
-            secs = await self._read(ctx, user, a, b, f"read window {k + 1}/{len(windows)}")
+            try:
+                secs = await self._read(ctx, user, a, b, f"read window {k + 1}/{len(windows)}")
+            except LlmCallFailed as exc:
+                halves = _halves(ext, a, b) if _cut_off(exc) else None
+                if halves is None:
+                    raise
+                ctx.usage.window_splits.append({"lines": [a, b - 1], "halves": [[x, y - 1] for x, y in halves]})
+                windows[k:k + 1] = halves
+                continue
             if sig is not None:
                 secs = await self._check_coverage(ctx, sig, rows, windows, k, user, secs)
             found += [
@@ -217,6 +248,7 @@ class LlmTextStrategy(Strategy):
                 )
                 for s in secs
             ]
+            k += 1
         ctx.progress(1.0, f"{len(found)} sections proposed")
         return found
 
