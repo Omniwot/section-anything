@@ -171,14 +171,14 @@ class Settings(BaseSettings):
     # more of them is kept. At most one extra call per window, and only while the per-document cap
     # still covers it and the windows after it (research finding F043).
     coverage_retry: bool = True
-    # Contents check: in these modes, every entry of the PDF's bookmarks (else its printed table of
-    # contents) and of contents lists without page numbers that no section covers is looked for in
-    # the body near its page and, when found, added as a heading flagged "from_contents"
-    # (`section_anything.contents_check`). Entries not found are listed in `possible_misses`.
-    # Env: JSON list, e.g. SECTIONANY_CONTENTS_CHECK='[]' to turn it off. "quick" also covers local mode.
-    contents_check: list[Literal["free", "quick", "standard"]] = Field(
-        default_factory=lambda: ["free", "quick", "standard"]
-    )
+    # Contents check (opt-in): in these modes, every entry of the PDF's bookmarks (else its printed
+    # table of contents) and of contents lists without page numbers that no section covers is looked
+    # for in the body near its page and, when found, added as a heading flagged "from_contents"
+    # (`section_anything.contents_check`); entries not found are listed in `possible_misses`. Off by
+    # default: on held-out documents it removed under 1% of Free's missed headings and cost a little
+    # precision where bookmarks list far more than headings (research finding F057).
+    # Env: JSON list, e.g. SECTIONANY_CONTENTS_CHECK='["quick","standard"]'. "quick" also covers local mode.
+    contents_check: list[Literal["free", "quick", "standard"]] = Field(default_factory=list)
 
     # Model calls.
     llm_timeout_seconds: float = Field(default=300.0, gt=0)
