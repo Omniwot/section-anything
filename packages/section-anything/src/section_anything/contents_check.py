@@ -41,6 +41,11 @@ FUZZY = 0.85  # similarity (0..1) of an entry's text and a body line for the lin
 MAX_WORDS = 25  # longer entries and lines are sentences, not headings
 NEAR_LINES = 2  # a section starting this many lines from an entry's line covers it
 SKIP_ENTRY = re.compile(r"^(?:(?:front|back|inside)\s+cover|cover(?:\s+page)?|title\s+page|bookmarks?)$", re.I)
+# The title above a contents list without page numbers ("CONTENTS OF ACT", "Arrangement of sections").
+CONTENTS_HEAD = re.compile(
+    r"^(?:(?:table\s+of\s+)?contents\b|arrangement\s+of\b|inhalt|inhaltsverzeichnis|inhalts\u00fcbersicht"
+    r"|sommaire|table\s+des\s+mati\u00e8res|\u00edndice|indice)", re.I)
+LISTING_GAP = 6  # entry lines further apart start another list
 LEADER = re.compile(r"(?:\.\s?){4,}|…|_{3,}")
 REFERENCE = re.compile(r"^\[[^\]]+\]$")  # "[RFC3756]": a citation label
 
@@ -93,7 +98,7 @@ def _usable(text: str) -> bool:
             and re.search(r"[^\W\d_]{3}", t) is not None and not t.endswith((",", ";", "=", "-", "\u2212"))
             and "(cid:" not in t and not TOC_TITLE.match(t) and not SKIP_ENTRY.match(t)
             and not LABEL_ONLY.match(_label_text(t)) and not (label and not t[label.end():].strip(" .:-\u2013\u20140123456789"))
-            and not LEADER.search(t) and not REFERENCE.match(t))
+            and not LEADER.search(t) and not REFERENCE.match(t) and not CAPTION.match(t))
 
 
 def entries_of(ext: Extraction) -> list[Entry]:
@@ -117,14 +122,49 @@ def entries_of(ext: Extraction) -> list[Entry]:
     out = [e for e in out if counts[canon(e.text)] < 3]
     listed = {e.listed_at: e for e in out if e.listed_at is not None}
     seen: set[int] = set()
-    for i, j in listing_pairs_of(ext):
+    pairs = listing_pairs_of(ext)
+    for i, j in pairs:
         if i in listed:
             listed[i].line = j  # the same entry, already found later in the document
-        elif j not in seen and _usable(ext.lines[i].text):
+            seen.add(j)
+    for block in _blocks(pairs):
+        if not _contents_like(ext, block):
+            continue
+        for i, j in block:
+            if i in listed or j in seen or not _usable(ext.lines[i].text) or not _standalone(ext.lines[j]):
+                continue
             num, title = _split(ext.lines[i].text)
             out.append(Entry("contents list", num, title, None, ext.lines[j].page, line=j))
-        seen.add(j)
+            seen.add(j)
     return out
+
+
+def _blocks(pairs: list[tuple[int, int]]) -> list[list[tuple[int, int]]]:
+    """The pairs of each contents list: entry lines at most `LISTING_GAP` apart."""
+    out: list[list[tuple[int, int]]] = []
+    for i, j in sorted(pairs):
+        if out and i - out[-1][-1][0] <= LISTING_GAP:
+            out[-1].append((i, j))
+        else:
+            out.append([(i, j)])
+    return out
+
+
+def _contents_like(ext: Extraction, block: list[tuple[int, int]]) -> bool:
+    """A contents list, not a repeated table or list: a contents title just above it, or most entries
+    numbered or labelled ("12 Duties", "PART 2", "Article 5")."""
+    first = block[0][0]
+    if any(CONTENTS_HEAD.match(ext.lines[k].text.strip()) for k in range(max(0, first - 3), first)):
+        return True
+    led = sum(bool(NUMBER.match(ext.lines[i].text.strip()) or STRUCTURE_LABEL.match(ext.lines[i].text.strip()))
+              for i, _ in block)
+    return led >= 0.5 * len(block)
+
+
+def _standalone(ln: Line) -> bool:
+    """The later copy is a line of its own, not the tail of a sentence."""
+    t = ln.text.strip()
+    return not t.endswith((".", ",", ";")) or bool(NUMBER.match(t) or STRUCTURE_LABEL.match(t))
 
 
 def _joins(ext: Extraction, i: int) -> list[str]:

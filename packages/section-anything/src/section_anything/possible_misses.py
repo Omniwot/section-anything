@@ -57,6 +57,9 @@ WEIGHTS = {
 STANDALONE_WORDS = 12
 ENTRY_SCORE = 0.1  # unresolved contents entries: on development documents they were rarely real misses
 MIN_SCORE = 0.1
+# After a model mode, the lines the model chose not to list are often bold or numbered on purpose (a
+# list, a defined term), so only stronger evidence is listed (set on development Quick runs).
+MIN_SCORE_MODEL = 0.4
 PAGES_PER_ENTRY = 5
 MIN_ENTRIES = 3
 
@@ -171,16 +174,20 @@ def _score(f: dict[str, float]) -> float:
     return 1 / (1 + math.exp(-z))
 
 
-def possible_misses(sections: list[dict], ext: Extraction, unresolved: list[Entry] | None = None) -> list[dict]:
-    """The lines most likely to be headings the result left out, best first: page (None when an
-    unresolved contents entry gives none), text, evidence and score."""
-    out = [{"page": e.page, "text": e.text, "evidence": [ENTRY_EVIDENCE[e.source]], "score": ENTRY_SCORE}
-           for e in unresolved or []]
+def possible_misses(sections: list[dict], ext: Extraction, unresolved: list[Entry] | None = None,
+                    model: bool = False) -> list[dict]:
+    """The lines most likely to be headings the result left out, best first, then the contents
+    entries not found: page (None when such an entry gives none), text, evidence and score. `model`:
+    the result came from a model mode (`MIN_SCORE_MODEL`)."""
+    floor = MIN_SCORE_MODEL if model else MIN_SCORE
+    out = []
     for c in features(sections, ext):
         sc = _score(c["f"])
-        if sc >= MIN_SCORE:
+        if sc >= floor:
             out.append({"page": c["page"], "text": c["text"], "evidence": [EVIDENCE[k] for k in EVIDENCE if c["f"][k]],
                         "score": round(sc, 3)})
-    out.sort(key=lambda x: (-x["score"], x["evidence"][:1] in ([v] for v in ENTRY_EVIDENCE.values())))
+    out.sort(key=lambda x: -x["score"])
+    out += [{"page": e.page, "text": e.text, "evidence": [ENTRY_EVIDENCE[e.source]], "score": ENTRY_SCORE}
+            for e in unresolved or []]
     keep = max(MIN_ENTRIES, len(ext.pages) // PAGES_PER_ENTRY)
     return out[:keep]

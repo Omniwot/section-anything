@@ -255,7 +255,7 @@ async def run(
         extra["outline_check"] = check.summary()
     if not strategy.uses_llm:
         annotate(sections, ext)  # Free's own evidence for each heading; mode "auto" decides on it
-    extra["possible_misses"] = possible_misses(sections, ext, unresolved)
+    extra["possible_misses"] = possible_misses(sections, ext, unresolved, model=strategy.uses_llm)
     return raw, sections, metrics(sections, ext, usage, time.monotonic() - t0, extra)
 
 
