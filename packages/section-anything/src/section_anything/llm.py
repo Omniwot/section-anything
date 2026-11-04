@@ -118,6 +118,8 @@ class Usage:
     coverage_retries: list[dict] = field(default_factory=list)
     # Standard: one entry per window read again as two halves after its answer was cut off.
     window_splits: list[dict] = field(default_factory=list)
+    # Quick and Standard: strong Free headings the answer left out, and what became of each (`keep`).
+    kept_strong: dict | None = None
 
     def add(self, model: str, usage, price: Price | None = None) -> dict:
         tokens = {"input_tokens": 0, "cached_tokens": 0, "output_tokens": 0, "reasoning_tokens": 0, "cost_usd": 0.0}
@@ -181,6 +183,7 @@ class Usage:
             "cost_by_step": {k: round(v, 4) for k, v in self.by_step.items()},
             **({"coverage_retries": self.coverage_retries} if self.coverage_retries else {}),
             **({"window_splits": self.window_splits} if self.window_splits else {}),
+            **({"kept_strong": self.kept_strong} if self.kept_strong is not None else {}),
         }
 
 

@@ -29,6 +29,7 @@ import re
 import time
 from collections.abc import Callable
 
+from section_anything import keep
 from section_anything.confidence import annotate
 from section_anything.config import Settings
 from section_anything.extract import Extraction
@@ -235,6 +236,18 @@ async def run(
     raw = await strategy.run(ext, ctx)
     sections, extra = resolve(raw, ext, Locator(ext.text), strategy.contents(ext))
     mark_doc_title(sections, ext)
+    how = (settings or Settings()).keep_strong
+    if strategy.uses_llm and how != "off":
+        # Strong Free headings the model left out are put back, or asked about once (`keep`).
+        added = await keep.put_back(await free_sections(ext, settings), sections, ext, ctx, how, strategy.effort)
+        if added:
+            raw = raw + added
+            sections, extra = resolve(raw, ext, Locator(ext.text), strategy.contents(ext))
+            mark_doc_title(sections, ext)
+            back = {r.start_line for r in added}
+            for s in sections:
+                if s["first_line"] in back:
+                    s["flags"].append(keep.FLAG)
     if MODE_OF.get(strategy_id) in (settings or Settings()).demote_unlisted_headings:
         # Free's extra sections come from typography rules: the strict checks would measure their
         # noise, not the outline (see outline_check).
@@ -244,6 +257,17 @@ async def run(
     if not strategy.uses_llm:
         annotate(sections, ext)  # Free's own evidence for each heading; mode "auto" decides on it
     return raw, sections, metrics(sections, ext, usage, time.monotonic() - t0, extra)
+
+
+async def free_sections(ext: Extraction, settings: Settings | None = None) -> list[dict]:
+    """Free's resolved headings, as mode "free" returns them, without its confidence."""
+    strategy = BY_ID["rules"]
+    ctx = Context(model="", usage=Usage(), cost_cap_usd=0.0, settings=settings)
+    sections, _ = resolve(await strategy.run(ext, ctx), ext, Locator(ext.text), strategy.contents(ext))
+    mark_doc_title(sections, ext)
+    if "free" in (settings or Settings()).demote_unlisted_headings:
+        sections = demote_unlisted_headings(sections, ext, strict=False).sections
+    return sections
 
 
 GENERIC_FIRST = re.compile(
