@@ -20,6 +20,7 @@ class RawSection:
     end_marker: str = ""
     start_line: int | None = None  # global line index hint
     title_from_text: bool = True
+    flags: list[str] = field(default_factory=list)  # passed on to the resolved section
 
 
 @dataclass

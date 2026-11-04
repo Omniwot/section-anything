@@ -412,7 +412,12 @@ def toc_of(ext: Extraction) -> Toc:
 
 def listing_of(ext: Extraction) -> set[int]:
     """Lines of contents lists that `toc_of` misses (see `detect_listings`)."""
-    return _cached("listing", ext, detect_listings)
+    return _cached("listings", ext, _listings)[0]
+
+
+def listing_pairs_of(ext: Extraction) -> list[tuple[int, int]]:
+    """(entry line, the later heading line it names) for the entries of `listing_of`'s lists."""
+    return _cached("listings", ext, _listings)[1]
 
 
 # A contents list without page numbers or a known title ("CONTENTS OF ACT", "Arrangement of
@@ -429,6 +434,10 @@ LISTING_MIN_APART = 0.5  # share of consecutive later copies more than 3 lines a
 
 
 def detect_listings(ext: Extraction) -> set[int]:
+    return _listings(ext)[0]
+
+
+def _listings(ext: Extraction) -> tuple[set[int], list[tuple[int, int]]]:
     furniture = furniture_of(ext)
     body = ext.body_size()
     keys: dict[int, str] = {}
@@ -449,6 +458,7 @@ def detect_listings(ext: Extraction) -> set[int]:
             copies.setdefault(k, []).append(i)
 
     lines: set[int] = set()
+    pairs: list[tuple[int, int]] = []
     entries: list[int] = []
     later: list[int] = []
     gap = 0
@@ -472,7 +482,9 @@ def detect_listings(ext: Extraction) -> set[int]:
                     break
                 continue
             first, end, missed = i, x, 0
+            pairs.append((i, x))
         lines.update(range(first, entries[-1] + 1))
+        pairs.extend(zip(entries, later, strict=True))
 
     for i in sorted(keys):
         k = keys[i]
@@ -487,7 +499,7 @@ def detect_listings(ext: Extraction) -> set[int]:
                 close()
                 entries, later, gap = [], [], 0
     close()
-    return lines
+    return lines, sorted(pairs)
 
 
 def furniture_of(ext: Extraction) -> set[int]:

@@ -88,6 +88,15 @@ class AutoInfo(TypedDict):
     threshold: float
 
 
+class PossibleMiss(TypedDict):
+    """A line with heading evidence that the result does not have as a heading (`possible_misses`)."""
+
+    page: int | None  # None: a contents entry that names no page and was not found
+    text: str
+    evidence: list[str]
+    score: float  # 0-1, for ranking
+
+
 class TreeDict(TypedDict):
     """What `SectionTree.to_dict()` returns and `to_json()` writes."""
 
@@ -105,6 +114,7 @@ class TreeDict(TypedDict):
     downgraded: list[str]
     auto: NotRequired[AutoInfo]  # only from mode "auto"
     usage: dict[str, Any]
+    possible_misses: list[PossibleMiss]
 
 
 def link_sections(sections: list[dict]) -> None:
@@ -179,8 +189,10 @@ class SectionTree:
 
     `sections` holds one dict per section (`Section`) with number, title, level (1 = top),
     page_start, page_end, start and end (character offsets into `text`), flags (for example
-    ``doc_title``, ``front_matter``, ``start_marker_fuzzy``), confidence (Free only), parent and
-    heading_path. `auto` says which mode a mode "auto" run took and why."""
+    ``doc_title``, ``front_matter``, ``start_marker_fuzzy``, ``from_contents``), confidence (Free
+    only), parent and heading_path. `auto` says which mode a mode "auto" run took and why.
+    `possible_misses` lists, best first, the lines with heading evidence that are not headings of
+    the result (`PossibleMiss`), and the contents entries the contents check could not find."""
 
     sections: list[Section]
     mode: str
@@ -192,6 +204,7 @@ class SectionTree:
     extraction: Extraction | None = field(default=None, repr=False)
     resolved: list[dict] = field(default_factory=list, repr=False)  # full pipeline output
     auto: AutoInfo | None = None
+    possible_misses: list[PossibleMiss] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         if any(k not in s for s in self.sections for k in LINK_KEYS):
@@ -254,7 +267,7 @@ class SectionTree:
 
         sections = [{**s, "text": self.text[s["start"]:s["end"]]} for s in self.sections] if text else self.sections
         return {"section_anything": __version__, **self.summary(), "usage": self.usage,  # type: ignore[typeddict-item]
-                "sections": sections}
+                "sections": sections, "possible_misses": [dict(m) for m in self.possible_misses]}
 
     def to_json(self, indent: int | None = 2, text: bool = False) -> str:
         return json.dumps(self.to_dict(text=text), ensure_ascii=False, indent=indent)
@@ -366,14 +379,14 @@ async def asection(
     downgraded: list[str] = []
     auto: AutoInfo | None = None
     if mode == "auto":
-        _raw, resolved, _metrics = await pipeline.run(
+        _raw, resolved, metrics = await pipeline.run(
             ext, "rules", "", cap, lambda f, msg: report(0.5 + 0.1 * f, msg), usage=usage, settings=s)
         auto = _auto_choice(resolved, s.auto_threshold)
         if auto["path"] == "free":
             return SectionTree(
                 sections=[_public(x) for x in resolved], mode="free", model=None, pages=len(ext.pages),
                 usage=usage.summary(), seconds=round(time.monotonic() - t0, 2), extraction=ext, resolved=resolved,
-                auto=auto,
+                auto=auto, possible_misses=metrics.get("possible_misses", []),
             )
         mode = "quick"
     while True:
@@ -396,7 +409,7 @@ async def asection(
             report(0.5 + 0.5 * f, msg)
 
         try:
-            _raw, resolved, _metrics = await pipeline.run(
+            _raw, resolved, metrics = await pipeline.run(
                 ext, strategy.id, model or "", cap, stage, usage=usage, settings=s)
         except CostCapExceeded as exc:
             if s.over_budget == "fail" or DOWNGRADE[mode] is None:
@@ -409,7 +422,7 @@ async def asection(
         return SectionTree(
             sections=[_public(x) for x in resolved], mode=mode, model=model, pages=len(ext.pages),
             usage=usage.summary(), seconds=round(time.monotonic() - t0, 2), downgraded=downgraded,
-            extraction=ext, resolved=resolved, auto=auto,
+            extraction=ext, resolved=resolved, auto=auto, possible_misses=metrics.get("possible_misses", []),
         )
 
 
