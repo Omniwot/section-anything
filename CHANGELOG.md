@@ -12,7 +12,7 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   entry per 5 pages (at least 3). The weights were fitted on development documents only; after a
   model mode only stronger evidence is listed. The result itself is unchanged. On held-out documents
   (the F042 test split, 100 documents, and 165 more documents frozen on 3 Nov, with and without
-  bookmarks) the list held 1% to 4% of the headings Free missed, at 0.3 to 0.5 wrong entries per 10
+  bookmarks) the list held 1% to 4% of the headings Free missed, at 0.2 to 0.5 wrong entries per 10
   pages, and 8% to 10% with Docling's hints (0.5 to 0.7 wrong entries per 10 pages). Most missed
   headings are set like body text and carry no evidence the list can use (research finding F057).
 - **Contents check (opt-in).** With `SECTIONANY_CONTENTS_CHECK='["free","quick","standard"]'` (or
