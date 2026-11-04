@@ -3,6 +3,25 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
+## 0.1.8 (unreleased)
+
+- **Quick and Standard can put back strong headings the model left out (`keep_strong`, opt-in).**
+  Free's headings with evidence that needs no model (the PDF's bookmarks or printed contents list
+  them, their numbering follows the previous numbered heading, or a standard name such as
+  References) are compared with the model's answer. With `keep_strong="ask"`
+  (`SECTIONANY_KEEP_STRONG=ask`), the ones it left out that the outline lists are put back, and the
+  others are shown to the model once more, in one call per document, between the headings it
+  listed before and after; it keeps or rejects each with a short reason. `"restore"` puts every one
+  back without a call. Each decision is in `tree.usage["kept_strong"]`, and a section put back has
+  the flag `kept_strong`. Off by default. Claude Haiku 5.5, held-out F042 documents (research
+  finding F059): Quick on PDFs with bookmarks, missed headings per 1,000 206 -> 155 (100 documents,
+  -51, CI -86 to -23; precision -0.011, CI -0.032 to +0.012); without bookmarks 200 -> 198 (-1.9,
+  CI -3.4 to -0.7); Standard without bookmarks 219 -> 215 (21 documents, 2 runs, -3.6, CI -7.0 to
+  -0.9). The extra call cost at most $0.0005 a document on average. Known cost: German federal laws
+  bookmark every footnote ("Fußnote"), and those come back as headings (Quick precision on them 0.90
+  -> 0.81). Most misses are lines with no heading signal at all (research finding F056), which this
+  step cannot reach.
+
 ## 0.1.7 (unreleased)
 
 - **`quick` finds structural headings set small or plain.** A bare division label (Part, Chapter,
