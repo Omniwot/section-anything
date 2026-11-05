@@ -175,8 +175,16 @@ class Settings(BaseSettings):
     # contents list them, a division label, numbering that continues in a heading style) which the
     # model's answer leaves out are put back ("restore"), or shown to the model once more in one call
     # per document, to keep or reject with a reason ("ask"); "off" leaves the answer as it is
-    # (research finding F058).
+    # (research finding F059).
     keep_strong: Literal["off", "restore", "ask"] = "off"
+    # Contents check (opt-in): in these modes, every entry of the PDF's bookmarks (else its printed
+    # table of contents) and of contents lists without page numbers that no section covers is looked
+    # for in the body near its page and, when found, added as a heading flagged "from_contents"
+    # (`section_anything.contents_check`); entries not found are listed in `possible_misses`. Off by
+    # default: on held-out documents it removed under 1% of Free's missed headings and cost a little
+    # precision where bookmarks list far more than headings (research finding F057).
+    # Env: JSON list, e.g. SECTIONANY_CONTENTS_CHECK='["quick","standard"]'. "quick" also covers local mode.
+    contents_check: list[Literal["free", "quick", "standard"]] = Field(default_factory=list)
 
     # Model calls.
     llm_timeout_seconds: float = Field(default=300.0, gt=0)

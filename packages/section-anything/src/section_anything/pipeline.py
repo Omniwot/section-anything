@@ -31,11 +31,13 @@ from collections.abc import Callable
 
 from section_anything import keep
 from section_anything.confidence import annotate
+from section_anything.contents_check import check_contents
 from section_anything.config import Settings
 from section_anything.extract import Extraction
 from section_anything.llm import Usage
 from section_anything.markers import Locator, canon
 from section_anything.outline_check import demote_unlisted_headings
+from section_anything.possible_misses import possible_misses
 from section_anything.strategies.base import Context, RawSection, Strategy
 from section_anything.strategies.llm_text import LlmReviewStrategy, LlmTextStrategy
 from section_anything.strategies.rules import RulesStrategy
@@ -113,7 +115,7 @@ def _assign(raw: list[RawSection], ext: Extraction, loc: Locator, toc: Toc) -> t
             dropped["duplicate"] += 1
             continue
         claimed.append(pick[0])
-        placed.append((pick[0], raw[i], list(pick[1])))
+        placed.append((pick[0], raw[i], list(pick[1]) + list(raw[i].flags)))
     placed.sort(key=lambda t: t[0])
     return placed, dropped
 
@@ -234,21 +236,33 @@ async def run(
     ctx = Context(model=model, usage=usage, cost_cap_usd=cost_cap_usd,
                   progress=progress or (lambda _f, _m: None), settings=settings)
     raw = await strategy.run(ext, ctx)
-    sections, extra = resolve(raw, ext, Locator(ext.text), strategy.contents(ext))
+    s = settings or Settings()
+    loc, contents = Locator(ext.text), strategy.contents(ext)
+    sections, extra = resolve(raw, ext, loc, contents)
+    unresolved = []
+    if MODE_OF.get(strategy_id) in s.contents_check:
+        check = check_contents(sections, ext)
+        if check.added:
+            raw = raw + check.added
+            sections, extra = resolve(raw, ext, loc, contents)
+        extra["contents_check"] = check.summary()
+        unresolved = check.unresolved
     mark_doc_title(sections, ext)
-    how = (settings or Settings()).keep_strong
+    how = s.keep_strong
     if strategy.uses_llm and how != "off":
         # Strong Free headings the model left out are put back, or asked about once (`keep`).
         added = await keep.put_back(await free_sections(ext, settings), sections, ext, ctx, how, strategy.effort)
         if added:
             raw = raw + added
-            sections, extra = resolve(raw, ext, Locator(ext.text), strategy.contents(ext))
+            checked = {k: extra[k] for k in ("contents_check",) if k in extra}
+            sections, extra = resolve(raw, ext, loc, contents)
+            extra.update(checked)
             mark_doc_title(sections, ext)
             back = {r.start_line for r in added}
-            for s in sections:
-                if s["first_line"] in back:
-                    s["flags"].append(keep.FLAG)
-    if MODE_OF.get(strategy_id) in (settings or Settings()).demote_unlisted_headings:
+            for sec in sections:
+                if sec["first_line"] in back:
+                    sec["flags"].append(keep.FLAG)
+    if MODE_OF.get(strategy_id) in s.demote_unlisted_headings:
         # Free's extra sections come from typography rules: the strict checks would measure their
         # noise, not the outline (see outline_check).
         check = demote_unlisted_headings(sections, ext, strict=strategy.uses_llm)
@@ -256,6 +270,7 @@ async def run(
         extra["outline_check"] = check.summary()
     if not strategy.uses_llm:
         annotate(sections, ext)  # Free's own evidence for each heading; mode "auto" decides on it
+    extra["possible_misses"] = possible_misses(sections, ext, unresolved, model=strategy.uses_llm)
     return raw, sections, metrics(sections, ext, usage, time.monotonic() - t0, extra)
 
 

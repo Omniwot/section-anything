@@ -70,6 +70,26 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   one style apart in the merge stage, is not in this release: with both parts, held-out `free`
   precision fell 0.528 -> 0.514 without bookmarks, and on development documents that cost came from
   the layout test.
+- **Possible missed headings.** `tree.possible_misses` (also in `to_dict()` and the command line's
+  JSON) lists, best first, the lines with heading evidence that the result does not have as
+  headings: page, text, the evidence in words ("its number fills a gap in the headings' numbering",
+  "set like other headings", "Docling labels it a heading", ...) and a score from 0 to 1, at most one
+  entry per 5 pages (at least 3). The weights were fitted on development documents only; after a
+  model mode only stronger evidence is listed. The result itself is unchanged. On held-out documents
+  (the F042 test split, 100 documents, and 165 more documents frozen on 3 Nov, with and without
+  bookmarks) the list held 1% to 4% of the headings Free missed, at 0.2 to 0.5 wrong entries per 10
+  pages, and 8% to 10% with Docling's hints (0.5 to 0.7 wrong entries per 10 pages). Most missed
+  headings are set like body text and carry no evidence the list can use (research finding F057).
+- **Contents check (opt-in).** With `SECTIONANY_CONTENTS_CHECK='["free","quick","standard"]'` (or
+  some of those modes), every entry of the PDF's bookmarks (else its printed table of contents) and
+  of contents lists without page numbers that no section covers is looked for in the body near its
+  page, by its text or its label and number, and added as a heading flagged `from_contents`; an
+  entry that is not found is listed in `possible_misses`, never guessed. Off by default: on the
+  held-out documents Free's missed headings per 1,000 went from 152.0 to 151.2 (F042 test, with
+  bookmarks) and from 233.9 to 232.1 (the 165 documents, without), with F1 down 0.001, and one PDF
+  whose 736 bookmarks list far more than its headings got 283 extra headings. Free already follows a
+  usable outline; applied offline to saved Quick check runs it removed 0.6% to 5% of their missed
+  headings at level F1.
 
 ## 0.1.7 (unreleased)
 

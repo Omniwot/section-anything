@@ -1,4 +1,4 @@
-"""Strong Free headings a model left out are put back, or asked about once (research finding F058).
+"""Strong Free headings a model left out are put back, or asked about once (research finding F059).
 Fake model only."""
 
 from __future__ import annotations
@@ -141,3 +141,11 @@ def test_ask_puts_a_heading_the_outline_lists_back_without_asking(monkeypatch):
     sections, usage = _run(monkeypatch, "ask", ask)
     assert SKIPPED in _numbers(sections) and not ask.calls
     assert usage.kept_strong["restored"][0]["listed"] is True
+
+
+def test_the_contents_check_summary_survives_a_heading_put_back(monkeypatch):
+    monkeypatch.setattr(llm_text, "structured", _review)
+    _raw, sections, metrics = asyncio.run(pipeline.run(
+        _doc(), "llm_review", "fake", 1.0, usage=Usage(), settings=Settings(keep_strong="restore", contents_check=["quick"])))
+    assert SKIPPED in _numbers(sections)
+    assert "contents_check" in metrics and "possible_misses" in metrics
