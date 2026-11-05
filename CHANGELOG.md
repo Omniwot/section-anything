@@ -21,6 +21,23 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   bookmark every footnote ("Fußnote"), and those come back as headings (Quick precision on them 0.90
   -> 0.81). Most misses are lines with no heading signal at all (research finding F056), which this
   step cannot reach.
+- **Headings set in italics at body size are found.** The extractor records which lines are set in
+  italics, from the font name or the italic flag of a text font's descriptor (extractor version 7; the
+  text is unchanged, so saved runs still map onto the page, and extractions saved earlier load without
+  italics). A line in italics at body size that is set apart like a heading is now a candidate in
+  `free` and `quick`: it starts with a capital, does not end like a sentence, has its row to itself,
+  has most of a blank line above and below to text that is not italic, is not followed by a lowercase
+  continuation and is not in a contents list. With Docling hints it is kept even where Docling calls it
+  body text, and such headings rank below every other heading style. UK Acts set their cross-headings
+  this way. Designed on development documents only; on 300 held-out documents (answer keys v2,
+  research finding F061) `free` without bookmarks misses 88.4 reference headings per 1,000 instead of
+  204.0 and precision rises from 0.528 to 0.553. UK Acts: 456.9 -> 34.3 misses per 1,000, precision
+  0.493 -> 0.608. The other genres: 109.8 -> 108.6, precision 0.536 -> 0.534 (EU regulations -0.012 and
+  theses -0.009, from italic article labels and reference-list lines). With bookmarks, 79.9 -> 72.6.
+  `quick` on Claude Haiku 5.5, one run per document: 15 held-out UK Acts 448.9 -> 119.8 misses per
+  1,000 (precision 0.710 -> 0.772), 11 EU regulations 111.1 -> 87.5. READoc development set, `free`:
+  arXiv papers 55.20 -> 55.39 TEDS, READMEs 79.70 unchanged. In short Acts without Parts or Chapters
+  the cross-headings come out one level below their sections instead of above them.
 
 ## 0.1.7 (unreleased)
 

@@ -32,8 +32,8 @@ T = TypeVar("T")
 
 # Bump when the canonical text or the saved geometry changes. Extractions saved by an older
 # version should be redone; runs record the version their character offsets refer to.
-EXTRACTOR_VERSION = 6  # 6: text in page-sized forms and in fonts with an embedded CMap; 5: deterministic reading
-# order for equidistant boxes; 4: LaTeX bold fonts count as bold
+EXTRACTOR_VERSION = 7  # 7: lines record italics; 6: text in page-sized forms and in fonts with an embedded CMap;
+# 5: deterministic reading order for equidistant boxes; 4: LaTeX bold fonts count as bold
 # Oldest version whose canonical text is identical to the current one: offsets from that version
 # on still map onto the page. Raise it only when `Extraction.text` changes. 5: lines of tied boxes
 # (table cells) can come in another order (25 of 200 READoc development documents). 6: PDFs that
@@ -50,6 +50,13 @@ LAPARAMS = {
 # Bold by name. TeX fonts say so in a code: CMBX/CMSSBX/CMBSY (Computer Modern bold),
 # SFBX/SFSX/ECBX/EUBX (EC/European Modern bold), and Times bold is often NimbusRomNo9L-Medi.
 BOLD_FONT = re.compile(r"bold|black|heavy|semibold|demi|(?:^|\+)(?:CMBX|CMSSBX|CMBSY|SFBX|SFSX|ECBX|EUBX)|-Medi\b", re.I)
+# Italic by name: "Italic", "Oblique" and "Slant" anywhere; "Ital" and "It" as a style suffix ("ReguItal",
+# "MinionPro-BoldIt", "Arial-ItalicMT"); TeX's text italic and slanted fonts (CMTI, CMBXTI, CMSL, CMSSI,
+# CMITT, CMSLTT and the EC/cm-super forms). Not CMMI or CMSY: maths italic and symbols are not set as text.
+ITALIC_FONT = re.compile(
+    r"(?i:italic|oblique|slant|kursiv)|Ital(?![a-z])|(?<=[a-z\d-])It(?=$|[A-Z\d,_-]|MT)|(?<=[a-z\d-])Obl\b"
+    r"|^(?:CMTI|CMBXTI|CMSL|CMBXSL|CMSSI|CMITT|CMSLTT|SFTI|SFSL|SFBI|SFSI|SFIT|SFST|ECTI|ECSL|ECBI|ECSI|ECIT|ECST)\d"
+)
 CONTROL = re.compile(r"[\x00-\x08\x0b-\x1f\x7f]")
 
 
@@ -84,6 +91,9 @@ class Line:
     # Flat [start, end, x0, x1, ...] per word: char offsets within `text` and the word's
     # horizontal extent in PDF user space. Lets a highlight start or stop mid-line.
     words: list[float] = field(default_factory=list)
+    # Most of the line is set in an italic font (`ITALIC_FONT`, or the font descriptor's italic flag on a
+    # text font). Extractions saved before version 7 load as False.
+    italic: bool = False
 
 
 @dataclass
@@ -406,6 +416,30 @@ def _read_embedded_cmaps(rsrcmgr) -> None:
     rsrcmgr.get_font = get_font_reading_cmaps
 
 
+def _italic_by_descriptor(rsrcmgr) -> set[str]:
+    """Names of the fonts this resource manager loads whose descriptor marks them italic: the Italic
+    flag (or a slant) on a font flagged Nonsymbolic. Catches italic faces whose names say nothing
+    ("AdvTT21fb76a9"); maths and symbol fonts (CMMI, CMSY) carry a slant but are flagged Symbolic.
+    The set fills as fonts are loaded."""
+    found: set[str] = set()
+    get_font = rsrcmgr.get_font
+
+    def get_font_noting_italics(objid, spec):
+        font = get_font(objid, spec)
+        flags = getattr(font, "flags", 0) or 0
+        angle = getattr(font, "italic_angle", 0) or 0
+        if isinstance(flags, int) and flags & 32 and not flags & 4 and (flags & 64 or abs(angle) > 0.5):
+            found.add(font.fontname)
+        return font
+
+    rsrcmgr.get_font = get_font_noting_italics
+    return found
+
+
+def _is_italic(fontname: str, by_descriptor: set[str]) -> bool:
+    return fontname in by_descriptor or bool(ITALIC_FONT.search(fontname.split("+")[-1]))
+
+
 def extract(
     path: Path,
     on_page: Callable[[int, int], None] | None = None,
@@ -430,6 +464,7 @@ def extract(
     # analysis with a deterministic tie-break.
     with pdfplumber.open(path) as pdf:
         _read_embedded_cmaps(pdf.rsrcmgr)
+        italic_fonts = _italic_by_descriptor(pdf.rsrcmgr)
         total = len(pdf.pages)
         if max_pages is not None and total > max_pages:
             raise too_many_pages(total, max_pages)
@@ -451,12 +486,14 @@ def extract(
                     chars = [c for c in tl if isinstance(c, LTChar)]
                     size = round(statistics.median(c.size for c in chars), 1) if chars else 0.0
                     bold = bool(chars) and sum(bool(BOLD_FONT.search(c.fontname)) for c in chars) * 2 > len(chars)
+                    italic = bool(chars) and sum(_is_italic(c.fontname, italic_fonts) for c in chars) * 2 > len(chars)
                     lines.append(
                         Line(
                             i=len(lines), page=n, text=text,
                             x0=round(tl.x0 + mb[0], 2), y0=round(tl.y0 + mb[1], 2),
                             x1=round(tl.x1 + mb[0], 2), y1=round(tl.y1 + mb[1], 2),
                             size=size, bold=bold, start=cursor, end=cursor + len(text), words=words,
+                            italic=italic,
                         )
                     )
                     cursor += len(text) + 1  # lines are joined with "\n"
