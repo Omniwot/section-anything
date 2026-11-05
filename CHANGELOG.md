@@ -57,6 +57,19 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   saved runs): 298.9 -> 236.8 misses per 1,000 (CI -119.8 to -21.9), precision 0.740 -> 0.753;
   German laws 180.3 -> 24.5, reports 329.9 -> 157.9; UK Acts, RFCs and OASIS standards level.
   The outline check, Docling's body label for other lines and the caption rule are unchanged.
+- **`free` keeps a wrapped bold title whole.** The run-on rule (a bold term that runs on into a
+  lowercase line opens a paragraph, not a heading) dropped the first line of a bold title that wraps
+  onto a lowercase line ("Remuneration policy for executive" / "directors"), leaving only the tail
+  as a heading. A block of two or three lines in one size and weight, set at a wrapped title's line
+  spacing (at most 1.65 font sizes apart) and followed by text set otherwise, is now a wrapped title
+  and kept whole; a bold paragraph runs on for longer and is still left out. Development documents
+  only so far (94 documents, answer keys v2, research finding F063, the run-on part alone): `free`
+  without bookmarks misses 7.1 fewer reference headings per 1,000 (CI -13.0 to -2.1) with precision
+  +0.0045 (CI +0.0007 to +0.0091) and F1 +0.0035 (CI +0.0013 to +0.0063); with bookmarks -4.2, F1
+  +0.0020 (CI +0.0004 to +0.0041). F063's other part, a layout test that keeps headings stacked in
+  one style apart in the merge stage, is not in this release: with both parts, held-out `free`
+  precision fell 0.528 -> 0.514 without bookmarks, and on development documents that cost came from
+  the layout test.
 
 ## 0.1.7 (unreleased)
 

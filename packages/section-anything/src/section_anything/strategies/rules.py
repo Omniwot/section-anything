@@ -63,13 +63,39 @@ def _labels(ext: Extraction, body: float) -> set[str]:
     return {t for t, n in counts.items() if n >= 3}
 
 
+WRAP_LEADING = 1.65  # baseline to baseline, in font sizes: a wrapped title's next line sits closer than this
+WRAPPED_MAX = 3  # lines of a wrapped title
+
+
 def _runs_on(ext: Extraction, ln: Line) -> bool:
     """The line continues into a lowercase line right below it: a bold term
-    opening a paragraph or glossary entry, not a standalone heading."""
+    opening a paragraph or glossary entry, not a standalone heading. A title that
+    wraps in its own style is not one (`_wrapped_title`)."""
     if ln.i + 1 >= len(ext.lines):
         return False
     nxt = ext.lines[ln.i + 1]
-    return nxt.page == ln.page and nxt.text[:1].islower() and (ln.y0 - nxt.y1) < ln.size
+    return (nxt.page == ln.page and nxt.text[:1].islower() and (ln.y0 - nxt.y1) < ln.size
+            and not _wrapped_title(ext, ln))
+
+
+def _wrapped_title(ext: Extraction, ln: Line) -> bool:
+    """`ln` is a line of a title that wraps: it and the lines set right under one another around it
+    in its size and weight make two or three lines, and the line after them is set otherwise ("Remuneration
+    policy for executive" / "directors", then the body text). A bold paragraph runs on for longer."""
+    lines = ext.lines
+
+    def under(a: Line, b: Line) -> bool:  # b is a's next line in the same style
+        return (b.page == a.page and b.size == a.size and b.bold == a.bold
+                and 0.5 * a.size < a.y0 - b.y0 <= WRAP_LEADING * max(a.size, 1.0))
+
+    top = bottom = ln
+    while top.i > 0 and under(lines[top.i - 1], top) and ln.i - top.i < WRAPPED_MAX:
+        top = lines[top.i - 1]
+    while bottom.i + 1 < len(lines) and under(bottom, lines[bottom.i + 1]) and bottom.i - top.i < WRAPPED_MAX:
+        bottom = lines[bottom.i + 1]
+    n = bottom.i - top.i + 1
+    after = lines[bottom.i + 1] if bottom.i + 1 < len(lines) else None
+    return 2 <= n <= WRAPPED_MAX and (after is None or not under(bottom, after))
 
 
 # A multi-level section number ("2.3", "13.3.11"): no part starts with 0 except a lone 0 after the first.
