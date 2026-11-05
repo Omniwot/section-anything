@@ -620,8 +620,26 @@ def _style(ln: Line, body: float) -> Style:
     """A heading line's style for levels: (size, bold). A line in italics at body size and regular weight
     ranks below every other style: italics at body size mark a document's lowest headings (a report's
     minor headings, a paper's subsections). A UK Act's cross-headings take their level from its labels
-    (`_label_levels`)."""
+    (`_label_levels`), or in an Act without Parts or Chapters from the sections under them (`_cross_headings`)."""
     return (0.0, False) if ln.italic and not ln.bold and abs(ln.size - body) <= 0.5 else (ln.size, ln.bold)
+
+
+SECTION_NUMBER_ONLY = re.compile(r"\d+(?:\.\d+)*\.?")
+
+
+def _cross_headings(ext: Extraction, cands: list[tuple[Line, str, str]], body: float, skip: set[int]) -> set[int]:
+    """Indexes into `cands` of italic headings at body size set directly above a numbered heading in bold or
+    larger type, with no text between them (lines in `skip`, running headers and side notes, aside): a UK
+    Act's cross-headings ("Types of sanction" over sections 3 to 8). They head the sections that follow them,
+    however the styles rank. A numbered paragraph in body type ("6.12 There is wide-ranging evidence ...")
+    is not a section, and two at least: one such line is no pattern."""
+    out = set()
+    for k, (ln, _num, _text) in enumerate(cands[:-1]):
+        nxt, num = cands[k + 1][0], cands[k + 1][1]
+        if (_style(ln, body) == (0.0, False) and SECTION_NUMBER_ONLY.fullmatch(num) and nxt.page - ln.page in (0, 1)
+                and (nxt.bold or nxt.size > body + 0.5) and all(j in skip for j in range(ln.i + 1, nxt.i))):
+            out.add(k)
+    return out if len(out) >= 2 else set()
 
 
 def _style_rank(s: Style) -> tuple[float, bool]:
@@ -745,6 +763,9 @@ class RulesStrategy(Strategy):
         # or smaller, so typography ranks it upside down; when the labels are clear they set the levels.
         by_label = _label_levels([f"{num} {text}" if num and not text.startswith(num) else text.replace("\n", " ")
                                   for _, num, text in cands], numbers_count=False, min_share=0.3)
+        # Without clear labels (a short UK Act with no Parts or Chapters), italic cross-headings would rank
+        # below every other style, under the sections they head: they go just above those sections.
+        cross = set() if by_label else _cross_headings(ext, cands, body, furniture_of(ext) | side)
         out = []
         for k, (ln, num, text) in enumerate(cands):
             dotted = re.fullmatch(r"\d+(?:\.\d+)*\.?", num)
@@ -764,6 +785,15 @@ class RulesStrategy(Strategy):
             if ABSTRACT_RUNIN.match(title):
                 title = re.match(r"\W*(\w+)", title).group(1)  # "Abstract", as printed
             out.append(RawSection(title=title, level=level, number=num, start_marker=marker[:160], start_line=ln.i))
+        if cross:
+            # The cross-headings take the level of the sections under them, and every heading at that level
+            # or deeper goes one level down.
+            top = min(out[k + 1].level for k in cross)
+            for k, r in enumerate(out):
+                if k in cross:
+                    r.level = top
+                elif r.level >= top and r.start_line not in abstract:
+                    r.level += 1
         _abstract_levels(out, abstract)
         # Compress levels to 1..n so a document's top level is always 1.
         used = sorted({s.level for s in out})

@@ -36,8 +36,13 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   theses -0.009, from italic article labels and reference-list lines). With bookmarks, 79.9 -> 72.6.
   `quick` on Claude Haiku 5.5, one run per document: 15 held-out UK Acts 448.9 -> 119.8 misses per
   1,000 (precision 0.710 -> 0.772), 11 EU regulations 111.1 -> 87.5. READoc development set, `free`:
-  arXiv papers 55.20 -> 55.39 TEDS, READMEs 79.70 unchanged. In short Acts without Parts or Chapters
-  the cross-headings come out one level below their sections instead of above them.
+  arXiv papers 55.20 -> 55.39 TEDS, READMEs 79.70 unchanged. In a short Act without Parts or Chapters,
+  where no labels set the levels, the italic style ranked below the sections, so the cross-headings came
+  out one level below the sections they head; an italic heading set directly above two or more numbered
+  headings in bold or larger type now takes the level just above them. Development documents only (the
+  8 development Acts with their Part and Chapter headings taken out; research finding F064): level
+  agreement of the one Act this changes 0.724 -> 0.980, and of one Act with Docling hints 0.728 -> 0.942;
+  no other development document and no READoc development document changes.
 - **`free` and `quick` keep real headings that four candidate rules threw away.** A bare "§ 97"
   set bold or larger is a candidate although it has no letters (an untitled or repealed section of
   a German law); a multi-level number no longer counts against a capitalised title in the
