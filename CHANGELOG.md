@@ -5,7 +5,7 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
 ## 0.1.8 (unreleased)
 
-- **Quick and Standard can put back strong headings the model left out (`keep_strong`, opt-in).**
+- **Quick and Standard put back strong headings the model left out (`keep_strong`, on by default).**
   Free's headings with evidence that needs no model (the PDF's bookmarks or printed contents list
   them, their numbering follows the previous numbered heading, or a standard name such as
   References) are compared with the model's answer. With `keep_strong="ask"`
@@ -13,14 +13,19 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   others are shown to the model once more, in one call per document, between the headings it
   listed before and after; it keeps or rejects each with a short reason. `"restore"` puts every one
   back without a call. Each decision is in `tree.usage["kept_strong"]`, and a section put back has
-  the flag `kept_strong`. Off by default. Claude Haiku 5.5, held-out F042 documents (research
+  the flag `kept_strong`. Claude Haiku 5.5, held-out F042 documents (research
   finding F059): Quick on PDFs with bookmarks, missed headings per 1,000 206 -> 155 (100 documents,
   -51, CI -86 to -23; precision -0.011, CI -0.032 to +0.012); without bookmarks 200 -> 198 (-1.9,
   CI -3.4 to -0.7); Standard without bookmarks 219 -> 215 (21 documents, 2 runs, -3.6, CI -7.0 to
   -0.9). The extra call cost at most $0.0005 a document on average. Known cost: German federal laws
   bookmark every footnote ("Fußnote"), and those come back as headings (Quick precision on them 0.90
   -> 0.81). Most misses are lines with no heading signal at all (research finding F056), which this
-  step cannot reach.
+  step cannot reach. The default is `ask` (`SECTIONANY_KEEP_STRONG=off` restores the earlier
+  behaviour), by a rule fixed before the run (research finding F064): on a random 980 of the 2,033
+  held-out READoc documents, Claude Haiku 5.5, Quick's heading-tree TEDS 72.56 -> 74.32 with `ask`
+  (+1.76, CI +1.36 to +2.18; 127 documents better, 9 worse) and missed headings per 1,000 191.6 ->
+  174.6; papers +2.21 (CI +1.59 to +2.89), READMEs +1.39 (CI +0.90 to +1.92). The ask calls cost
+  $0.0095 in all (35 documents asked). Local mode runs Quick's strategy and asks too.
 - **Headings set in italics at body size are found.** The extractor records which lines are set in
   italics, from the font name or the italic flag of a text font's descriptor (extractor version 7; the
   text is unchanged, so saved runs still map onto the page, and extractions saved earlier load without

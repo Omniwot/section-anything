@@ -171,12 +171,14 @@ class Settings(BaseSettings):
     # more of them is kept. At most one extra call per window, and only while the per-document cap
     # still covers it and the windows after it (research finding F043).
     coverage_retry: bool = True
-    # Quick and Standard: Free headings with evidence that needs no model (bookmarks or printed
-    # contents list them, a division label, numbering that continues in a heading style) which the
-    # model's answer leaves out are put back ("restore"), or shown to the model once more in one call
-    # per document, to keep or reject with a reason ("ask"); "off" leaves the answer as it is
-    # (research finding F059).
-    keep_strong: Literal["off", "restore", "ask"] = "off"
+    # Quick and Standard (and local mode, which runs Quick's strategy): Free headings with evidence that
+    # needs no model (bookmarks or printed contents list them, numbering that continues in a heading
+    # style, a standard name) which the model's answer leaves out are put back ("restore"), or put back
+    # when the outline lists them and otherwise shown to the model once more in one call per document,
+    # to keep or reject with a reason ("ask"); "off" leaves the answer as it is (research finding F059).
+    # Default "ask": on held-out READoc documents it raised Quick's heading-tree TEDS by 1.76 (CI +1.36
+    # to +2.18, 980 documents) by a rule fixed before the run (research finding F064).
+    keep_strong: Literal["off", "restore", "ask"] = "ask"
     # Contents check (opt-in): in these modes, every entry of the PDF's bookmarks (else its printed
     # table of contents) and of contents lists without page numbers that no section covers is looked
     # for in the body near its page and, when found, added as a heading flagged "from_contents"

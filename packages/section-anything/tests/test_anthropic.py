@@ -403,6 +403,7 @@ def test_quick_run_on_claude(paper_pdf, claude_api, monkeypatch):
     fake = claude_api(sse('{"items": []}', input_tokens=800, output_tokens=60))
     monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-env")
     monkeypatch.setenv("SECTIONANY_QUICK_MODEL", HAIKU)
+    monkeypatch.setenv("SECTIONANY_KEEP_STRONG", "off")  # one call: the review (keep_strong asks in its own test)
     tree = section_anything.section(paper_pdf, "quick")
     assert tree.mode == "quick" and tree.model == HAIKU and tree.usage["calls"] == len(fake.requests) == 1
     assert tree.cost_usd == pytest.approx(round((800 * 0.10 + 60 * 0.50) / 1e6, 4))

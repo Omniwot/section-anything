@@ -149,3 +149,18 @@ def test_the_contents_check_summary_survives_a_heading_put_back(monkeypatch):
         _doc(), "llm_review", "fake", 1.0, usage=Usage(), settings=Settings(keep_strong="restore", contents_check=["quick"])))
     assert SKIPPED in _numbers(sections)
     assert "contents_check" in metrics and "possible_misses" in metrics
+
+
+def test_ask_is_the_default(monkeypatch):
+    # Default since the held-out READoc check of research finding F064 (Quick +1.76 TEDS, CI +1.36 to +2.18).
+    assert Settings().keep_strong == "ask"
+    monkeypatch.setattr(llm_text, "structured", _review)
+    ask = Ask(keep_it=True)
+    monkeypatch.setattr(keep, "structured", ask)
+    _raw, sections, _m = asyncio.run(pipeline.run(_doc(), "llm_review", "fake", 1.0, usage=Usage(), settings=Settings()))
+    assert SKIPPED in _numbers(sections) and len(ask.calls) == 1
+
+
+def test_the_default_can_be_turned_off_by_environment(monkeypatch):
+    monkeypatch.setenv("SECTIONANY_KEEP_STRONG", "off")
+    assert Settings().keep_strong == "off"

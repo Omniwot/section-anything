@@ -69,7 +69,7 @@ def _run(ext, at, settings, monkeypatch):
 
 def test_a_bookmarked_heading_the_mode_left_out_is_added(monkeypatch):
     ext, at = _report()
-    sections, metrics = _run(ext, at, Settings(contents_check=["quick"]), monkeypatch)
+    sections, metrics = _run(ext, at, Settings(contents_check=["quick"], keep_strong="off"), monkeypatch)
     added = [s for s in sections if "from_contents" in s["flags"]]
     assert [(s["number"], s["title"], s["first_line"], s["level"]) for s in added] == [("3", "Council duties", at[HEADINGS[2]], 1)]
     assert metrics["contents_check"]["added"] == 1
@@ -78,14 +78,14 @@ def test_a_bookmarked_heading_the_mode_left_out_is_added(monkeypatch):
 
 def test_the_check_can_be_turned_off(monkeypatch):
     ext, at = _report()
-    sections, metrics = _run(ext, at, Settings(contents_check=[]), monkeypatch)
+    sections, metrics = _run(ext, at, Settings(contents_check=[], keep_strong="off"), monkeypatch)
     assert len([s for s in sections if "front_matter" not in s["flags"]]) == 3
     assert "contents_check" not in metrics
 
 
 def test_an_entry_not_found_is_listed_as_a_possible_miss_not_guessed(monkeypatch):
     ext, at = _report()
-    sections, metrics = _run(ext, at, Settings(contents_check=["quick"]), monkeypatch)
+    sections, metrics = _run(ext, at, Settings(contents_check=["quick"], keep_strong="off"), monkeypatch)
     assert not any("Estate" in s["title"] for s in sections)
     misses = metrics["possible_misses"]
     entry = next(m for m in misses if m["text"] == "5 Estate transfers")
@@ -95,7 +95,7 @@ def test_an_entry_not_found_is_listed_as_a_possible_miss_not_guessed(monkeypatch
 
 def test_possible_misses_rank_a_heading_like_line_the_result_left_out(monkeypatch):
     ext, at = _report()
-    sections, _ = _run(ext, at, Settings(contents_check=[]), monkeypatch)
+    sections, _ = _run(ext, at, Settings(contents_check=[], keep_strong="off"), monkeypatch)
     misses = possible_misses(sections, ext)
     assert misses and misses[0]["text"] == HEADINGS[2] and misses[0]["page"] == 3
     assert "its number fills a gap in the headings' numbering" in misses[0]["evidence"]
