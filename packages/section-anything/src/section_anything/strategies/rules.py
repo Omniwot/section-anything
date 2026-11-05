@@ -72,6 +72,64 @@ def _runs_on(ext: Extraction, ln: Line) -> bool:
     return nxt.page == ln.page and nxt.text[:1].islower() and (ln.y0 - nxt.y1) < ln.size
 
 
+# A multi-level section number ("2.3", "13.3.11"): no part starts with 0 except a lone 0 after the first.
+SECTION_NUMBER = re.compile(r"[1-9]\d{0,2}(?:\.(?:0|[1-9]\d{0,2}))+")
+
+
+def _few_letters(text: str, m: re.Match | None) -> bool:
+    """Fewer letters than other characters: bold maths ("A, B", "ad∗"), figures, codes. A multi-level
+    section number does not count against a capitalised title: "13.3.11 Hint" and "10.3 AVCs – JPS
+    2015" are headings whose number is longer than their title. A plain number does ("31 March 2024
+    £ million", "4 GeV2"), and so does a decimal ("0.040 Gyr", a figure's label) or a lower-case title
+    ("2.5 µm, giving ...")."""
+    if m is not None and SECTION_NUMBER.fullmatch(m.group("num").rstrip(".")):
+        title = text[m.end():].strip()
+        if title[:1].isupper():
+            text = title
+    return sum(c.isalpha() for c in text) < 0.5 * len(text.replace(" ", ""))
+
+
+def _split_heading(ext: Extraction, ln: Line, loose: bool, skip: set[int], hints: DoclingHints | None) -> bool:
+    """A number split off its title (`split_number`) whose title line is set in body type ("A." |
+    "The Glucoamylase"), judged as the joined line would be: the pair reads as a numbered heading
+    (strict mode: a multi-level number, "2.3"), the title starts with a capital, and it stands alone.
+    The title and at most one line wrapped under it (same left edge, next baseline) do not end like a
+    sentence and are followed by a gap wider than the next paragraph's line spacing, or by a page
+    break. A numbered paragraph ("1.1 This is a companion paper, which ...") runs on at its line
+    spacing and is left out."""
+    lines = ext.lines
+    t = lines[ln.i + 1]
+    title = t.text.strip()
+    joined = f"{ln.text.strip()} {title}"
+    m = NUMBERING.match(joined)
+    if (m is None or t.i in skip or CAPTION.match(title) or not title[:1].isupper()
+            or (hints is not None and t.i in hints.body)
+            or (not loose and not re.match(r"\d+\.\d+", m.group("num")))):
+        return False
+    block, j = [t], t.i + 1
+    while j < len(lines):
+        nx = lines[j]
+        if not (nx.page == t.page and abs(nx.x0 - t.x0) <= 2 and nx.size == t.size and nx.bold == t.bold
+                and 0 < block[-1].y0 - nx.y0 <= 1.6 * t.size):
+            break
+        block.append(nx)
+        j += 1
+        if len(block) > 2:
+            return False
+    end = block[-1].text.rstrip()
+    if end.endswith((".", ",", ";", ":") if loose else (".", ",", ";", ":", "?")):
+        return False
+    if len(joined.split()) + sum(len(x.text.split()) for x in block[1:]) > 14:
+        return False
+    if j >= len(lines) or lines[j].page != t.page:
+        return True
+    nxt = lines[j]
+    after = lines[j + 1] if j + 1 < len(lines) else None
+    pitch = (nxt.y0 - after.y0 if after is not None and after.page == nxt.page and 0 < nxt.y0 - after.y0 <= 2.5 * nxt.size
+             else 1.2 * t.size)
+    return block[-1].y0 - nxt.y0 > 1.25 * max(pitch, t.size)
+
+
 def _vertical(ext: Extraction, ln: Line) -> bool:
     """A one- or two-character line next to another such line: rotated text read letter by letter
     (the arXiv side stamp), not an index letter, which has entries between."""
@@ -90,13 +148,19 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     callout labels; and bold terms that run on into a paragraph.
 
     With Docling hints (`docling_input`), lines Docling labels as headings are candidates whatever
-    their style, and strict mode drops lines it labels as body text, list items, captions or code.
+    their style, and strict mode drops lines it labels as body text, list items, captions or code,
+    except the title line under a bare structural label.
 
     Both modes take a bare structural label ("CHAPITRE I", "PART 2", "SCHEDULE 1") together with the
     bold, larger or capitalised title line under it, however small or plain the label is set, and
     leave out the references printed beside a label (`side_notes`). Loose mode also keeps a bare
     division label with no such title line ("ANNEX II" above a numbered paragraph). Strict mode also
-    drops the cells of table rows."""
+    drops the cells of table rows.
+
+    A bare "§ 97" set bold or larger is a candidate although it has no letters. A section number
+    split off a title set in body type counts when the pair stands as a numbered heading
+    (`_split_heading`). Strict mode's letter-share test reads a capitalised title without its
+    multi-level number (`_few_letters`)."""
     body = ext.body_size()
     furniture = furniture_of(ext)
     toc = toc_of(ext).lines
@@ -109,6 +173,8 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     labelled = _label_lines(ext, furniture | toc, body, bump, side)
     titles = set(labelled.values())
     cells = set() if loose else _table_cells(ext, furniture | toc | side)
+    skip = furniture | toc | side | cells
+    split_titles: set[int] = set()
     for ln in ext.lines:
         text = ln.text
         if ln.i in furniture or ln.i in toc or ln.i in side or ln.i in cells or CAPTION.match(text):
@@ -120,15 +186,25 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
             # Joined with its title line by _merge_wrapped (Free) and LlmReviewStrategy._rows.
             out.append((ln, text.strip()))
             split.add(ln.i)
+            if _split_heading(ext, ln, loose, skip, None if loose else hints):
+                split_titles.add(ln.i + 1)
+            continue
+        if ln.i in split_titles:
+            out.append((ln, ""))  # the title of a split-off number, judged with its number
             continue
         if hints is not None and ln.i in hints.headers:
             if loose or not (THEOREM.match(text) or text.strip().lower() in labels):
                 m = NUMBERING.match(text)
                 out.append((ln, m.group("num").strip() if m else ""))
             continue
-        if hints is not None and not loose and ln.i in hints.body:
+        # Docling's body label does not override the title line under a bare label ("Teil 4" /
+        # "Datenbanken der ..."): the pair is a heading whatever Docling calls its second line.
+        if hints is not None and not loose and ln.i in hints.body and ln.i not in titles:
             continue
-        if not re.search(r"[A-Za-z]", text):
+        styled = ln.size >= body + bump or (ln.bold and ln.size >= body - 0.3) or ln.i in titles
+        # A bare "§ 97" set like a heading has no letters: a section with no title, or a repealed one.
+        bare_label = styled and bool(LABEL_ONLY.match(_label_text(text)))
+        if not re.search(r"[A-Za-z]", text) and not bare_label:
             continue
         if _abstract_heading(ln):
             out.append((ln, ""))
@@ -142,12 +218,11 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
         if len(text.strip()) <= 2 and _vertical(ext, ln):
             continue
         index_letter = bool(re.fullmatch(r"[A-Z]", text.strip())) and ln.bold and ln.size >= body + 1.0
-        if not index_letter and (
-            letters < (2 if loose else 3) or (not loose and letters < 0.5 * len(text.replace(" ", "")))
+        m = NUMBERING.match(text)
+        if not index_letter and not bare_label and (
+            letters < (2 if loose else 3) or (not loose and _few_letters(text, m))
         ):
             continue
-        m = NUMBERING.match(text)
-        styled = ln.size >= body + bump or (ln.bold and ln.size >= body - 0.3) or ln.i in titles
         numbered = bool(m) and not text.rstrip().endswith((",", ";")) and words <= 14
         if not loose:
             if text.strip().lower() in labels or THEOREM.match(text):
