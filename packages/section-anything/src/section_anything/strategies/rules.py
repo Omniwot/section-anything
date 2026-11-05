@@ -13,7 +13,7 @@ from section_anything.docling_input import DoclingHints, hints_of
 from section_anything.extract import Extraction, Line
 from section_anything.outline_check import LETTER_SPACED
 from section_anything.strategies.base import Context, RawSection, Strategy
-from section_anything.structure import NUMBER_ALONE, furniture_of, outline_backbone, split_number, toc_of
+from section_anything.structure import NUMBER_ALONE, furniture_of, listing_of, outline_backbone, split_number, toc_of
 
 NUMBERING = re.compile(
     r"^(?P<num>(?:chapter|part|section|appendix|article|annex|unit|lesson)\s+[\dA-Z]+[.:]?"
@@ -79,6 +79,44 @@ def _vertical(ext: Extraction, ln: Line) -> bool:
     return any(x.page == ln.page and len(x.text.strip()) <= 2 for x in near)
 
 
+# How a sentence, a quotation or a list item ends; a heading's last character is none of these.
+SENTENCE_END = re.compile(r"[.,;:!?…”’\"'»]$")
+
+
+def _italic_heading(ext: Extraction, ln: Line, body: float, skip: set[int]) -> bool:
+    """A heading set in italics at body size, its only signal (a UK Act's cross-headings, "Types of
+    sanction" above its sections): a line in italics, not bold, starting with a capital and not ending like
+    a sentence, with its row to itself, set off by most of a blank line above and below from lines that
+    are not italic, and not followed by a lowercase continuation. Emphasis inside a paragraph,
+    quotations, captions, theorem statements and italic paragraphs have italic or close neighbours, share
+    their row, or end like sentences. Lines in `skip` (contents lists without page numbers) are left out;
+    furniture (running headers, often italic) is not a neighbour."""
+    t = ln.text.strip()
+    if not ln.italic or ln.bold or abs(ln.size - body) > 0.5 or ln.i in skip:
+        return False
+    if not t[:1].isupper() or SENTENCE_END.search(t):
+        return False
+    lines = ext.lines
+    nxt = lines[ln.i + 1] if ln.i + 1 < len(lines) and lines[ln.i + 1].page == ln.page else None
+    if nxt is not None and nxt.text[:1].islower():
+        return False
+    furniture = furniture_of(ext)
+    near = [o for o in lines[max(0, ln.i - 8): ln.i + 9] if o is not ln and o.page == ln.page and o.i not in furniture]
+    # A piece of a longer printed line (split at a formula): another line on its row close beside it.
+    if any(min(o.y1, ln.y1) - max(o.y0, ln.y0) > 0.5 * min(o.y1 - o.y0, ln.y1 - ln.y0)
+           and max(o.x0 - ln.x1, ln.x0 - o.x1) < 0.5 * ln.size for o in near):
+        return False
+    # The nearest lines above and below in its own column (overlapping it horizontally).
+    mid = (ln.y0 + ln.y1) / 2
+    col = [o for o in near if min(o.x1, ln.x1) > max(o.x0, ln.x0)]
+    above = min((o for o in col if (o.y0 + o.y1) / 2 > mid), key=lambda o: o.y0 - ln.y1, default=None)
+    below = min((o for o in col if (o.y0 + o.y1) / 2 < mid), key=lambda o: ln.y0 - o.y1, default=None)
+    gap = 0.9 * ln.size
+    if above is not None and (above.italic or above.y0 - ln.y1 < gap):
+        return False
+    return below is None or (not below.italic and ln.y0 - below.y1 >= gap)
+
+
 def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     """Lines that look like headings, with their numbering prefix ("" if none).
     `loose` widens recall for an LLM to filter afterwards; TOC lines are
@@ -96,7 +134,8 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     bold, larger or capitalised title line under it, however small or plain the label is set, and
     leave out the references printed beside a label (`side_notes`). Loose mode also keeps a bare
     division label with no such title line ("ANNEX II" above a numbered paragraph). Strict mode also
-    drops the cells of table rows."""
+    drops the cells of table rows. In both, a line in italics at body size counts as styled when it is
+    set apart like a heading (`_italic_heading`)."""
     body = ext.body_size()
     furniture = furniture_of(ext)
     toc = toc_of(ext).lines
@@ -109,6 +148,7 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     labelled = _label_lines(ext, furniture | toc, body, bump, side)
     titles = set(labelled.values())
     cells = set() if loose else _table_cells(ext, furniture | toc | side)
+    listing = listing_of(ext) if any(ln.italic for ln in ext.lines) else set()
     for ln in ext.lines:
         text = ln.text
         if ln.i in furniture or ln.i in toc or ln.i in side or ln.i in cells or CAPTION.match(text):
@@ -126,7 +166,7 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
                 m = NUMBERING.match(text)
                 out.append((ln, m.group("num").strip() if m else ""))
             continue
-        if hints is not None and not loose and ln.i in hints.body:
+        if hints is not None and not loose and ln.i in hints.body and not _italic_heading(ext, ln, body, listing):
             continue
         if not re.search(r"[A-Za-z]", text):
             continue
@@ -147,7 +187,8 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
         ):
             continue
         m = NUMBERING.match(text)
-        styled = ln.size >= body + bump or (ln.bold and ln.size >= body - 0.3) or ln.i in titles
+        styled = (ln.size >= body + bump or (ln.bold and ln.size >= body - 0.3) or ln.i in titles
+                  or _italic_heading(ext, ln, body, listing))
         numbered = bool(m) and not text.rstrip().endswith((",", ";")) and words <= 14
         if not loose:
             if text.strip().lower() in labels or THEOREM.match(text):
@@ -470,6 +511,14 @@ def _flat_outline_levels(backbone: list, lines: list[Line]) -> None:
 Style = tuple[float, bool]
 
 
+def _style(ln: Line, body: float) -> Style:
+    """A heading line's style for levels: (size, bold). A line in italics at body size and regular weight
+    ranks below every other style: italics at body size mark a document's lowest headings (a report's
+    minor headings, a paper's subsections). A UK Act's cross-headings take their level from its labels
+    (`_label_levels`)."""
+    return (0.0, False) if ln.italic and not ln.bold and abs(ln.size - body) <= 0.5 else (ln.size, ln.bold)
+
+
 def _style_rank(s: Style) -> tuple[float, bool]:
     return (-s[0], not s[1])  # bigger first, bold before regular
 
@@ -491,7 +540,7 @@ def _levels_from_outline(styles: set[Style], known: dict[Style, int]) -> dict[St
     return out
 
 
-def _style_levels(heads: list[tuple[Line, str]]) -> dict[Style, int]:
+def _style_levels(heads: list[tuple[Line, str]], body: float) -> dict[Style, int]:
     """Give every heading style a level when there is no outline.
 
     Numbered headings take their numbering depth ("2.1" -> 2). A style that two or more of them
@@ -507,7 +556,7 @@ def _style_levels(heads: list[tuple[Line, str]]) -> dict[Style, int]:
     depths: dict[Style, list[tuple[int, int]]] = defaultdict(list)
     for ln, num in heads:
         if re.fullmatch(r"\d+(?:\.\d+)*\.?", num):
-            depths[(ln.size, ln.bold)].append((num.rstrip(".").count(".") + 1, ln.page))
+            depths[_style(ln, body)].append((num.rstrip(".").count(".") + 1, ln.page))
     known = {}
     for s, seen in depths.items():
         ds = [d for d, _ in seen]
@@ -515,7 +564,7 @@ def _style_levels(heads: list[tuple[Line, str]]) -> dict[Style, int]:
             known[s] = min(set(ds), key=lambda d: (-ds.count(d), d))
     if 1 not in known.values():
         known = {}
-    return _levels_from_outline({(ln.size, ln.bold) for ln, _ in heads}, known)
+    return _levels_from_outline({_style(ln, body) for ln, _ in heads}, known)
 
 
 class RulesStrategy(Strategy):
@@ -536,11 +585,12 @@ class RulesStrategy(Strategy):
             return rules
 
         lines = ext.lines
+        body = ext.body_size()
         _flat_outline_levels(backbone, lines)
         by_line = {a.line: a for a in backbone}
         votes: dict[Style, list[int]] = defaultdict(list)
         for a in backbone:
-            votes[(lines[a.line].size, lines[a.line].bold)].append(a.level)
+            votes[_style(lines[a.line], body)].append(a.level)
         # A style's level is trusted when two or more outline entries use it,
         # or when it is bigger than every such style (a single chapter title).
         # One stray entry ("Introduction" set as a small run-in label) must
@@ -553,7 +603,7 @@ class RulesStrategy(Strategy):
             if len(v) >= 2 or top is None or _style_rank(s) < _style_rank(top)
         }
         abstract = {r.start_line for r in rules if _abstract_heading(lines[r.start_line])}
-        rule_styles = {(lines[r.start_line].size, lines[r.start_line].bold) for r in rules if r.start_line not in abstract}
+        rule_styles = {_style(lines[r.start_line], body) for r in rules if r.start_line not in abstract}
         level_of = _levels_from_outline(rule_styles, known)
 
         out = []
@@ -571,7 +621,7 @@ class RulesStrategy(Strategy):
             ln = lines[r.start_line]
             dotted = re.fullmatch(r"\d+(?:\.\d+)*\.?", r.number)
             if r.start_line not in abstract:
-                r.level = r.number.rstrip(".").count(".") + 1 if dotted else level_of[(ln.size, ln.bold)]
+                r.level = r.number.rstrip(".").count(".") + 1 if dotted else level_of[_style(ln, body)]
             out.append(r)
         out.sort(key=lambda s: s.start_line)
         _abstract_levels(out, abstract)
@@ -584,7 +634,8 @@ class RulesStrategy(Strategy):
         # The abstract's heading does not take part in the style levels, so its style cannot shift
         # the other levels (see _abstract_levels).
         abstract = {ln.i for ln, _, _ in cands if _abstract_heading(ln)}
-        style_level = _style_levels([(ln, num) for ln, num, _ in cands if ln.i not in abstract])
+        body = ext.body_size()
+        style_level = _style_levels([(ln, num) for ln, num, _ in cands if ln.i not in abstract], body)
         # Legislation sets its structure in labels ("KAPITEL I", "Artikel 5"), often in the body face
         # or smaller, so typography ranks it upside down; when the labels are clear they set the levels.
         by_label = _label_levels([f"{num} {text}" if num and not text.startswith(num) else text.replace("\n", " ")
@@ -597,7 +648,7 @@ class RulesStrategy(Strategy):
             elif by_label:
                 level = by_label[k]
             else:
-                level = num.rstrip(".").count(".") + 1 if dotted else style_level[(ln.size, ln.bold)]
+                level = num.rstrip(".").count(".") + 1 if dotted else style_level[_style(ln, body)]
             title = text.replace("\n", " ")
             marker = _printed(ext, ln, text, side)
             first, _, rest = text.partition("\n")

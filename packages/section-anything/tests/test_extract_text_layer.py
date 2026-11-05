@@ -1,12 +1,13 @@
 """Text that pdfminer's layout analysis used to drop (research finding F045): page text drawn inside a
 form XObject that covers the page (printed UK Acts 2011-2016), and CID fonts whose encoding is a CMap
-embedded in the PDF (Official Journal of the EU). Both PDFs are written by hand here."""
+embedded in the PDF (Official Journal of the EU). Also which lines are set in italics (F061). The PDFs
+are written by hand here."""
 
 from __future__ import annotations
 
 from pathlib import Path
 
-from section_anything.extract import extract
+from section_anything.extract import ITALIC_FONT, extract
 
 
 def _write(path: Path, objects: list[bytes], root: int) -> Path:
@@ -91,3 +92,55 @@ def test_cid_font_with_an_embedded_cmap_is_decoded(tmp_path):
     ext = extract(_embedded_cmap_pdf(tmp_path / "cmap.pdf"))
     assert [ln.text for ln in ext.lines] == ["Artikel 1 Gegenstand", "Diese Verordnung gilt."]
     assert ext.lines[0].size == 16
+
+
+def _fonts_pdf(path: Path) -> Path:
+    """One page, a line per font: regular Helvetica, Times-Italic (italic by name), a font whose name says
+    nothing but whose descriptor flags it italic and nonsymbolic, and a maths italic font (slanted, but
+    flagged symbolic)."""
+    widths = b" /FirstChar 32 /LastChar 126 /Widths [" + b" ".join([b"500"] * 95) + b"]"
+
+    def described(name: bytes, flags: int, angle: int, descriptor: int) -> bytes:
+        return (b"<< /Type /Font /Subtype /Type1 /BaseFont /" + name + b" /FontDescriptor %d 0 R" % descriptor + widths
+                + b" /Encoding /WinAnsiEncoding >>")
+
+    def descriptor(name: bytes, flags: int, angle: int) -> bytes:
+        return (b"<< /Type /FontDescriptor /FontName /" + name + b" /Flags %d /ItalicAngle %d" % (flags, angle)
+                + b" /FontBBox [0 -200 1000 900] /Ascent 900 /Descent -200 /CapHeight 700 /StemV 80 >>")
+
+    content = (b"BT /F1 10 Tf 72 700 Td (Ordinary body text in a regular face.) Tj ET\n"
+               b"BT /F2 10 Tf 72 680 Td (Appointment and tenure) Tj ET\n"
+               b"BT /F3 10 Tf 72 660 Td (Term of office) Tj ET\n"
+               b"BT /F4 10 Tf 72 640 Td (fxyz) Tj ET")
+    objects = [
+        b"<< /Type /Catalog /Pages 2 0 R >>",
+        b"<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+        b"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R /F2 5 0 R"
+        b" /F3 6 0 R /F4 7 0 R >> >> /Contents 10 0 R >>",
+        b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>",
+        b"<< /Type /Font /Subtype /Type1 /BaseFont /Times-Italic /Encoding /WinAnsiEncoding >>",
+        described(b"ABCDEF+AdvTT21fb76a9", 96, -10, 8),
+        described(b"GHIJKL+CMMI10", 4, -14, 9),
+        descriptor(b"ABCDEF+AdvTT21fb76a9", 96, -10),
+        descriptor(b"GHIJKL+CMMI10", 4, -14),
+        _stream(content),
+    ]
+    return _write(path, objects, 1)
+
+
+def test_lines_record_italics_by_font_name_or_descriptor(tmp_path):
+    ext = extract(_fonts_pdf(tmp_path / "fonts.pdf"))
+    assert [(ln.text, ln.italic) for ln in ext.lines] == [
+        ("Ordinary body text in a regular face.", False), ("Appointment and tenure", True),
+        ("Term of office", True), ("fxyz", False)]
+
+
+def test_italic_font_names():
+    italic = ["Times-Italic", "Arial-BoldItalicMT", "Arial,Italic", "Helvetica-Oblique", "MinionPro-It",
+              "MyriadPro-SemiboldIt", "HelveticaNeueLTStd-LtIt", "NimbusRomNo9L-ReguItal", "EUAlbertina-ReguItal",
+              "URWPalladioL-Ital", "CMTI10", "CMBXTI10", "CMSL10", "SFTI1000", "NimbusRomNo9L-Regu-Slant_167",
+              "BookAntiquaParliamentary,Italic", "LMRoman10-Italic"]
+    upright = ["Helvetica", "Times-Roman", "CMMI10", "CMSY10", "CMR10", "FreeSerif-Identity-H",
+               "LucidaSans-Typewriter", "NunitoExtraLight-Medium", "ITCFranklinGothicStd-Book", "NimbusRomNo9L-Medi"]
+    assert [n for n in italic if not ITALIC_FONT.search(n)] == []
+    assert [n for n in upright if ITALIC_FONT.search(n)] == []
