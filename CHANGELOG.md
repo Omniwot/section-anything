@@ -3,6 +3,28 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
+## 0.1.8 (unreleased)
+
+- **`free` and `quick` keep real headings that four candidate rules threw away.** A bare "§ 97"
+  set bold or larger is a candidate although it has no letters (an untitled or repealed section of
+  a German law); a multi-level number no longer counts against a capitalised title in the
+  letter-share test ("13.3.11 Hint", "10.3 AVCs – JPS 2015"); a section number the extractor split
+  off a title set in body type ("2.3" | "Data sources", "A." | "The Glucoamylase") counts when the
+  pair stands as a heading: a gap below it, at most one wrapped line, no sentence ending, and, in
+  `free`, a multi-level number; and with Docling hints, Docling's body-text label no longer removes
+  the title line under a bare label ("Teil 4" / "Datenbanken ..."). On 300 held-out documents
+  (research finding F062, answer keys v2), `free` without bookmarks misses 184.2 reference headings
+  per 1,000 instead of 204.0 (-19.8, CI -34.6 to -7.8; precision 0.528 -> 0.532): German laws 141.3
+  -> 62.7, OASIS standards 134.5 -> 34.7, reports 224.2 -> 169.0. With bookmarks 79.9 -> 78.2
+  (precision 0.577 -> 0.575); with Docling hints 113.5 -> 104.8 and 120.6 -> 110.4 (UK Acts -44 and
+  -52), at a small precision cost (-0.005 and -0.002). EU regulations lose 0.018 precision without
+  fewer misses: numbered annex points ("2.1 Sécurité des personnes") that their keys do not list.
+  READoc development papers 55.16 -> 55.28 heading-tree TEDS, READMEs unchanged. `quick` (Claude
+  Haiku 5.5, one run on each of the 49 held-out documents whose candidates changed, against earlier
+  saved runs): 298.9 -> 236.8 misses per 1,000 (CI -119.8 to -21.9), precision 0.740 -> 0.753;
+  German laws 180.3 -> 24.5, reports 329.9 -> 157.9; UK Acts, RFCs and OASIS standards level.
+  The outline check, Docling's body label for other lines and the caption rule are unchanged.
+
 ## 0.1.7 (unreleased)
 
 - **`quick` finds structural headings set small or plain.** A bare division label (Part, Chapter,
