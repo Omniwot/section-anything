@@ -22,7 +22,9 @@ from the work folder `.tmp/match-fail/tools/`, where they live beside their outp
   the corpus sample's v2.1 keys (the rule changes none of them).
 - `gapstats.py`: the layout of every same-style join Free's merge stage made on development documents, with
   what the key says (one heading or two); it set the 1.65 line-spacing limit.
-- `ablate.py`: the fix with one of its two parts switched off (development documents only).
+- `ablate.py`: the fix with one of its two parts switched off (development documents only). Release 0.1.8 takes
+  only the run-on part into the library (its `_merge_wrapped` has no layout test and no `ext` argument), so
+  `ablate.py merge` needs branch `fix/match-failures`.
 - `page.py`: prints a page's lines with size, weight and position, for checking cases by hand.
 - `readoc/`: Free on the READoc development set from saved extractions, and READoc's heading-tree TEDS
   (copied from F045's scripts).
