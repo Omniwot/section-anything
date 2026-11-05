@@ -171,6 +171,12 @@ class Settings(BaseSettings):
     # more of them is kept. At most one extra call per window, and only while the per-document cap
     # still covers it and the windows after it (research finding F043).
     coverage_retry: bool = True
+    # Quick and Standard: Free headings with evidence that needs no model (bookmarks or printed
+    # contents list them, a division label, numbering that continues in a heading style) which the
+    # model's answer leaves out are put back ("restore"), or shown to the model once more in one call
+    # per document, to keep or reject with a reason ("ask"); "off" leaves the answer as it is
+    # (research finding F058).
+    keep_strong: Literal["off", "restore", "ask"] = "off"
 
     # Model calls.
     llm_timeout_seconds: float = Field(default=300.0, gt=0)
