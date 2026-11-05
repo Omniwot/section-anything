@@ -1,0 +1,584 @@
+[
+ {
+  "level": 1,
+  "title": "CARBON TARGET AND BUDGETING",
+  "page": 6,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "The target for 2050",
+  "page": 6,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "The target for 2050",
+  "page": 6,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Amendment of 2050 target or baseline year",
+  "page": 7,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Consultation on order amending 2050 target or baseline year",
+  "page": 7,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Carbon budgeting",
+  "page": 8,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Carbon budgets",
+  "page": 8,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Level of carbon budgets",
+  "page": 8,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Amendment of target percentages",
+  "page": 9,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Consultation on order setting or amending target percentages",
+  "page": 10,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Setting of carbon budgets for budgetary periods",
+  "page": 10,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Consultation on carbon budgets",
+  "page": 10,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "10 Matters to be taken into account in connection with carbon budgets",
+  "page": 11,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Limit on use of carbon units",
+  "page": 12,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Limit on use of carbon units",
+  "page": 12,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Indicative annual ranges",
+  "page": 13,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Duty to provide indicative annual ranges for net UK carbon account",
+  "page": 13,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Proposals and policies for meeting carbon budgets",
+  "page": 13,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Duty to prepare proposals and policies for meeting carbon budgets",
+  "page": 13,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Duty to report on proposals and policies for meeting carbon budgets",
+  "page": 13,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Duty to have regard to need for UK domestic action on climate change",
+  "page": 14,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Determination whether objectives met",
+  "page": 14,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Annual statement of UK emissions",
+  "page": 14,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Powers to carry amounts from one budgetary period to another",
+  "page": 15,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Final statement for budgetary period",
+  "page": 15,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Duty to report on proposals and policies for compensating for budget excess",
+  "page": 16,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Final statement for 2050",
+  "page": 16,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Alteration of budgets or budgetary periods",
+  "page": 17,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Alteration of carbon budgets",
+  "page": 17,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Consultation on alteration of carbon budgets",
+  "page": 17,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Alteration of budgetary periods",
+  "page": 18,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Targeted greenhouse gases",
+  "page": 18,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Targeted greenhouse gases",
+  "page": 18,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Base years for targeted greenhouse gases other than CO2",
+  "page": 19,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Carbon units, carbon accounting and the net UK carbon account",
+  "page": 20,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Carbon units and carbon accounting",
+  "page": 20,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Net UK carbon account",
+  "page": 21,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Procedure for regulations under section 26 or 27",
+  "page": 21,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Other supplementary provisions",
+  "page": 22,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "UK emissions and removals of greenhouse gases",
+  "page": 22,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Emissions from international aviation or international shipping",
+  "page": 22,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Procedure for regulations under section 30",
+  "page": 23,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "Part 2 — The Committee on Climate Change",
+  "page": 24,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "THE COMMITTEE ON CLIMATE CHANGE",
+  "page": 24,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Functions of the Committee",
+  "page": 24,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Advice on level of 2050 target",
+  "page": 24,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Advice in connection with carbon budgets",
+  "page": 24,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Advice on emissions from international aviation and international shipping",
+  "page": 25,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Reports on progress",
+  "page": 26,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Response to Committee’s reports on progress",
+  "page": 26,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Duty to provide advice or other assistance on request",
+  "page": 27,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Supplementary provisions",
+  "page": 27,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "General ancillary powers",
+  "page": 27,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Grants to the Committee",
+  "page": 27,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Powers to give guidance",
+  "page": 28,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Powers to give directions",
+  "page": 28,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Interpretation",
+  "page": 29,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Interpretation of Part 2",
+  "page": 29,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "TRADING SCHEMES",
+  "page": 29,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Trading schemes",
+  "page": 29,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Trading schemes",
+  "page": 29,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Activities to which trading schemes may apply",
+  "page": 29,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "46 Matters that may or must be provided for in regulations",
+  "page": 30,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Authorities and regulations",
+  "page": 30,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Relevant national authorities",
+  "page": 30,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Procedure for making regulations",
+  "page": 31,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Further provisions about regulations",
+  "page": 31,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Information",
+  "page": 32,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Powers to give guidance",
+  "page": 32,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Powers to give directions",
+  "page": 32,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Grants to administrators and participants",
+  "page": 32,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Power to make consequential provision",
+  "page": 32,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Interpretation",
+  "page": 32,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Interpretation of Part 3",
+  "page": 32,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "IMPACT OF AND ADAPTATION TO CLIMATE CHANGE",
+  "page": 33,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "National reports and programmes",
+  "page": 33,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Report on impact of climate change",
+  "page": 33,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Advice of Committee on Climate Change on impact report",
+  "page": 33,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Programme for adaptation to climate change",
+  "page": 34,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Reporting on progress in connection with adaptation",
+  "page": 34,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Programme for adaptation to climate change: Northern Ireland",
+  "page": 34,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Reporting authorities: non-devolved functions",
+  "page": 35,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Guidance by Secretary of State to reporting authorities",
+  "page": 35,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Directions by Secretary of State to prepare reports",
+  "page": 35,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Compliance with Secretary of State’s directions",
+  "page": 35,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Consent of, or consultation with, devolved authorities",
+  "page": 36,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Report on exercise of power to give directions",
+  "page": 36,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Reporting authorities: devolved Welsh functions",
+  "page": 37,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Guidance by Welsh Ministers to reporting authorities",
+  "page": 37,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Directions by Welsh Ministers to prepare reports",
+  "page": 37,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Compliance with Welsh Ministers’ directions",
+  "page": 37,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Consent of, or consultation with, Secretary of State",
+  "page": 38,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Interpretation",
+  "page": 39,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "Interpretation",
+  "page": 39,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "OTHER PROVISIONS",
+  "page": 40,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "Waste reduction schemes",
+  "page": 40,
+  "image_only": true
+ },
+ {
+  "level": 3,
+  "title": "71 Waste reduction schemes",
+  "page": 40,
+  "image_only": true
+ }
+]

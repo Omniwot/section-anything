@@ -1,0 +1,122 @@
+[
+ {
+  "level": 1,
+  "title": "ACT I",
+  "page": 1,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE I. Elsinore. A platform before the Castle.",
+  "page": 1,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE II. Elsinore. A room of state in the Castle.",
+  "page": 3,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE III. A room in Polonius’s house.",
+  "page": 7,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE IV. The platform.",
+  "page": 9,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE V. A more remote part of the Castle.",
+  "page": 10,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "ACT II",
+  "page": 13,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE I. A room in Polonius’s house.",
+  "page": 13,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE II. A room in the Castle.",
+  "page": 15,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "ACT III",
+  "page": 23,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE I. A room in the Castle.",
+  "page": 23,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE II. A hall in the Castle.",
+  "page": 25,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE III. A room in the Castle.",
+  "page": 31,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE IV. Another room in the Castle.",
+  "page": 33,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "ACT IV",
+  "page": 36,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE I. A room in the Castle.",
+  "page": 36,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE II. Another room in the Castle.",
+  "page": 36,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE III. Another room in the Castle.",
+  "page": 37,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE IV. A plain in Denmark.",
+  "page": 38,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "SCENE V. Elsinore. A room in the Castle.",
+  "page": 39,
+  "image_only": true
+ }
+]

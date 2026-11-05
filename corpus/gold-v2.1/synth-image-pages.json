@@ -1,0 +1,232 @@
+[
+ {
+  "level": 1,
+  "title": "1 Coastal Fatigue",
+  "page": 1
+ },
+ {
+  "level": 2,
+  "title": "1.1 Statistical Retrofits",
+  "page": 1
+ },
+ {
+  "level": 2,
+  "title": "1.2 Adaptive Sensor Placement",
+  "page": 2
+ },
+ {
+  "level": 2,
+  "title": "1.3 Seasonal Erosion",
+  "page": 3,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "1.4 Regional Sensor Placement",
+  "page": 3,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "1.5 Hydraulic Load Paths and Its Limits",
+  "page": 4
+ },
+ {
+  "level": 2,
+  "title": "1.6 Secondary Sampling in Practice",
+  "page": 4
+ },
+ {
+  "level": 1,
+  "title": "2 Optical Water Balance",
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "2.1 Thermal Calibration in Practice",
+  "page": 5
+ },
+ {
+  "level": 2,
+  "title": "2.2 Regional Water Balance at Scale",
+  "page": 6,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "2.3 Optical Validation in Practice",
+  "page": 6,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "2.4 Regional Scheduling",
+  "page": 7
+ },
+ {
+  "level": 2,
+  "title": "2.5 Adaptive Sampling and Its Limits",
+  "page": 7
+ },
+ {
+  "level": 1,
+  "title": "3 Lateral Scheduling",
+  "page": 9,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "3.1 Seasonal Coverage at Scale",
+  "page": 9,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "3.2 Statistical Scheduling",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "3.3 Acoustic Noise Floor Revisited",
+  "page": 10
+ },
+ {
+  "level": 2,
+  "title": "3.4 Thermal Sensor Placement for Small Sites",
+  "page": 11
+ },
+ {
+  "level": 2,
+  "title": "3.5 Comparative Erosion under Load",
+  "page": 11
+ },
+ {
+  "level": 1,
+  "title": "4 Primary Calibration at Scale",
+  "page": 12,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "4.1 Hydraulic Material Selection for Small Sites",
+  "page": 12,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "4.2 Hydraulic Erosion",
+  "page": 13
+ },
+ {
+  "level": 2,
+  "title": "4.3 Coastal Water Balance and Its Limits",
+  "page": 14
+ },
+ {
+  "level": 2,
+  "title": "4.4 Thermal Sampling",
+  "page": 14
+ },
+ {
+  "level": 2,
+  "title": "4.5 Long-term Drift",
+  "page": 15,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "4.6 Urban Benchmarks",
+  "page": 15,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "4.7 Field Fatigue",
+  "page": 16
+ },
+ {
+  "level": 1,
+  "title": "5 Primary Calibration",
+  "page": 16
+ },
+ {
+  "level": 2,
+  "title": "5.1 Urban Scheduling",
+  "page": 17
+ },
+ {
+  "level": 2,
+  "title": "5.2 Optical Maintenance",
+  "page": 18,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "5.3 Long-term Survey Design",
+  "page": 18,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "5.4 Comparative Survey Design under Load",
+  "page": 19
+ },
+ {
+  "level": 2,
+  "title": "5.5 Urban Load Paths",
+  "page": 20
+ },
+ {
+  "level": 2,
+  "title": "5.6 Regional Drift Revisited",
+  "page": 21,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "5.7 Regional Scheduling at Scale",
+  "page": 22
+ },
+ {
+  "level": 1,
+  "title": "6 Long-term Calibration",
+  "page": 22
+ },
+ {
+  "level": 2,
+  "title": "6.1 Adaptive Coverage",
+  "page": 23
+ },
+ {
+  "level": 2,
+  "title": "6.2 Coastal Scheduling under Load",
+  "page": 24,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "6.3 Regional Coverage",
+  "page": 25
+ },
+ {
+  "level": 2,
+  "title": "6.4 Regional Noise Floor",
+  "page": 26
+ },
+ {
+  "level": 2,
+  "title": "6.5 Thermal Maintenance under Load",
+  "page": 27,
+  "image_only": true
+ },
+ {
+  "level": 2,
+  "title": "6.6 Regional Interpolation",
+  "page": 28
+ },
+ {
+  "level": 2,
+  "title": "6.7 Long-term Sensor Placement under Load",
+  "page": 28
+ }
+]

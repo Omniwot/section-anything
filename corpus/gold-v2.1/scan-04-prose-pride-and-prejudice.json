@@ -1,0 +1,92 @@
+[
+ {
+  "level": 1,
+  "title": "Chapter I.",
+  "page": 1,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER II.",
+  "page": 3,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER III.",
+  "page": 5,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER IV.",
+  "page": 8,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER V.",
+  "page": 10,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER VI.",
+  "page": 12,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER VII.",
+  "page": 16,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER VIII.",
+  "page": 20,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER IX.",
+  "page": 24,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER X.",
+  "page": 27,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER XI.",
+  "page": 31,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER XII.",
+  "page": 34,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER XIII",
+  "page": 35,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER XIV",
+  "page": 38,
+  "image_only": true
+ },
+ {
+  "level": 1,
+  "title": "CHAPTER XV.",
+  "page": 40,
+  "image_only": true
+ }
+]

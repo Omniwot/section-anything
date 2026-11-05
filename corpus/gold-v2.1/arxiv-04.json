@@ -1,0 +1,32 @@
+[
+ {
+  "level": 1,
+  "title": "I. INTRODUCTION",
+  "page": 1
+ },
+ {
+  "level": 1,
+  "title": "II. PRELIMINARIES: POLYNOMIALS OF GOLAY COMPLEMENTARY ARRAYS AND COMMUTATIVE",
+  "page": 3
+ },
+ {
+  "level": 1,
+  "title": "III. FOUR LEMMAS",
+  "page": 8
+ },
+ {
+  "level": 1,
+  "title": "IV. CONSTRUCTIONS OF POLYPHASE GCA PAIRS",
+  "page": 12
+ },
+ {
+  "level": 1,
+  "title": "V. CONSTRUCTIONS OF POLYPHASE GCA QUADS",
+  "page": 18
+ },
+ {
+  "level": 1,
+  "title": "VI. CONCLUSIONS",
+  "page": 26
+ }
+]
