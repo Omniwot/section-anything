@@ -3,6 +3,33 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
+## 0.1.9 (unreleased)
+
+- **A UK Act's schedules come out as its own outline in `free` (research finding F065, pre-registered
+  held-out check).** Four changes, found in a review of a revised UK Act (the Modern Slavery Act 2015)
+  and designed on it and the development documents only:
+  - a schedule paragraph's own italic title, set close above the paragraph whose number stands alone
+    at the margin ("Power to stop, board, divert and detain" over "2" | "(1) This paragraph applies
+    ..."), is a heading and takes the paragraph's number (a contents entry under an italic
+    cross-heading is not taken: a paragraph's first line fills its line or ends like a clause);
+  - a line in body type that opens with a reference ("section 4 (soliciting murder)" in a list,
+    "Part 7 of the Sentencing Code" wrapped from a sentence) is no longer a heading: a label in body
+    type counts when it is capitalised and its line does not run on in lower case;
+  - Parts and paragraph titles nest under their schedule (Schedule, Part, paragraph: 1, 2, 3, or
+    Schedule, paragraph: 1, 2), and an Act with schedules is read by its labels even where its
+    sections carry bare numbers;
+  - a schedule's label opens its heading when an amendment mark is run into it ("[F76SCHEDULE 4A") or
+    when its title is read before it ("PUBLIC AUTHORITIES ..." | "SCHEDULE 3").
+
+  On the Modern Slavery Act, the 12,520-character "PART 1 ENGLAND AND WALES" of Schedule 2 becomes
+  ten paragraph sections, the 88 offence-list entries of Schedule 4 are gone, and SCHEDULE 4A and
+  Schedule 5's PART 2 are found. On the 300 held-out documents of the miss audit (answer keys v2),
+  `free` without bookmarks misses 63.5 reference headings per 1,000 instead of 65.3 (CI -2.7 to -1.0),
+  precision 0.560 -> 0.578 and F1 +0.012 (CI +0.010 to +0.015); 24 documents better, none worse; no
+  genre's F1 is lower in any of the four `free` modes. UK Acts: precision 0.610 -> 0.676, F1 +0.043,
+  level agreement 0.900 -> 0.923 (CI +0.010 to +0.037); EU regulations 84.0 -> 69.6 misses per 1,000.
+  READoc held-out: arXiv papers 60.57 -> 60.81 (CI +0.15 to +0.33), READMEs unchanged (81.33).
+
 ## 0.1.8 (unreleased)
 
 - **Fewer missed headings in `free`, measured together (research finding F064, pre-registered
