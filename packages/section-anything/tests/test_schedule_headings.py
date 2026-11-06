@@ -69,6 +69,16 @@ def test_without_a_number_at_the_margin_the_close_line_is_not_a_heading():
     assert "Power to stop, board, divert and detain" not in _texts(run_in)
 
 
+def test_a_cross_heading_in_a_contents_list_is_not_a_paragraph_title():
+    # Contents entries sit like numbered paragraphs, but each is a short title that neither fills its line
+    # nor ends like a clause.
+    ext = _schedule_page([(1, "1", 11.0, False, False, 96, 682),
+                          (1, "Implementation of the 1996 Hague Convention", 11.0, False, False, 114, 682),
+                          (1, "2", 11.0, False, False, 96, 670),
+                          (1, "Implementation of other agreements", 11.0, False, False, 114, 670), *_body(1, 620, 3)])
+    assert "Power to stop, board, divert and detain" not in _texts(ext)
+
+
 def test_a_bold_section_heading_under_an_italic_line_lends_it_no_number():
     ext = _schedule_page([(1, "2 Interpretation of this Part of this Schedule and of the next", 11.0, True, False, 93,
                            682), *_body(1, 660, 3)])
@@ -80,8 +90,7 @@ def test_a_list_read_before_the_paragraph_line_does_not_continue_the_title():
     ext = _ext([*_body(1, 760, 4), _title(1, "Offences against the Person Act 1861 (c. 100)", 700),
                 (1, "section 4 (soliciting murder)", 11.0, False, False, 162, 668),
                 (1, "7", 11.0, False, False, 93, 682),
-                (1, "An offence under any of the following provisions of the Offences against the", 11.0, False, False,
-                 144, 682),
+                (1, "An offence under any of the following provisions of that Act—", 11.0, False, False, 144, 682),
                 (1, "section 16 (threats to kill)", 11.0, False, False, 162, 656), *_body(1, 620, 3)])
     sections = _sections(ext)
     assert sections["Offences against the Person Act 1861 (c. 100)"][0] == "7"

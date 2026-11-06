@@ -190,8 +190,13 @@ def _paragraph_number(ext: Extraction, ln: Line, below: Line | None) -> str:
     of `ln`, on the row of `below` (the line under `ln`, the paragraph's first line, in regular type): a UK
     Act's schedule paragraph under its own title ("Power to stop, board, divert and detain" over "2" |
     "(1) This paragraph applies ..."). "" otherwise. A section heading in bold, or a number run into its
-    text ("6.12 Studies show ..."), is no such paragraph."""
+    text ("6.12 Studies show ..."), is no such paragraph. Nor is an entry of a contents list ("1" |
+    "Implementation of the 1996, 2005 and 2007 Hague Conventions"): a paragraph's first line runs to the
+    right margin or ends like a clause ("... is amended as follows.", "... the Theft Act 1968—")."""
     if below is None or below.bold or below.italic or abs(below.size - ln.size) > 0.5:
+        return ""
+    right = max(o.x1 for o in ext.lines[max(0, ln.i - 60): ln.i + 61] if o.page == ln.page)
+    if not (below.x1 >= right - 2 * ln.size or below.text.rstrip()[-1:] in ".,;:—–-"):
         return ""
     for o in ext.lines[max(0, min(ln.i, below.i) - 12): max(ln.i, below.i) + 13]:
         if (o is not below and o.page == ln.page and PARAGRAPH_NUMBER.fullmatch(o.text.strip())
