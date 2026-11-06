@@ -165,6 +165,40 @@ def _vertical(ext: Extraction, ln: Line) -> bool:
 
 # How a sentence, a quotation or a list item ends; a heading's last character is none of these.
 SENTENCE_END = re.compile(r"[.,;:!?…”’\"'»]$")
+# A schedule paragraph's number printed alone at the left margin ("9", "8A.", "12ZA").
+PARAGRAPH_NUMBER = re.compile(r"[1-9]\d{0,2}[A-Z]{0,3}\.?")
+# Space under a paragraph's own title, in font sizes: less than the most of a blank line that sets a
+# cross-heading apart, more than a paragraph's line spacing leaves.
+PARAGRAPH_TITLE_GAP = 0.5
+
+
+def _neighbours(ext: Extraction, ln: Line) -> tuple[list[Line], Line | None, Line | None]:
+    """The lines near `ln` on its page that are not furniture, and the nearest of them above and below it in
+    its own column (overlapping it horizontally)."""
+    lines = ext.lines
+    furniture = furniture_of(ext)
+    near = [o for o in lines[max(0, ln.i - 8): ln.i + 9] if o is not ln and o.page == ln.page and o.i not in furniture]
+    mid = (ln.y0 + ln.y1) / 2
+    col = [o for o in near if min(o.x1, ln.x1) > max(o.x0, ln.x0)]
+    above = min((o for o in col if (o.y0 + o.y1) / 2 > mid), key=lambda o: o.y0 - ln.y1, default=None)
+    below = min((o for o in col if (o.y0 + o.y1) / 2 < mid), key=lambda o: ln.y0 - o.y1, default=None)
+    return near, above, below
+
+
+def _paragraph_number(ext: Extraction, ln: Line, below: Line | None) -> str:
+    """The number of the paragraph that `ln` stands over, when it is printed alone at the left margin, left
+    of `ln`, on the row of `below` (the line under `ln`, the paragraph's first line, in regular type): a UK
+    Act's schedule paragraph under its own title ("Power to stop, board, divert and detain" over "2" |
+    "(1) This paragraph applies ..."). "" otherwise. A section heading in bold, or a number run into its
+    text ("6.12 Studies show ..."), is no such paragraph."""
+    if below is None or below.bold or below.italic or abs(below.size - ln.size) > 0.5:
+        return ""
+    for o in ext.lines[max(0, min(ln.i, below.i) - 12): max(ln.i, below.i) + 13]:
+        if (o is not below and o.page == ln.page and PARAGRAPH_NUMBER.fullmatch(o.text.strip())
+                and not o.bold and not o.italic and abs(o.size - ln.size) <= 0.5
+                and abs(o.y0 - below.y0) <= 0.3 * ln.size and o.x1 < ln.x0 and 0 <= below.x0 - o.x1 <= 6 * ln.size):
+            return o.text.strip().rstrip(".")
+    return ""
 
 
 def _italic_heading(ext: Extraction, ln: Line, body: float, skip: set[int]) -> bool:
@@ -174,31 +208,35 @@ def _italic_heading(ext: Extraction, ln: Line, body: float, skip: set[int]) -> b
     are not italic, and not followed by a lowercase continuation. Emphasis inside a paragraph,
     quotations, captions, theorem statements and italic paragraphs have italic or close neighbours, share
     their row, or end like sentences. Lines in `skip` (contents lists without page numbers) are left out;
-    furniture (running headers, often italic) is not a neighbour."""
-    t = ln.text.strip()
+    furniture (running headers, often italic) is not a neighbour.
+
+    A schedule paragraph's own title sits closer to its paragraph (`PARAGRAPH_TITLE_GAP`) when the
+    paragraph's number stands alone at the margin on the row under it (`_paragraph_number`). An amendment
+    mark run into the line ("[F64Human Trafficking ...") is read past."""
+    t = AMENDMENT_MARK.sub("", ln.text.strip())
     if not ln.italic or ln.bold or abs(ln.size - body) > 0.5 or ln.i in skip:
         return False
     if not t[:1].isupper() or SENTENCE_END.search(t):
         return False
     lines = ext.lines
+    near, above, below = _neighbours(ext, ln)
+    number = _paragraph_number(ext, ln, below)
     nxt = lines[ln.i + 1] if ln.i + 1 < len(lines) and lines[ln.i + 1].page == ln.page else None
-    if nxt is not None and nxt.text[:1].islower():
+    # The line read next continues the title, unless it is printed below the first line of the paragraph
+    # the title stands over (a list under that line, read before it).
+    if nxt is not None and nxt.text[:1].islower() and not (number and nxt.y1 < below.y0):
         return False
-    furniture = furniture_of(ext)
-    near = [o for o in lines[max(0, ln.i - 8): ln.i + 9] if o is not ln and o.page == ln.page and o.i not in furniture]
     # A piece of a longer printed line (split at a formula): another line on its row close beside it.
     if any(min(o.y1, ln.y1) - max(o.y0, ln.y0) > 0.5 * min(o.y1 - o.y0, ln.y1 - ln.y0)
            and max(o.x0 - ln.x1, ln.x0 - o.x1) < 0.5 * ln.size for o in near):
         return False
-    # The nearest lines above and below in its own column (overlapping it horizontally).
-    mid = (ln.y0 + ln.y1) / 2
-    col = [o for o in near if min(o.x1, ln.x1) > max(o.x0, ln.x0)]
-    above = min((o for o in col if (o.y0 + o.y1) / 2 > mid), key=lambda o: o.y0 - ln.y1, default=None)
-    below = min((o for o in col if (o.y0 + o.y1) / 2 < mid), key=lambda o: ln.y0 - o.y1, default=None)
     gap = 0.9 * ln.size
     if above is not None and (above.italic or above.y0 - ln.y1 < gap):
         return False
-    return below is None or (not below.italic and ln.y0 - below.y1 >= gap)
+    if below is None:
+        return True
+    space = ln.y0 - below.y1
+    return not below.italic and (space >= gap or (space >= PARAGRAPH_TITLE_GAP * ln.size and bool(number)))
 
 
 def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
@@ -859,6 +897,11 @@ class RulesStrategy(Strategy):
                 title = title[len(num):].strip()
             if ABSTRACT_RUNIN.match(title):
                 title = re.match(r"\W*(\w+)", title).group(1)  # "Abstract", as printed
+            if not num and "\n" not in text and _style(ln, body) == (0.0, False):
+                # A schedule paragraph's own title takes the paragraph's number, printed at the margin
+                # under it; the levels above were set without it.
+                num = _paragraph_number(ext, ln, _neighbours(ext, ln)[2])
+                title = AMENDMENT_MARK.sub("", title)  # "[F64Human Trafficking ..." as the reader sees it
             out.append(RawSection(title=title, level=level, number=num, start_marker=marker[:160], start_line=ln.i))
         if cross:
             # The cross-headings take the level of the sections under them, and every heading at that level

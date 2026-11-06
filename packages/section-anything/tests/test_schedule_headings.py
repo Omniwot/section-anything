@@ -54,6 +54,40 @@ def _schedule_page(below: list[Row]) -> Extraction:
     return _ext([*_body(1, 760, 4), _title(1, "Power to stop, board, divert and detain", 700), *below])
 
 
+def test_a_paragraph_title_over_its_numbered_paragraph_is_a_heading_with_its_number():
+    ext = _schedule_page([*_paragraph(1, "2", 682), *_body(1, 640, 3)])
+    assert "Power to stop, board, divert and detain" in _texts(ext)
+    assert "Power to stop, board, divert and detain" in _texts(ext, loose=True)
+    assert _sections(ext)["Power to stop, board, divert and detain"][0] == "2"
+
+
+def test_without_a_number_at_the_margin_the_close_line_is_not_a_heading():
+    # Italic text close above a paragraph with no number of its own: emphasis or a quotation, as before.
+    assert "Power to stop, board, divert and detain" not in _texts(_schedule_page(_body(1, 682, 4)))
+    # A number run into the paragraph's first line is no bare paragraph number either.
+    run_in = _schedule_page([(1, "2 " + BODY, 11.0, False, False, 93, 682), *_body(1, 670, 3)])
+    assert "Power to stop, board, divert and detain" not in _texts(run_in)
+
+
+def test_a_bold_section_heading_under_an_italic_line_lends_it_no_number():
+    ext = _schedule_page([(1, "2 Interpretation of this Part of this Schedule and of the next", 11.0, True, False, 93,
+                           682), *_body(1, 660, 3)])
+    assert "Power to stop, board, divert and detain" not in _texts(ext)
+
+
+def test_a_list_read_before_the_paragraph_line_does_not_continue_the_title():
+    # The extractor can read the indented list under the paragraph's first line straight after the title.
+    ext = _ext([*_body(1, 760, 4), _title(1, "Offences against the Person Act 1861 (c. 100)", 700),
+                (1, "section 4 (soliciting murder)", 11.0, False, False, 162, 668),
+                (1, "7", 11.0, False, False, 93, 682),
+                (1, "An offence under any of the following provisions of the Offences against the", 11.0, False, False,
+                 144, 682),
+                (1, "section 16 (threats to kill)", 11.0, False, False, 162, 656), *_body(1, 620, 3)])
+    sections = _sections(ext)
+    assert sections["Offences against the Person Act 1861 (c. 100)"][0] == "7"
+    assert not any(t.startswith("section") for t in _texts(ext))
+
+
 def test_references_that_open_a_line_are_not_headings():
     ext = _ext([(1, "1 Offences", 11.0, True, False, 93, 760), *_body(1, 740, 3),
                 (1, "An offence under any of the following provisions of the Offences against the", 11.0, False, False,
@@ -131,3 +165,4 @@ def test_a_title_read_before_its_label_joins_it():
     title = "REDUCING CARBON EMISSIONS AND HOME-HEATING COSTS: MINOR AND CONSEQUENTIAL AMENDMENTS"
     sections = _sections(wrapped)
     assert sections[title][0] == "SCHEDULE 1"
+    assert sections["Gas Act 1986"][0] == "1"
