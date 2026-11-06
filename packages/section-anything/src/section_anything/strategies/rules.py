@@ -300,7 +300,11 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
                 continue
             if numbered and not styled:
                 num = m.group("num")
-                numbered = bool(re.match(r"\d+\.\d+", num) or re.match(r"[A-Za-z]{3,}", num))
+                # A label in body type opens a heading only when it is capitalised and its line does not run
+                # on in lower case: "section 4 (soliciting murder)" in a list of offences and "Part 7 of the
+                # Sentencing Code" wrapped from a sentence are references.
+                label = bool(re.match(r"[A-Z][A-Za-z]{2,}", num)) and not text[m.end():].lstrip()[:1].islower()
+                numbered = bool(re.match(r"\d+\.\d+", num) or label)
                 numbered = numbered and not text.rstrip().endswith((".", "?", ":"))
             if styled and not numbered and ln.size < body + bump and ln.i not in titles and _runs_on(ext, ln):
                 continue
