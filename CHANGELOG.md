@@ -29,6 +29,23 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   genre's F1 is lower in any of the four `free` modes. UK Acts: precision 0.610 -> 0.676, F1 +0.043,
   level agreement 0.900 -> 0.923 (CI +0.010 to +0.037); EU regulations 84.0 -> 69.6 misses per 1,000.
   READoc held-out: arXiv papers 60.57 -> 60.81 (CI +0.15 to +0.33), READMEs unchanged (81.33).
+- **The rest of a revised UK Act's schedules, and its title block, in `free`; its italic headings kept
+  in `quick` and `standard` (research finding F065, second pre-registered held-out check).** Checked
+  against a full reference key of the Modern Slavery Act 2015 (194 headings): a paragraph title wrapped
+  over two or three centred italic lines is one heading; a paragraph number with an amendment mark run
+  into it ("[F8115") still marks its title; in a schedule, the italic headings of groups in a list of
+  bodies ("Local government") are headings; a line that opens a quotation it does not close ("“Slavery
+  etc") quotes another text's heading; the Act's citation ("2015 CHAPTER 30") and long title ("An Act to
+  ...") are not headings, and the document title no longer pushes the Parts to level 2. `free` on the
+  key: 182 -> 194 of 194 headings, precision 0.968 -> 0.995. With `keep_strong` (the default `ask`), a
+  document that titles three or more schedule paragraphs in italics gets Free's italic headings back
+  without a call, placed under the model's own levels: Standard on Claude Haiku 5.5 had left out all 103
+  (the text it reads has no italics); replayed on that saved answer, 91 -> 194 of 194, precision 0.989 ->
+  0.995. On the 300 held-out documents, `free` without bookmarks: precision 0.578 -> 0.587, F1 +0.006 (CI
+  +0.004 to +0.008), UK Acts F1 +0.034; misses 63.5 -> 63.7 (4 UK Acts each lose a heading of a quoted
+  amendment that their answer keys list); no genre's F1 lower in any `free` mode. READoc held-out
+  unchanged. The keep_strong change fires on none of the 300 held-out documents or the 2,033 READoc
+  held-out documents.
 
 ## 0.1.8 (unreleased)
 
