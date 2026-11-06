@@ -1,7 +1,9 @@
 """A UK Act's schedules in Free (research finding F065): a schedule paragraph's own italic title sits close
 above the paragraph, whose number stands alone at the margin; lines that open with a reference in body type
 ("section 4 (soliciting murder)") are not headings; Parts and paragraph titles inside a schedule nest under
-it; a label with an amendment mark run into it, or read after its title, still opens a heading."""
+it; a label with an amendment mark run into it, or read after its title, still opens a heading. Also: titles
+wrapped over two italic lines, numbers with an amendment mark, group headings in a schedule's lists, quoted
+amendments and the Act's title block."""
 
 from __future__ import annotations
 
@@ -9,7 +11,7 @@ from section_anything.extract import Extraction, Line, Page
 from section_anything.strategies.rules import RulesStrategy, candidates
 
 BODY = "(2) The constable may require any person on the ship to give information about the ship and its"
-WORDS = iter(f"{a}{b}" for a in "bcdfghjklmnprstvwz" for b in ("ane", "ore", "ite", "ule", "age", "ive", "ent", "ory"))
+WORDS = iter(f"{a}{v}{b}" for a in "bcdfghjklmnprstvwz" for v in "aeiou" for b in ("ne", "re", "te", "le", "ge", "ve", "nt", "ry"))
 # (page, text, size, bold, italic, x0, y0): y0 is the bottom of the line, top of the page first.
 Row = tuple[int, str, float, bool, bool, float, float]
 
@@ -17,7 +19,7 @@ Row = tuple[int, str, float, bool, bool, float, float]
 def _ext(rows: list[Row]) -> Extraction:
     lines, pos = [], 0
     for i, (page, text, size, bold, italic, x0, y0) in enumerate(rows):
-        lines.append(Line(i=i, page=page, text=text, x0=x0, y0=y0, x1=x0 + 0.45 * size * len(text), y1=y0 + size,
+        lines.append(Line(i=i, page=page, text=text, x0=x0, y0=y0, x1=min(505.0, x0 + 0.45 * size * len(text)), y1=y0 + size,
                           size=size, bold=bold, start=pos, end=pos + len(text), italic=italic))
         pos += len(text) + 1
     pages = [Page(n=n, width=595, height=842, origin_x=0, origin_y=0, rotation=0, has_text=True)
@@ -187,3 +189,90 @@ def test_a_title_read_before_its_label_joins_it():
     sections = _sections(wrapped)
     assert sections[title][0] == "SCHEDULE 1"
     assert sections["Gas Act 1986"][0] == "1"
+
+
+def test_a_paragraph_title_wrapped_over_two_centred_italic_lines_is_one_heading():
+    title = ("Human Trafficking and Exploitation (Criminal Justice and", "Support for Victims) Act (Northern Ireland) 2015")
+    ext = _ext([*_body(1, 760, 4), _title(1, title[0], 696), _title(1, title[1], 684), *_paragraph(1, "8", 666),
+                *_body(1, 620, 3)])
+    assert _sections(ext)[" ".join(title)][0] == "8"
+    # Two italic lines at the margin are an italic paragraph's lines, as before.
+    flush = _ext([*_body(1, 760, 4), (1, title[0], 11.0, False, True, 122, 696), (1, title[1], 11.0, False, True, 122, 684),
+                  *_paragraph(1, "8", 666), *_body(1, 620, 3)])
+    assert not {title[0], title[1]} & set(_texts(flush))
+
+
+def test_a_paragraph_number_with_an_amendment_mark_still_marks_the_title():
+    def page(previous: str) -> Extraction:
+        return _ext([*_body(1, 780, 2), _title(1, "Criminal Justice Act 1991 (c. 53)", 740), *_paragraph(1, previous, 722, 2),
+                     _title(1, "Proceeds of Crime Act 2002 (c. 29)", 660),
+                     (1, "[F8115", 8.8, True, False, 93, 642),
+                     (1, "In section 13(3A) of the Proceeds of Crime Act 2002 (effect of confiscation orders", 11.0, False,
+                      False, 144, 642), *_body(1, 630, 2)])
+    # Paragraph 13 came before (14 was repealed): note F81, paragraph 15.
+    assert _sections(page("13"))["Proceeds of Crime Act 2002 (c. 29)"][0] == "15"
+    # No tail of the digits follows the last plain number: the title stays, without a number.
+    assert _sections(page("7"))["Proceeds of Crime Act 2002 (c. 29)"][0] == ""
+
+
+def _authorities(schedule: bool) -> Extraction:
+    rows: list[Row] = [*_body(1, 780, 3)]
+    if schedule:
+        rows += [(1, "SCHEDULE 3", 11.0, False, False, 265, 720), (1, "PUBLIC AUTHORITIES", 9.0, False, False, 250, 696)]
+    rows += [(1, "Local government", 11.0, False, True, 90, 660),
+             (1, "A county council in England or Wales.", 11.0, False, False, 114, 646),
+             (1, "A district council in England.", 11.0, False, False, 114, 632),
+             (1, "Health bodies", 11.0, False, True, 90, 618),
+             (1, "A Local Health Board established under section 11 of the Act.", 11.0, False, False, 114, 604),
+             (1, "Other", 11.0, False, True, 287, 588),
+             (1, "The Independent Anti-slavery Commissioner.", 11.0, False, False, 114, 574),
+             (1, "SCHEDULE 5", 11.0, False, False, 265, 530), (1, "MINOR AMENDMENTS", 9.0, False, False, 240, 506),
+             *_body(1, 480, 3)]
+    return _ext(rows)
+
+
+def test_group_headings_in_a_schedules_list_are_headings():
+    sections = _sections(_authorities(schedule=True))
+    assert {"Local government", "Health bodies", "Other"} <= set(sections)
+    # A schedule's label after an italic group heading opens its own heading.
+    assert sections["MINOR AMENDMENTS"][0] == "SCHEDULE 5"
+    # Outside a schedule the same lines are left alone.
+    assert not {"Local government", "Health bodies"} & set(_texts(_authorities(schedule=False)))
+
+
+def test_a_quoted_heading_of_another_text_is_not_a_heading():
+    ext = _ext([(1, "1 Offences", 11.0, True, False, 93, 760), *_body(1, 740, 3),
+                (1, "“Slavery etc", 11.0, True, False, 162, 690), (1, "offences", 11.0, True, False, 162, 678),
+                *_body(1, 660, 2, x0=162),
+                (1, "32A “Victims of slavery, servitude or forced labour", 11.0, True, False, 132, 620),
+                *_body(1, 600, 2),
+                (1, "2 “Smart” contracts", 11.0, True, False, 93, 560), *_body(1, 540, 3)])
+    texts = _texts(ext)
+    assert not any(t.startswith(("“Slavery", "offences", "32A")) for t in texts)
+    assert "2 “Smart” contracts" in texts  # a quotation it closes is its own
+
+
+def _titled_act() -> Extraction:
+    rows: list[Row] = [(1, "Modern Slavery Act 2015", 24.0, False, False, 173, 780),
+                       (1, "2015 CHAPTER 30", 12.0, True, False, 247, 748),
+                       (1, "An Act to make provision about slavery, servitude and forced or compulsory labour", 12.0,
+                        False, False, 90, 712),
+                       (1, "[26th March 2015]", 12.0, False, False, 414, 698), (1, "and for connected purposes.", 12.0,
+                                                                             False, False, 90, 698),
+                       *_body(1, 660, 2, x0=90),
+                       (1, "PART 1", 11.0, True, False, 279, 620), (1, "OFFENCES", 9.0, False, False, 274, 596),
+                       (1, "1 Slavery", 11.0, True, False, 93, 560), *_body(1, 540, 3),
+                       (2, "PART 2", 11.0, True, False, 279, 760), (2, "ORDERS", 9.0, False, False, 274, 736),
+                       (2, "2 Orders", 11.0, True, False, 93, 700), *_body(2, 680, 3),
+                       (2, "SCHEDULE 1", 11.0, False, False, 265, 600), (2, "OFFENCES LISTED", 9.0, False, False, 240, 576),
+                       *_body(2, 540, 3)]
+    return _ext(rows)
+
+
+def test_an_acts_citation_and_long_title_are_not_headings_and_its_parts_stay_at_the_top():
+    sections = _sections(_titled_act())
+    assert not any(t.startswith(("CHAPTER 30", "An Act", "and for connected", "[26th")) for t in sections)
+    assert "Modern Slavery Act 2015" in sections
+    # The document's title stands outside the hierarchy: the Parts and the schedule are level 1.
+    assert sections["OFFENCES"] == ("PART 1", 1) and sections["OFFENCES LISTED"] == ("SCHEDULE 1", 1)
+

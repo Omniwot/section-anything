@@ -185,25 +185,95 @@ def _neighbours(ext: Extraction, ln: Line) -> tuple[list[Line], Line | None, Lin
     return near, above, below
 
 
-def _paragraph_number(ext: Extraction, ln: Line, below: Line | None) -> str:
+# A paragraph number with an amendment mark run into it, set small and bold ("[F8115": note F81,
+# paragraph 15).
+AMENDED_NUMBER = re.compile(r"\[?F(\d{2,6})")
+
+
+def _paragraph_number(ext: Extraction, ln: Line, below: Line | None) -> str | None:
     """The number of the paragraph that `ln` stands over, when it is printed alone at the left margin, left
     of `ln`, on the row of `below` (the line under `ln`, the paragraph's first line, in regular type): a UK
     Act's schedule paragraph under its own title ("Power to stop, board, divert and detain" over "2" |
-    "(1) This paragraph applies ..."). "" otherwise. A section heading in bold, or a number run into its
-    text ("6.12 Studies show ..."), is no such paragraph. Nor is an entry of a contents list ("1" |
+    "(1) This paragraph applies ..."). None when there is no such paragraph. A section heading in bold, or a
+    number run into its text ("6.12 Studies show ..."), is none. Nor is an entry of a contents list ("1" |
     "Implementation of the 1996, 2005 and 2007 Hague Conventions"): a paragraph's first line runs to the
-    right margin or ends like a clause ("... is amended as follows.", "... the Theft Act 1968—")."""
+    right margin or ends like a clause ("... is amended as follows.", "... the Theft Act 1968—").
+
+    A number with an amendment mark run into it ("[F8115") marks such a paragraph too. Its number is the
+    tail of the digits that follows the last plain paragraph number before it ("13", so "15" after the
+    repealed 14), or "" when no tail fits."""
     if below is None or below.bold or below.italic or abs(below.size - ln.size) > 0.5:
-        return ""
+        return None
     right = max(o.x1 for o in ext.lines[max(0, ln.i - 60): ln.i + 61] if o.page == ln.page)
     if not (below.x1 >= right - 2 * ln.size or below.text.rstrip()[-1:] in ".,;:—–-"):
-        return ""
+        return None
     for o in ext.lines[max(0, min(ln.i, below.i) - 12): max(ln.i, below.i) + 13]:
-        if (o is not below and o.page == ln.page and PARAGRAPH_NUMBER.fullmatch(o.text.strip())
-                and not o.bold and not o.italic and abs(o.size - ln.size) <= 0.5
-                and abs(o.y0 - below.y0) <= 0.3 * ln.size and o.x1 < ln.x0 and 0 <= below.x0 - o.x1 <= 6 * ln.size):
-            return o.text.strip().rstrip(".")
-    return ""
+        if (o is below or o.page != ln.page or o.italic or abs(o.y0 - below.y0) > 0.3 * ln.size
+                or not (o.x1 < ln.x0 and 0 <= below.x0 - o.x1 <= 6 * ln.size)):
+            continue
+        t = o.text.strip()
+        if PARAGRAPH_NUMBER.fullmatch(t) and not o.bold and abs(o.size - ln.size) <= 0.5:
+            return t.rstrip(".")
+        m = AMENDED_NUMBER.fullmatch(t)
+        if m and o.size <= ln.size + 0.5:
+            digits = m.group(1)
+            prev = next((int(re.match(r"\d+", x.text.strip()).group()) for x in reversed(ext.lines[max(0, o.i - 400): o.i])
+                         if abs(x.x0 - o.x0) <= 6 and not x.bold and PARAGRAPH_NUMBER.fullmatch(x.text.strip())
+                         and not _in_margin(ext, x)), None)
+            tail = next((str(prev + d) for d in (1, 2, 3) if prev is not None
+                         and digits.endswith(str(prev + d)) and len(digits) > len(str(prev + d))), "")
+            return tail
+    return None
+
+
+def _in_margin(ext: Extraction, ln: Line) -> bool:
+    """`ln` sits in the top or bottom 6% of its page, where page numbers are."""
+    pg = ext.pages[ln.page - 1] if 0 < ln.page <= len(ext.pages) else None
+    return pg is not None and ((ln.y1 - pg.origin_y) > 0.94 * pg.height or (ln.y0 - pg.origin_y) < 0.06 * pg.height)
+
+
+def _margins(ext: Extraction) -> dict[int, tuple[float, float]]:
+    """Each page's text column: the leftmost start and rightmost end of its lines that are not furniture."""
+
+    def make(ext: Extraction) -> dict[int, tuple[float, float]]:
+        furniture = furniture_of(ext)
+        out: dict[int, tuple[float, float]] = {}
+        for o in ext.lines:
+            if o.i not in furniture:
+                a, b = out.get(o.page, (o.x0, o.x1))
+                out[o.page] = (min(a, o.x0), max(b, o.x1))
+        return out
+
+    return ext.derived("text_margins", make)
+
+
+def _centred(ext: Extraction, ln: Line) -> bool:
+    """`ln` is set in the middle of its page's text column, away from both edges."""
+    left, right = _margins(ext).get(ln.page, (ln.x0, ln.x1))
+    width = right - left
+    return (width > 0 and abs((ln.x0 + ln.x1) - (left + right)) / 2 <= 0.05 * width
+            and ln.x0 - left >= 2 * ln.size and right - ln.x1 >= 2 * ln.size)
+
+
+def _italic_block(ext: Extraction, ln: Line) -> list[Line]:
+    """`ln` and the lines of an italic title wrapped with it: up to three lines in italics at its size and
+    weight, each centred, set one under another at a wrapped line's spacing ("Human Trafficking and
+    Exploitation (Criminal Justice and" / "Support for Victims) Act (Northern Ireland) 2015 (c. 2 (N.I.))").
+    Just `ln` when it is not centred or has no such line next to it."""
+    lines = ext.lines
+
+    def wraps(a: Line, b: Line) -> bool:  # b is a's next line in the same title
+        return (b.page == a.page and a.italic and b.italic and not a.bold and not b.bold and abs(b.size - a.size) <= 0.1
+                and 0 < a.y0 - b.y0 <= WRAP_LEADING * a.size and _centred(ext, a) and _centred(ext, b))
+
+    if not _centred(ext, ln):
+        return [ln]
+    block = [ln]
+    while len(block) < WRAPPED_MAX and block[0].i > 0 and wraps(lines[block[0].i - 1], block[0]):
+        block.insert(0, lines[block[0].i - 1])
+    while len(block) < WRAPPED_MAX and block[-1].i + 1 < len(lines) and wraps(block[-1], lines[block[-1].i + 1]):
+        block.append(lines[block[-1].i + 1])
+    return block
 
 
 def _italic_heading(ext: Extraction, ln: Line, body: float, skip: set[int]) -> bool:
@@ -217,31 +287,119 @@ def _italic_heading(ext: Extraction, ln: Line, body: float, skip: set[int]) -> b
 
     A schedule paragraph's own title sits closer to its paragraph (`PARAGRAPH_TITLE_GAP`) when the
     paragraph's number stands alone at the margin on the row under it (`_paragraph_number`). An amendment
-    mark run into the line ("[F64Human Trafficking ...") is read past."""
-    t = AMENDMENT_MARK.sub("", ln.text.strip())
+    mark run into the line ("[F64Human Trafficking ...") is read past. A centred title wrapped over two or
+    three italic lines (`_italic_block`) is judged as one: its first line starts with a capital, its last
+    does not end like a sentence, and the space is measured above the first and below the last."""
     if not ln.italic or ln.bold or abs(ln.size - body) > 0.5 or ln.i in skip:
         return False
-    if not t[:1].isupper() or SENTENCE_END.search(t):
+    block = _italic_block(ext, ln)
+    top, bottom = block[0], block[-1]
+    if any(o.i in skip for o in block):
+        return False
+    first, last = AMENDMENT_MARK.sub("", top.text.strip()), bottom.text.strip()
+    if not first[:1].isupper() or SENTENCE_END.search(last):
         return False
     lines = ext.lines
-    near, above, below = _neighbours(ext, ln)
-    number = _paragraph_number(ext, ln, below)
-    nxt = lines[ln.i + 1] if ln.i + 1 < len(lines) and lines[ln.i + 1].page == ln.page else None
+    _, above, _ = _neighbours(ext, top)
+    _, _, below = _neighbours(ext, bottom)
+    number = _paragraph_number(ext, bottom, below)
+    nxt = lines[bottom.i + 1] if bottom.i + 1 < len(lines) and lines[bottom.i + 1].page == ln.page else None
     # The line read next continues the title, unless it is printed below the first line of the paragraph
     # the title stands over (a list under that line, read before it).
-    if nxt is not None and nxt.text[:1].islower() and not (number and nxt.y1 < below.y0):
+    if nxt is not None and nxt.text[:1].islower() and not (number is not None and nxt.y1 < below.y0):
         return False
     # A piece of a longer printed line (split at a formula): another line on its row close beside it.
-    if any(min(o.y1, ln.y1) - max(o.y0, ln.y0) > 0.5 * min(o.y1 - o.y0, ln.y1 - ln.y0)
-           and max(o.x0 - ln.x1, ln.x0 - o.x1) < 0.5 * ln.size for o in near):
-        return False
+    for x in block:
+        near = _neighbours(ext, x)[0]
+        if any(min(o.y1, x.y1) - max(o.y0, x.y0) > 0.5 * min(o.y1 - o.y0, x.y1 - x.y0)
+               and max(o.x0 - x.x1, x.x0 - o.x1) < 0.5 * x.size for o in near):
+            return False
     gap = 0.9 * ln.size
-    if above is not None and (above.italic or above.y0 - ln.y1 < gap):
+    if above is not None and (above.italic or above.y0 - top.y1 < gap):
         return False
     if below is None:
         return True
-    space = ln.y0 - below.y1
-    return not below.italic and (space >= gap or (space >= PARAGRAPH_TITLE_GAP * ln.size and bool(number)))
+    space = bottom.y0 - below.y1
+    return not below.italic and (space >= gap or (space >= PARAGRAPH_TITLE_GAP * ln.size and number is not None))
+
+
+def _schedules_start(ext: Extraction) -> int | None:
+    """The line of the document's first schedule label ("SCHEDULE 1"), outside running headers and
+    contents lists; None without one."""
+
+    def make(ext: Extraction) -> int:
+        skip = furniture_of(ext) | toc_of(ext).lines
+        return next((ln.i for ln in ext.lines if ln.i not in skip and LABEL_ONLY.match(_label_text(ln.text))
+                     and _label_text(ln.text).lower().startswith("schedule")), -1)
+
+    start = ext.derived("schedules_start", make)
+    return None if start < 0 else start
+
+
+def _group_heading(ext: Extraction, ln: Line, body: float, skip: set[int]) -> bool:
+    """In a schedule, the italic heading of a group in a list of bodies or persons ("Local government" over
+    "A county council in England or Wales." ...): an italic line at body size and regular weight, of at most
+    twelve words, starting with a capital and not ending like a sentence, with its row to itself, set close
+    above the group's first entry (a line in regular type starting with a capital) and either outdented from
+    it or centred over it, with no italic line right above it. Groups like these sit only a few points
+    apart, too close for `_italic_heading`."""
+    start = _schedules_start(ext)
+    t = AMENDMENT_MARK.sub("", ln.text.strip())
+    if (start is None or ln.i <= start or not ln.italic or ln.bold or abs(ln.size - body) > 0.5 or ln.i in skip
+            or not t[:1].isupper() or SENTENCE_END.search(t) or len(t.split()) > 12):
+        return False
+    near, above, below = _neighbours(ext, ln)
+    if below is None or below.italic or below.bold or abs(below.size - ln.size) > 0.5:
+        return False
+    first = below.text.strip()
+    if not (first[:1].isupper() or first[:1] == "[") or not 0 <= ln.y0 - below.y1 < 0.9 * ln.size:
+        return False
+    if above is not None and above.italic and above.y0 - ln.y1 < 0.9 * ln.size:
+        return False
+    if any(min(o.y1, ln.y1) - max(o.y0, ln.y0) > 0.5 * min(o.y1 - o.y0, ln.y1 - ln.y0) for o in near):
+        return False  # shares its row
+    return below.x0 >= ln.x0 + 1.5 * ln.size or (_centred(ext, ln) and not _centred(ext, below) and below.x0 < ln.x0)
+
+
+# A UK Act's citation under its short title ("2015 CHAPTER 30", "2015 asp 12"), and the opening of its long
+# title ("An Act to make provision about ...").
+ACT_CITATION = re.compile(r"(?:1[89]|20)\d\d\s+(?:CHAPTER|asp|anaw|asc)\s+\d+", re.I)
+LONG_TITLE = re.compile(r"An Act (?:to|for)\b")
+
+
+def _act_title(ext: Extraction) -> set[int]:
+    """A UK Act's title block below its short title: the citation line and the long title after it, from
+    "An Act to ..." to the line that ends it with a full stop (the date of Royal Assent, "[26th March
+    2015]", is set among its lines). The short title is the document's title; these lines are not
+    headings."""
+
+    def make(ext: Extraction) -> set[int]:
+        lines, out = ext.lines, set()
+        for ln in lines:
+            if ln.page > 10:
+                break
+            if not ACT_CITATION.fullmatch(ln.text.strip()):
+                continue
+            out.add(ln.i)
+            start = next((x for x in lines[ln.i + 1: ln.i + 4] if LONG_TITLE.match(x.text.strip())), None)
+            if start is None:
+                continue
+            for x in lines[start.i: start.i + 10]:
+                if x.page != start.page or abs(x.size - start.size) > 0.1:
+                    break
+                out.add(x.i)
+                if x.text.rstrip().endswith("."):
+                    break
+        return out
+
+    return ext.derived("act_title", make)
+
+
+def _quoted(text: str) -> bool:
+    """The line opens a quotation it does not close, after a number or not ("“Slavery etc", "32A “Victims of
+    slavery ..."): an amendment quoting another text's heading, not a heading of this one."""
+    t = re.sub(r"^\s*\d+[A-Z]{0,3}\.?\s+", "", text.strip())
+    return t[:1] in "“\"" and bool(t) and (t.count("“") > t.count("”") if t[0] == "“" else t.count('"') % 2 == 1)
 
 
 def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
@@ -286,10 +444,20 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     listing = listing_of(ext) if any(ln.italic for ln in ext.lines) else set()
     skip = furniture | toc | side | cells
     split_titles: set[int] = set()
+    act_title = set() if loose else _act_title(ext)
+    quote: Line | None = None  # the last line of an open quotation (`_quoted`) left out
     for ln in ext.lines:
         text = ln.text
         if ln.i in furniture or ln.i in toc or ln.i in side or ln.i in cells or CAPTION.match(text):
             continue
+        if not loose and ln.i in act_title:
+            continue
+        if not loose and (_quoted(text) or (quote is not None and ln.i == quote.i + 1 and ln.page == quote.page
+                                            and (ln.size, ln.bold, ln.italic) == (quote.size, quote.bold, quote.italic))):
+            # The quotation's lines in its style go with it, up to the one that closes it.
+            quote = None if "”" in text else ln
+            continue
+        quote = None
         if ln.i in labelled or (loose and DIVISION_ONLY.match(_label_text(text))):
             out.append((ln, ""))  # joined with its title line by _merge_wrapped
             continue
@@ -338,7 +506,7 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
             continue
         # An italic line at body size set apart like a heading (`_italic_heading`) is styled too; it does
         # not make a bare label of a line without letters.
-        styled = styled or _italic_heading(ext, ln, body, listing)
+        styled = styled or _italic_heading(ext, ln, body, listing) or (not loose and _group_heading(ext, ln, body, listing))
         numbered = bool(m) and not text.rstrip().endswith((",", ";")) and words <= 14
         if not loose:
             if text.strip().lower() in labels or THEOREM.match(text):
@@ -566,8 +734,8 @@ def _merge_wrapped(cands: list[tuple[Line, str]], hints: DoclingHints | None = N
     printed beside the label, `side_notes`). Lines that Docling puts in two different
     heading items stay two headings, except a bare label and its title: Docling often
     gives each its own item ("Article 3" / "Objet"), which as two headings matches
-    neither ("Article 3 Objet"). A bare label never takes another bare label as its title.
-    Given the extraction, a label read just after its title (`_titles_read_first`) joins it too."""
+    neither ("Article 3 Objet"). A bare label never takes another bare label as its title, nor continues
+    an italic heading before it ("Other" / "SCHEDULE 5"). Given the extraction, a label read just after its title (`_titles_read_first`) joins it too."""
     # The title's last line -> (its label, its first line).
     read_first = {t[-1]: (lab, t[0]) for lab, t in _titles_read_first(ext).items()} if ext is not None else {}
     merged: list[tuple[Line, str, str]] = []
@@ -581,7 +749,8 @@ def _merge_wrapped(cands: list[tuple[Line, str]], hints: DoclingHints | None = N
                 continue
             next_line = ln.i > last.i and all(j in side for j in range(last.i + 1, ln.i)) and ln.page == prev.page
             if next_line and not num and ln.size == last.size and ln.bold == last.bold and (
-                    hints is None or hints.same_item(last.i, ln.i)):
+                    hints is None or hints.same_item(last.i, ln.i)) and not (
+                    last.italic != ln.italic and LABEL_ONLY.match(_label_text(ln.text))):
                 merged[-1] = (prev, pnum, ptext + "\n" + ln.text)
                 last = ln
                 continue
@@ -829,6 +998,14 @@ def _style_levels(heads: list[tuple[Line, str]], body: float) -> dict[Style, int
     return _levels_from_outline({_style(ln, body) for ln, _ in heads}, known)
 
 
+def _title_line(cands: list[tuple[Line, str, str]]) -> int | None:
+    """Index of the document's own title among the candidates, as `pipeline.mark_doc_title` will flag it:
+    the first, on page 1, unnumbered, and set at least 1 pt larger than every other candidate."""
+    if len(cands) < 2 or cands[0][0].page != 1 or cands[0][1]:
+        return None
+    return 0 if cands[0][0].size >= max(ln.size for ln, _, _ in cands[1:]) + 1.0 else None
+
+
 class RulesStrategy(Strategy):
     # The id predates the outline sources; kept so saved runs stay readable.
     id = "rules"
@@ -900,8 +1077,13 @@ class RulesStrategy(Strategy):
         style_level = _style_levels([(ln, num) for ln, num, _ in cands if ln.i not in abstract], body)
         # Legislation sets its structure in labels ("KAPITEL I", "Artikel 5"), often in the body face
         # or smaller, so typography ranks it upside down; when the labels are clear they set the levels.
-        by_label = _label_levels([f"{num} {text}" if num and not text.startswith(num) else text.replace("\n", " ")
-                                  for _, num, text in cands], numbers_count=False, min_share=0.3)
+        texts = [f"{num} {text}" if num and not text.startswith(num) else text.replace("\n", " ") for _, num, text in cands]
+        # The document's title stands outside the hierarchy (`pipeline.mark_doc_title`): set before a document's
+        # first label, it would otherwise rank above the top kind and push every Part one level down.
+        title = _title_line(cands)
+        by_label = _label_levels([t for k, t in enumerate(texts) if k != title], numbers_count=False, min_share=0.3)
+        if by_label is not None and title is not None:
+            by_label.insert(title, min(by_label, default=1))
         # Without clear labels (a short UK Act with no Parts or Chapters), italic cross-headings would rank
         # below every other style, under the sections they head: they go just above those sections.
         cross = set() if by_label else _cross_headings(ext, cands, body, furniture_of(ext) | side)
@@ -923,10 +1105,11 @@ class RulesStrategy(Strategy):
                 title = title[len(num):].strip()
             if ABSTRACT_RUNIN.match(title):
                 title = re.match(r"\W*(\w+)", title).group(1)  # "Abstract", as printed
-            if not num and "\n" not in text and _style(ln, body) == (0.0, False):
+            last = ext.lines[ln.i + text.count("\n")]
+            if not num and _style(ln, body) == (0.0, False) and _style(last, body) == (0.0, False):
                 # A schedule paragraph's own title takes the paragraph's number, printed at the margin
                 # under it; the levels above were set without it.
-                num = _paragraph_number(ext, ln, _neighbours(ext, ln)[2])
+                num = _paragraph_number(ext, last, _neighbours(ext, last)[2]) or ""
                 title = AMENDMENT_MARK.sub("", title)  # "[F64Human Trafficking ..." as the reader sees it
             out.append(RawSection(title=title, level=level, number=num, start_marker=marker[:160], start_line=ln.i))
         if cross:
