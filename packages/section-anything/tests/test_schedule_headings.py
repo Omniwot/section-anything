@@ -136,6 +136,18 @@ def _act() -> Extraction:
     return _ext(rows)
 
 
+def test_parts_and_paragraph_titles_nest_under_their_schedule():
+    s = _sections(_act())
+    # The body: Part, cross-heading, section.
+    assert s["OFFENCES"][1] == 1 and s["Slavery"][1] == 2 and s["Slavery, servitude and forced labour"][1] == 3
+    # A schedule sits beside the Parts; its Parts one level below it, their paragraph titles below them.
+    assert s["ENFORCEMENT POWERS"] == ("SCHEDULE 2", 1)
+    assert s["ENGLAND AND WALES"] == ("PART 1", 2) and s["SCOTLAND"] == ("PART 2", 2)
+    assert s["Power to stop and board"] == ("2", 3) and s["Power of arrest"] == ("4", 3)
+    # A schedule with no Parts holds its paragraph titles one level below it.
+    assert s["Theft Act 1968 (c. 60)"] == ("1", 2) and s["Fraud Act 2006 (c. 35)"] == ("2", 2)
+
+
 def test_a_label_with_an_amendment_mark_keeps_its_side_note_and_title():
     # A revised Act runs the amendment mark into the label ("[F76SCHEDULE 4A"), which sets the line taller.
     ext = _ext([*_body(1, 760, 3),

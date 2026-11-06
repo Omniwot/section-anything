@@ -654,6 +654,9 @@ def _label_levels(texts: list[str], *, numbers_count: bool, min_share: float) ->
     parsed = [(None, "", 0) if k in once else (k, n, d) for k, n, d in parsed]
     kinds = [k for k, _, _ in parsed]
     labeled = [k for k in kinds if k is not None]
+    # An Act with schedules is set in labels even where its sections carry bare numbers ("1 Slavery ..."
+    # under "PART 1"): its numbered sections are a kind of their own.
+    numbers_count = numbers_count or "schedule" in labeled
     if (len({k for k in labeled if (numbers_count or k != "#") and k not in TOP_KINDS}) < 2
             or len(labeled) < min_share * len(kinds)):
         return None
@@ -668,6 +671,8 @@ def _label_levels(texts: list[str], *, numbers_count: bool, min_share: float) ->
     below: set[tuple[str, str]] = set()
     prev = None
     for i, (k, n, _) in enumerate(parsed):
+        if k in TOP_KINDS:
+            prev = None  # a schedule numbers its own Parts from 1: no sign of where they rank
         if k is None or k in TOP_KINDS:
             continue
         if prev is not None and prev not in (k, leaf) and n in ("1", "i", "a") and i != first[k]:
@@ -705,6 +710,22 @@ def _label_levels(texts: list[str], *, numbers_count: bool, min_share: float) ->
             out.append(rank[k] + d)
         else:
             out.append(rank[sl] if sl is not None else 1)
+    # The headings inside an annex or schedule (from its label to the next one) nest under it, in the order
+    # the ranks give them: a schedule's Part one level below the schedule, the paragraphs' titles under
+    # the Part, or under the schedule itself when it has no Parts. The levels outside them close up first,
+    # so the body and the schedules count their levels alike (Part, cross-heading, section: 1, 2, 3).
+    tops = [i for i, k in enumerate(kinds) if k in TOP_KINDS]
+    if tops:
+        inside = {i for a, b in zip(tops, [*tops[1:], len(out)], strict=True) for i in range(a + 1, b)}
+        outer_levels = {lv: r + 1 for r, lv in enumerate(sorted({out[i] for i in range(len(out)) if i not in inside}))}
+        top = outer_levels[top]
+        for i in range(len(out)):
+            if i not in inside:
+                out[i] = outer_levels[out[i]]
+        for a, b in zip(tops, [*tops[1:], len(out)], strict=True):
+            inner = {lv: r for r, lv in enumerate(sorted(set(out[a + 1:b])))}
+            for i in range(a + 1, b):
+                out[i] = top + 1 + inner[out[i]]
     return out
 
 
