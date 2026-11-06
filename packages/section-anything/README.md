@@ -210,7 +210,7 @@ section-anything scanned.json                        # the Docling document itse
 | `level` | 1 = top level, 2 = its subsections, ... |
 | `page_start`, `page_end` | 1-based physical pages |
 | `start`, `end` | character range of the section's own text in `tree.text` (up to the next heading) |
-| `flags` | `doc_title` (the document's own title), `front_matter` (text before the first heading), `generated_title` (`standard` wrote a title for text that has no printed heading), and checks such as `start_marker_fuzzy`, `title_not_in_text`, `end_mismatch` |
+| `flags` | `doc_title` (the document's own title), `front_matter` (text before the first heading), `generated_title` (`standard` wrote a title for text that has no printed heading), `kept_strong` (`quick` or `standard` left out a heading Free had strong evidence for, and it was put back: see `keep_strong` under Settings), `from_contents` (added by the opt-in contents check), and checks such as `start_marker_fuzzy`, `title_not_in_text`, `end_mismatch` |
 | `confidence` | `free` only: 0 to 1, how much of Free's own evidence backs the heading (the PDF's outline lists it; its style is used on several pages and for little else; its number follows the previous one; a standard name such as References; not over ten words). A ranking within a document, fitted mostly on papers and READMEs, not a probability. `None` for front matter and in the model modes |
 | `parent` | index in `tree.sections` of the nearest enclosing section, or `None` |
 | `heading_path` | headings from the outermost enclosing section down to this one: `["1 Introduction", "1.1 Scope"]`. The document title's path is the title alone and front matter's is empty; neither is a parent |
@@ -223,6 +223,10 @@ section-anything scanned.json                        # the Docling document itse
   document `confidence` and the `threshold`. With `text=True` (`--format json --body` on the
   command line), each section also has `text`: exactly `tree.text[start:end]`, from its heading to
   the next heading.
+- `tree.possible_misses` (also in `to_dict()`): lines with heading evidence that the result does not
+  have as headings, best first, with page, text, the evidence in words and a score from 0 to 1, at
+  most one per 5 pages. It is a short list to check by eye: on held-out documents it held 1% to 4% of
+  the headings `free` missed, at 0.2 to 0.5 wrong entries per 10 pages (research finding F057).
 - `section_anything.Section` and `TreeDict` type the sections and `to_dict()`;
   `SectionTree.json_schema()` returns the JSON Schema of the JSON output.
 - `tree.extraction` holds the lines with their boxes (PDF points), for highlighting.
@@ -315,6 +319,8 @@ Arguments win over the environment. **No `.env` file is read, and nothing is eve
 | `SECTIONANY_MAX_PAGES`, `SECTIONANY_MAX_CHARS`, `SECTIONANY_MAX_MB` | 500, 5,000,000, 100 | refused above these; the error says how to raise them |
 | `SECTIONANY_DEMOTE_UNLISTED_HEADINGS` / `demote_unlisted_headings=` | `["free"]` | modes in which sections that a complete-looking PDF outline does not list are dropped (JSON list; `[]` turns it off) |
 | `SECTIONANY_COVERAGE_RETRY` / `coverage_retry=` | `true` | `standard`: a window whose answer leaves many heading-like lines unlisted is read once more, and the answer that lists more of them is kept. At most one extra call per window, only while the per-document cap covers it and the windows after it; not counted in the up-front estimate. Each re-read is listed in `tree.usage["coverage_retries"]` |
+| `SECTIONANY_KEEP_STRONG` / `keep_strong=` | `ask` | `quick` and `standard` (and `local`): Free's headings with evidence that needs no model (the outline lists them, their number follows the previous one, a standard name such as References) that the model's answer leaves out are put back when the outline lists them, and otherwise shown to the model once more in one call per document to keep or reject (`ask`); `restore` puts them all back without a call, `off` leaves the answer as it is. Decisions are in `tree.usage["kept_strong"]`. On a random 980 of the held-out READoc documents, Claude Haiku 5.5, `ask` raised `quick`'s heading-tree TEDS by 1.76 (95% CI 1.36 to 2.18) |
+| `SECTIONANY_CONTENTS_CHECK` / `contents_check=` | `[]` | modes (JSON list of `free`, `quick`, `standard`) in which bookmark and contents entries that no section covers are looked for in the body and added (flag `from_contents`); entries not found go to `tree.possible_misses`. Off by default: it removed under 1% of `free`'s missed headings on held-out documents |
 | `SECTIONANY_EXTRACT_TIMEOUT_SECONDS` / `extract_timeout=` | 120 | extraction worker is killed after this |
 | `SECTIONANY_EXTRACT_MEMORY_MB` | 4096 | worker memory limit (Linux only; 0 = none) |
 | `SECTIONANY_ISOLATE_EXTRACTION` | `true` | run extraction in a separate process |
