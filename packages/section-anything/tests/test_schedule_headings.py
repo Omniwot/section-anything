@@ -100,3 +100,34 @@ def _act() -> Extraction:
     paragraph(5, "Introductory", "3", 240)
     paragraph(5, "Power of arrest", "4", 160)
     return _ext(rows)
+
+
+def test_a_label_with_an_amendment_mark_keeps_its_side_note_and_title():
+    # A revised Act runs the amendment mark into the label ("[F76SCHEDULE 4A"), which sets the line taller.
+    ext = _ext([*_body(1, 760, 3),
+                (1, "[F76SCHEDULE 4A", 11.0, False, False, 254, 600), (1, "Section 54A", 8.0, False, False, 466, 603.5),
+                (1, "INFORMATION GATEWAYS: SPECIFIED PERSONS", 9.0, False, False, 195, 576), *_body(1, 540, 3)])
+    ext.lines[3].y1 = 612.9
+    sections = _sections(ext)
+    assert sections["INFORMATION GATEWAYS: SPECIFIED PERSONS"][0] == "SCHEDULE 4A"
+    assert "Section 54A" not in " ".join(sections)
+
+
+def test_a_title_read_before_its_label_joins_it():
+    # The extractor reads the title, printed under the label, just before the label.
+    ext = _ext([*_body(1, 760, 3),
+                (1, "PUBLIC AUTHORITIES UNDER A DUTY TO CO-OPERATE", 9.0, False, False, 118, 576),
+                (1, "SCHEDULE 3", 11.0, False, False, 265, 600), (1, "Section 43", 8.0, False, False, 471, 601.5),
+                (1, "Commencement Information", 10.0, True, False, 97, 540), *_body(1, 500, 3)])
+    sections = _sections(ext)
+    assert sections["PUBLIC AUTHORITIES UNDER A DUTY TO CO-OPERATE"][0] == "SCHEDULE 3"
+    assert "Commencement Information" not in sections
+    # A title that wraps onto a second line comes whole.
+    wrapped = _ext([*_body(1, 760, 3),
+                    (1, "REDUCING CARBON EMISSIONS AND HOME-HEATING COSTS: MINOR AND", 8.8, False, False, 91, 576),
+                    (1, "CONSEQUENTIAL AMENDMENTS", 8.8, False, False, 230, 565),
+                    (1, "SCHEDULE 1", 11.0, False, False, 263, 600), (1, "Section 72", 8.0, False, False, 469, 601),
+                    _title(1, "Gas Act 1986", 540), *_paragraph(1, "1", 522)])
+    title = "REDUCING CARBON EMISSIONS AND HOME-HEATING COSTS: MINOR AND CONSEQUENTIAL AMENDMENTS"
+    sections = _sections(wrapped)
+    assert sections[title][0] == "SCHEDULE 1"

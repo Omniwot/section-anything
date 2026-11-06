@@ -93,7 +93,7 @@ def features(sections: list[dict], ext: Extraction) -> list[dict[str, Any]]:
     hints = hints_of(ext)
     side = side_notes(ext)
     strict = {ln.i for ln, _ in candidates(ext)}
-    loose = _merge_wrapped(candidates(ext, loose=True), hints, side)
+    loose = _merge_wrapped(candidates(ext, loose=True), hints, side, ext)
     size = ext.body_size()
     furniture = furniture_of(ext)
     style_lines = Counter((ln.size, ln.bold) for ln in lines if ln.i not in furniture)

@@ -236,7 +236,9 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     split: set[int] = set()
     side = side_notes(ext)
     labelled = _label_lines(ext, furniture | toc, body, bump, side)
-    titles = set(labelled.values())
+    # A title read before its label (`_titles_read_first`): its later lines go with its first one.
+    read_first = {j: block[0] for lab, block in _titles_read_first(ext).items() if lab in labelled for j in block[1:]}
+    titles = set(labelled.values()) | set(read_first)
     cells = set() if loose else _table_cells(ext, furniture | toc | side)
     listing = listing_of(ext) if any(ln.italic for ln in ext.lines) else set()
     skip = furniture | toc | side | cells
@@ -317,6 +319,8 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     def stays(ln: Line) -> bool:
         if ln.i in split:
             return ln.i + 1 in kept
+        if ln.i in read_first:
+            return read_first[ln.i] in kept
         return loose or ln.i not in labelled or labelled[ln.i] in kept
 
     return [(ln, num) for ln, num in out if stays(ln)]
@@ -387,9 +391,15 @@ def _two_column_middle(ext: Extraction, page: int, lines: list[Line]) -> float |
     return mid if left >= 5 and right >= 5 else None
 
 
+# The mark of an amendment run into the start of a line in a revised UK Act ("[F76SCHEDULE 4A",
+# "[F64Human Trafficking ..."): "[F", the note's number, and the inserted text, which starts with a capital.
+AMENDMENT_MARK = re.compile(r"^\[F\d+(?=[A-Z][A-Za-z])")
+
+
 def _label_text(text: str) -> str:
-    """The line's text with letter spacing removed ("T e i l 1" -> "Teil 1"), for label matching."""
-    t = text.strip()
+    """The line's text with letter spacing removed ("T e i l 1" -> "Teil 1") and without an amendment mark
+    run into it ("[F76SCHEDULE 4A" -> "SCHEDULE 4A"), for label matching."""
+    t = AMENDMENT_MARK.sub("", text.strip())
     tokens = t.split()
     if len(tokens) >= 4 and all(len(x) == 1 for x in tokens):
         t = re.sub(r"(?<=[^\W\d_]) (?=[^\W\d_])", "", t)
@@ -401,10 +411,15 @@ def _label_lines(ext: Extraction, skip: set[int], body: float, bump: float, side
     above a title in bold, a larger size or capitals, as {label line: title line}. The label is
     often in the body face, so typography alone keeps the title and loses the label; both lines
     become candidates, and _merge_wrapped joins them. A reference printed beside the label
-    (`side_notes`) is passed over: the title is the line after it."""
+    (`side_notes`) is passed over: the title is the line after it. A title printed under its label
+    but read before it is the label's title too (`_titles_read_first`)."""
     out = {}
     lines = ext.lines
+    first = _titles_read_first(ext)
     for ln in lines[:-1]:
+        if ln.i in first and ln.i not in skip and first[ln.i][0] not in skip:
+            out[ln.i] = first[ln.i][0]
+            continue
         j = ln.i + 1
         while j < len(lines) - 1 and j in side:
             j += 1
@@ -416,6 +431,52 @@ def _label_lines(ext: Extraction, skip: set[int], body: float, bump: float, side
         if nxt.bold or nxt.size >= body + bump or (nxt.text.isupper() and not nxt.text.rstrip().endswith((".", ","))):
             out[ln.i] = nxt.i
     return out
+
+
+def _titles_read_first(ext: Extraction) -> dict[int, list[int]]:
+    """Bare labels whose title is printed right under them but read just before them, as {label line: the
+    title's lines}: the extractor's reading order can put "PUBLIC AUTHORITIES UNDER A DUTY ..." before
+    "SCHEDULE 3". The title (one to three lines set under one another in one style, read just before the
+    label) is set in bold or capitals, starts under the label within two and a half of its sizes and
+    overlaps it across, and the line after the label (side notes aside) is not closer under it."""
+
+    def make(ext: Extraction) -> dict[int, list[int]]:
+        lines, body = ext.lines, ext.body_size()
+        side = side_notes(ext)
+        skip = furniture_of(ext) | toc_of(ext).lines | side
+
+        def across(a: Line, b: Line) -> bool:
+            return min(a.x1, b.x1) > max(a.x0, b.x0)
+
+        out = {}
+        for ln in lines[1:]:
+            prev = lines[ln.i - 1]
+            if (ln.i in skip or prev.i in skip or prev.page != ln.page or not LABEL_ONLY.match(_label_text(ln.text))
+                    or LABEL_ONLY.match(_label_text(prev.text)) or len(prev.text.split()) > 20):
+                continue
+            block = [prev]
+            while len(block) < WRAPPED_MAX and block[0].i > 0:
+                up = lines[block[0].i - 1]
+                if not (up.page == prev.page and up.i not in skip and up.size == prev.size and up.bold == prev.bold
+                        and 0 < up.y0 - block[0].y0 <= WRAP_LEADING * up.size and across(up, block[0])):
+                    break
+                block.insert(0, up)
+            top = block[0]
+            under = ln.y0 - top.y1
+            if not (0 <= under <= 2.5 * ln.size and across(top, ln)):
+                continue
+            if not (top.bold or top.size >= body + 0.8 or (top.text.isupper() and not top.text.rstrip().endswith((".", ",")))):
+                continue
+            j = ln.i + 1
+            while j < len(lines) - 1 and j in side:
+                j += 1
+            nxt = lines[j] if j < len(lines) else None
+            if nxt is not None and nxt.page == ln.page and 0 <= ln.y0 - nxt.y1 <= under:
+                continue
+            out[ln.i] = [b.i for b in block]
+        return out
+
+    return ext.derived("titles_read_first", make)
 
 
 def side_notes(ext: Extraction) -> set[int]:
@@ -432,10 +493,13 @@ def side_notes(ext: Extraction) -> set[int]:
     for lab in ext.lines:
         if lab.i in skip or not LABEL_ONLY.match(_label_text(lab.text)):
             continue
+        # On the label's row: its top, or (a label with an amendment mark, "[F76SCHEDULE 4A", is set taller)
+        # its middle, within 3 points.
+        mid = (lab.y0 + lab.y1) / 2
         out |= {
             o.i for o in by_page[lab.page]
-            if abs(o.y0 - lab.y0) <= 3 and o.x0 >= lab.x1 + 10 and o.size <= lab.size - 1
-            and len(o.text.split()) <= 6 and re.search(r"\d", o.text)
+            if (abs(o.y0 - lab.y0) <= 3 or abs((o.y0 + o.y1) / 2 - mid) <= 3) and o.x0 >= lab.x1 + 10
+            and o.size <= lab.size - 1 and len(o.text.split()) <= 6 and re.search(r"\d", o.text)
         }
     return out
 
@@ -453,18 +517,25 @@ def _printed(ext: Extraction, first: Line, text: str, side: set[int]) -> str:
 
 
 def _merge_wrapped(cands: list[tuple[Line, str]], hints: DoclingHints | None = None,
-                   side: set[int] = frozenset()) -> list[tuple[Line, str, str]]:
+                   side: set[int] = frozenset(), ext: Extraction | None = None) -> list[tuple[Line, str, str]]:
     """Join a heading that wraps onto a second line with the same style, and a
     bare "CHAPTER 10" label with the title line right after it (or after the reference
     printed beside the label, `side_notes`). Lines that Docling puts in two different
     heading items stay two headings, except a bare label and its title: Docling often
     gives each its own item ("Article 3" / "Objet"), which as two headings matches
-    neither ("Article 3 Objet"). A bare label never takes another bare label as its title."""
+    neither ("Article 3 Objet"). A bare label never takes another bare label as its title.
+    Given the extraction, a label read just after its title (`_titles_read_first`) joins it too."""
+    # The title's last line -> (its label, its first line).
+    read_first = {t[-1]: (lab, t[0]) for lab, t in _titles_read_first(ext).items()} if ext is not None else {}
     merged: list[tuple[Line, str, str]] = []
     last: Line | None = None  # the last line joined into merged[-1]
     for ln, num in cands:
         if merged and last is not None:
             prev, pnum, ptext = merged[-1]
+            if read_first.get(last.i) == (ln.i, prev.i) and not num:
+                merged[-1] = (prev, _label_text(ln.text), ln.text + "\n" + ptext)
+                last = None  # label and title make the whole heading
+                continue
             next_line = ln.i > last.i and all(j in side for j in range(last.i + 1, ln.i)) and ln.page == prev.page
             if next_line and not num and ln.size == last.size and ln.bold == last.bold and (
                     hints is None or hints.same_item(last.i, ln.i)):
@@ -757,7 +828,7 @@ class RulesStrategy(Strategy):
 
     def _rules(self, ext: Extraction) -> list[RawSection]:
         side = side_notes(ext)
-        cands = _merge_wrapped(candidates(ext), hints_of(ext), side)
+        cands = _merge_wrapped(candidates(ext), hints_of(ext), side, ext)
         # The abstract's heading does not take part in the style levels, so its style cannot shift
         # the other levels (see _abstract_levels).
         abstract = {ln.i for ln, _, _ in cands if _abstract_heading(ln)}
