@@ -50,9 +50,32 @@ def _listed(ev: dict[str, float]) -> bool:
     return bool(ev["outline"] or ev["bookmark"])
 
 
-def _covers(model: list[dict], sec: dict) -> bool:
-    """A listed section starts at the Free heading (a line before it to a line after), or one on the
-    same page has its title with the same numbers ("6 Topic" is not "5 Topic")."""
+# Paragraph titles a document repeats this often are its own convention, not a chance layout.
+TITLED_PARAGRAPHS_MIN = 3
+
+
+def italic_headings(free: list[dict], ext: Extraction) -> set[int]:
+    """First lines of Free's italic headings at body size, in a document that sets its schedule paragraphs'
+    own titles in italics over the paragraph number (`rules._paragraph_number`; at least
+    `TITLED_PARAGRAPHS_MIN` of them): a revised UK Act, whose cross-headings, paragraph titles and group
+    headings are all set that way. A model reading the text without its italics takes the paragraph
+    titles for numbered list entries and leaves most of them out (research finding F065)."""
+    from section_anything.strategies.rules import _neighbours, _paragraph_number, _style
+
+    body = ext.body_size()
+    italic = lambda i: 0 <= i < len(ext.lines) and _style(ext.lines[i], body) == (0.0, False)  # noqa: E731
+    heads = [s["first_line"] for s in free if "front_matter" not in s["flags"] and italic(s.get("first_line", -1))]
+    titled = 0
+    for i in heads:
+        last = ext.lines[i + 1] if italic(i + 1) and ext.lines[i + 1].page == ext.lines[i].page else ext.lines[i]
+        titled += _paragraph_number(ext, last, _neighbours(ext, last)[2]) is not None
+    return set(heads) if titled >= TITLED_PARAGRAPHS_MIN else set()
+
+
+def _covers(model: list[dict], sec: dict, exact: bool = False) -> bool:
+    """A listed section starts at the Free heading (a line before it to a line after; on its line itself
+    when `exact`), or one on the same page has its title with the same numbers ("6 Topic" is not "5
+    Topic")."""
     text = f"{sec['number']} {sec['title']}".strip()
     digits = DIGITS.findall(text)
 
@@ -60,15 +83,32 @@ def _covers(model: list[dict], sec: dict) -> bool:
         other = f"{m['number']} {m['title']}".strip()
         return DIGITS.findall(other) == digits and _sim(other, text) >= THRESHOLD
 
-    return any(abs(m["first_line"] - sec["first_line"]) <= 1 or m["page_start"] == sec["page_start"] and same(m)
+    near = 0 if exact else 1
+    return any(abs(m["first_line"] - sec["first_line"]) <= near or m["page_start"] == sec["page_start"] and same(m)
                for m in model if "front_matter" not in m["flags"])
 
 
-def left_out(free: list[dict], model: list[dict], ext: Extraction) -> list[tuple[dict, dict[str, float]]]:
-    """Strong Free headings that no section of the model's answer covers, with their evidence, in
-    document order."""
+def left_out(free: list[dict], model: list[dict], ext: Extraction,
+             also: set[int] = frozenset()) -> list[tuple[dict, dict[str, float]]]:
+    """Strong Free headings, and those whose first line is in `also`, that no section of the model's answer
+    covers, with their evidence, in document order. A heading in `also` is covered only by a section that
+    starts on its own line or carries its title: an italic cross-heading sits right above the section it
+    heads ("Miscellaneous" over "[F5454A Gangmasters ..."), which a line's slack would count."""
     return [(s, ev) for s, ev in zip(free, evidence(free, ext), strict=True)
-            if ev is not None and is_strong(s, ev) and not _covers(model, s)]
+            if ev is not None and (is_strong(s, ev) or s["first_line"] in also)
+            and not _covers(model, s, exact=s["first_line"] in also)]
+
+
+def anchored_level(sec: dict, free: list[dict], model: list[dict]) -> int | None:
+    """`sec`'s level placed against the nearest heading before it that both Free and the model list: the
+    model's level for that heading, plus how much deeper Free sets `sec` than it. A model that gives a
+    schedule's Parts the level of the Act's sections then still gets the paragraph titles under the Parts."""
+    by_line = {s["first_line"]: s for s in free if "front_matter" not in s["flags"]}
+    for m in reversed([m for m in model if "front_matter" not in m["flags"] and m["first_line"] < sec["first_line"]]):
+        f = next((by_line[i] for i in (m["first_line"], m["first_line"] + 1, m["first_line"] - 1) if i in by_line), None)
+        if f is not None:
+            return max(1, min(8, m["level"] + sec["level"] - f["level"]))
+    return None
 
 
 def level_map(free: list[dict], model: list[dict]) -> dict[int, int]:
@@ -161,14 +201,16 @@ async def put_back(free: list[dict], model: list[dict], ext: Extraction, ctx: Co
                    effort: str | None = "low") -> list[RawSection]:
     """The strong Free headings to add to the model's answer, as proposals, and the record of every
     decision in `ctx.usage.kept_strong`."""
-    missing = left_out(free, model, ext)
+    # A revised UK Act's italic headings go back without a call, like outline-listed ones (`italic_headings`).
+    italic = italic_headings(free, ext)
+    missing = left_out(free, model, ext, italic)
     note: dict = {"how": how, "left_out": len(missing), "restored": [], "rejected": []}
     ctx.usage.kept_strong = note
     if not missing:
         return []
     levels = level_map(free, model)
     decided: dict[int, AskItem] = {}
-    asked = [s for s, ev in missing if not _listed(ev)] if how == "ask" else []
+    asked = [s for s, ev in missing if not _listed(ev) and s["first_line"] not in italic] if how == "ask" else []
     if asked:
         before = ctx.usage.cost_usd
         try:
@@ -187,7 +229,10 @@ async def put_back(free: list[dict], model: list[dict], ext: Extraction, ctx: Co
                                      "reason": it.reason})
             continue
         level = it.level if it is not None else levels.get(s["level"], s["level"])
-        why = {"reason": it.reason} if it is not None else {"listed": True} if _listed(ev) else {}
+        if it is None and s["first_line"] in italic and not _listed(ev):
+            level = anchored_level(s, free, model) or level
+        why = ({"reason": it.reason} if it is not None else {"listed": True} if _listed(ev)
+               else {"italic_heading": True} if s["first_line"] in italic else {})
         note["restored"].append({"line": s["first_line"], "page": s["page_start"], "title": title, "level": level,
                                  **why})
         out.append(as_raw(s, level))

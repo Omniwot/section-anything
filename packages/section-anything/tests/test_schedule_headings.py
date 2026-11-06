@@ -3,11 +3,16 @@ above the paragraph, whose number stands alone at the margin; lines that open wi
 ("section 4 (soliciting murder)") are not headings; Parts and paragraph titles inside a schedule nest under
 it; a label with an amendment mark run into it, or read after its title, still opens a heading. Also: titles
 wrapped over two italic lines, numbers with an amendment mark, group headings in a schedule's lists, quoted
-amendments and the Act's title block."""
+amendments, the Act's title block, and keep_strong putting a revised Act's italic headings back."""
 
 from __future__ import annotations
 
+import asyncio
+
+from section_anything import keep, pipeline
 from section_anything.extract import Extraction, Line, Page
+from section_anything.llm import Usage
+from section_anything.strategies.base import Context
 from section_anything.strategies.rules import RulesStrategy, candidates
 
 BODY = "(2) The constable may require any person on the ship to give information about the ship and its"
@@ -276,3 +281,28 @@ def test_an_acts_citation_and_long_title_are_not_headings_and_its_parts_stay_at_
     # The document's title stands outside the hierarchy: the Parts and the schedule are level 1.
     assert sections["OFFENCES"] == ("PART 1", 1) and sections["OFFENCES LISTED"] == ("SCHEDULE 1", 1)
 
+
+def test_keep_strong_puts_a_revised_acts_italic_headings_back_under_the_models_levels():
+    ext = _act()
+    ctx = Context(model="fake", usage=Usage(), cost_cap_usd=1.0, progress=lambda _f, _m: None)
+
+    async def put_back():
+        free = await pipeline.free_sections(ext)
+        italic = keep.italic_headings(free, ext)
+        # The model lists the labels and sections, one level deeper than Free, and none of the italic lines.
+        model = [{**s, "level": s["level"] + 1} for s in free if s["first_line"] not in italic]
+        return free, italic, await keep.put_back(free, model, ext, ctx, "ask")
+
+    async def no_call(**kw):
+        raise AssertionError("no ask call expected")
+
+    keep.structured, saved = no_call, keep.structured
+    try:
+        free, italic, added = asyncio.run(put_back())
+    finally:
+        keep.structured = saved
+    titles = {r.title: r.level for r in added}
+    assert len(italic) >= keep.TITLED_PARAGRAPHS_MIN and "Power to stop and board" in titles
+    # Placed against the model's own level for the Part above it: one deeper.
+    assert titles["Power to stop and board"] == 4 and titles["Theft Act 1968 (c. 60)"] == 3
+    assert all(r.get("italic_heading") for r in ctx.usage.kept_strong["restored"])
