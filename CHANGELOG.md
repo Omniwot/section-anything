@@ -80,6 +80,16 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   (gpt-6-luna), and with no OpenAI key it skipped `quick` and ended in `free`. A model you pass now
   stays with the run: `standard` over the cap goes to `quick` on the same model, and only a mode that
   model cannot run (no price, no key) is skipped (research finding F065).
+- **`quick` and `standard` number levels as `free` does around the document title.** Asked to set
+  the document's own title at level 1, the model often nests every other heading under it, so a UK
+  Act's Parts came out at level 2 in `standard` and at level 1 in `free`. When every heading sits below
+  the title (flag `doc_title`), they now move up together so the top division is level 1 beside the
+  title; their relative depths, the sections and their text do not change. Replayed at $0 on saved
+  Claude Haiku 5.5 answers (research finding F065): exact level agreement with the Modern Slavery Act
+  2015's reference key 0.361 -> 0.639 (`standard`, fresh run); on the 300 held-out documents, the 29
+  `quick` answers it changes go from 0.062 to 0.910 exact agreement with their answer keys (28 better,
+  1 worse), with F1 and relative level agreement unchanged; READoc heading-tree TEDS unchanged on the
+  38 `standard` and 65 `quick` held-out answers it changes.
 
 ## 0.1.8 (unreleased)
 

@@ -262,6 +262,8 @@ async def run(
             for sec in sections:
                 if sec["first_line"] in back:
                     sec["flags"].append(keep.FLAG)
+    if strategy.uses_llm:
+        extra["levels_lifted"] = title_beside_top_level(sections)
     if MODE_OF.get(strategy_id) in s.demote_unlisted_headings:
         # Free's extra sections come from typography rules: the strict checks would measure their
         # noise, not the outline (see outline_check).
@@ -304,6 +306,30 @@ def mark_doc_title(sections: list[dict], ext: Extraction) -> None:
     if (first["page_start"] == 1 and not (first["number"] or "").strip() and not GENERIC_FIRST.match(first["title"].strip())
             and size(first) >= max(size(s) for s in body[1:]) + 1.0):
         first["flags"].append("doc_title")
+
+
+def title_beside_top_level(sections: list[dict]) -> int:
+    """Quick and Standard: when a model set every heading below the document's own title (`doc_title`
+    at level 1, so an Act's Parts at level 2), lift them by the same amount so the top division is level
+    1 beside the title, as Free sets them and as the exports read them (the title stands outside the
+    hierarchy: `link_sections`, `to_markdown`). Their relative depths do not change. Returns how many
+    levels they moved (0: nothing changed)."""
+    title = next((s for s in sections if "doc_title" in s["flags"]), None)
+    rest = [s for s in sections if s is not title and "front_matter" not in s["flags"]]
+    if title is None or not rest:
+        return 0
+    top = min(s["level"] for s in rest)
+    if top <= max(1, title["level"]):
+        return 0
+    lift = top - 1
+    for s in rest:
+        s["level"] -= lift
+    title["level"] = 1
+    end = max((s.get("span_end", 0) for s in sections), default=0)  # the text's length, where spans are kept
+    for k, s in enumerate(sections):
+        if "span_end" in s:
+            s["span_end"] = next((t["start"] for t in sections[k + 1:] if t["level"] <= s["level"]), end)
+    return lift
 
 
 def estimates(ext: Extraction, prices: dict, cap_usd: float) -> list[dict]:

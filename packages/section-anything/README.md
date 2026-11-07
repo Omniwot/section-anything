@@ -207,7 +207,7 @@ section-anything scanned.json                        # the Docling document itse
 | Key | Meaning |
 |---|---|
 | `number`, `title` | numbering as printed (`"2.3"`, `"Chapter 4"`, or `""`) and the heading text |
-| `level` | 1 = top level, 2 = its subsections, ... |
+| `level` | 1 = top level, 2 = its subsections, ... The document title (flag `doc_title`) is level 1, beside the top divisions (an Act's Parts), in every mode |
 | `page_start`, `page_end` | 1-based physical pages |
 | `start`, `end` | character range of the section's own text in `tree.text` (up to the next heading) |
 | `flags` | `doc_title` (the document's own title), `front_matter` (text before the first heading), `generated_title` (`standard` wrote a title for text that has no printed heading), `kept_strong` (`quick` or `standard` left out a heading Free had strong evidence for, and it was put back: see `keep_strong` under Settings), `from_contents` (added by the opt-in contents check), and checks such as `start_marker_fuzzy`, `title_not_in_text`, `end_mismatch` |
