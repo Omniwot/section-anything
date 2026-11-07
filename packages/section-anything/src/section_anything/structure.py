@@ -10,6 +10,10 @@ on the TOC copy instead of the body. Two kinds of TOC are found:
   followed by a run of entry lines in one style ("10.1 Cell Division",
   "10.2 The Cell Cycle"). The run stops at the first line that breaks the
   entries' pattern, a large vertical gap, or a page break.
+- Contents pages under a contents title whose entries change style (labels
+  on lines of their own, titles split from their leaders and page numbers,
+  letter-spaced labels): every line after the title is an entry until the
+  body begins (`_open_runs`).
 
 Entries keep their number, title, printed page and indent, so the free
 strategy can use a TOC as an outline. `outline_backbone` anchors either the
@@ -32,7 +36,11 @@ from section_anything.markers import canon
 
 TOC_TITLE = re.compile(
     r"^(table of contents|contents|contents at a glance|brief contents|chapter outline|outline|in this chapter"
-    r"|chapter contents|summary of contents)\s*:?$",
+    r"|chapter contents|summary of contents|short contents"
+    # the contents titles of legislation and of other languages
+    r"|table of provisions|arrangement of sections|arrangement of provisions|arrangement of regulations"
+    r"|inhaltsverzeichnis|inhaltsübersicht|table des matières|sommaire|table analytique"
+    r"|índice|indice|contenido|contenidos|sommario|inhoud|inhoudsopgave)\s*:?$",
     re.I,
 )
 # "Title .... 12", "Title . . . 12", "Title … 12", "Title   12"
@@ -190,6 +198,127 @@ def _titled_runs(ext: Extraction, gap: float) -> list[list[int]]:
             prev = nxt
         if len(run) >= 3:
             out.append(run)
+    return out
+
+
+def _despaced(text: str) -> str:
+    """A letter-spaced line read as its words ("I n h a l t s ü b e r s i c h t", "K a p i t e l 4")."""
+    t = text.strip()
+    tokens = t.split()
+    if len(tokens) >= 4 and all(len(x) == 1 for x in tokens):
+        t = re.sub(r"(?<=[^\W\d_]) (?=[^\W\d_])", "", t)
+    return t
+
+
+# The titles that open a contents list for `_open_runs`: not the weaker "Outline" or "In this chapter", which also
+# title sections of running text.
+OPEN_TITLE = re.compile(
+    r"^(table of contents|contents|short contents|contents at a glance|brief contents|summary of contents"
+    r"|table of provisions|arrangement of sections|arrangement of provisions|arrangement of regulations"
+    r"|inhaltsverzeichnis|inhaltsübersicht|table des matières|sommaire|table analytique"
+    r"|índice|indice|contenido|contenidos|sommario|inhoud|inhoudsopgave)\s*:?$",
+    re.I,
+)
+# The titles of the lists that often follow a contents list on its pages; they are not entries.
+LIST_TITLE = re.compile(r"^(list of [a-z ]{3,30}|tables|figures|abbreviations|acronyms|appendices)\s*:?$", re.I)
+LEADERS = re.compile(r"(?:[.·…:_]\s?){3,}")
+LEADER_ONLY = re.compile(r"^[\s.·…:_\-–]*\d*[\s.·…:_\-–]*$")
+OPEN_RUN_MIN_ENTRIES = 4
+OPEN_RUN_MIN_LATER = 3  # entries whose text the body prints again after the list
+OPEN_RUN_ENTRY_SHARE = 0.8  # of a following page's lines, for the list to go on there
+
+
+# A structural label or section number that opens an entry ("§ 8", "Artikel 5", "PART 2", "4.1"): the body prints the
+# same title with or without it.
+ENTRY_LABEL = re.compile(
+    r"^\s*(?:(?:part|chapter|section|schedule|annex|annexe|appendix|article|division|subdivision|title|teil|kapitel"
+    r"|abschnitt|unterabschnitt|titel|artikel|anlage|anhang|chapitre|titre|partie|art\.)\s*(?:\d+[a-z]{0,2}|[ivxlc]+)\b"
+    r"|§+\s*\d+[a-z]?|[a-z](?:\.\d+)+|\d+(?:\.\d+)*)[.:)]?\s*[—–-]?\s*",
+    re.I,
+)
+
+
+def _entry_key(text: str) -> str:
+    """An entry's words without its label or number, leaders and page number, in canonical form."""
+    t = LEADERS.split(_despaced(text))[0]
+    t = re.sub(r"\s+\d{1,4}\s*$", "", t)
+    m = ENTRY_LABEL.match(t)
+    rest = t[m.end():] if m else t
+    return canon(rest if rest.strip() else t).replace(" ", "")
+
+
+def _prose_lines(lines: list[Line]) -> int:
+    """Lines of running text: more than 12 words, without leaders."""
+    return sum(1 for y in lines if len(_despaced(y.text).split()) > 12 and not LEADERS.search(y.text))
+
+
+def _sentence_like(text: str, nxt: Line | None = None) -> tuple[bool, bool]:
+    """(the line reads as running text, the line is a paragraph's line on its own): without leaders, more than 12 words
+    ending like a sentence, or more than 16 words; or six words or more that break a word at their end ("discus-") or
+    run on into a line that starts in lower case (a narrow column's prose)."""
+    t = _despaced(text)
+    words = len(t.split())
+    if LEADERS.search(t):
+        return False, False
+    runs_on = words >= 6 and (t.endswith("-") or (nxt is not None and nxt.text.strip()[:1].islower()))
+    return words > 16 or runs_on or (words > 12 and t.endswith((".", ";", ",", ":"))), words > 16
+
+
+def _open_runs(ext: Extraction, taken: set[int]) -> set[int]:
+    """Contents pages that the run rules miss because their entries change style: a label on a line of its own above
+    its title ("PART 1" / "ENERGY EFFICIENCY"), titles split from their dot leaders and page numbers, letter-spaced
+    labels ("K a p i t e l 4"), page numbers in a column of their own. After a contents title (`OPEN_TITLE`) every
+    line is an entry until the body begins: a line that repeats an earlier entry on another page or in another type
+    (the body's first heading), a paragraph (a line of more than 16 words, or two lines in a row of running text), or a page on which fewer than
+    four in five lines read as entries or more than two lines are running text. The list counts when it has
+    `OPEN_RUN_MIN_ENTRIES` entries and the body prints
+    at least `OPEN_RUN_MIN_LATER` of them again after it. The title line itself is left to the other rules (a
+    README's "Table of contents" is a heading of its own)."""
+    lines = ext.lines
+    furniture = furniture_of(ext)
+    out: set[int] = set()
+    for ln in lines:
+        if ln.i in out or ln.i in furniture or not OPEN_TITLE.match(_despaced(ln.text)):
+            continue
+        run: list[int] = []
+        keys: dict[str, tuple[int, float, bool]] = {}  # entry -> (page, size, bold) where the list has it
+        page, prev_text, k = ln.page, False, ln.i + 1
+        while k < len(lines):
+            x = lines[k]
+            if x.page != page:
+                # The list goes on over the next page only while that page reads as entries: most of its lines, and
+                # no more than two lines of running text.
+                rest = [y for y in lines[k:k + 300] if y.page == x.page and y.i not in furniture]
+                entries = sum(1 for y in rest if not _sentence_like(y.text)[0])
+                if (x.page != page + 1 or not rest or entries < OPEN_RUN_ENTRY_SHARE * len(rest)
+                        or _prose_lines(rest) > 2):
+                    break
+                page = x.page
+            if x.i in furniture:
+                k += 1
+                continue
+            if LIST_TITLE.match(_despaced(x.text)) or OPEN_TITLE.match(_despaced(x.text)):
+                k += 1  # "List of figures" after the contents: a title of its own, not an entry
+                continue
+            key = _entry_key(x.text)
+            if len(key) >= 4 and key in keys and keys[key] != (x.page, round(x.size), x.bold):
+                break  # the body's first heading repeats an entry (a schedule's own "PART 1" in the list does not)
+            nxt = lines[k + 1] if k + 1 < len(lines) and lines[k + 1].page == x.page else None
+            running, paragraph = _sentence_like(x.text, nxt)
+            if paragraph or (running and prev_text):
+                if running and prev_text and run:
+                    run.pop()
+                break
+            prev_text = running
+            if len(key) >= 4:
+                keys.setdefault(key, (x.page, round(x.size), x.bold))
+            run.append(x.i)
+            k += 1
+        if len(run) < OPEN_RUN_MIN_ENTRIES or set(run) <= taken:
+            continue
+        later = {_entry_key(y.text) for y in lines[k:] if y.i not in furniture}
+        if sum(1 for key in keys if key in later) >= OPEN_RUN_MIN_LATER:
+            out.update(run)
     return out
 
 
@@ -524,6 +653,9 @@ def detect_toc(ext: Extraction) -> Toc:
                 continue
             toc.entries.append(_entry(ln, page_ref))
     toc.entries.sort(key=lambda e: e.line)
+    # Contents pages whose entries change style: their lines are contents lines, without entries (the outline
+    # comes from the lists above).
+    toc.lines |= _open_runs(ext, toc.lines)
 
     # Levels: numbering depth where entries are numbered, otherwise indent rank.
     indents = sorted({round(e.x0 / 6) for e in toc.entries})
