@@ -187,6 +187,10 @@ class Settings(BaseSettings):
     # precision where bookmarks list far more than headings (research finding F057).
     # Env: JSON list, e.g. SECTIONANY_CONTENTS_CHECK='["quick","standard"]'. "quick" also covers local mode.
     contents_check: list[Literal["free", "quick", "standard"]] = Field(default_factory=list)
+    # Experimental: guidance on what headings look like in one type of document (for example a rule
+    # sheet written from sample documents of that type), appended to Quick check's and Standard's
+    # instructions. Empty: the instructions are unchanged.
+    heading_guidance: str = ""
 
     # Model calls.
     llm_timeout_seconds: float = Field(default=300.0, gt=0)
