@@ -328,7 +328,7 @@ def _open_runs(ext: Extraction, taken: set[int]) -> set[int]:
 # The labels a running head names its part or section by ("Part 3A", "Section 16A", "Artikel 4").
 HEAD_LABELS = (r"(?:part|chapter|schedule|section|division|subdivision|annex|annexe|appendix|title|book|article|artikel"
                r"|art|rule|regulation|clause|paragraph|teil|kapitel|abschnitt|anlage|anhang|chapitre|titre|partie)")
-ZONE_TOP, ZONE_BOTTOM = 0.10, 0.08  # the page's top and bottom margin zones, as shares of its height
+ZONE_TOP, ZONE_BOTTOM = 0.12, 0.08  # the page's top and bottom margin zones, as shares of its height
 ZONE_MIN_PAGES = 3
 BARE_HEAD = re.compile(rf"^(?:{HEAD_LABELS}|§+)\.?\s*#$")
 
@@ -350,7 +350,9 @@ def _zone_heads(ext: Extraction, body: float, heights: dict[int, tuple[float, fl
     Preliminary", "Section 16A", "CHAPTER 4. OPTIMIZATION OF ..."): the same words, section numbers masked, in the top
     or bottom margin zone of three or more pages, in a line no more than 1 pt over the body size and not bold at body
     size or larger (a heading's style). A bare label ("Section 16A") must come back on three in ten pages: an article
-    that happens to open a few pages ("Artikel 4") is a heading."""
+    that happens to open a few pages ("Artikel 4") is a heading. A line in the zone that repeats a heading of the
+    document in a plainer style is a running head on as few as two pages; in italics, only when the heading is set
+    1 pt larger (a heading set in italics at the top of a page is the heading itself)."""
     zone: dict[str, set[int]] = {}
     found: list[tuple[int, str]] = []
     for ln in ext.lines:
@@ -363,7 +365,22 @@ def _zone_heads(ext: Extraction, body: float, heights: dict[int, tuple[float, fl
             found.append((ln.i, k))
     bare_min = max(ZONE_MIN_PAGES, 0.3 * len(ext.pages))
     ok = {k for k, pages in zone.items() if len(pages) >= (bare_min if BARE_HEAD.match(k) else ZONE_MIN_PAGES)}
-    return {i for i, k in found if k in ok}
+    # A running head that repeats a heading of the document in its own words ("Part 4 Miscellaneous" over the pages of
+    # "Part 4—Miscellaneous"), however few pages it heads: a heading-styled line (bold or 1 pt larger) outside the zones
+    # with the same words.
+    zoned = {i for i, _ in found}
+    headings: dict[str, float] = {}  # a heading's words -> its largest size
+    for ln in ext.lines:
+        if ln.i not in zoned and (ln.bold or ln.size >= body + 1.0) and len(canon(ln.text)) >= 6:
+            headings[canon(ln.text)] = max(ln.size, headings.get(canon(ln.text), 0.0))
+
+    def copy(i: int) -> bool:
+        ln = ext.lines[i]
+        size = headings.get(canon(ln.text))
+        return (size is not None and (not ln.italic or size >= ln.size + 1.0)
+                and len(zone[_zone_key(ln.text)]) >= 2)  # a running head comes back; a list's first entry does not
+
+    return {i for i, k in found if k in ok or (not BARE_HEAD.match(k) and copy(i))}
 
 
 def _furniture(ext: Extraction) -> set[int]:

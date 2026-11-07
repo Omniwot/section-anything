@@ -194,3 +194,13 @@ def test_contents_list_goes_on_past_a_title_repeated_in_smaller_type():
     toc = toc_of(ext).lines
     assert {ln.i for ln in ext.lines if ln.page == 1 and ln.i > 0} <= toc
     assert not toc & {ln.i for ln in ext.lines if ln.page > 1}
+
+
+def test_running_head_that_repeats_a_heading_is_furniture():
+    rows: list[Row] = [(1, "Part 4—Miscellaneous", 16.0, True, 120, 700), *_prose(1, 680, 20)]
+    for page in (2, 3):  # the Part's two pages carry its name at the top, in 10 pt
+        rows += [(page, "Part 4 Miscellaneous", 10.0, False, 396, 800), *_prose(page, 760, 20)]
+    ext = _ext(rows)
+    furn = furniture_of(ext)
+    assert all(ln.i in furn for ln in ext.lines if ln.text == "Part 4 Miscellaneous")
+    assert not any(ln.i in furn for ln in ext.lines if ln.text == "Part 4—Miscellaneous")
