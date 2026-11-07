@@ -228,3 +228,25 @@ def test_quick_check_sees_structural_labels_set_small_or_plain():
     assert "TITLE II" in rows and "CHAPTER I General provisions" in rows  # two labels stay two rows
     assert "ANNEX II" in rows  # a bare label with no title line under it
     assert not any(r.startswith("Section") for r in rows)
+
+
+def test_label_levels_do_not_depend_on_the_hash_seed():
+    """Two label kinds with as many headings each ("§ 165.1" and a form's "Section A:", a US CFR part):
+    the innermost kind is picked the same way under every PYTHONHASHSEED (F065)."""
+    import json
+    import os
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    import section_anything
+
+    texts = ([f"§ 165.{i} Rule {i}." for i in range(1, 15)] + [f"Section {c}: Form part" for c in "ABCDEFGH"] * 2
+             + ["§ 166.2 Authorization to trade.", "Section I: Counsel Certification", "§ 166.1 Definitions.",
+                "§ 166.3 Supervision."])
+    code = ("import json, sys; from section_anything.strategies.rules import _label_levels; "
+            "print(json.dumps(_label_levels(json.loads(sys.argv[1]), numbers_count=False, min_share=0.3)))")
+    src = str(Path(section_anything.__file__).resolve().parent.parent)
+    outs = {subprocess.run([sys.executable, "-c", code, json.dumps(texts)], capture_output=True, text=True, check=True,
+                           env={**os.environ, "PYTHONHASHSEED": seed, "PYTHONPATH": src}).stdout for seed in "0123"}
+    assert len(outs) == 1

@@ -995,8 +995,9 @@ def _label_levels(texts: list[str], *, numbers_count: bool, min_share: float,
         return None
     # Numbering that starts again after another kind's entry puts that kind above it. The most
     # common kind is the innermost one and is never put above another (its last entry before a
-    # restart only means the label in between was missed).
-    leaf = max(set(labeled) - TOP_KINDS, key=labeled.count)
+    # restart only means the label in between was missed). On a tie, the kind seen first wins, so the
+    # result does not depend on PYTHONHASHSEED (it did on a US CFR part, F065).
+    leaf = max(set(labeled) - TOP_KINDS, key=lambda k: (labeled.count(k), -first[k]))
     below: set[tuple[str, str]] = set()
     prev = None
     for i, (k, n, _) in enumerate(parsed):
