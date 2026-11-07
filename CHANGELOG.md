@@ -46,6 +46,35 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   amendment that their answer keys list); no genre's F1 lower in any `free` mode. READoc held-out
   unchanged. The keep_strong change fires on none of the 300 held-out documents or the 2,033 READoc
   held-out documents.
+- **Fewer false headings in `free` across document types (research findings F067 and F068,
+  pre-registered held-out check).** An error audit of `free` on 300 held-out documents found false
+  headings, not misses, to be the largest error (17,604 false against 1,705 missed). Six general
+  changes, designed on development documents only:
+  - a contents page under its title ("Contents", "Table of provisions", "Arrangement of sections",
+    "Inhaltsübersicht", "Table des matières", ...) is a contents list whatever its entries' styles
+    (labels on lines of their own, titles split from their leaders and page numbers, letter-spaced
+    labels, two pages with a repeated entry), up to the body's first heading;
+  - running heads that name the current part or section ("Section 16A", "Part 1 Preliminary",
+    "CHAPTER 4. OPTIMIZATION OF ...") are furniture: the same words, section numbers masked, in the
+    page's top or bottom margin zone on three or more pages, or a plainer copy of a heading on two;
+  - the entries of definition lists and reference manuals are not headings: a defined term's line
+    ("Australian entity means:"), a definition's header with its category at the right ("[Function]"),
+    a glossary term over its indented definition;
+  - a sparse cover page's lines below its title (authors, dates, "Compilation date:") and a long title
+    without a citation line ("An Act to require ...") are not headings;
+  - the short last lines of a paragraph set above the body size, and numbered paragraphs in body type
+    ("7.64 For effective competition, consumers need ..."), are not headings;
+  - in labelled documents, an inserted section's number ("16A") counts as a section number, and back
+    matter after the last section (endnotes) takes the level of the kind set in its style.
+
+  On the 300 held-out documents (answer keys v2.2), `free` without bookmarks: precision 0.591 -> 0.647,
+  F1 +0.034 (CI +0.027 to +0.042), misses 58.0 -> 59.2 per 1,000; every genre's F1 higher (GNU manuals
+  +0.146, Python docs +0.153, theses +0.107), none lower in any of the four `free` modes or answer-key
+  versions. On four families of legislation never used before (Australian, Irish, Canadian Acts, US CFR
+  parts; 38 documents), F1 +0.047 (CI +0.032 to +0.063), none lower. READoc held-out: arXiv papers 60.81
+  -> 61.66 (CI +0.55 to +1.17), READMEs 81.33 -> 81.38 (CI -0.02 to +0.14). The UK Modern Slavery Act
+  stays at 194 of 194 headings; the Australian one goes from 59 to 67 of 67, precision 0.509 -> 0.931,
+  its deepest level from 9 to 5.
 
 ## 0.1.8 (unreleased)
 
