@@ -336,7 +336,7 @@ def _open_runs(ext: Extraction, taken: set[int]) -> set[int]:
 # The labels a running head names its part or section by ("Part 3A", "Section 16A", "Artikel 4").
 HEAD_LABELS = (r"(?:part|chapter|schedule|section|division|subdivision|annex|annexe|appendix|title|book|article|artikel"
                r"|art|rule|regulation|clause|paragraph|teil|kapitel|abschnitt|anlage|anhang|chapitre|titre|partie)")
-ZONE_TOP, ZONE_BOTTOM = 0.12, 0.08  # the page's top and bottom margin zones, as shares of its height
+ZONE_TOP, ZONE_BOTTOM = 0.14, 0.08  # the page's top and bottom margin zones, as shares of its height
 ZONE_MIN_PAGES = 3
 BARE_HEAD = re.compile(rf"^(?:{HEAD_LABELS}|§+)\.?\s*#$")
 
