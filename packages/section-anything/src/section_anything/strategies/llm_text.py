@@ -361,6 +361,27 @@ class ReviewResult(BaseModel):
     cap_items = field_validator("items", mode="after")(lambda v: v[:2000])
 
 
+# A section number with an amendment mark run into it, in a revised UK Act: "[F1111A Enforcement by ..." is note F11
+# and section 11A, "F5755 Gangmasters Licensing Authority" note F57 and the omitted section 55. Shown as printed,
+# the line reads as a number out of sequence, and Quick check left all three such sections of the Modern Slavery
+# Act 2015 out (research finding F065).
+AMENDED_SECTION = re.compile(r"^\[?F(\d{2,6})([A-Z]{0,2})\s+(?=\S)")
+SECTION_NUMBER = re.compile(r"^(\d{1,4})([A-Z]{0,2})\s+(?=\S)")
+
+
+def _amended_number(digits: str, letters: str, prev: int | None) -> str | None:
+    """The section number at the end of an amendment-marked number's digits: the one that continues `prev`, the
+    previous section number set in the same style ("11A" after 11, "30A" after 30, "55" after 54A); None when no
+    tail does."""
+    if prev is None:
+        return None
+    for step in (0, 1, 2, 3):
+        tail = str(prev + step)
+        if (step or letters) and digits.endswith(tail) and len(digits) > len(tail):
+            return tail + letters
+    return None
+
+
 class LlmReviewStrategy(Strategy):
     id = "llm_review"
     label = "Rules + LLM review"
@@ -377,6 +398,7 @@ class LlmReviewStrategy(Strategy):
         cands = candidates(ext, loose=True)
         side = side_notes(ext)
         skip: set[int] = set()
+        numbered: dict[tuple[float, bool], int] = {}  # the last section number seen in each style
         for k, (ln, _num) in enumerate(cands):
             if ln.i in skip:
                 continue
@@ -394,6 +416,13 @@ class LlmReviewStrategy(Strategy):
             ):
                 text, last = f"{text} {nx.text}", nx.i
                 skip.add(nx.i)
+            style = (round(ln.size, 1), ln.bold)
+            mark = AMENDED_SECTION.match(text)
+            number = _amended_number(mark.group(1), mark.group(2), numbered.get(style)) if mark else None
+            if number is not None:
+                text = f"{number} {text[mark.end():]}"  # "11A Enforcement by ...": the number without the note's mark
+            if plain := SECTION_NUMBER.match(text):
+                numbered[style] = int(plain.group(1))
             after = next((j for j in range(last + 1, len(ext.lines)) if j not in side), None)
             nxt = ext.lines[after].text[:70] if after is not None else ""
             delta = round(ln.size - body)

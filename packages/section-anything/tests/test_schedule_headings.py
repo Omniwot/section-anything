@@ -306,3 +306,60 @@ def test_keep_strong_puts_a_revised_acts_italic_headings_back_under_the_models_l
     # Placed against the model's own level for the Part above it: one deeper.
     assert titles["Power to stop and board"] == 4 and titles["Theft Act 1968 (c. 60)"] == 3
     assert all(r.get("italic_heading") for r in ctx.usage.kept_strong["restored"])
+
+
+def _sections_with_marks() -> Extraction:
+    """A revised Act's bold section headings, two of them inserted ("[F1111A") or omitted ("F5755") with the
+    amendment note's mark run into the number."""
+    rows: list[Row] = []
+    heads = ["11 Forfeiture of land vehicle, ship or aircraft", "[F1111A Enforcement by Gangmasters and Labour Abuse Authority",
+             "12 Detention of land vehicle, ship or aircraft", "54 Transparency in supply chains etc",
+             "[F5454A Gangmasters and Labour Abuse Authority: information gateways", "F5755 Gangmasters Licensing Authority",
+             "56 Interpretation", "F16 Engines and airframes"]
+    for k, head in enumerate(heads):
+        page = 1 + k // 2
+        y0 = 760 if k % 2 == 0 else 420
+        rows += [(page, head, 11.0, True, False, 87, y0), *_body(page, y0 - 18, 4)]
+    return _ext(rows)
+
+
+def test_quick_shows_an_amendment_marked_section_number_as_the_reader_sees_it():
+    from section_anything.strategies.llm_text import LlmReviewStrategy, _amended_number
+
+    assert _amended_number("1111", "A", 11) == "11A" and _amended_number("3630", "A", 30) == "30A"
+    assert _amended_number("5755", "", 54) == "55" and _amended_number("4950", "A", 50) == "50A"
+    assert _amended_number("5755", "", 12) is None and _amended_number("1111", "A", None) is None
+    assert _amended_number("16", "", 15) is None  # no mark left once the number is taken
+    ext = _sections_with_marks()
+    rows = {ext.lines[i].text: row.split("  ⟶")[0].split("⟨B⟩ ", 1)[1] for i, row in LlmReviewStrategy()._rows(ext)}
+    assert rows["[F1111A Enforcement by Gangmasters and Labour Abuse Authority"] == (
+        "11A Enforcement by Gangmasters and Labour Abuse Authority")
+    assert rows["[F5454A Gangmasters and Labour Abuse Authority: information gateways"].startswith("54A Gangmasters")
+    assert rows["F5755 Gangmasters Licensing Authority"] == "55 Gangmasters Licensing Authority"
+    assert rows["F16 Engines and airframes"] == "F16 Engines and airframes"  # 16 does not follow 56 with a mark left
+
+
+def test_quick_keeps_an_amendment_marked_section_at_its_printed_line():
+    import re
+
+    from section_anything.strategies import llm_text
+    from section_anything.strategies.llm_text import LlmReviewStrategy, ReviewItem, ReviewResult
+
+    ext = _sections_with_marks()
+
+    async def model(**kw):  # keeps a candidate only when its row opens with a section number
+        items = []
+        for m in re.finditer(r"^(\d+)\| p\d+ \S+ (\d+[A-Z]?) (.*?)  ⟶", kw["user"], re.M):
+            items.append(ReviewItem(id=int(m.group(1)), is_heading=True, level=1, number=m.group(2), title=m.group(3)))
+        return ReviewResult(items=items)
+
+    llm_text.structured, saved = model, llm_text.structured
+    try:
+        ctx = Context(model="fake", usage=Usage(), cost_cap_usd=1.0, progress=lambda _f, _m: None)
+        raw = asyncio.run(LlmReviewStrategy().run(ext, ctx))
+    finally:
+        llm_text.structured = saved
+    sections, _ = pipeline.resolve(raw, ext, pipeline.Locator(ext.text))
+    got = {(s["number"], s["title"]): ext.lines[s["first_line"]].text for s in sections}
+    assert got[("11A", "Enforcement by Gangmasters and Labour Abuse Authority")].startswith("[F1111A")
+    assert got[("55", "Gangmasters Licensing Authority")] == "F5755 Gangmasters Licensing Authority"

@@ -90,6 +90,16 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   `quick` answers it changes go from 0.062 to 0.910 exact agreement with their answer keys (28 better,
   1 worse), with F1 and relative level agreement unchanged; READoc heading-tree TEDS unchanged on the
   38 `standard` and 65 `quick` held-out answers it changes.
+- **`quick` reads an amendment-marked section number as printed.** In a revised UK Act an inserted or
+  omitted section's number has the amendment note's mark run into it ("[F1111A Enforcement by ...": note
+  F11, section 11A; "F5755 Gangmasters Licensing Authority": note F57, section 55). The lines were among
+  Quick's candidates, but in a fresh run Claude Haiku 5.5 left all three such sections of the Modern
+  Slavery Act 2015 out, and `keep_strong` had no evidence to put them back with (Free gives them no
+  number). Quick's candidate row now shows the number that continues the previous section number set in
+  the same style ("11A Enforcement by ...", "55 Gangmasters ..."); the section still starts at its
+  printed line. Of the Act's 390 candidate rows, the five amendment-marked section headings change; no
+  row of any other saved extraction does (2,541 checked). Not yet confirmed with a paid run (research
+  finding F065).
 
 ## 0.1.8 (unreleased)
 
