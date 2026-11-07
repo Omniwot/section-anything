@@ -21,10 +21,10 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   and one a bold two-line note (the run-on fix). `quick` (Claude Haiku 5.5, one run per document,
   without bookmarks) against a same-day 0.1.7 run on 99 held-out documents (9 or 10 per genre): misses
   per 1,000 84.9 -> 49.6 (CI -68.9 to -11.2) and F1 +0.021 (CI +0.001 to +0.047), UK Acts 313.4 ->
-  100.2. Theses' F1 fell 0.011 (CI -0.022 to -0.002, 10 documents); in two of the three theses that
-  changed most the model's input was the same in both versions, so that part is the variation between
-  single runs. `standard` (14 documents, same day) is level: F1 -0.003 (CI -0.010 to +0.005). Each
-  change's own numbers follow.
+  100.2. Theses' F1 fell 0.011 there (CI -0.022 to -0.002, 10 documents, one run each); with three
+  runs per thesis and version it is -0.011 (CI -0.030 to +0.002): one thesis takes 12 italic lines as
+  extra headings in every run, and one 0.1.8 run of another left five headings out. `standard` (14
+  documents, same day) is level: F1 -0.003 (CI -0.010 to +0.005). Each change's own numbers follow.
 - **Headings set in italics at body size are found.** The extractor records which lines are set in
   italics, from the font name or the italic flag of a text font's descriptor (extractor version 7; the
   text is unchanged, so saved runs still map onto the page, and extractions saved earlier load without
