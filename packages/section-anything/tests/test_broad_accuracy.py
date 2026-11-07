@@ -246,3 +246,39 @@ def test_inserted_sections_and_back_matter_take_their_kinds_levels():
     levels = {f"{r.number} {r.title}".strip(): r.level for r in RulesStrategy()._rules(_ext(rows))}
     assert levels["16A Explanations"] == levels["16 Criteria"] == levels["1 Short title"]
     assert levels["Endnotes"] == levels["Part 1—Matters"] < levels["Endnote 1—About the endnotes"]
+
+
+# ── a cover page's lines, long titles ──
+def _report(cover: list[Row]) -> Extraction:
+    rows = list(cover)
+    for page in range(2, 6):
+        rows += [(page, f"{page - 1} Findings of part {KINDS.get(page - 1, 'last')}", 14.0, True, 72, 780), *_prose(page, 760, 30)]
+    return _ext(rows)
+
+
+def test_cover_page_lines_below_the_title_are_not_headings():
+    cover: list[Row] = [(1, "Modern Slavery Act 2018", 20.0, True, 120, 780), (1, "No. 153, 2018", 12.0, True, 120, 750),
+                        (1, "Compilation No. 2", 16.0, True, 120, 700), (1, "Compilation date:", 12.0, True, 120, 670),
+                        (1, "7 November 2024", 12.0, False, 248, 670), (1, "Includes amendments: Act No. 42, 2024", 12.0, True, 120, 650),
+                        (1, "Abstract", 12.0, True, 120, 600)]
+    texts = [ln.text for ln, _ in candidates(_report(cover))]
+    assert "Modern Slavery Act 2018" in texts and "Abstract" in texts and "1 Findings of part first" in texts
+    assert not {"No. 153, 2018", "Compilation No. 2", "Compilation date:", "Includes amendments: Act No. 42, 2024"} & set(texts)
+
+
+def test_a_slide_deck_keeps_its_first_page():
+    # Every page is sparse: a slide deck's first slide is not a cover to clear.
+    rows: list[Row] = []
+    for page in range(1, 7):
+        rows += [(page, f"Slide topic {KINDS.get(page, 'more')}", 24.0, True, 72, 700),
+                 (page, f"Speaker note on {next(WORDS)} {next(WORDS)}", 14.0, True, 72, 600)]
+    assert any(ln.page == 1 and ln.text.startswith("Speaker") for ln, _ in candidates(_ext(rows)))
+
+
+def test_long_title_without_citation_line_is_not_a_heading():
+    rows: list[Row] = [(1, "An Act to require some entities to report on the", 16.0, True, 120, 760),
+                       (1, "risks of modern slavery in their operations and supply", 16.0, True, 120, 742),
+                       (1, "chains, and for related purposes", 16.0, True, 120, 724), (1, "Part 1—Preliminary", 16.0, True, 120, 690),
+                       *_prose(1, 670, 20), *_prose(2, 780, 30), *_prose(3, 780, 30), *_prose(4, 780, 30)]
+    texts = [ln.text for ln, _ in candidates(_ext(rows))]
+    assert "Part 1—Preliminary" in texts and not any(t.startswith(("An Act", "risks", "chains")) for t in texts)

@@ -13,7 +13,7 @@ from section_anything.docling_input import DoclingHints, hints_of
 from section_anything.extract import Extraction, Line
 from section_anything.outline_check import LETTER_SPACED
 from section_anything.strategies.base import Context, RawSection, Strategy
-from section_anything.structure import NUMBER_ALONE, furniture_of, listing_of, outline_backbone, split_number, toc_of
+from section_anything.structure import NUMBER_ALONE, TOC_TITLE, furniture_of, listing_of, outline_backbone, split_number, toc_of
 
 NUMBERING = re.compile(
     r"^(?P<num>(?:chapter|part|section|appendix|article|annex|unit|lesson)\s+[\dA-Z]+[.:]?"
@@ -364,30 +364,39 @@ def _group_heading(ext: Extraction, ln: Line, body: float, skip: set[int]) -> bo
 # A UK Act's citation under its short title ("2015 CHAPTER 30", "2015 asp 12"), and the opening of its long
 # title ("An Act to make provision about ...").
 ACT_CITATION = re.compile(r"(?:1[89]|20)\d\d\s+(?:CHAPTER|asp|anaw|asc)\s+\d+", re.I)
-LONG_TITLE = re.compile(r"An Act (?:to|for)\b")
+LONG_TITLE = re.compile(r"An Act (?:to|for|respecting|relating to|establishing|providing for|concerning)\b")
 
 
 def _act_title(ext: Extraction) -> set[int]:
     """A UK Act's title block below its short title: the citation line and the long title after it, from
     "An Act to ..." to the line that ends it with a full stop (the date of Royal Assent, "[26th March
     2015]", is set among its lines). The short title is the document's title; these lines are not
-    headings."""
+    headings. A long title set without a citation line (two or more lines in one type from "An Act to ...",
+    in an Australian compilation) is one too, to its full stop or the end of its type."""
 
     def make(ext: Extraction) -> set[int]:
         lines, out = ext.lines, set()
+        body = ext.body_size()
         for ln in lines:
             if ln.page > 10:
                 break
-            if not ACT_CITATION.fullmatch(ln.text.strip()):
-                continue
-            out.add(ln.i)
-            start = next((x for x in lines[ln.i + 1: ln.i + 4] if LONG_TITLE.match(x.text.strip())), None)
+            start = None
+            if ACT_CITATION.fullmatch(ln.text.strip()):
+                out.add(ln.i)
+                start = next((x for x in lines[ln.i + 1: ln.i + 4] if LONG_TITLE.match(x.text.strip())), None)
+            elif (LONG_TITLE.match(ln.text.strip()) and ln.i not in out and ln.size >= body and ln.i + 1 < len(lines)
+                  and lines[ln.i + 1].page == ln.page and abs(lines[ln.i + 1].size - ln.size) <= 0.1):
+                start = ln  # a long title set without a citation line above it (an Australian compilation)
             if start is None:
                 continue
+            prev = None
             for x in lines[start.i: start.i + 10]:
-                if x.page != start.page or abs(x.size - start.size) > 0.1:
+                if x.page != start.page or abs(x.size - start.size) > 0.1 or x.bold != start.bold:
                     break
+                if prev is not None and (STRUCTURE_LABEL.match(x.text.strip()) or prev.y0 - x.y0 > 1.6 * x.size):
+                    break  # the first Part's heading, set in the long title's type right under it
                 out.add(x.i)
+                prev = x
                 if x.text.rstrip().endswith("."):
                     break
         return out
@@ -473,6 +482,41 @@ def _term_entries(ext: Extraction, body: float) -> set[int]:
     return ext.derived("term_entries", make)
 
 
+# Names a cover page's own headings may carry.
+COVER_HEADING = re.compile(r"^\W*(abstract|summary|executive summary|foreword|preface|introduction|contents|table of contents"
+                           r"|acknowledg\w*|key findings|overview|about this \w+)\W*$", re.I)
+COVER_MAX_LINES = 25
+COVER_MAX_PROSE = 2
+
+
+def _cover_lines(ext: Extraction) -> set[int]:
+    """The lines of a cover page that are not headings: page 1, when it is sparse (at most 25 lines, at most two of more
+    than 12 words) in a document of four pages or more whose pages are not (slides are), apart from its title block
+    (the lines in its largest type), numbered or labelled lines, contents titles and the names a front page's headings
+    carry ("Abstract", "Summary"). The rest are a cover's authors, dates, issue numbers and imprint ("Compilation date:",
+    "7 November 2024", "A thesis submitted in partial fulfilment of ...")."""
+
+    def make(ext: Extraction) -> set[int]:
+        if len(ext.pages) < 4:
+            return set()
+        furniture = furniture_of(ext)
+        per_page: dict[int, list[Line]] = defaultdict(list)
+        for ln in ext.lines:
+            if ln.i not in furniture and ln.text.strip():
+                per_page[ln.page].append(ln)
+        counts = sorted(len(v) for v in per_page.values())
+        first = per_page.get(1, [])
+        if (not first or not counts or counts[len(counts) // 2] <= COVER_MAX_LINES or len(first) > COVER_MAX_LINES
+                or sum(1 for ln in first if len(ln.text.split()) > 12) > COVER_MAX_PROSE):
+            return set()
+        top = max(ln.size for ln in first)
+        return {ln.i for ln in first if ln.size < top - 0.5 and not (
+            NUMBERING.match(ln.text.strip()) or LABEL_ONLY.match(_label_text(ln.text)) or STRUCTURE_LABEL.match(ln.text.strip())
+            or TOC_TITLE.match(ln.text.strip()) or COVER_HEADING.match(ln.text))}
+
+    return ext.derived("cover_lines", make)
+
+
 def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     """Lines that look like headings, with their numbering prefix ("" if none).
     `loose` widens recall for an LLM to filter afterwards; TOC lines are
@@ -501,7 +545,8 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
 
     Strict mode also leaves out the entries of definition lists and reference manuals: a defined term's line
     ("Australian entity means:"), a definition's header line with its category at the right ("[Function]",
-    `_reference_entries`), and a term over its indented definition (`_term_entries`)."""
+    `_reference_entries`), and a term over its indented definition (`_term_entries`); and a cover page's lines below
+    its title (`_cover_lines`)."""
     body = ext.body_size()
     furniture = furniture_of(ext)
     toc = toc_of(ext).lines
@@ -520,7 +565,7 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     skip = furniture | toc | side | cells
     split_titles: set[int] = set()
     act_title = set() if loose else _act_title(ext)
-    entries = set() if loose else _reference_entries(ext) | _term_entries(ext, body)
+    entries = set() if loose else _reference_entries(ext) | _term_entries(ext, body) | _cover_lines(ext)
     quote: Line | None = None  # the last line of an open quotation (`_quoted`) left out
     for ln in ext.lines:
         text = ln.text
