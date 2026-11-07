@@ -228,3 +228,21 @@ def test_contents_list_over_two_pages_with_a_repeated_entry():
     toc = toc_of(ext).lines
     assert {ln.i for ln in ext.lines if ln.page in (1, 2) and ln.i > 0} <= toc
     assert not toc & {ln.i for ln in ext.lines if ln.page > 2}
+
+
+# ── heading levels in labelled documents ──
+def test_inserted_sections_and_back_matter_take_their_kinds_levels():
+    # Parts, Divisions and sections set the levels; "16A" is a section like "16", and the endnotes after the last
+    # section take the levels of the kinds set in their styles, not places under the last section.
+    rows: list[Row] = []
+    page = 1
+    for part, secs in ((1, ["1 Short title", "2 Commencement"]), (2, ["16 Criteria", "16A Explanations", "17 Register"])):
+        rows += [(page, f"Part {part}—Matters", 16.0, True, 120, 790), (page, f"Division {part}—Preliminary", 14.0, True, 120, 770)]
+        for k, sec in enumerate(secs):
+            rows += [(page, sec, 12.0, True, 120, 740 - 120 * k), *_prose(page, 720 - 120 * k, 6)]
+        page += 1
+    rows += [(page, "Endnotes", 16.0, True, 120, 780), (page, "Endnote 1—About the endnotes", 12.0, True, 120, 740),
+             *_prose(page, 720, 6)]
+    levels = {f"{r.number} {r.title}".strip(): r.level for r in RulesStrategy()._rules(_ext(rows))}
+    assert levels["16A Explanations"] == levels["16 Criteria"] == levels["1 Short title"]
+    assert levels["Endnotes"] == levels["Part 1—Matters"] < levels["Endnote 1—About the endnotes"]

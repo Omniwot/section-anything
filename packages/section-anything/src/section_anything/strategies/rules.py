@@ -849,7 +849,8 @@ STRUCTURE_LABEL = re.compile(
     r"|schedule|anlage|anhang|annex|annexe|appendix)\b)\s*\.?\s*(?P<n>\d+|[IVXLC]+\b|[A-Z]\b)",
     re.I,
 )
-LEADING_NUMBER = re.compile(r"^(\d+(?:\.\d+)*)\.?\s+\S")
+# A section number, with the capital letters of an inserted section ("16A", "20WA") after a plain number.
+LEADING_NUMBER = re.compile(r"^(\d+[A-Z]{0,3}(?:\.\d+)*)\.?\s+\S")
 
 
 # The usual nesting of structural labels, outermost first, used when an outline has no levels of its
@@ -886,7 +887,8 @@ def _label_kind(text: str) -> tuple[str | None, str, int]:
     return None, "", 0
 
 
-def _label_levels(texts: list[str], *, numbers_count: bool, min_share: float) -> list[int] | None:
+def _label_levels(texts: list[str], *, numbers_count: bool, min_share: float,
+                  styles: list[Style] | None = None) -> list[int] | None:
     """Levels implied by the headings' structural labels, or None when the labels don't say enough:
     at least two kinds besides annexes, schedules and appendices (plain section numbers count as a
     kind only with `numbers_count`), and at least `min_share` of the headings labeled or numbered.
@@ -897,7 +899,9 @@ def _label_levels(texts: list[str], *, numbers_count: bool, min_share: float) ->
     that kind. A dotted number goes one level deeper per dot, annexes and schedules take the top
     kind's level, and an unlabeled heading sits just above the kind of the next labeled one (a UK
     Act's cross-heading above its sections, a regulation's title above its first chapter), or, when
-    the next one is of the top kind, just below the kind of the previous labeled one."""
+    the next one is of the top kind, just below the kind of the previous labeled one. Given the headings' `styles`, an
+    unlabeled heading that no labeled one follows (a compilation's endnotes, back matter) takes the level of the labeled
+    kind set in its style, when there is one, instead of going under the last labeled heading."""
     parsed = [_label_kind(t) for t in texts]
     # A label that occurs once ("PART 385 OF THE CODE ...", a cross-reference that opens a line) says
     # nothing about the structure; its line counts as unlabeled.
@@ -948,8 +952,14 @@ def _label_levels(texts: list[str], *, numbers_count: bool, min_share: float) ->
             continue
         b = next((x for x in kinds[i + 1:] if x is not None and x not in TOP_KINDS), None)
         p = next((x for x in reversed(kinds[:i]) if x is not None and x not in TOP_KINDS), None)
+        if b is None and styles is not None:
+            same = [kinds[j] for j in range(len(kinds)) if kinds[j] is not None and kinds[j] not in TOP_KINDS
+                    and abs(styles[j][0] - styles[i][0]) <= 0.5 and styles[j][1] == styles[i][1]]
+            if same:
+                slot.append(("same", max(set(same), key=same.count)))
+                continue
         slot.append(("before", b) if b is not None and (b != outer or p is None) else ("after", p) if p else None)
-    for sl in sorted({x for x in slot if x is not None}, key=lambda x: (order.index(x[1]), x[0] == "after")):
+    for sl in sorted({x for x in slot if x is not None and x[0] != "same"}, key=lambda x: (order.index(x[1]), x[0] == "after")):
         order.insert(order.index(sl[1]) + (sl[0] == "after"), sl)
     rank = {k: r + 1 for r, k in enumerate(order)}
     top = rank[outer]
@@ -960,7 +970,7 @@ def _label_levels(texts: list[str], *, numbers_count: bool, min_share: float) ->
         elif k is not None:
             out.append(rank[k] + d)
         else:
-            out.append(rank[sl] if sl is not None else 1)
+            out.append(1 if sl is None else rank[sl[1]] if sl[0] == "same" else rank[sl])
     # The headings inside an annex or schedule (from its label to the next one) nest under it, in the order
     # the ranks give them: a schedule's Part one level below the schedule, the paragraphs' titles under
     # the Part, or under the schedule itself when it has no Parts. The levels outside them close up first,
@@ -1158,7 +1168,8 @@ class RulesStrategy(Strategy):
         # The document's title stands outside the hierarchy (`pipeline.mark_doc_title`): set before a document's
         # first label, it would otherwise rank above the top kind and push every Part one level down.
         title = _title_line(cands)
-        by_label = _label_levels([t for k, t in enumerate(texts) if k != title], numbers_count=False, min_share=0.3)
+        by_label = _label_levels([t for k, t in enumerate(texts) if k != title], numbers_count=False, min_share=0.3,
+                                 styles=[_style(ln, body) for k, (ln, _, _) in enumerate(cands) if k != title])
         if by_label is not None and title is not None:
             by_label.insert(title, min(by_label, default=1))
         # Without clear labels (a short UK Act with no Parts or Chapters), italic cross-headings would rank
