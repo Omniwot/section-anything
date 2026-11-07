@@ -402,6 +402,77 @@ def _quoted(text: str) -> bool:
     return t[:1] in "“\"" and bool(t) and (t.count("“") > t.count("”") if t[0] == "“" else t.count('"') % 2 == 1)
 
 
+# A defined term's line, not a heading: "Australian entity means:", "carries on business in Australia: see section 5".
+DEFINITION_LEAD = re.compile(r"\bmeans\s*[:—–-]?\s*$|\bmeans:\s|^[^:]{2,60}:\s+see\b|\b(?:includes|is defined as)\s*:\s*$", re.I)
+# The category a reference manual prints at the right of a definition's header line ("[Function]", "[Variable]").
+DEFINITION_CATEGORY = re.compile(r"^\[[A-Z][A-Za-z ./-]{1,40}\]$")
+LIST_MARK = re.compile(r"^\s*(\(?[a-z0-9]{1,3}[.)]|[•▪●◦■□►‣–—-])\s")
+
+
+def _reference_entries(ext: Extraction) -> set[int]:
+    """The header lines of a reference manual's definitions: a line with a bracketed category set at the right of its
+    row ("integer index (string s, integer c)" ... "[Function]"), and the lines its argument list wraps onto (indented
+    under it, in its size). They name a function, variable or command; the manual's headings are elsewhere."""
+
+    def make(ext: Extraction) -> set[int]:
+        lines, out = ext.lines, set()
+        for c in lines:
+            if not DEFINITION_CATEGORY.match(c.text.strip()):
+                continue
+            pg = ext.pages[c.page - 1] if 0 < c.page <= len(ext.pages) else None
+            if pg is None or c.x0 < pg.origin_x + 0.55 * pg.width:
+                continue
+            row = [o for o in lines[max(0, c.i - 6): c.i + 7]
+                   if o is not c and o.page == c.page and abs(o.y0 - c.y0) <= 3 and o.x1 <= c.x0]
+            for d in row:
+                out.add(d.i)
+                j = d.i + 1
+                while j < len(lines) and j - d.i <= 4:
+                    n = lines[j]
+                    if n.page == d.page and (n.i == c.i or DEFINITION_CATEGORY.match(n.text.strip())):
+                        j += 1
+                        continue
+                    if (n.page == d.page and abs(n.size - d.size) <= 0.2 and n.x0 > d.x0 + 4
+                            and 0 < d.y0 - n.y0 <= 3 * d.size):
+                        out.add(n.i)  # the argument list wrapped onto the next line
+                        j += 1
+                        continue
+                    break
+        return out
+
+    return ext.derived("reference_entries", make)
+
+
+def _term_entries(ext: Extraction, body: float) -> set[int]:
+    """Terms of a definition list (a glossary, a list of PEPs, a schema's members): a short line in body size, not
+    numbered or labelled, that starts where the document's paragraphs start, over a definition whose first two lines
+    start 10 pt or more further right, at one indent, in body type ("iterable" over "An object capable of returning its
+    members ..."). A heading's paragraph starts at the margin, or indents its first line only."""
+
+    def make(ext: Extraction) -> set[int]:
+        counts: dict[float, int] = defaultdict(int)
+        for ln in ext.lines:
+            if len(ln.text.split()) > 10 and abs(ln.size - body) <= 0.5:
+                counts[round(ln.x0 / 2) * 2] += 1
+        if not counts:
+            return set()
+        start = max(counts, key=counts.get)  # where the document's paragraphs start
+        lines, out = ext.lines, set()
+        for ln in lines[:-2]:
+            t = ln.text.strip()
+            if (not t or abs(ln.x0 - start) > 2.5 or len(t.split()) > 8 or abs(ln.size - body) > 0.5 or LIST_MARK.match(t)
+                    or NUMBERING.match(t) or LABEL_ONLY.match(_label_text(t))):
+                continue
+            a, b = lines[ln.i + 1], lines[ln.i + 2]
+            if (a.page == b.page == ln.page and a.x0 >= ln.x0 + 10 and abs(b.x0 - a.x0) <= 2 and not a.bold
+                    and abs(a.size - body) <= 0.6 and len(a.text.split()) >= 5 and not LIST_MARK.match(a.text)
+                    and 0 < ln.y0 - a.y0 <= 2.2 * max(ln.size, 1.0)):
+                out.add(ln.i)
+        return out
+
+    return ext.derived("term_entries", make)
+
+
 def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     """Lines that look like headings, with their numbering prefix ("" if none).
     `loose` widens recall for an LLM to filter afterwards; TOC lines are
@@ -426,7 +497,11 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     A bare "§ 97" set bold or larger is a candidate although it has no letters. A section number
     split off a title set in body type counts when the pair stands as a numbered heading
     (`_split_heading`). Strict mode's letter-share test reads a capitalised title without its
-    multi-level number (`_few_letters`)."""
+    multi-level number (`_few_letters`).
+
+    Strict mode also leaves out the entries of definition lists and reference manuals: a defined term's line
+    ("Australian entity means:"), a definition's header line with its category at the right ("[Function]",
+    `_reference_entries`), and a term over its indented definition (`_term_entries`)."""
     body = ext.body_size()
     furniture = furniture_of(ext)
     toc = toc_of(ext).lines
@@ -445,12 +520,14 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     skip = furniture | toc | side | cells
     split_titles: set[int] = set()
     act_title = set() if loose else _act_title(ext)
+    entries = set() if loose else _reference_entries(ext) | _term_entries(ext, body)
     quote: Line | None = None  # the last line of an open quotation (`_quoted`) left out
     for ln in ext.lines:
         text = ln.text
         if ln.i in furniture or ln.i in toc or ln.i in side or ln.i in cells or CAPTION.match(text):
             continue
-        if not loose and ln.i in act_title:
+        if not loose and (ln.i in act_title or ln.i in entries
+                          or (abs(ln.size - body) <= 0.6 and DEFINITION_LEAD.search(text.strip()))):
             continue
         if not loose and (_quoted(text) or (quote is not None and ln.i == quote.i + 1 and ln.page == quote.page
                                             and (ln.size, ln.bold, ln.italic) == (quote.size, quote.bold, quote.italic))):

@@ -1,5 +1,6 @@
 """Track B (broad accuracy): the largest remaining causes of false headings in Free, fixed by general rules. Contents
-pages whose entries change style; running heads that name the current part or section."""
+pages whose entries change style; running heads that name the current part or section; entries of definition lists
+and reference manuals."""
 
 from __future__ import annotations
 
@@ -135,3 +136,45 @@ def test_bold_heading_repeated_at_page_tops_is_not_furniture():
     ext = _ext(rows)
     zone = _zone_heads(ext, ext.body_size(), {p.n: (p.origin_y, p.height) for p in ext.pages})
     assert not any(ln.i in zone for ln in ext.lines if ln.text.startswith("Effect"))
+
+
+# ── entries of definition lists and reference manuals ──
+def test_defined_terms_are_not_headings():
+    rows: list[Row] = [(1, "4 Definitions", 12.0, True, 120, 760), *_prose(1, 740, 3),
+                       (1, "Australian entity means:", 11.0, True, 177, 690), (1, "(a) a company which is a resident;", 11.0, False, 185, 676),
+                       (1, "carries on business in Australia: see section 5.", 11.0, True, 177, 650), *_prose(1, 630, 6)]
+    texts = [ln.text for ln, _ in candidates(_ext(rows))]
+    assert "4 Definitions" in texts
+    assert not any("means" in t or ": see" in t for t in texts)
+
+
+def test_reference_manual_definition_headers_are_not_headings():
+    rows: list[Row] = [(1, "10.2 Rewrite Built-in Functions", 13.0, True, 90, 760), *_prose(1, 740, 3),
+                       (1, "integer index (string s, integer c)", 12.0, False, 90, 690), (1, "[Function]", 11.0, False, 474, 690),
+                       (1, "Returns the index of the first occurrence of the character c in the string s and more.", 11.0, False, 119, 676),
+                       (1, "OM_uint32 gss_wrap (OM uint32 * minor_status, const", 12.0, False, 90, 650), (1, "[Function]", 11.0, False, 474, 650),
+                       (1, "gss ctx id t context_handle, int conf_req_flag)", 12.0, False, 140, 636), *_prose(1, 620, 6)]
+    texts = [ln.text for ln, _ in candidates(_ext(rows))]
+    assert texts == ["10.2 Rewrite Built-in Functions"]
+
+
+def test_glossary_terms_over_indented_definitions_are_not_headings():
+    # The document's paragraphs start at the margin (page 1); its glossary indents each definition (page 2).
+    rows: list[Row] = [*_prose(1, 780, 30), (2, "Glossary", 16.0, True, 72, 780), *_prose(2, 760, 4)]
+    y = 700
+    for term in ("iterable", "decorator", "dictionary view"):
+        rows += [(2, term, 11.0, True, 72, y),
+                 (2, "An object capable of returning its members one at a time, such as all sequence types and", 11.0, False, 97, y - 13),
+                 (2, "some non-sequence types like dict and file objects, and objects of any classes you define.", 11.0, False, 97, y - 26)]
+        y -= 45
+    texts = [ln.text for ln, _ in candidates(_ext(rows))]
+    assert "Glossary" in texts and not {"iterable", "decorator", "dictionary view"} & set(texts)
+
+
+def test_heading_over_a_first_line_indent_stays():
+    # A heading whose paragraph indents its first line only (the second line returns to the margin) is a heading.
+    rows: list[Row] = [*_prose(1, 780, 4), (1, "Data collection", 11.0, True, 72, 720),
+                       (1, "We collected the records from every site over two years, and kept the", 11.0, False, 87, 707),
+                       (1, "originals in the archive for the later checks described in the next section.", 11.0, False, 72, 694),
+                       *_prose(1, 680, 6)]
+    assert "Data collection" in [ln.text for ln, _ in candidates(_ext(rows))]
