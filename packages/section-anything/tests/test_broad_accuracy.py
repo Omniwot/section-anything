@@ -178,3 +178,19 @@ def test_heading_over_a_first_line_indent_stays():
                        (1, "originals in the archive for the later checks described in the next section.", 11.0, False, 72, 694),
                        *_prose(1, 680, 6)]
     assert "Data collection" in [ln.text for ln, _ in candidates(_ext(rows))]
+
+
+def test_contents_list_goes_on_past_a_title_repeated_in_smaller_type():
+    # "Division 1—Preliminary" under "Part 3A—Preliminary" in the list: an entry, not the body's first heading.
+    rows: list[Row] = [(1, "Contents", 18.0, False, 120, 780)]
+    entries = [("Part 1—Preliminary", 12.0), ("Part 2—Statements", 12.0), ("Part 3A—Commissioner", 12.0),
+               ("Division 1—Preliminary", 11.0), ("Division 2—Functions of the Commissioner", 11.0), ("Part 4—Miscellaneous", 12.0)]
+    rows += [(1, t, size, True, 120, 750 - 20 * k) for k, (t, size) in enumerate(entries)]
+    page = 2
+    for t, size in entries:
+        rows += [(page, t, 16.0 if size == 12.0 else 14.0, True, 120, 760), *_prose(page, 740, 12)]
+        page += 1
+    ext = _ext(rows)
+    toc = toc_of(ext).lines
+    assert {ln.i for ln in ext.lines if ln.page == 1 and ln.i > 0} <= toc
+    assert not toc & {ln.i for ln in ext.lines if ln.page > 1}

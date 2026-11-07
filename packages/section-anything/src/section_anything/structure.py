@@ -268,8 +268,8 @@ def _open_runs(ext: Extraction, taken: set[int]) -> set[int]:
     """Contents pages that the run rules miss because their entries change style: a label on a line of its own above
     its title ("PART 1" / "ENERGY EFFICIENCY"), titles split from their dot leaders and page numbers, letter-spaced
     labels ("K a p i t e l 4"), page numbers in a column of their own. After a contents title (`OPEN_TITLE`) every
-    line is an entry until the body begins: a line that repeats an earlier entry on another page or in another type
-    (the body's first heading), a paragraph (a line of more than 16 words, or two lines in a row of running text), or a page on which fewer than
+    line is an entry until the body begins: a line that repeats an earlier entry on a later page or in a bigger or
+    bolder type (the body's first heading), a paragraph (a line of more than 16 words, or two lines in a row of running text), or a page on which fewer than
     four in five lines read as entries or more than two lines are running text. The list counts when it has
     `OPEN_RUN_MIN_ENTRIES` entries and the body prints
     at least `OPEN_RUN_MIN_LATER` of them again after it. The title line itself is left to the other rules (a
@@ -281,7 +281,7 @@ def _open_runs(ext: Extraction, taken: set[int]) -> set[int]:
         if ln.i in out or ln.i in furniture or not OPEN_TITLE.match(_despaced(ln.text)):
             continue
         run: list[int] = []
-        keys: dict[str, tuple[int, float, bool]] = {}  # entry -> (page, size, bold) where the list has it
+        keys: dict[str, tuple[int, float, bool]] = {}  # entry -> (page, size, bold) of its first line in the list
         page, prev_text, k = ln.page, False, ln.i + 1
         while k < len(lines):
             x = lines[k]
@@ -301,8 +301,11 @@ def _open_runs(ext: Extraction, taken: set[int]) -> set[int]:
                 k += 1  # "List of figures" after the contents: a title of its own, not an entry
                 continue
             key = _entry_key(x.text)
-            if len(key) >= 4 and key in keys and keys[key] != (x.page, round(x.size), x.bold):
-                break  # the body's first heading repeats an entry (a schedule's own "PART 1" in the list does not)
+            if len(key) >= 4 and key in keys:
+                page0, size0, bold0 = keys[key]
+                if x.page != page0 or x.size > size0 + 0.5 or (x.bold and not bold0):
+                    break  # the body's first heading repeats an entry, on a later page or in a bigger or bolder type
+                # (a schedule's own "PART 1", or "Division 1—Preliminary" under "Part 1—Preliminary", is an entry)
             nxt = lines[k + 1] if k + 1 < len(lines) and lines[k + 1].page == x.page else None
             running, paragraph = _sentence_like(x.text, nxt)
             if paragraph or (running and prev_text):
@@ -311,7 +314,7 @@ def _open_runs(ext: Extraction, taken: set[int]) -> set[int]:
                 break
             prev_text = running
             if len(key) >= 4:
-                keys.setdefault(key, (x.page, round(x.size), x.bold))
+                keys.setdefault(key, (x.page, x.size, x.bold))
             run.append(x.i)
             k += 1
         if len(run) < OPEN_RUN_MIN_ENTRIES or set(run) <= taken:
