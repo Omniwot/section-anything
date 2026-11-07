@@ -204,3 +204,27 @@ def test_running_head_that_repeats_a_heading_is_furniture():
     furn = furniture_of(ext)
     assert all(ln.i in furn for ln in ext.lines if ln.text == "Part 4 Miscellaneous")
     assert not any(ln.i in furn for ln in ext.lines if ln.text == "Part 4—Miscellaneous")
+
+
+KINDS = {1: "first", 2: "second", 3: "third", 4: "fourth"}
+
+
+def test_contents_list_over_two_pages_with_a_repeated_entry():
+    # "Simplified outline of this Part" under each Part, on both contents pages: entries, not the body.
+    rows: list[Row] = [(1, "Contents", 18.0, False, 120, 780)]
+    y = 750
+    for part in (1, 2):
+        rows += [(1, f"Part {part}—Matters of the {KINDS[part]} kind", 12.0, True, 120, y),
+                 (1, "Simplified outline of this Part ..................... 3", 9.0, False, 225, y - 14)]
+        y -= 40
+    rows += [(2, f"Part {part}—Matters of the {KINDS[part]} kind", 12.0, True, 120, 780 - 40 * (part - 3)) for part in (3, 4)]
+    rows += [(2, "Simplified outline of this Part ..................... 9", 9.0, False, 225, 600)]
+    page = 3
+    for part in (1, 2, 3, 4):
+        rows += [(page, f"Part {part}—Matters of the {KINDS[part]} kind", 16.0, True, 120, 760),
+                 (page, "Simplified outline of this Part", 12.0, True, 120, 740), *_prose(page, 720, 12)]
+        page += 1
+    ext = _ext(rows)
+    toc = toc_of(ext).lines
+    assert {ln.i for ln in ext.lines if ln.page in (1, 2) and ln.i > 0} <= toc
+    assert not toc & {ln.i for ln in ext.lines if ln.page > 2}
