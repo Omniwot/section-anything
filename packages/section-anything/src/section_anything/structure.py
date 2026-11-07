@@ -322,11 +322,53 @@ def _open_runs(ext: Extraction, taken: set[int]) -> set[int]:
     return out
 
 
+# The labels a running head names its part or section by ("Part 3A", "Section 16A", "Artikel 4").
+HEAD_LABELS = (r"(?:part|chapter|schedule|section|division|subdivision|annex|annexe|appendix|title|book|article|artikel"
+               r"|art|rule|regulation|clause|paragraph|teil|kapitel|abschnitt|anlage|anhang|chapitre|titre|partie)")
+ZONE_TOP, ZONE_BOTTOM = 0.10, 0.08  # the page's top and bottom margin zones, as shares of its height
+ZONE_MIN_PAGES = 3
+BARE_HEAD = re.compile(rf"^(?:{HEAD_LABELS}|§+)\.?\s*#$")
+
+
+def _zone_key(text: str) -> str:
+    """A running head's words with its section numbers masked ("Section 16A", "Part III") and a page number at either
+    end left out ("12 | Annual report"): `part # preliminary`, `section #`."""
+    t = text.strip().lower()
+    t = re.sub(rf"\b({HEAD_LABELS})\s+[ivxlc]+\b", r"\1 #", t)
+    t = re.sub(r"\d+[a-z]{0,3}\b", "#", t)
+    if len(re.sub(r"[#|•·.\-–—\s]+", " ", t).split()) >= 2:
+        t = re.sub(r"^#[\s|•·.\-–—]+", "", t)
+        t = re.sub(r"[\s|•·.\-–—]+#$", "", t) if len(re.sub(r"[#|•·.\-–—\s]+", " ", t).split()) >= 2 else t
+    return t.strip()
+
+
+def _zone_heads(ext: Extraction, body: float, heights: dict[int, tuple[float, float]]) -> set[int]:
+    """Running heads that name the current part or section, whose wording changes through the document ("Part 1
+    Preliminary", "Section 16A", "CHAPTER 4. OPTIMIZATION OF ..."): the same words, section numbers masked, in the top
+    or bottom margin zone of three or more pages, in a line no more than 1 pt over the body size and not bold at body
+    size or larger (a heading's style). A bare label ("Section 16A") must come back on three in ten pages: an article
+    that happens to open a few pages ("Artikel 4") is a heading."""
+    zone: dict[str, set[int]] = {}
+    found: list[tuple[int, str]] = []
+    for ln in ext.lines:
+        oy, h = heights[ln.page]
+        if h <= 0 or ln.size > body + 1.0 or (ln.bold and ln.size >= body - 0.3) or sum(c.isalpha() for c in ln.text) < 3:
+            continue
+        if (oy + h - ln.y1) / h < ZONE_TOP or (ln.y0 - oy) / h < ZONE_BOTTOM:
+            k = _zone_key(ln.text)
+            zone.setdefault(k, set()).add(ln.page)
+            found.append((ln.i, k))
+    bare_min = max(ZONE_MIN_PAGES, 0.3 * len(ext.pages))
+    ok = {k for k, pages in zone.items() if len(pages) >= (bare_min if BARE_HEAD.match(k) else ZONE_MIN_PAGES)}
+    return {i for i, k in found if k in ok}
+
+
 def _furniture(ext: Extraction) -> set[int]:
     """Running headers/footers and page numbers: text that repeats (digits
     masked) at about the same height on many pages, or the same text at the
     same height on three pages in a row (a header that changes with each part,
-    a table's repeated header row)."""
+    a table's repeated header row), or a running head in the margin zone that
+    names the current part or section (`_zone_heads`)."""
     seen: dict[tuple[str, int], set[int]] = {}
     exact: dict[tuple[str, int], set[int]] = {}
     for ln in ext.lines:
@@ -352,6 +394,7 @@ def _furniture(ext: Extraction) -> set[int]:
             or (in_margin and ln.size <= body)
         ):
             out.add(ln.i)
+    out |= _zone_heads(ext, body, heights)
     # A heading's number split off its title looks like a page number; it is furniture only
     # when its title line is.
     out = {i for i in out if i + 1 in out or not split_number(ext, ext.lines[i])}
