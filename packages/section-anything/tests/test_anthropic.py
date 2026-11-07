@@ -412,11 +412,41 @@ def test_quick_run_on_claude(paper_pdf, claude_api, monkeypatch):
 
 @needs_sdk
 def test_downgrade_skips_a_mode_whose_provider_has_no_key(paper_pdf, monkeypatch):
-    # standard on Claude (key present), quick on OpenAI (no key): over the cap, go straight to free.
+    # standard configured on Claude (key present), quick on OpenAI (no key): over the cap, go straight to free.
     monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-env")
-    tree = section_anything.section(paper_pdf, "standard", model=HAIKU, max_usd=0.0000001)
+    monkeypatch.setenv("SECTIONANY_STANDARD_MODEL", HAIKU)
+    tree = section_anything.section(paper_pdf, "standard", max_usd=0.0000001)
     assert tree.mode == "free"
     assert tree.downgraded[0].startswith("standard:") and tree.downgraded[1].startswith("quick: skipped")
+
+
+@needs_sdk
+def test_downgrade_keeps_an_explicit_model(paper_pdf, claude_api, monkeypatch):
+    # standard --model claude-haiku-5-5 over the cap: quick runs on the same model, not on quick's
+    # configured gpt-6-luna (no OpenAI key), which would have skipped quick and ended in free (F065).
+    from section_anything import pipeline
+    from section_anything.strategies.base import Estimate
+
+    fake = claude_api(sse('{"items": []}', input_tokens=800, output_tokens=60))
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-env")
+    monkeypatch.setenv("SECTIONANY_KEEP_STRONG", "off")
+    monkeypatch.setattr(pipeline.BY_ID["llm_text"], "estimate", lambda *_a, **_k: Estimate(10**7, 10**6, 1))
+    tree = section_anything.section(paper_pdf, "standard", model=HAIKU, max_usd=0.05)
+    assert tree.mode == "quick" and tree.model == HAIKU
+    assert len(tree.downgraded) == 1 and tree.downgraded[0].startswith("standard: estimated")
+    assert len(fake.requests) == 1 and fake.bodies()[0]["model"] == HAIKU
+
+
+@needs_sdk
+def test_downgrade_with_an_explicit_model_and_no_key_for_it_ends_in_free(monkeypatch):
+    # The run itself is refused before reading when its model has no key; a downgrade that meets such
+    # a model (a key removed during the run) skips to free with a note rather than switching models.
+    notes: list[str] = []
+    assert api._next_mode("standard", Settings(), notes, HAIKU) == ("free", None)
+    assert notes == [f"quick: skipped, quick mode with {HAIKU!r} needs an Anthropic API key: set ANTHROPIC_API_KEY "
+                     "or SECTIONANY_API_KEY, or pass api_key="]
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-env")
+    assert api._next_mode("standard", Settings(), [], HAIKU) == ("quick", HAIKU)
 
 
 def test_extraction_worker_gets_no_anthropic_key(paper_pdf, monkeypatch):

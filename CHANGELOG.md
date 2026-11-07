@@ -75,6 +75,11 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   -> 61.66 (CI +0.55 to +1.17), READMEs 81.33 -> 81.38 (CI -0.02 to +0.14). The UK Modern Slavery Act
   stays at 194 of 194 headings; the Australian one goes from 59 to 67 of 67, precision 0.509 -> 0.931,
   its deepest level from 9 to 5.
+- **A downgrade keeps the model you chose.** A `standard` run with `--model claude-haiku-5-5` (or
+  `model=`) that was over its per-document cap went to `quick` on Quick's configured model
+  (gpt-6-luna), and with no OpenAI key it skipped `quick` and ended in `free`. A model you pass now
+  stays with the run: `standard` over the cap goes to `quick` on the same model, and only a mode that
+  model cannot run (no price, no key) is skipped (research finding F065).
 
 ## 0.1.8 (unreleased)
 

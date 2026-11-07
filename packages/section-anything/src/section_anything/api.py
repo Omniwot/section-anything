@@ -15,9 +15,9 @@ Modes, cheapest first:
 
 Costs: a cloud model with no known price is refused before anything is read. Before a paid mode
 runs, its estimated cost is checked against the per-document cap (`max_usd`); a run over the cap
-is downgraded (standard -> quick -> free) or refused (``over_budget="fail"``). While it runs, the
-cap is re-checked before every call and each call's output is limited to what the remaining budget
-can pay for.
+is downgraded (standard -> quick -> free; an explicit `model` stays with the run) or refused
+(``over_budget="fail"``). While it runs, the cap is re-checked before every call and each call's
+output is limited to what the remaining budget can pay for.
 """
 
 from __future__ import annotations
@@ -347,6 +347,7 @@ async def asection(
     s = _settings_for(settings, api_key=api_key, base_url=base_url, provider=provider, max_usd_per_doc=max_usd,
                       prices=prices, over_budget=over_budget, max_pages=max_pages,
                       extract_timeout_seconds=extract_timeout)
+    override = model  # an explicit model stays with the run through a downgrade (`_next_mode`)
     mode, model = resolve_mode(mode, s, model)
     _require_price(mode, model, s)  # before the PDF is read: a refused run costs nothing
     report = progress or (lambda _f, _m: None)
@@ -402,7 +403,7 @@ async def asection(
                     raise CostCapExceeded(f"{note} " + limit_hint("SECTIONANY_MAX_USD_PER_DOC", need, flag="--max-usd",
                                                                    python=f"max_usd={need}"))
                 downgraded.append(note)
-                mode, model = _next_mode(mode, s, downgraded)
+                mode, model = _next_mode(mode, s, downgraded, override)
                 continue
 
         def stage(f: float, msg: str) -> None:
@@ -415,7 +416,7 @@ async def asection(
             if s.over_budget == "fail" or DOWNGRADE[mode] is None:
                 raise
             downgraded.append(f"{mode}: {exc}")
-            mode, model = _next_mode(mode, s, downgraded)
+            mode, model = _next_mode(mode, s, downgraded, override)
             continue
         if auto is not None:
             auto["path"] = mode
@@ -441,10 +442,14 @@ def _auto_choice(free: list[dict], threshold: float) -> AutoInfo:
     return {"path": path, "reason": reason, "confidence": conf, "threshold": threshold}
 
 
-def _next_mode(mode: str, s: Settings, notes: list[str]) -> tuple[str, str | None]:
+def _next_mode(mode: str, s: Settings, notes: list[str], model: str | None = None) -> tuple[str, str | None]:
+    """The next mode down from `mode` that can run, and its model. An explicit `model` (the `model=`
+    argument or ``--model``) stays with the run: Standard on Claude Haiku 5.5 over the cap goes to Quick
+    on Claude Haiku 5.5, not to Quick's configured model, which can be on a provider with no key
+    (research finding F065). A mode whose model has no price or no key is skipped, with a note."""
     nxt = DOWNGRADE[mode]
     while nxt is not None:
-        nxt_mode, nxt_model = resolve_mode(nxt, s)
+        nxt_mode, nxt_model = resolve_mode(nxt, s, model)
         if nxt_model is None:
             return nxt_mode, nxt_model
         if s.price_for(nxt_model) is None:
@@ -480,7 +485,8 @@ def section(
 
     `mode` is "free", "quick", "standard", "auto" (free, then quick only when Free is unsure: see
     `SectionTree.auto`) or "local:<ollama model>". Options (each overrides the
-    matching ``SECTIONANY_*`` environment variable): `api_key`, `base_url`, `model`, `provider`
+    matching ``SECTIONANY_*`` environment variable): `api_key`, `base_url`, `model` (also used by
+    a downgrade from standard to quick), `provider`
     ("openai" or "anthropic"; by default ``claude-*`` models use Anthropic), `max_usd`
     (per-document cap), `prices` ({model: {"input", "output"}} USD per 1M tokens, merged with the
     built-in list), `over_budget` ("downgrade" or "fail"), `max_pages`, `extract_timeout`

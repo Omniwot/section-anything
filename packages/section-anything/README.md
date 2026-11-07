@@ -427,7 +427,8 @@ differently. If you run one, results are welcome in an issue.
   are free.
 - **Estimate first.** Before a paid mode runs, its cost is estimated from the document. Over
   `max_usd`, the run is downgraded (standard -> quick -> free) and the downgrade is reported in
-  `tree.downgraded`, or refused with `CostCapExceeded` when `over_budget="fail"`.
+  `tree.downgraded`, or refused with `CostCapExceeded` when `over_budget="fail"`. A model you pass
+  (`model=`, `--model`) stays with the run: Standard on it goes to Quick on it.
 - **Hard cap while running.** The cap is re-checked before every model call, and each call's
   output tokens are limited to what the remaining budget can pay for. A downgrade continues the
   same budget. The SDK's own retries are off; one retry on an unusable answer is counted.

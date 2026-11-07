@@ -51,6 +51,17 @@ def test_passed_price_is_used_and_capped(paper_pdf):
                                  prices={"my-model": {"input": 1000.0, "output": 1000.0}}, over_budget="fail")
 
 
+def test_downgrade_keeps_an_explicit_model_on_its_own_provider():
+    s = Settings(api_key="sk-test")
+    assert api._next_mode("standard", s, []) == ("quick", "gpt-6-luna")  # the configured quick model
+    assert api._next_mode("standard", s, [], "gpt-6.1-sol") == ("quick", "gpt-6.1-sol")  # model= stays
+    assert api._next_mode("quick", s, [], "gpt-6.1-sol") == ("free", None)
+    notes: list[str] = []
+    assert api._next_mode("standard", s.with_overrides(prices={"my-model": {"input": 1, "output": 1}}), notes,
+                          "unpriced-model") == ("free", None)
+    assert notes == ["quick: skipped, no price for model 'unpriced-model'"]
+
+
 def test_estimate_over_cap_downgrades_to_free(paper_pdf):
     tree = section_anything.section(paper_pdf, "standard", api_key="sk-test", max_usd=0.000001)
     assert tree.mode == "free" and tree.model is None
