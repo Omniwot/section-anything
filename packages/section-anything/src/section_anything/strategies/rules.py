@@ -412,7 +412,8 @@ def _quoted(text: str) -> bool:
 
 
 # A defined term's line, not a heading: "Australian entity means:", "carries on business in Australia: see section 5".
-DEFINITION_LEAD = re.compile(r"\bmeans\s*[:—–-]?\s*$|\bmeans:\s|^[^:]{2,60}:\s+see\b|\b(?:includes|is defined as)\s*:\s*$", re.I)
+DEFINITION_LEAD = re.compile(r"\bmeans\s*[:—–-]?\s*$|\bmeans:\s|^[^:]{2,60}:\s+see\b|\b(?:includes|is defined as)\s*:\s*$"
+                             r"|^[a-z][a-z ,\-]{2,50}:\s+\w+.*\bif\s*:\s*$", re.I)
 # The category a reference manual prints at the right of a definition's header line ("[Function]", "[Variable]").
 DEFINITION_CATEGORY = re.compile(r"^\[[A-Z][A-Za-z ./-]{1,40}\]$")
 LIST_MARK = re.compile(r"^\s*(\(?[a-z0-9]{1,3}[.)]|[•▪●◦■□►‣–—-])\s")
@@ -517,6 +518,28 @@ def _cover_lines(ext: Extraction) -> set[int]:
     return ext.derived("cover_lines", make)
 
 
+def _paragraph_line(ext: Extraction, ln: Line, excluded: set[int]) -> bool:
+    """`ln` goes on from a paragraph in its own type: the line right above it, in its size, weight and slant, is too
+    long for a heading (more than 16 words or 120 characters) or was left out as a defined term's line. A paragraph set
+    slightly larger than the document's body type ends in short lines that are not headings."""
+    if ln.i == 0:
+        return False
+    a = ext.lines[ln.i - 1]
+    return (a.page == ln.page and abs(a.size - ln.size) <= 0.15 and a.bold == ln.bold and a.italic == ln.italic
+            and 0 < a.y0 - ln.y0 <= 1.6 * max(ln.size, 1.0)
+            and (len(a.text.split()) > 16 or len(a.text) > 120 or a.i in excluded))
+
+
+def _numbered_paragraph(ext: Extraction, ln: Line, words: int) -> bool:
+    """A numbered paragraph in body type ("7.64 For effective competition, consumers need to be able and willing to
+    access" / "and assess key information ..."): ten words or more, run on into a line that starts in lower case."""
+    if words < 10 or ln.i + 1 >= len(ext.lines):
+        return False
+    n = ext.lines[ln.i + 1]
+    return (n.page == ln.page and abs(n.size - ln.size) <= 0.3 and n.text.strip()[:1].islower()
+            and 0 < ln.y0 - n.y0 <= 2 * max(ln.size, 1.0))
+
+
 def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     """Lines that look like headings, with their numbering prefix ("" if none).
     `loose` widens recall for an LLM to filter afterwards; TOC lines are
@@ -545,8 +568,9 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
 
     Strict mode also leaves out the entries of definition lists and reference manuals: a defined term's line
     ("Australian entity means:"), a definition's header line with its category at the right ("[Function]",
-    `_reference_entries`), and a term over its indented definition (`_term_entries`); and a cover page's lines below
-    its title (`_cover_lines`)."""
+    `_reference_entries`), and a term over its indented definition (`_term_entries`); a cover page's lines below its
+    title (`_cover_lines`); lines that go on from a paragraph in their own type (`_paragraph_line`); and numbered
+    paragraphs in body type (`_numbered_paragraph`)."""
     body = ext.body_size()
     furniture = furniture_of(ext)
     toc = toc_of(ext).lines
@@ -566,13 +590,18 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
     split_titles: set[int] = set()
     act_title = set() if loose else _act_title(ext)
     entries = set() if loose else _reference_entries(ext) | _term_entries(ext, body) | _cover_lines(ext)
+    defined: set[int] = set()  # defined terms' lines left out (their wrapped lines go with them)
     quote: Line | None = None  # the last line of an open quotation (`_quoted`) left out
     for ln in ext.lines:
         text = ln.text
         if ln.i in furniture or ln.i in toc or ln.i in side or ln.i in cells or CAPTION.match(text):
             continue
-        if not loose and (ln.i in act_title or ln.i in entries
-                          or (abs(ln.size - body) <= 0.6 and DEFINITION_LEAD.search(text.strip()))):
+        if not loose and (ln.i in act_title or ln.i in entries):
+            continue
+        if not loose and abs(ln.size - body) <= 0.6 and DEFINITION_LEAD.search(text.strip()):
+            defined.add(ln.i)
+            continue
+        if not loose and (ln.bold or ln.size >= body + bump) and _paragraph_line(ext, ln, defined):
             continue
         if not loose and (_quoted(text) or (quote is not None and ln.i == quote.i + 1 and ln.page == quote.page
                                             and (ln.size, ln.bold, ln.italic) == (quote.size, quote.bold, quote.italic))):
@@ -640,7 +669,7 @@ def candidates(ext: Extraction, loose: bool = False) -> list[tuple[Line, str]]:
                 # Sentencing Code" wrapped from a sentence are references.
                 label = bool(re.match(r"[A-Z][A-Za-z]{2,}", num)) and not text[m.end():].lstrip()[:1].islower()
                 numbered = bool(re.match(r"\d+\.\d+", num) or label)
-                numbered = numbered and not text.rstrip().endswith((".", "?", ":"))
+                numbered = numbered and not text.rstrip().endswith((".", "?", ":")) and not _numbered_paragraph(ext, ln, words)
             if styled and not numbered and ln.size < body + bump and ln.i not in titles and _runs_on(ext, ln):
                 continue
         if styled or numbered:

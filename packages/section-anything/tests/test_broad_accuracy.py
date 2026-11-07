@@ -282,3 +282,21 @@ def test_long_title_without_citation_line_is_not_a_heading():
                        *_prose(1, 670, 20), *_prose(2, 780, 30), *_prose(3, 780, 30), *_prose(4, 780, 30)]
     texts = [ln.text for ln, _ in candidates(_ext(rows))]
     assert "Part 1—Preliminary" in texts and not any(t.startswith(("An Act", "risks", "chains")) for t in texts)
+
+
+# ── paragraphs that look like headings ──
+def test_last_line_of_a_paragraph_in_larger_type_is_not_a_heading():
+    big = [(1, f"{PROSE} {next(WORDS)}", 12.0, False, 72, 760 - 14 * k) for k in range(3)]
+    rows: list[Row] = [*big, (1, "the factory.", 12.0, False, 72, 718), *_prose(1, 700, 30), (1, "Wrapped heading title for", 14.0, True, 72, 300),
+                       (1, "the executive directors", 14.0, True, 72, 284), *_prose(1, 266, 3)]
+    texts = [ln.text for ln, _ in candidates(_ext(rows))]
+    assert "the factory." not in texts
+    assert "Wrapped heading title for" in texts and "the executive directors" in texts  # a wrapped heading keeps its tail
+
+
+def test_numbered_paragraph_in_body_type_is_not_a_heading():
+    rows: list[Row] = [*_prose(1, 780, 5), (1, "7.64 For effective competition, consumers need to be able and willing to access", 11.0, False, 72, 700),
+                       (1, "and assess key information about the various options available and select the", 11.0, False, 108, 687),
+                       (1, "7.65 Information overload", 11.0, False, 72, 650), *_prose(1, 630, 5)]
+    texts = [ln.text for ln, _ in candidates(_ext(rows))]
+    assert "7.65 Information overload" in texts and not any(t.startswith("7.64") for t in texts)
