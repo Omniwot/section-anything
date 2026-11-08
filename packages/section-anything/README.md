@@ -70,6 +70,42 @@ to `quick` and scored 68.4, level with `quick` (68.0; +0.5, 95% CI -0.5 to +1.6)
 (70.8). That is 29% of `quick`'s cost on those papers and 3% on those READMEs. Other kinds of
 documents (laws, manuals, reports) have not been tested on held-out documents yet.
 
+### Optional collection tuning (`heading_guidance`)
+
+When you section many long documents of one type (one publisher's manuals, one series of
+standards, one kind of legal instrument), you can give `standard` a short guidance text on what
+the sections of that type look like. It is appended to the model's instructions on every call;
+with no guidance (the default) the instructions are unchanged. It also applies to `quick`, where
+it has not been shown to help.
+
+```python
+from section_anything import Settings, section
+
+sheet = open("manuals-guidance.md").read()   # a few hundred words, written from sample documents
+tree = section("manual.pdf", "standard", settings=Settings(heading_guidance=sheet))
+# or: export SECTIONANY_HEADING_GUIDANCE="$(cat manuals-guidance.md)"
+```
+
+In our tests a model read the full text of two to five sample documents of one type and wrote
+the sheet (at most about 1,400 words); the library does not write sheets for you. Measured with
+`standard` and the default `keep_strong`, section F1 against hand-checked section keys (research
+findings F069 and F073, pre-registered):
+
+- Claude Haiku 5.5 with sheets it wrote itself: +0.078 (95% CI +0.031 to +0.128) on 33 held-out
+  documents of four types (UK Acts, RFCs, theses, GNU manuals); gpt-6-luna with its own sheets:
+  +0.028 (CI +0.006 to +0.053) on 40.
+- Claude Haiku 5.5 on 12 regulations of six publishers' formats (two test documents each): 0.836
+  -> 0.931 (+0.096, CI +0.008 to +0.204). Almost all of the gain came from numbered provisions
+  printed without titles, which the sheet told the model are sections.
+
+A sheet can also make results worse. In the same regulations test one EU sheet, written from
+samples whose annexes were mostly templates and tables, led the model to skip numbered groups in
+another regulation's annex (that group's recall -0.084). In an earlier round, sheets gpt-6-luna
+wrote from a prompt that did not say untitled numbered paragraphs are sections lowered its heading
+F1 (-0.034, CI -0.064 to -0.006, 40 documents). Write a sheet from samples that represent the
+documents you will run it on, check it on a few documents you know before relying on it, and
+keep it general (no titles copied from the samples). It adds its length to every call's input, and the cost estimate counts it.
+
 ## Command line
 
 ```sh
@@ -321,6 +357,7 @@ Arguments win over the environment. **No `.env` file is read, and nothing is eve
 | `SECTIONANY_COVERAGE_RETRY` / `coverage_retry=` | `true` | `standard`: a window whose answer leaves many heading-like lines unlisted is read once more, and the answer that lists more of them is kept. At most one extra call per window, only while the per-document cap covers it and the windows after it; not counted in the up-front estimate. Each re-read is listed in `tree.usage["coverage_retries"]` |
 | `SECTIONANY_KEEP_STRONG` / `keep_strong=` | `ask` | `quick` and `standard` (and `local`): Free's headings with evidence that needs no model (the outline lists them, their number follows the previous one, a standard name such as References) that the model's answer leaves out are put back when the outline lists them, and otherwise shown to the model once more in one call per document to keep or reject (`ask`); `restore` puts them all back without a call, `off` leaves the answer as it is. Decisions are in `tree.usage["kept_strong"]`. On a random 980 of the held-out READoc documents, Claude Haiku 5.5, `ask` raised `quick`'s heading-tree TEDS by 1.76 (95% CI 1.36 to 2.18) |
 | `SECTIONANY_CONTENTS_CHECK` / `contents_check=` | `[]` | modes (JSON list of `free`, `quick`, `standard`) in which bookmark and contents entries that no section covers are looked for in the body and added (flag `from_contents`); entries not found go to `tree.possible_misses`. Off by default: it removed under 1% of `free`'s missed headings on held-out documents |
+| `SECTIONANY_HEADING_GUIDANCE` / `Settings(heading_guidance=...)` | (empty) | `standard` and `quick`: text appended to the model's instructions on every call, for documents of one type (see [Optional collection tuning](#optional-collection-tuning-heading_guidance)). Off by default; a sheet written from unrepresentative samples can lower accuracy |
 | `SECTIONANY_EXTRACT_TIMEOUT_SECONDS` / `extract_timeout=` | 120 | extraction worker is killed after this |
 | `SECTIONANY_EXTRACT_MEMORY_MB` | 4096 | worker memory limit (Linux only; 0 = none) |
 | `SECTIONANY_ISOLATE_EXTRACTION` | `true` | run extraction in a separate process |

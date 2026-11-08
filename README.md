@@ -132,6 +132,14 @@ scanned pages with OCR; Section Anything needs a text layer. Better headings imp
 Every paid run is estimated first and capped (default $0.50 per document); over the cap it
 downgrades (standard → quick → free) or fails, as you choose.
 
+For many long documents of one type, `standard` can take optional collection tuning: a short
+guidance text on what that type's sections look like (`Settings(heading_guidance=...)`), appended
+to the model's instructions. Off by default. In pre-registered tests, sheets a model wrote from a
+few sample documents raised Claude Haiku 5.5's section F1 by 0.078 (95% CI +0.031 to +0.128, 33
+documents of four types) and gpt-6-luna's by 0.028 (CI +0.006 to +0.053, 40 documents); a sheet
+written from unrepresentative samples can lower it. See the
+[package README](packages/section-anything/README.md#optional-collection-tuning-heading_guidance).
+
 The default model for `quick` and `standard` is gpt-6-luna, the model behind their READoc scores
 above. `standard` can run on gpt-6.1-sol instead (`SECTIONANY_STANDARD_MODEL=gpt-6.1-sol` or
 `model="gpt-6.1-sol"`) at about 18 times the cost. On development documents only (98 READoc papers
