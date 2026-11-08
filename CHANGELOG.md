@@ -116,7 +116,13 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   On READoc held-out, `free` is level on 905 arXiv papers (60.57 -> 60.57, CI -0.23 to +0.22) and 0.13
   lower on 1,124 READMEs (81.46 -> 81.33, CI -0.33 to -0.00): four READMEs lost, three of them by
   taking benchmark figures ("95.2 MB/s") or lines under a list as headings (the rule-drop fixes below)
-  and one a bold two-line note (the run-on fix). Each change's own numbers follow.
+  and one a bold two-line note (the run-on fix). `quick` (Claude Haiku 5.5, one run per document,
+  without bookmarks) against a same-day 0.1.7 run on 99 held-out documents (9 or 10 per genre): misses
+  per 1,000 84.9 -> 49.6 (CI -68.9 to -11.2) and F1 +0.021 (CI +0.001 to +0.047), UK Acts 313.4 ->
+  100.2. Theses' F1 fell 0.011 there (CI -0.022 to -0.002, 10 documents, one run each); with three
+  runs per thesis and version it is -0.011 (CI -0.030 to +0.002): one thesis takes 12 italic lines as
+  extra headings in every run, and one 0.1.8 run of another left five headings out. `standard` (14
+  documents, same day) is level: F1 -0.003 (CI -0.010 to +0.005). Each change's own numbers follow.
 - **Headings set in italics at body size are found.** The extractor records which lines are set in
   italics, from the font name or the italic flag of a text font's descriptor (extractor version 7; the
   text is unchanged, so saved runs still map onto the page, and extractions saved earlier load without
@@ -174,25 +180,27 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   the layout test.
 - **Quick and Standard put back strong headings the model left out (`keep_strong`, on by default).**
   Free's headings with evidence that needs no model (the PDF's bookmarks or printed contents list
-  them, their numbering follows the previous numbered heading, or a standard name such as
-  References) are compared with the model's answer. With `keep_strong="ask"`
-  (`SECTIONANY_KEEP_STRONG=ask`), the ones it left out that the outline lists are put back, and the
-  others are shown to the model once more, in one call per document, between the headings it
-  listed before and after; it keeps or rejects each with a short reason. `"restore"` puts every one
-  back without a call. Each decision is in `tree.usage["kept_strong"]`, and a section put back has
-  the flag `kept_strong`. Claude Haiku 5.5, held-out F042 documents (research
-  finding F059): Quick on PDFs with bookmarks, missed headings per 1,000 206 -> 155 (100 documents,
-  -51, CI -86 to -23; precision -0.011, CI -0.032 to +0.012); without bookmarks 200 -> 198 (-1.9,
-  CI -3.4 to -0.7); Standard without bookmarks 219 -> 215 (21 documents, 2 runs, -3.6, CI -7.0 to
-  -0.9). The extra call cost at most $0.0005 a document on average. Known cost: German federal laws
-  bookmark every footnote ("Fußnote"), and those come back as headings (Quick precision on them 0.90
-  -> 0.81). Most misses are lines with no heading signal at all (research finding F056), which this
-  step cannot reach. The default is `ask` (`SECTIONANY_KEEP_STRONG=off` restores the earlier
-  behaviour), by a rule fixed before the run (research finding F064): on a random 980 of the 2,033
-  held-out READoc documents, Claude Haiku 5.5, Quick's heading-tree TEDS 72.56 -> 74.32 with `ask`
-  (+1.76, CI +1.36 to +2.18; 127 documents better, 9 worse) and missed headings per 1,000 191.6 ->
-  174.6; papers +2.21 (CI +1.59 to +2.89), READMEs +1.39 (CI +0.90 to +1.92). The ask calls cost
-  $0.0095 in all (35 documents asked). Local mode runs Quick's strategy and asks too.
+  them, their numbering follows the previous numbered heading, or a standard name such as References)
+  are compared with the model's answer. With `keep_strong="ask"` (`SECTIONANY_KEEP_STRONG=ask`), the
+  ones it left out that the outline lists are put back, and the others are shown to the model once
+  more, in one call per document, between the headings it listed before and after; it keeps or rejects
+  each with a short reason. `"restore"` puts every one back without a call. Each decision is in
+  `tree.usage["kept_strong"]`, and a section put back has the flag `kept_strong`. Claude Haiku 5.5,
+  held-out F042 documents (research finding F059): Quick on PDFs with bookmarks, missed headings per
+  1,000 206 -> 155 (100 documents, -51, CI -86 to -23; precision -0.011, CI -0.032 to +0.012); without
+  bookmarks 200 -> 198 (-1.9, CI -3.4 to -0.7); Standard without bookmarks 219 -> 215 (21 documents, 2
+  runs, -3.6, CI -7.0 to -0.9). The extra call cost at most $0.0005 a document on average. Known cost:
+  German federal laws bookmark every footnote ("Fußnote"), and those come back as headings (Quick
+  precision on them 0.90 -> 0.81). Most misses are lines with no heading signal at all (research
+  finding F056), which this step cannot reach. The default is `ask` (`SECTIONANY_KEEP_STRONG=off`
+  restores the earlier behaviour), by a rule fixed before the run (research finding F064): on a random
+  980 of the 2,033 held-out READoc documents, Claude Haiku 5.5, Quick's heading-tree TEDS 72.56 ->
+  74.32 with `ask` (+1.76, CI +1.36 to +2.18; 127 documents better, 9 worse) and missed headings per
+  1,000 191.6 -> 174.6; papers +2.21 (CI +1.59 to +2.89), READMEs +1.39 (CI +0.90 to +1.92). The ask
+  calls cost $0.0095 in all (35 documents asked). Local mode runs Quick's strategy and asks too.
+  Without bookmarks it changes little: on the 300 held-out multi-genre documents (one `quick` run
+  each) misses per 1,000 101.1 -> 99.4 (CI -3.4 to -0.6) and precision -0.003 (CI -0.006 to -0.001);
+  RFCs lose 0.036 of precision (CI -0.082 to 0.000) to numbered lines their answer keys do not list.
 - **Possible missed headings.** `tree.possible_misses` (also in `to_dict()` and the command line's
   JSON) lists, best first, the lines with heading evidence that the result does not have as
   headings: page, text, the evidence in words ("its number fills a gap in the headings' numbering",
