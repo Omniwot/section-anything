@@ -317,7 +317,7 @@ and metric given there, with the research finding that holds the evidence. No si
   Haiku 5.5 with its own sheets +0.078 (95% CI +0.031 to +0.128) on 33 test documents of four types (UK
   Acts, RFCs, theses, GNU manuals), gpt-6-luna with its own sheets +0.028 (CI +0.006 to +0.053) on 40.
   On 12 regulations of six publishers' formats, two test documents each, Claude Haiku 5.5 went from
-  0.836 to 0.931 (+0.096, CI +0.008 to +0.204; research finding F073, regulatory review), almost all of
+  0.836 to 0.931 (+0.096, CI +0.008 to +0.204; research finding F075, regulatory review), almost all of
   it numbered provisions printed without titles. A sheet can also hurt: there an EU sheet written from
   samples unlike the test regulation's annex made the model skip numbered annex groups (that group's
   recall -0.084), and in F069's first round gpt-6-luna's own sheets lowered its heading F1 (-0.034, CI

@@ -89,7 +89,7 @@ tree = section("manual.pdf", "standard", settings=Settings(heading_guidance=shee
 In our tests a model read the full text of two to five sample documents of one type and wrote
 the sheet (at most about 1,400 words); the library does not write sheets for you. Measured with
 `standard` and the default `keep_strong`, section F1 against hand-checked section keys (research
-findings F069 and F073, pre-registered):
+findings F069 and F075, pre-registered):
 
 - Claude Haiku 5.5 with sheets it wrote itself: +0.078 (95% CI +0.031 to +0.128) on 33 held-out
   documents of four types (UK Acts, RFCs, theses, GNU manuals); gpt-6-luna with its own sheets:
