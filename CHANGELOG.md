@@ -5,6 +5,89 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
 ## 0.1.9 (unreleased)
 
+0.1.7 and 0.1.8 were never published; this release holds everything since 0.1.6. Each entry's numbers
+compare the build with that change against the build just before it, on the data set, document count
+and metric given there, with the research finding that holds the evidence. No single comparison of
+0.1.9 against 0.1.6 over all of these changes has been run.
+
+### `free`: fewer missed and fewer false headings
+
+- **Fewer missed headings in `free`, measured together (research finding F064, pre-registered held-out
+  check).** With the 0.1.8 changes (italic headings, the four candidate-rule fixes, wrapped bold titles,
+  `keep_strong` and possible misses, all below) in one build, on the 300 held-out documents of the miss
+  audit (nine genres; answer keys v2) `free` without bookmarks misses 65.3 reference headings per 1,000
+  instead of 204.0 (-138.7, CI -180.9 to -95.9), with precision 0.528 -> 0.560 and F1 +0.043 (CI +0.031
+  to +0.057); one document of 300 misses one heading more. With bookmarks 79.9 -> 69.6 (CI -25.3 to
+  -1.8) at level precision (-0.0015, CI -0.0067 to +0.0038); with Docling hints 120.6 -> 61.3 and 113.5
+  -> 60.9. UK Acts 456.9 -> 30.4, German laws 141.3 -> 46.9, OASIS standards 134.5 -> 34.7, reports
+  224.2 -> 160.8. Precision falls in EU regulations (0.780 -> 0.750, CI -0.051 to -0.011) and theses
+  (0.521 -> 0.510), and slightly outside UK Acts with Docling hints (-0.004 and -0.006). UK Acts'
+  heading levels hold (level agreement 0.905 -> 0.898 without bookmarks, CI -0.025 to +0.011). On READoc
+  held-out, `free` is level on 905 arXiv papers (60.57 -> 60.57, CI -0.23 to +0.22) and 0.13 lower on
+  1,124 READMEs (81.46 -> 81.33, CI -0.33 to -0.00): four READMEs lost, three of them by taking
+  benchmark figures ("95.2 MB/s") or lines under a list as headings (the rule-drop fixes below) and one
+  a bold two-line note (the run-on fix). `quick` (Claude Haiku 5.5, one run per document, without
+  bookmarks) against a same-day 0.1.7 run on 99 held-out documents (9 or 10 per genre): misses per 1,000
+  84.9 -> 49.6 (CI -68.9 to -11.2) and F1 +0.021 (CI +0.001 to +0.047), UK Acts 313.4 -> 100.2. Theses'
+  F1 fell 0.011 there (CI -0.022 to -0.002, 10 documents, one run each); with three runs per thesis and
+  version it is -0.011 (CI -0.030 to +0.002): one thesis takes 12 italic lines as extra headings in
+  every run, and one 0.1.8 run of another left five headings out. `standard` (14 documents, same day) is
+  level: F1 -0.003 (CI -0.010 to +0.005). Each change's own numbers follow.
+- **Headings set in italics at body size are found.** The extractor records which lines are set in
+  italics, from the font name or the italic flag of a text font's descriptor (extractor version 7; the
+  text is unchanged, so saved runs still map onto the page, and extractions saved earlier load without
+  italics). A line in italics at body size that is set apart like a heading is now a candidate in
+  `free` and `quick`: it starts with a capital, does not end like a sentence, has its row to itself,
+  has most of a blank line above and below to text that is not italic, is not followed by a lowercase
+  continuation and is not in a contents list. With Docling hints it is kept even where Docling calls it
+  body text, and such headings rank below every other heading style. UK Acts set their cross-headings
+  this way. Designed on development documents only; on 300 held-out documents (answer keys v2,
+  research finding F061) `free` without bookmarks misses 88.4 reference headings per 1,000 instead of
+  204.0 and precision rises from 0.528 to 0.553. UK Acts: 456.9 -> 34.3 misses per 1,000, precision
+  0.493 -> 0.608. The other genres: 109.8 -> 108.6, precision 0.536 -> 0.534 (EU regulations -0.012 and
+  theses -0.009, from italic article labels and reference-list lines). With bookmarks, 79.9 -> 72.6.
+  `quick` on Claude Haiku 5.5, one run per document: 15 held-out UK Acts 448.9 -> 119.8 misses per
+  1,000 (precision 0.710 -> 0.772), 11 EU regulations 111.1 -> 87.5. READoc development set, `free`:
+  arXiv papers 55.20 -> 55.39 TEDS, READMEs 79.70 unchanged. In a short Act without Parts or Chapters,
+  where no labels set the levels, the italic style ranked below the sections, so the cross-headings came
+  out one level below the sections they head; an italic heading set directly above two or more numbered
+  headings in bold or larger type now takes the level just above them. Development documents only (the
+  8 development Acts with their Part and Chapter headings taken out; research finding F064): level
+  agreement of the one Act this changes 0.724 -> 0.980, and of one Act with Docling hints 0.728 -> 0.942;
+  no other development document and no READoc development document changes.
+- **`free` and `quick` keep real headings that four candidate rules threw away.** A bare "§ 97"
+  set bold or larger is a candidate although it has no letters (an untitled or repealed section of
+  a German law); a multi-level number no longer counts against a capitalised title in the
+  letter-share test ("13.3.11 Hint", "10.3 AVCs – JPS 2015"); a section number the extractor split
+  off a title set in body type ("2.3" | "Data sources", "A." | "The Glucoamylase") counts when the
+  pair stands as a heading: a gap below it, at most one wrapped line, no sentence ending, and, in
+  `free`, a multi-level number; and with Docling hints, Docling's body-text label no longer removes
+  the title line under a bare label ("Teil 4" / "Datenbanken ..."). On 300 held-out documents
+  (research finding F062, answer keys v2), `free` without bookmarks misses 184.2 reference headings
+  per 1,000 instead of 204.0 (-19.8, CI -34.6 to -7.8; precision 0.528 -> 0.532): German laws 141.3
+  -> 62.7, OASIS standards 134.5 -> 34.7, reports 224.2 -> 169.0. With bookmarks 79.9 -> 78.2
+  (precision 0.577 -> 0.575); with Docling hints 113.5 -> 104.8 and 120.6 -> 110.4 (UK Acts -44 and
+  -52), at a small precision cost (-0.005 and -0.002). EU regulations lose 0.018 precision without
+  fewer misses: numbered annex points ("2.1 Sécurité des personnes") that their keys do not list.
+  READoc development papers 55.16 -> 55.28 heading-tree TEDS, READMEs unchanged. `quick` (Claude
+  Haiku 5.5, one run on each of the 49 held-out documents whose candidates changed, against earlier
+  saved runs): 298.9 -> 236.8 misses per 1,000 (CI -119.8 to -21.9), precision 0.740 -> 0.753;
+  German laws 180.3 -> 24.5, reports 329.9 -> 157.9; UK Acts, RFCs and OASIS standards level.
+  The outline check, Docling's body label for other lines and the caption rule are unchanged.
+- **`free` keeps a wrapped bold title whole.** The run-on rule (a bold term that runs on into a
+  lowercase line opens a paragraph, not a heading) dropped the first line of a bold title that wraps
+  onto a lowercase line ("Remuneration policy for executive" / "directors"), leaving only the tail
+  as a heading. A block of two or three lines in one size and weight, set at a wrapped title's line
+  spacing (at most 1.65 font sizes apart) and followed by text set otherwise, is now a wrapped title
+  and kept whole; a bold paragraph runs on for longer and is still left out. Alone, on development
+  documents only (94 documents, answer keys v2, research finding F063; held out only together with the
+  other changes, first entry): `free` without bookmarks misses 7.1 fewer reference headings per
+  1,000 (CI -13.0 to -2.1) with precision
+  +0.0045 (CI +0.0007 to +0.0091) and F1 +0.0035 (CI +0.0013 to +0.0063); with bookmarks -4.2, F1
+  +0.0020 (CI +0.0004 to +0.0041). F063's other part, a layout test that keeps headings stacked in
+  one style apart in the merge stage, is not in this release: with both parts, held-out `free`
+  precision fell 0.528 -> 0.514 without bookmarks, and on development documents that cost came from
+  the layout test.
 - **A UK Act's schedules come out as its own outline in `free` (research finding F065, pre-registered
   held-out check).** Four changes, found in a review of a revised UK Act (the Modern Slavery Act 2015)
   and designed on it and the development documents only:
@@ -75,255 +158,19 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   -> 61.66 (CI +0.55 to +1.17), READMEs 81.33 -> 81.38 (CI -0.02 to +0.14). The UK Modern Slavery Act
   stays at 194 of 194 headings; the Australian one goes from 59 to 67 of 67, precision 0.509 -> 0.931,
   its deepest level from 9 to 5.
-- **A downgrade keeps the model you chose.** A `standard` run with `--model claude-haiku-5-5` (or
-  `model=`) that was over its per-document cap went to `quick` on Quick's configured model
-  (gpt-6-luna), and with no OpenAI key it skipped `quick` and ended in `free`. A model you pass now
-  stays with the run: `standard` over the cap goes to `quick` on the same model, and only a mode that
-  model cannot run (no price, no key) is skipped (research finding F065).
-- **`quick` and `standard` number levels as `free` does around the document title.** Asked to set
-  the document's own title at level 1, the model often nests every other heading under it, so a UK
-  Act's Parts came out at level 2 in `standard` and at level 1 in `free`. When every heading sits below
-  the title (flag `doc_title`), they now move up together so the top division is level 1 beside the
-  title; their relative depths, the sections and their text do not change. Replayed at $0 on saved
-  Claude Haiku 5.5 answers (research finding F065): exact level agreement with the Modern Slavery Act
-  2015's reference key 0.361 -> 0.639 (`standard`, fresh run); on the 300 held-out documents, the 29
-  `quick` answers it changes go from 0.062 to 0.910 exact agreement with their answer keys (28 better,
-  1 worse), with F1 and relative level agreement unchanged; READoc heading-tree TEDS unchanged on the
-  38 `standard` and 65 `quick` held-out answers it changes.
-- **`quick` reads an amendment-marked section number as printed.** In a revised UK Act an inserted or
-  omitted section's number has the amendment note's mark run into it ("[F1111A Enforcement by ...": note
-  F11, section 11A; "F5755 Gangmasters Licensing Authority": note F57, section 55). The lines were among
-  Quick's candidates, but in a fresh run Claude Haiku 5.5 left all three such sections of the Modern
-  Slavery Act 2015 out, and `keep_strong` had no evidence to put them back with (Free gives them no
-  number). Quick's candidate row now shows the number that continues the previous section number set in
-  the same style ("11A Enforcement by ...", "55 Gangmasters ..."); the section still starts at its
-  printed line. Of the Act's 390 candidate rows, the five amendment-marked section headings change; no
-  row of any other saved extraction does (2,541 checked). Not yet confirmed with a paid run (research
-  finding F065).
-
-## 0.1.8 (unreleased)
-
-- **Fewer missed headings in `free`, measured together (research finding F064, pre-registered
-  held-out check).** With every change below in one build, on the 300 held-out documents of the miss
-  audit (nine genres; answer keys v2) `free` without bookmarks misses 65.3 reference headings per
-  1,000 instead of 204.0 (-138.7, CI -180.9 to -95.9), with precision 0.528 -> 0.560 and F1 +0.043 (CI
-  +0.031 to +0.057); one document of 300 misses one heading more. With bookmarks 79.9 -> 69.6 (CI
-  -25.3 to -1.8) at level precision (-0.0015, CI -0.0067 to +0.0038); with Docling hints 120.6 -> 61.3
-  and 113.5 -> 60.9. UK Acts 456.9 -> 30.4, German laws 141.3 -> 46.9, OASIS standards 134.5 -> 34.7,
-  reports 224.2 -> 160.8. Precision falls in EU regulations (0.780 -> 0.750, CI -0.051 to -0.011) and
-  theses (0.521 -> 0.510), and slightly outside UK Acts with Docling hints (-0.004 and -0.006). UK
-  Acts' heading levels hold (level agreement 0.905 -> 0.898 without bookmarks, CI -0.025 to +0.011).
-  On READoc held-out, `free` is level on 905 arXiv papers (60.57 -> 60.57, CI -0.23 to +0.22) and 0.13
-  lower on 1,124 READMEs (81.46 -> 81.33, CI -0.33 to -0.00): four READMEs lost, three of them by
-  taking benchmark figures ("95.2 MB/s") or lines under a list as headings (the rule-drop fixes below)
-  and one a bold two-line note (the run-on fix). `quick` (Claude Haiku 5.5, one run per document,
-  without bookmarks) against a same-day 0.1.7 run on 99 held-out documents (9 or 10 per genre): misses
-  per 1,000 84.9 -> 49.6 (CI -68.9 to -11.2) and F1 +0.021 (CI +0.001 to +0.047), UK Acts 313.4 ->
-  100.2. Theses' F1 fell 0.011 there (CI -0.022 to -0.002, 10 documents, one run each); with three
-  runs per thesis and version it is -0.011 (CI -0.030 to +0.002): one thesis takes 12 italic lines as
-  extra headings in every run, and one 0.1.8 run of another left five headings out. `standard` (14
-  documents, same day) is level: F1 -0.003 (CI -0.010 to +0.005). Each change's own numbers follow.
-- **Headings set in italics at body size are found.** The extractor records which lines are set in
-  italics, from the font name or the italic flag of a text font's descriptor (extractor version 7; the
-  text is unchanged, so saved runs still map onto the page, and extractions saved earlier load without
-  italics). A line in italics at body size that is set apart like a heading is now a candidate in
-  `free` and `quick`: it starts with a capital, does not end like a sentence, has its row to itself,
-  has most of a blank line above and below to text that is not italic, is not followed by a lowercase
-  continuation and is not in a contents list. With Docling hints it is kept even where Docling calls it
-  body text, and such headings rank below every other heading style. UK Acts set their cross-headings
-  this way. Designed on development documents only; on 300 held-out documents (answer keys v2,
-  research finding F061) `free` without bookmarks misses 88.4 reference headings per 1,000 instead of
-  204.0 and precision rises from 0.528 to 0.553. UK Acts: 456.9 -> 34.3 misses per 1,000, precision
-  0.493 -> 0.608. The other genres: 109.8 -> 108.6, precision 0.536 -> 0.534 (EU regulations -0.012 and
-  theses -0.009, from italic article labels and reference-list lines). With bookmarks, 79.9 -> 72.6.
-  `quick` on Claude Haiku 5.5, one run per document: 15 held-out UK Acts 448.9 -> 119.8 misses per
-  1,000 (precision 0.710 -> 0.772), 11 EU regulations 111.1 -> 87.5. READoc development set, `free`:
-  arXiv papers 55.20 -> 55.39 TEDS, READMEs 79.70 unchanged. In a short Act without Parts or Chapters,
-  where no labels set the levels, the italic style ranked below the sections, so the cross-headings came
-  out one level below the sections they head; an italic heading set directly above two or more numbered
-  headings in bold or larger type now takes the level just above them. Development documents only (the
-  8 development Acts with their Part and Chapter headings taken out; research finding F064): level
-  agreement of the one Act this changes 0.724 -> 0.980, and of one Act with Docling hints 0.728 -> 0.942;
-  no other development document and no READoc development document changes.
-- **`free` and `quick` keep real headings that four candidate rules threw away.** A bare "§ 97"
-  set bold or larger is a candidate although it has no letters (an untitled or repealed section of
-  a German law); a multi-level number no longer counts against a capitalised title in the
-  letter-share test ("13.3.11 Hint", "10.3 AVCs – JPS 2015"); a section number the extractor split
-  off a title set in body type ("2.3" | "Data sources", "A." | "The Glucoamylase") counts when the
-  pair stands as a heading: a gap below it, at most one wrapped line, no sentence ending, and, in
-  `free`, a multi-level number; and with Docling hints, Docling's body-text label no longer removes
-  the title line under a bare label ("Teil 4" / "Datenbanken ..."). On 300 held-out documents
-  (research finding F062, answer keys v2), `free` without bookmarks misses 184.2 reference headings
-  per 1,000 instead of 204.0 (-19.8, CI -34.6 to -7.8; precision 0.528 -> 0.532): German laws 141.3
-  -> 62.7, OASIS standards 134.5 -> 34.7, reports 224.2 -> 169.0. With bookmarks 79.9 -> 78.2
-  (precision 0.577 -> 0.575); with Docling hints 113.5 -> 104.8 and 120.6 -> 110.4 (UK Acts -44 and
-  -52), at a small precision cost (-0.005 and -0.002). EU regulations lose 0.018 precision without
-  fewer misses: numbered annex points ("2.1 Sécurité des personnes") that their keys do not list.
-  READoc development papers 55.16 -> 55.28 heading-tree TEDS, READMEs unchanged. `quick` (Claude
-  Haiku 5.5, one run on each of the 49 held-out documents whose candidates changed, against earlier
-  saved runs): 298.9 -> 236.8 misses per 1,000 (CI -119.8 to -21.9), precision 0.740 -> 0.753;
-  German laws 180.3 -> 24.5, reports 329.9 -> 157.9; UK Acts, RFCs and OASIS standards level.
-  The outline check, Docling's body label for other lines and the caption rule are unchanged.
-- **`free` keeps a wrapped bold title whole.** The run-on rule (a bold term that runs on into a
-  lowercase line opens a paragraph, not a heading) dropped the first line of a bold title that wraps
-  onto a lowercase line ("Remuneration policy for executive" / "directors"), leaving only the tail
-  as a heading. A block of two or three lines in one size and weight, set at a wrapped title's line
-  spacing (at most 1.65 font sizes apart) and followed by text set otherwise, is now a wrapped title
-  and kept whole; a bold paragraph runs on for longer and is still left out. Alone, on development
-  documents only (94 documents, answer keys v2, research finding F063; held out only together with the
-  other changes, first entry): `free` without bookmarks misses 7.1 fewer reference headings per
-  1,000 (CI -13.0 to -2.1) with precision
-  +0.0045 (CI +0.0007 to +0.0091) and F1 +0.0035 (CI +0.0013 to +0.0063); with bookmarks -4.2, F1
-  +0.0020 (CI +0.0004 to +0.0041). F063's other part, a layout test that keeps headings stacked in
-  one style apart in the merge stage, is not in this release: with both parts, held-out `free`
-  precision fell 0.528 -> 0.514 without bookmarks, and on development documents that cost came from
-  the layout test.
-- **Quick and Standard put back strong headings the model left out (`keep_strong`, on by default).**
-  Free's headings with evidence that needs no model (the PDF's bookmarks or printed contents list
-  them, their numbering follows the previous numbered heading, or a standard name such as References)
-  are compared with the model's answer. With `keep_strong="ask"` (`SECTIONANY_KEEP_STRONG=ask`), the
-  ones it left out that the outline lists are put back, and the others are shown to the model once
-  more, in one call per document, between the headings it listed before and after; it keeps or rejects
-  each with a short reason. `"restore"` puts every one back without a call. Each decision is in
-  `tree.usage["kept_strong"]`, and a section put back has the flag `kept_strong`. Claude Haiku 5.5,
-  held-out F042 documents (research finding F059): Quick on PDFs with bookmarks, missed headings per
-  1,000 206 -> 155 (100 documents, -51, CI -86 to -23; precision -0.011, CI -0.032 to +0.012); without
-  bookmarks 200 -> 198 (-1.9, CI -3.4 to -0.7); Standard without bookmarks 219 -> 215 (21 documents, 2
-  runs, -3.6, CI -7.0 to -0.9). The extra call cost at most $0.0005 a document on average. Known cost:
-  German federal laws bookmark every footnote ("Fußnote"), and those come back as headings (Quick
-  precision on them 0.90 -> 0.81). Most misses are lines with no heading signal at all (research
-  finding F056), which this step cannot reach. The default is `ask` (`SECTIONANY_KEEP_STRONG=off`
-  restores the earlier behaviour), by a rule fixed before the run (research finding F064): on a random
-  980 of the 2,033 held-out READoc documents, Claude Haiku 5.5, Quick's heading-tree TEDS 72.56 ->
-  74.32 with `ask` (+1.76, CI +1.36 to +2.18; 127 documents better, 9 worse) and missed headings per
-  1,000 191.6 -> 174.6; papers +2.21 (CI +1.59 to +2.89), READMEs +1.39 (CI +0.90 to +1.92). The ask
-  calls cost $0.0095 in all (35 documents asked). Local mode runs Quick's strategy and asks too.
-  Without bookmarks it changes little: on the 300 held-out multi-genre documents (one `quick` run
-  each) misses per 1,000 101.1 -> 99.4 (CI -3.4 to -0.6) and precision -0.003 (CI -0.006 to -0.001);
-  RFCs lose 0.036 of precision (CI -0.082 to 0.000) to numbered lines their answer keys do not list.
-- **Possible missed headings.** `tree.possible_misses` (also in `to_dict()` and the command line's
-  JSON) lists, best first, the lines with heading evidence that the result does not have as
-  headings: page, text, the evidence in words ("its number fills a gap in the headings' numbering",
-  "set like other headings", "Docling labels it a heading", ...) and a score from 0 to 1, at most one
-  entry per 5 pages (at least 3). The weights were fitted on development documents only; after a
-  model mode only stronger evidence is listed. The result itself is unchanged. On held-out documents
-  (the F042 test split, 100 documents, and 165 more documents frozen on 3 Nov, with and without
-  bookmarks) the list held 1% to 4% of the headings Free missed, at 0.2 to 0.5 wrong entries per 10
-  pages, and 8% to 10% with Docling's hints (0.5 to 0.7 wrong entries per 10 pages). Most missed
-  headings are set like body text and carry no evidence the list can use (research finding F057).
-- **Contents check (opt-in).** With `SECTIONANY_CONTENTS_CHECK='["free","quick","standard"]'` (or
-  some of those modes), every entry of the PDF's bookmarks (else its printed table of contents) and
-  of contents lists without page numbers that no section covers is looked for in the body near its
-  page, by its text or its label and number, and added as a heading flagged `from_contents`; an
-  entry that is not found is listed in `possible_misses`, never guessed. Off by default: on the
-  held-out documents Free's missed headings per 1,000 went from 152.0 to 151.2 (F042 test, with
-  bookmarks) and from 233.9 to 232.1 (the 165 documents, without), with F1 down 0.001, and one PDF
-  whose 736 bookmarks list far more than its headings got 283 extra headings. Free already follows a
-  usable outline; applied offline to saved Quick check runs it removed 0.6% to 5% of their missed
-  headings at level F1.
-
-## 0.1.7 (unreleased)
-
-- **`quick` finds structural headings set small or plain.** A bare division label (Part, Chapter,
-  Schedule, Annex, Appendix, Title, Book and their German and French forms) is now a candidate
-  with the title line under it, however small or plain it is set; `free` already took it. A short
-  reference printed smaller beside a label (a UK Act's "Section 5" next to "SCHEDULE 1") is passed
-  over, so a schedule's heading starts at its label in both modes. On held-out legislation, Claude
-  Haiku 5.5, 3 runs each (research finding F052): UK Acts heading F1 0.623 -> 0.677 (15 documents,
-  +0.054, CI +0.024 to +0.085), with recall of Parts 0.20 -> 0.96, Chapters 0.01 -> 0.96 and
-  Schedules 0.03 -> 0.87; EU regulations 0.819 -> 0.875 (11 documents, +0.057, CI +0.027 to
-  +0.087), Chapters 0.27 -> 0.85. `free` gains schedule headings on UK Acts (recall 0.83 -> 0.88)
-  and is unchanged on five other genres; `quick` is level on the 15 documents of those genres whose
-  candidates changed (theses, reports, German laws; no RFC changed).
-- **Mode `auto`, and a confidence for each Free heading.** Every `free` section now has `confidence`
-  (0 to 1): how much of Free's own evidence backs it (the PDF's outline lists it; its style is used
-  on several pages and for little else; its number follows the previous one; a standard name; ten
-  words or fewer). It is `None` for front matter and in the model modes; nothing else in any mode's
-  output changes. Mode `auto` runs `free`, then `quick` only when Free found fewer than three
-  headings or their mean confidence is below `auto_threshold` (0.72, `SECTIONANY_AUTO_THRESHOLD`);
-  `tree.auto` (and `auto` in `to_dict()`) gives the mode taken, the reason, the confidence and the
-  threshold. It needs `quick`'s API key and keeps the per-document cap (over it, Free's result
-  stands). The weights and threshold were chosen on development documents only (200 READoc, 21
-  public corpus documents; an earlier version was also scored once on the held-out documents
-  before the threshold was fixed). On held-out READoc: 905 arXiv papers 68.4 with 28% sent to
-  `quick` (`quick` 68.0, `free` 60.1); 1,124 READMEs 81.6 with 3.5% sent (`free` 81.4, `quick` 70.8).
-  Other genres are not yet tested on held-out documents. With `docling=`, Free runs with Docling's
-  hints and auto judges that result (the confidence weights do not use Docling's labels). On a
-  Docling document, `section(doc, "auto")`, Docling's own heading levels are not counted as outline
-  evidence for its own headings.
-- **Docling's output as input (opt-in).** `section("report.pdf", docling=doc)` takes Docling's
-  layout labels as hints for the PDF's own lines: its section headers and titles become heading
-  candidates whatever their style, its page headers and footers are treated as running headers and
-  footers, and in `free` mode styled lines it labels as body text are not taken as headings. A bare
-  label and the title line under it ("Article 3" / "Subject matter") stay one heading even when
-  Docling gives each its own item, as it often does in EU regulations. The PDF's fonts, bookmarks
-  and printed table of contents still count. `section(doc)` sections a
-  `DoclingDocument` itself, for scanned PDFs or any format Docling reads: its text items become the
-  lines, and heading levels come from Docling's levels or the heights of the heading boxes. Both
-  take the `DoclingDocument` object, its JSON as a dict or a saved `.json` file, and neither needs
-  docling-core. Hints from another PDF are refused with `ConfigError`. On the command line:
-  `--docling FILE.json` for hints, or a Docling `.json` file in place of the PDF. Not in
-  `section_many`, folder mode or the MCP server yet.
-- **Standard reads a window again when its answer leaves many headings out.** gpt-6-luna sometimes
-  stops listing early or skips a run of headings: asked the same thing six times, it once listed
-  none of the 83 sections in the first part of a 75-page act, and in 3 of 6 runs left 70 to 100
-  headings of a 125-page manual out. When a window's answer leaves at least 10 heading-like lines
-  unlisted, and at least 30% of them (rule candidates after its last section, or lines set in the
-  style of its own larger headings that it skipped), Standard reads that window once more and keeps
-  the answer that lists more of them. Replayed on 60 saved Standard runs of 26 corpus documents, the
-  check fired on all 4 runs that had this problem, on none of the 52 runs with heading recall of
-  0.80 or more, and on the 2 runs of a manual whose index letters Standard always leaves out.
-  In a paid check (gpt-6-luna, 5 new runs per document), the check fired in 3 of 5 runs of the
-  manual and each re-read listed the skipped headings: recall 0.955 to 0.965 in all 5 runs, against
-  0.32 to 0.955 in the 6 earlier runs; a re-read cost $0.005 to $0.009. It does not catch every miss:
-  on the act, runs that skipped some section titles set in bold at body size were not flagged
-  (F1 0.74 to 0.90 over 5 runs). At most one extra call per window, only while the per-document
-  cap still covers it and the windows after it (it is not in the up-front estimate). Each re-read
-  is listed in `tree.usage["coverage_retries"]`; `SECTIONANY_COVERAGE_RETRY=false` turns the check
-  off. Standard only: Quick check, and mode `auto` when it escalates, make one review call as before.
-- **Standard swings less from run to run.** Three more causes of runs that differ on the same input:
-  - **Contents lists without page numbers** ("CONTENTS OF ACT") were listed as sections. They are now
-    recognised because their entries come back later, in the same order, as headings spread over the
-    document, and Standard treats them like a table of contents.
-  - **Section titles in bold at body size** were skipped without the coverage check noticing. With
-    contents lists left out, it now counts them too; labels repeated through a document
-    ("Parameters", "Returns") are not counted.
-  - **A cut-off answer** at the model's output limit, whether a window's first read or its coverage
-    re-read, used to fail the document. That window is now read as two halves, split at the page
-    break nearest its middle. Each split is listed in `tree.usage["window_splits"]`.
-
-  With Claude Haiku 5.5:
-  - South Africa's POPIA act: F1 0.68 to 0.89 over 4 runs plus 1 failed, now 0.87 to 0.90 over 5
-    runs.
-  - The 125-page Requests manual: 4 of 5 runs failed and the fifth found 15% of the known headings;
-    now recall 0.955 to 1.00 in all 5 runs.
-  - 7 other public documents, 3 runs each: the worst run's F1 averaged 0.635, now 0.710. Two
-    documents are better, three the same and two worse by 0.025.
-
-  Development data and one model (research finding F051). A cut-off answer is paid for before the
-  split, and splits are not in the up-front estimate.
-- **Many PDFs with a total budget.** `section_many(pdfs, mode, max_usd_total=...)` (and
-  `asection_many`) sections PDFs one at a time and yields a `DocumentResult` for each: path, tree or
-  error, cost, and the cap it ran with. Each PDF's cap is the smaller of the per-document cap and
-  what is left of the total, so paid runs are downgraded (or refused with `over_budget="fail"`) as
-  the total runs out; spending on PDFs that then failed counts too. Errors are recorded and the run
-  goes on (`on_error="raise"` stops at the first); configuration errors are always raised, before any
-  PDF is read. On the command line, a folder or several PDFs write one output per PDF into
-  `-o DIR`, with `--recursive`, `--skip-existing` (resume a stopped run) and `--max-usd-total`, one
-  line per PDF and a total on stderr. Folder mode exits 4 when one or more PDFs failed, 0 when all
-  were done or skipped. A single file works as before.
-- **Use Docling's or Unstructured's chunkers on our headings.** `tree.to_unstructured_elements()`
-  returns Unstructured's element dicts (a `Title` per heading with `category_depth` and
-  `parent_id`, a `NarrativeText` per body paragraph, page numbers and boxes) for its
-  `chunk_by_title`; it needs no new dependency. `tree.to_docling_document()` returns a Docling
-  `DoclingDocument` (`TitleItem`, `SectionHeaderItem` at each level, text items under their
-  heading, page provenance) for its `HybridChunker`; it needs the new `docling` extra
-  (`pip install "section-anything[docling]"`, docling-core 2.x). Tests run both chunkers on the
-  exports: every chunk starts at one of our headings (Unstructured) or carries our heading path
-  (Docling).
+- **`free` sets label levels the same way in every process.** When two kinds of label head the same
+  number of sections, which kind became the deeper level depended on the order of a Python set of
+  strings, so on Python's hash seed (`PYTHONHASHSEED`): a US CFR part with 17 "§ 165.x" sections and
+  17 "Section A:" form headings got one of two outputs from run to run. The tie now goes to the kind
+  seen first. On that part, F1 against its answer key is 0.410 either way and level agreement 0.875
+  (0.812 with the other kind); one document, so the choice rests on it (research finding F065). Of
+  3,060 saved extractions rerun (the multi-genre test and development documents in four `free` modes,
+  913; 40 unseen legislation documents; 74 sample-tuning documents; 2,033 READoc held-out documents),
+  it is the only output that changes.
 - **Free on laws, standards and reports: more text read, fewer false headings, levels from labels.**
   Tested on a new multi-genre set of public documents (RFCs, German, EU and UK legislation, NIST and
-  GOV.UK reports, GOV.UK annual reports, arXiv PhD theses; split frozen before any change). On its
+  GOV.UK reports, GOV.UK annual reports, arXiv PhD theses; split frozen before any change; research
+  findings F042 and F045). On its
   100 held-out documents Free's mean F1 went from 0.710 to 0.739 with the PDFs' bookmarks and from
   0.660 to 0.699 without, up in every genre; heading levels from 0.895 to 0.925 and 0.905 to 0.919.
   READoc held-out: 905 arXiv papers 60.10 to 60.57 (95% CI +0.25 to +0.70; 25 papers worse, 7 of
@@ -355,7 +202,203 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   a small part of the document: held-out papers 59.97 -> 60.10 (3 changed, each +35 or more),
   held-out READMEs 81.42 -> 81.44 (2 changed: +32.6 and -5.8), development READMEs 79.59 -> 79.70
   (1 changed), development papers and the 29-document public corpus unchanged. Quick check and
-  Standard do not run the outline check by default and are unaffected.
+  Standard do not run the outline check by default and are unaffected (research finding F036).
+
+### `quick` and `standard`
+
+- **`quick` finds structural headings set small or plain.** A bare division label (Part, Chapter,
+  Schedule, Annex, Appendix, Title, Book and their German and French forms) is now a candidate
+  with the title line under it, however small or plain it is set; `free` already took it. A short
+  reference printed smaller beside a label (a UK Act's "Section 5" next to "SCHEDULE 1") is passed
+  over, so a schedule's heading starts at its label in both modes. On held-out legislation, Claude
+  Haiku 5.5, 3 runs each (research finding F052): UK Acts heading F1 0.623 -> 0.677 (15 documents,
+  +0.054, CI +0.024 to +0.085), with recall of Parts 0.20 -> 0.96, Chapters 0.01 -> 0.96 and
+  Schedules 0.03 -> 0.87; EU regulations 0.819 -> 0.875 (11 documents, +0.057, CI +0.027 to
+  +0.087), Chapters 0.27 -> 0.85. `free` gains schedule headings on UK Acts (recall 0.83 -> 0.88)
+  and is unchanged on five other genres; `quick` is level on the 15 documents of those genres whose
+  candidates changed (theses, reports, German laws; no RFC changed).
+- **Quick and Standard put back strong headings the model left out (`keep_strong`, on by default).**
+  Free's headings with evidence that needs no model (the PDF's bookmarks or printed contents list
+  them, their numbering follows the previous numbered heading, or a standard name such as References)
+  are compared with the model's answer. With `keep_strong="ask"` (`SECTIONANY_KEEP_STRONG=ask`), the
+  ones it left out that the outline lists are put back, and the others are shown to the model once
+  more, in one call per document, between the headings it listed before and after; it keeps or rejects
+  each with a short reason. `"restore"` puts every one back without a call. Each decision is in
+  `tree.usage["kept_strong"]`, and a section put back has the flag `kept_strong`. Claude Haiku 5.5,
+  held-out F042 documents (research finding F059): Quick on PDFs with bookmarks, missed headings per
+  1,000 206 -> 155 (100 documents, -51, CI -86 to -23; precision -0.011, CI -0.032 to +0.012); without
+  bookmarks 200 -> 198 (-1.9, CI -3.4 to -0.7); Standard without bookmarks 219 -> 215 (21 documents, 2
+  runs, -3.6, CI -7.0 to -0.9). The extra call cost at most $0.0005 a document on average. Known cost:
+  German federal laws bookmark every footnote ("Fußnote"), and those come back as headings (Quick
+  precision on them 0.90 -> 0.81). Most misses are lines with no heading signal at all (research
+  finding F056), which this step cannot reach. The default is `ask` (`SECTIONANY_KEEP_STRONG=off`
+  restores the earlier behaviour), by a rule fixed before the run (research finding F064): on a random
+  980 of the 2,033 held-out READoc documents, Claude Haiku 5.5, Quick's heading-tree TEDS 72.56 ->
+  74.32 with `ask` (+1.76, CI +1.36 to +2.18; 127 documents better, 9 worse) and missed headings per
+  1,000 191.6 -> 174.6; papers +2.21 (CI +1.59 to +2.89), READMEs +1.39 (CI +0.90 to +1.92). The ask
+  calls cost $0.0095 in all (35 documents asked). Local mode runs Quick's strategy and asks too.
+  Without bookmarks it changes little: on the 300 held-out multi-genre documents (one `quick` run
+  each) misses per 1,000 101.1 -> 99.4 (CI -3.4 to -0.6) and precision -0.003 (CI -0.006 to -0.001);
+  RFCs lose 0.036 of precision (CI -0.082 to 0.000) to numbered lines their answer keys do not list.
+- **`quick` and `standard` number levels as `free` does around the document title.** Asked to set
+  the document's own title at level 1, the model often nests every other heading under it, so a UK
+  Act's Parts came out at level 2 in `standard` and at level 1 in `free`. When every heading sits below
+  the title (flag `doc_title`), they now move up together so the top division is level 1 beside the
+  title; their relative depths, the sections and their text do not change. Replayed at $0 on saved
+  Claude Haiku 5.5 answers (research finding F065): exact level agreement with the Modern Slavery Act
+  2015's reference key 0.361 -> 0.639 (`standard`, fresh run); on the 300 held-out documents, the 29
+  `quick` answers it changes go from 0.062 to 0.910 exact agreement with their answer keys (28 better,
+  1 worse), with F1 and relative level agreement unchanged; READoc heading-tree TEDS unchanged on the
+  38 `standard` and 65 `quick` held-out answers it changes.
+- **`quick` reads an amendment-marked section number as printed.** In a revised UK Act an inserted or
+  omitted section's number has the amendment note's mark run into it ("[F1111A Enforcement by ...": note
+  F11, section 11A; "F5755 Gangmasters Licensing Authority": note F57, section 55). The lines were among
+  Quick's candidates, but in a fresh run Claude Haiku 5.5 left all three such sections of the Modern
+  Slavery Act 2015 out, and `keep_strong` had no evidence to put them back with (Free gives them no
+  number). Quick's candidate row now shows the number that continues the previous section number set in
+  the same style ("11A Enforcement by ...", "55 Gangmasters ..."); the section still starts at its
+  printed line. Of the Act's 390 candidate rows, the five amendment-marked section headings change; no
+  row of any other saved extraction does (2,541 checked). Not yet confirmed with a paid run (research
+  finding F065).
+- **A downgrade keeps the model you chose.** A `standard` run with `--model claude-haiku-5-5` (or
+  `model=`) that was over its per-document cap went to `quick` on Quick's configured model
+  (gpt-6-luna), and with no OpenAI key it skipped `quick` and ended in `free`. A model you pass now
+  stays with the run: `standard` over the cap goes to `quick` on the same model, and only a mode that
+  model cannot run (no price, no key) is skipped (research finding F065).
+- **Standard reads a window again when its answer leaves many headings out.** gpt-6-luna sometimes
+  stops listing early or skips a run of headings: asked the same thing six times, it once listed
+  none of the 83 sections in the first part of a 75-page act, and in 3 of 6 runs left 70 to 100
+  headings of a 125-page manual out. When a window's answer leaves at least 10 heading-like lines
+  unlisted, and at least 30% of them (rule candidates after its last section, or lines set in the
+  style of its own larger headings that it skipped), Standard reads that window once more and keeps
+  the answer that lists more of them. Replayed on 60 saved Standard runs of 26 corpus documents, the
+  check fired on all 4 runs that had this problem, on none of the 52 runs with heading recall of
+  0.80 or more, and on the 2 runs of a manual whose index letters Standard always leaves out.
+  In a paid check (gpt-6-luna, 5 new runs per document), the check fired in 3 of 5 runs of the
+  manual and each re-read listed the skipped headings: recall 0.955 to 0.965 in all 5 runs, against
+  0.32 to 0.955 in the 6 earlier runs; a re-read cost $0.005 to $0.009. It does not catch every miss:
+  on the act, runs that skipped some section titles set in bold at body size were not flagged
+  (F1 0.74 to 0.90 over 5 runs). At most one extra call per window, only while the per-document
+  cap still covers it and the windows after it (it is not in the up-front estimate). Each re-read
+  is listed in `tree.usage["coverage_retries"]`; `SECTIONANY_COVERAGE_RETRY=false` turns the check
+  off. Standard only: Quick check, and mode `auto` when it escalates, make one review call as before.
+  Development documents only (research finding F043).
+- **Standard swings less from run to run.** Three more causes of runs that differ on the same input:
+  - **Contents lists without page numbers** ("CONTENTS OF ACT") were listed as sections. They are now
+    recognised because their entries come back later, in the same order, as headings spread over the
+    document, and Standard treats them like a table of contents.
+  - **Section titles in bold at body size** were skipped without the coverage check noticing. With
+    contents lists left out, it now counts them too; labels repeated through a document
+    ("Parameters", "Returns") are not counted.
+  - **A cut-off answer** at the model's output limit, whether a window's first read or its coverage
+    re-read, used to fail the document. That window is now read as two halves, split at the page
+    break nearest its middle. Each split is listed in `tree.usage["window_splits"]`.
+
+  With Claude Haiku 5.5:
+  - South Africa's POPIA act: F1 0.68 to 0.89 over 4 runs plus 1 failed, now 0.87 to 0.90 over 5
+    runs.
+  - The 125-page Requests manual: 4 of 5 runs failed and the fifth found 15% of the known headings;
+    now recall 0.955 to 1.00 in all 5 runs.
+  - 7 other public documents, 3 runs each: the worst run's F1 averaged 0.635, now 0.710. Two
+    documents are better, three the same and two worse by 0.025.
+
+  Development data and one model (research finding F051). A cut-off answer is paid for before the
+  split, and splits are not in the up-front estimate.
+
+### Optional collection tuning
+
+- **Optional collection tuning for `standard` (`heading_guidance`, off by default).** A short text on
+  what the sections of one type of document look like (`Settings(heading_guidance=...)` or
+  `SECTIONANY_HEADING_GUIDANCE`) is appended to the model's instructions on every `standard` (and
+  `quick`) call; without it the instructions are byte-identical to before, and the cost estimate counts
+  its length. The library does not write the text. In pre-registered tests a model read the full text of
+  two to five sample documents of one type and wrote a sheet of at most about 1,400 words, and section
+  F1 was scored against section keys with the default `keep_strong` (research finding F069): Claude
+  Haiku 5.5 with its own sheets +0.078 (95% CI +0.031 to +0.128) on 33 test documents of four types (UK
+  Acts, RFCs, theses, GNU manuals), gpt-6-luna with its own sheets +0.028 (CI +0.006 to +0.053) on 40.
+  On 12 regulations of six publishers' formats, two test documents each, Claude Haiku 5.5 went from
+  0.836 to 0.931 (+0.096, CI +0.008 to +0.204; research finding F073, regulatory review), almost all of
+  it numbered provisions printed without titles. A sheet can also hurt: there an EU sheet written from
+  samples unlike the test regulation's annex made the model skip numbered annex groups (that group's
+  recall -0.084), and in F069's first round gpt-6-luna's own sheets lowered its heading F1 (-0.034, CI
+  -0.064 to -0.006, 40 documents). `quick` with a sheet was level (gpt-6-luna, 21 documents, -0.022, CI
+  -0.063 to +0.003). Write sheets from samples that represent the documents they will be used on, and
+  check them on a few known documents first.
+
+### New modes, inputs and outputs
+
+- **Mode `auto`, and a confidence for each Free heading.** Every `free` section now has `confidence`
+  (0 to 1): how much of Free's own evidence backs it (the PDF's outline lists it; its style is used
+  on several pages and for little else; its number follows the previous one; a standard name; ten
+  words or fewer). It is `None` for front matter and in the model modes; nothing else in any mode's
+  output changes. Mode `auto` runs `free`, then `quick` only when Free found fewer than three
+  headings or their mean confidence is below `auto_threshold` (0.72, `SECTIONANY_AUTO_THRESHOLD`);
+  `tree.auto` (and `auto` in `to_dict()`) gives the mode taken, the reason, the confidence and the
+  threshold. It needs `quick`'s API key and keeps the per-document cap (over it, Free's result
+  stands). The weights and threshold were chosen on development documents only (200 READoc, 21
+  public corpus documents; an earlier version was also scored once on the held-out documents
+  before the threshold was fixed). On held-out READoc: 905 arXiv papers 68.4 with 28% sent to
+  `quick` (`quick` 68.0, `free` 60.1); 1,124 READMEs 81.6 with 3.5% sent (`free` 81.4, `quick` 70.8).
+  Other genres are not yet tested on held-out documents (research finding F044). With `docling=`,
+  Free runs with Docling's
+  hints and auto judges that result (the confidence weights do not use Docling's labels). On a
+  Docling document, `section(doc, "auto")`, Docling's own heading levels are not counted as outline
+  evidence for its own headings.
+- **Possible missed headings.** `tree.possible_misses` (also in `to_dict()` and the command line's
+  JSON) lists, best first, the lines with heading evidence that the result does not have as
+  headings: page, text, the evidence in words ("its number fills a gap in the headings' numbering",
+  "set like other headings", "Docling labels it a heading", ...) and a score from 0 to 1, at most one
+  entry per 5 pages (at least 3). The weights were fitted on development documents only; after a
+  model mode only stronger evidence is listed. The result itself is unchanged. On held-out documents
+  (the F042 test split, 100 documents, and 165 more documents frozen on 3 Nov, with and without
+  bookmarks) the list held 1% to 4% of the headings Free missed, at 0.2 to 0.5 wrong entries per 10
+  pages, and 8% to 10% with Docling's hints (0.5 to 0.7 wrong entries per 10 pages). Most missed
+  headings are set like body text and carry no evidence the list can use (research finding F057).
+- **Contents check (opt-in).** With `SECTIONANY_CONTENTS_CHECK='["free","quick","standard"]'` (or
+  some of those modes), every entry of the PDF's bookmarks (else its printed table of contents) and
+  of contents lists without page numbers that no section covers is looked for in the body near its
+  page, by its text or its label and number, and added as a heading flagged `from_contents`; an
+  entry that is not found is listed in `possible_misses`, never guessed. Off by default: on the
+  held-out documents Free's missed headings per 1,000 went from 152.0 to 151.2 (F042 test, with
+  bookmarks) and from 233.9 to 232.1 (the 165 documents, without), with F1 down 0.001, and one PDF
+  whose 736 bookmarks list far more than its headings got 283 extra headings. Free already follows a
+  usable outline; applied offline to saved Quick check runs it removed 0.6% to 5% of their missed
+  headings at level F1.
+- **Docling's output as input (opt-in).** `section("report.pdf", docling=doc)` takes Docling's
+  layout labels as hints for the PDF's own lines: its section headers and titles become heading
+  candidates whatever their style, its page headers and footers are treated as running headers and
+  footers, and in `free` mode styled lines it labels as body text are not taken as headings. A bare
+  label and the title line under it ("Article 3" / "Subject matter") stay one heading even when
+  Docling gives each its own item, as it often does in EU regulations. The PDF's fonts, bookmarks
+  and printed table of contents still count. `section(doc)` sections a
+  `DoclingDocument` itself, for scanned PDFs or any format Docling reads: its text items become the
+  lines, and heading levels come from Docling's levels or the heights of the heading boxes. Both
+  take the `DoclingDocument` object, its JSON as a dict or a saved `.json` file, and neither needs
+  docling-core. Hints from another PDF are refused with `ConfigError`. On the command line:
+  `--docling FILE.json` for hints, or a Docling `.json` file in place of the PDF. Not in
+  `section_many`, folder mode or the MCP server yet. The hints were designed on development documents
+  (research finding F041). Heading F1 on 99 of the 100 held-out multi-genre test documents, with
+  bookmarks (research findings F046 and F054): `free` with Docling's hints 0.800, `free` alone 0.741,
+  Docling's own headings 0.750.
+- **Many PDFs with a total budget.** `section_many(pdfs, mode, max_usd_total=...)` (and
+  `asection_many`) sections PDFs one at a time and yields a `DocumentResult` for each: path, tree or
+  error, cost, and the cap it ran with. Each PDF's cap is the smaller of the per-document cap and
+  what is left of the total, so paid runs are downgraded (or refused with `over_budget="fail"`) as
+  the total runs out; spending on PDFs that then failed counts too. Errors are recorded and the run
+  goes on (`on_error="raise"` stops at the first); configuration errors are always raised, before any
+  PDF is read. On the command line, a folder or several PDFs write one output per PDF into
+  `-o DIR`, with `--recursive`, `--skip-existing` (resume a stopped run) and `--max-usd-total`, one
+  line per PDF and a total on stderr. Folder mode exits 4 when one or more PDFs failed, 0 when all
+  were done or skipped. A single file works as before.
+- **Use Docling's or Unstructured's chunkers on our headings.** `tree.to_unstructured_elements()`
+  returns Unstructured's element dicts (a `Title` per heading with `category_depth` and
+  `parent_id`, a `NarrativeText` per body paragraph, page numbers and boxes) for its
+  `chunk_by_title`; it needs no new dependency. `tree.to_docling_document()` returns a Docling
+  `DoclingDocument` (`TitleItem`, `SectionHeaderItem` at each level, text items under their
+  heading, page provenance) for its `HybridChunker`; it needs the new `docling` extra
+  (`pip install "section-anything[docling]"`, docling-core 2.x). Tests run both chunkers on the
+  exports: every chunk starts at one of our headings (Unstructured) or carries our heading path
+  (Docling).
 - **PDFs as bytes.** `section`, `asection` and `extract_pdf` also take the PDF itself as `bytes`,
   `bytearray`, `memoryview` or a binary file-like object (an open file, `io.BytesIO`), for data
   platforms and serverless functions that hand over bytes, not paths. The size cap is checked before
