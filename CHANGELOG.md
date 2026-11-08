@@ -311,7 +311,7 @@ and metric given there, with the research finding that holds the evidence. No si
   what the sections of one type of document look like (`Settings(heading_guidance=...)` or
   `SECTIONANY_HEADING_GUIDANCE`) is appended to the model's instructions on every `standard` call;
   without it the instructions are byte-identical to before, and the cost estimate counts
-  its length. The library does not write the text. In pre-registered tests a model read the full text of
+  its length. `write_guidance` (below) writes it. In pre-registered tests a model read the full text of
   two to five sample documents of one type and wrote a sheet of at most about 1,400 words, and section
   F1 was scored against section keys with the default `keep_strong` (research finding F069): Claude
   Haiku 5.5 with its own sheets +0.081 (95% CI +0.037 to +0.127) on 39 test documents of four types (UK
@@ -328,6 +328,20 @@ and metric given there, with the research finding that holds the evidence. No si
   real sections on UK Acts (-0.134, CI -0.214 to -0.059; F069 round 2), and gpt-6-luna was level (21
   documents, -0.022, CI -0.063 to +0.003). Write sheets from samples that represent the documents they will be used on, and
   check them on a few known documents first.
+- **`write_guidance(samples)` and `section-anything guidance samples/*.pdf -o sheet.md` write the sheet.**
+  A model reads the full text of two to five sample PDFs of one type, in the form `standard` shows its
+  model, and writes a sheet of at most about 1,400 words for `heading_guidance`. The prompts are the
+  ones measured in research finding F069's round 2 (writer prompt "docs2", byte-identical): they always
+  include two rules, that a numbered paragraph or provision is a section even without a title, and that
+  index letter groups, running headers and contents entries are not. Samples over about 90,000
+  characters per call are read in parts and the partial sheets merged; a sheet over 1,700 words is
+  shortened once; headings copied from one sample (found by `free` on the samples) are replaced with
+  placeholders. Default model: the `standard` model; works with OpenAI-compatible and Claude models.
+  The whole job is estimated before any call and refused when the estimate is over `max_usd`
+  (`--max-usd`; default the per-document cap); calls run one at a time and each is checked against
+  the cap. Fewer than two samples log a warning. The samples must represent the documents the sheet
+  will be used on (research finding F075: an EU sheet written from samples whose annexes were
+  templates and tables made the model skip numbered annex groups in another regulation).
 
 ### New modes, inputs and outputs
 

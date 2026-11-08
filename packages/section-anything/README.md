@@ -80,16 +80,36 @@ and `local:<model>`) ignores it and logs one warning: with Claude Haiku 5.5's ow
 level overall (-0.012, 95% CI -0.046 to +0.020, 40 documents) but dropped real sections on UK Acts
 (-0.134, CI -0.214 to -0.059).
 
-```python
-from section_anything import Settings, section
+Write the sheet once from two to five sample PDFs of the type, then use it with `standard`:
 
-sheet = open("manuals-guidance.md").read()   # a few hundred words, written from sample documents
+```python
+from section_anything import Settings, section, write_guidance
+
+sheet = write_guidance(["samples/a.pdf", "samples/b.pdf", "samples/c.pdf"], max_usd=1.00)
+open("manuals-guidance.md", "w").write(sheet)
 tree = section("manual.pdf", "standard", settings=Settings(heading_guidance=sheet))
-# or: export SECTIONANY_HEADING_GUIDANCE="$(cat manuals-guidance.md)"
 ```
 
-In our tests a model read the full text of two to five sample documents of one type and wrote
-the sheet (at most about 1,400 words); the library does not write sheets for you. Measured with
+```sh
+section-anything guidance samples/*.pdf -o manuals-guidance.md --max-usd 1
+SECTIONANY_HEADING_GUIDANCE="$(cat manuals-guidance.md)" section-anything manual.pdf --mode standard
+```
+
+`write_guidance` gives the model the full text of every sample, in the form `standard` shows it
+(every line, numbered, with size and bold tags), and asks for a sheet of at most about 1,400 words
+on what counts as a section in that type, which look-alikes do not, and hard cases. It always
+includes two rules: a numbered paragraph or provision is a section even without a title, and index
+letters, running heads and contents entries are not. Samples longer than one call (about 90,000
+characters) are read in parts and the partial sheets merged; headings copied from one sample are
+replaced by placeholders. It uses the `standard` model by default (`model=` or `--model` to change
+it; write the sheet with the model you will run it on) and works with OpenAI-compatible models and
+Claude models (the `anthropic` extra). The whole job is estimated first and refused when the
+estimate is over `max_usd` (default the per-document cap, $0.50); each call is checked against the
+cap again. Fewer than two samples log a warning. **The samples must represent the documents you
+will run the sheet on**, including their less common parts (appendices, annexes, back matter).
+
+These are the prompts measured in our tests: a model read the full text of two to five sample
+documents of one type and wrote the sheet (at most about 1,400 words). Measured with
 `standard` and the default `keep_strong`, section F1 against hand-checked section keys (research
 findings F069 and F075, pre-registered):
 
@@ -117,6 +137,7 @@ section-anything paper.pdf --mode standard --max-usd 0.5     # cap this document
 section-anything paper.pdf --mode local:qwen3:4b --body      # headings plus section text
 section-anything paper.pdf --format json --body              # JSON with each section's text
 section-anything paper.pdf --docling paper.json              # Docling's labels as hints (below)
+section-anything guidance a.pdf b.pdf -o sheet.md            # guidance sheet for standard (above)
 ```
 
 The result goes to stdout (or `-o FILE`), a one-line summary with the cost to stderr. Exit codes:
