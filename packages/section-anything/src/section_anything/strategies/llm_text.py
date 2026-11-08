@@ -44,6 +44,12 @@ def _system(base: str, settings: Settings | None) -> str:
     return f"{base}{GUIDANCE_HEADER}{guidance}" if guidance else base
 
 
+def _guidance_chars(settings: Settings | None) -> int:
+    """Characters `_system` adds to every call's instructions (0 without guidance), for the estimates."""
+    guidance = (settings or Settings()).heading_guidance.strip()
+    return len(GUIDANCE_HEADER) + len(guidance) if guidance else 0
+
+
 # ── Full-text sectioning ────────────────────────────────────────────────────
 
 TEXT_SYSTEM = f"""You split documents into sections for a document viewer.
@@ -332,7 +338,8 @@ class LlmTextStrategy(Strategy):
         if price is None:
             return 0.0
         prof = token_profile(ctx.model, ctx.settings, self.effort)
-        inp = prof.tokens(sum(len(r) + 1 for r in rows[a:b])) + prof.per_call(900)
+        inp = (prof.tokens(sum(len(r) + 1 for r in rows[a:b])) + prof.per_call(900)
+               + prof.tokens(_guidance_chars(ctx.settings)))
         return price.cost(inp, prof.output(int((b - a) / 18) * 90, inp, 1))
 
     def estimate(self, ext: Extraction, model: str = "", settings: Settings | None = None) -> Estimate:
@@ -340,7 +347,7 @@ class LlmTextStrategy(Strategy):
         rows = _tagged(ext)
         n = len(_windows(ext, rows, self.window_chars))
         chars = sum(len(r) + 1 for r in rows)
-        inp = prof.tokens(chars) + n * prof.per_call(900)
+        inp = prof.tokens(chars) + n * (prof.per_call(900) + prof.tokens(_guidance_chars(settings)))
         out = int(len(ext.lines) / 18) * 90  # ~one section per 18 lines, incl. reasoning
         return Estimate(inp, prof.output(out, inp, n), n)
 
@@ -486,6 +493,6 @@ class LlmReviewStrategy(Strategy):
         prof = token_profile(model, settings, self.effort)
         rows = self._rows(ext)
         n = max(1, -(-len(rows) // self.batch))
-        inp = prof.tokens(sum(len(r) for _, r in rows)) + n * prof.per_call(700)
+        inp = prof.tokens(sum(len(r) for _, r in rows)) + n * (prof.per_call(700) + prof.tokens(_guidance_chars(settings)))
         out = len(rows) * 30 + n * 800
         return Estimate(inp, prof.output(out, inp, n), n)

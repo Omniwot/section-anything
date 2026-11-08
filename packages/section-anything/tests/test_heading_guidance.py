@@ -67,3 +67,13 @@ def test_guidance_is_appended_to_both_modes(monkeypatch):
 def test_guidance_from_the_environment(monkeypatch):
     monkeypatch.setenv("SECTIONANY_HEADING_GUIDANCE", "Rule one.")
     assert Settings().heading_guidance == "Rule one."
+
+
+def test_estimates_count_the_guidance():
+    sheet = "Numbered clauses such as 4.2 are headings at level 2. " * 40
+    for strategy in (LlmTextStrategy(), LlmReviewStrategy()):
+        plain = strategy.estimate(_doc(), "gpt-6-luna", Settings())
+        assert strategy.estimate(_doc(), "gpt-6-luna", Settings(heading_guidance="  ")) == plain
+        guided = strategy.estimate(_doc(), "gpt-6-luna", Settings(heading_guidance=sheet))
+        extra = int((len(GUIDANCE_HEADER) + len(sheet.strip())) / 4) * plain.calls
+        assert guided.input_tokens - plain.input_tokens >= extra - plain.calls
