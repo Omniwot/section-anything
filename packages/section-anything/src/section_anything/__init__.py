@@ -25,6 +25,8 @@ _EXPORTS = {
     "section_many": "section_anything.batch",
     "asection_many": "section_anything.batch",
     "DocumentResult": "section_anything.batch",
+    "write_guidance": "section_anything.guidance",
+    "awrite_guidance": "section_anything.guidance",
     "Settings": "section_anything.config",
     "Price": "section_anything.config",
     "DEFAULT_PRICES": "section_anything.config",
@@ -66,11 +68,13 @@ __all__ = [
     "__version__",
     "asection",
     "asection_many",
+    "awrite_guidance",
     "check_pdf",
     "extract_pdf",
     "resolve_mode",
     "section",
     "section_many",
+    "write_guidance",
 ]
 
 if TYPE_CHECKING:
@@ -89,6 +93,7 @@ if TYPE_CHECKING:
         UnpricedModelError,
     )
     from section_anything.extract import Extraction
+    from section_anything.guidance import awrite_guidance, write_guidance
     from section_anything.isolate import PdfInput, check_pdf, extract_pdf
 
 

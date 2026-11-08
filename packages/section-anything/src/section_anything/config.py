@@ -188,7 +188,7 @@ class Settings(BaseSettings):
     # Env: JSON list, e.g. SECTIONANY_CONTENTS_CHECK='["quick","standard"]'. "quick" also covers local mode.
     contents_check: list[Literal["free", "quick", "standard"]] = Field(default_factory=list)
     # Optional collection tuning: guidance on what sections look like in one type of document (for
-    # example a sheet written from sample documents of that type), appended to
+    # example a sheet `write_guidance` wrote from sample documents of that type), appended to
     # Standard's instructions. Quick check (modes quick, auto, local) ignores it and logs a warning: with
     # sheets it dropped real sections (research finding F069). Empty: the instructions are unchanged.
     heading_guidance: str = ""

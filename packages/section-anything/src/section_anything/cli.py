@@ -8,6 +8,10 @@ The result goes to stdout (or ``--output``); a one-line cost summary goes to std
 Exit codes: 0 done, 2 bad arguments or configuration, 3 refused by a cost cap, 4 the PDF could not
 be read, 1 anything else.
 
+Guidance sheet (``section-anything guidance A.pdf B.pdf -o sheet.md``): a model reads the sample PDFs
+and writes a sheet on what the sections of that type of document look like, for ``standard``
+(``SECTIONANY_HEADING_GUIDANCE``). Same exit codes as for one PDF.
+
 Folder mode (``section-anything DIR -o OUT``, or several PDFs): one output per PDF in ``OUT``, one
 line per PDF and a total on stderr. Exit codes: 0 every PDF done or skipped, 4 one or more failed
 (each failure is on its line; the others are written), 2 bad arguments or configuration (before any
@@ -32,6 +36,8 @@ def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="section-anything",
         description="Find the sections (headings, levels, page and character spans) of a PDF.",
+        epilog="Guidance sheet for standard mode: section-anything guidance SAMPLE.pdf ... -o sheet.md "
+               "(see section-anything guidance --help).",
     )
     p.add_argument("pdf", type=Path, nargs="+",
                    help="PDF file, or Docling's JSON of one; a folder or several PDFs run in folder mode "
@@ -72,6 +78,64 @@ def build_parser() -> argparse.ArgumentParser:
     return p
 
 
+def build_guidance_parser() -> argparse.ArgumentParser:
+    from section_anything.config import Settings
+
+    p = argparse.ArgumentParser(
+        prog="section-anything guidance",
+        description="Write a guidance sheet for standard mode from 2-5 sample PDFs of one type of long document. "
+                    "The samples must represent the documents the sheet will be used on. Use the sheet with "
+                    "SECTIONANY_HEADING_GUIDANCE=\"$(cat sheet.md)\" section-anything doc.pdf --mode standard.",
+    )
+    p.add_argument("samples", type=Path, nargs="+", help="sample PDFs of one type (two to five)")
+    p.add_argument("-o", "--output", type=Path, default=None, help="write the sheet to this file (default stdout)")
+    p.add_argument("--model", default=None,
+                   help=f"model that writes the sheet (default the standard model, "
+                        f"{Settings.model_fields['standard_model'].default}; use the model you will run standard on)")
+    p.add_argument("--provider", choices=("openai", "anthropic"), default=None,
+                   help="API for --model (default: anthropic for claude-* models, otherwise openai)")
+    p.add_argument("--base-url", default=None,
+                   help="endpoint for the provider (default OpenAI's; Anthropic's for Claude models)")
+    p.add_argument("--max-usd", type=float, default=None,
+                   help="cost cap in USD for the whole sheet (default 0.50); refused up front when the estimate is over")
+    p.add_argument("--max-pages", type=int, default=None, help="refuse sample PDFs with more pages (default 500)")
+    p.add_argument("-q", "--quiet", action="store_true", help="no summary on stderr")
+    return p
+
+
+def guidance_main(argv: list[str]) -> int:
+    import asyncio
+
+    from section_anything.guidance import awrite_guidance
+    from section_anything.llm import Usage
+
+    args = build_guidance_parser().parse_args(argv)
+    usage = Usage()
+    t0 = time.monotonic()
+    try:
+        sheet = asyncio.run(awrite_guidance(
+            args.samples, model=args.model, provider=args.provider, base_url=args.base_url, max_usd=args.max_usd,
+            max_pages=args.max_pages, _usage=usage))
+    except (PdfError, ExtractionTimeout, ExtractionFailed) as exc:
+        print(f"section-anything guidance: {exc}", file=sys.stderr)
+        return 4
+    except CostCapExceeded as exc:
+        print(f"section-anything guidance: {exc}", file=sys.stderr)
+        return 3
+    except (ConfigError, ValueError) as exc:
+        print(f"section-anything guidance: {exc}", file=sys.stderr)
+        return 2
+    if args.output:
+        args.output.write_text(sheet, encoding="utf-8")
+    else:
+        sys.stdout.write(sheet)
+    if not args.quiet:
+        cost = "unpriced" if not usage.priced else f"${usage.cost_usd:.4f}"
+        print(f"sheet: {len(sheet.split())} words from {len(args.samples)} samples, {usage.calls} model calls, "
+              f"{cost}, {time.monotonic() - t0:.1f} s", file=sys.stderr)
+    return 0
+
+
 def _options(args: argparse.Namespace) -> dict:
     return {"model": args.model, "provider": args.provider, "base_url": args.base_url, "max_usd": args.max_usd,
             "over_budget": args.over_budget, "max_pages": args.max_pages, "extract_timeout": args.timeout}
@@ -91,6 +155,9 @@ def _summary(tree) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
+    argv = sys.argv[1:] if argv is None else list(argv)
+    if argv and argv[0] == "guidance" and not Path("guidance").is_file():
+        return guidance_main(argv[1:])
     args = build_parser().parse_args(argv)
     if len(args.pdf) > 1 or args.pdf[0].is_dir():
         if args.docling is not None:
