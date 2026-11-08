@@ -314,15 +314,17 @@ and metric given there, with the research finding that holds the evidence. No si
   its length. The library does not write the text. In pre-registered tests a model read the full text of
   two to five sample documents of one type and wrote a sheet of at most about 1,400 words, and section
   F1 was scored against section keys with the default `keep_strong` (research finding F069): Claude
-  Haiku 5.5 with its own sheets +0.078 (95% CI +0.031 to +0.128) on 33 test documents of four types (UK
+  Haiku 5.5 with its own sheets +0.081 (95% CI +0.037 to +0.127) on 39 test documents of four types (UK
   Acts, RFCs, theses, GNU manuals), gpt-6-luna with its own sheets +0.028 (CI +0.006 to +0.053) on 40.
   On 12 regulations of six publishers' formats, two test documents each, Claude Haiku 5.5 went from
   0.836 to 0.931 (+0.096, CI +0.008 to +0.204; research finding F075, regulatory review), almost all of
   it numbered provisions printed without titles. A sheet can also hurt: there an EU sheet written from
   samples unlike the test regulation's annex made the model skip numbered annex groups (that group's
   recall -0.084), and in F069's first round gpt-6-luna's own sheets lowered its heading F1 (-0.034, CI
-  -0.064 to -0.006, 40 documents). `quick` with a sheet was level (gpt-6-luna, 21 documents, -0.022, CI
-  -0.063 to +0.003). Write sheets from samples that represent the documents they will be used on, and
+  -0.064 to -0.006, 40 documents). Do not use sheets with `quick`: there Claude Haiku 5.5 with its own
+  sheets was level overall (-0.012, CI -0.046 to +0.020, 40 documents) but lost real sections on UK
+  Acts (-0.134, CI -0.214 to -0.059), and gpt-6-luna was level (21 documents, -0.022, CI -0.063 to
+  +0.003). Write sheets from samples that represent the documents they will be used on, and
   check them on a few known documents first.
 
 ### New modes, inputs and outputs

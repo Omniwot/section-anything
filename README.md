@@ -135,7 +135,7 @@ downgrades (standard → quick → free) or fails, as you choose.
 For many long documents of one type, `standard` can take optional collection tuning: a short
 guidance text on what that type's sections look like (`Settings(heading_guidance=...)`), appended
 to the model's instructions. Off by default. In pre-registered tests, sheets a model wrote from a
-few sample documents raised Claude Haiku 5.5's section F1 by 0.078 (95% CI +0.031 to +0.128, 33
+few sample documents raised Claude Haiku 5.5's section F1 by 0.081 (95% CI +0.037 to +0.127, 39
 documents of four types) and gpt-6-luna's by 0.028 (CI +0.006 to +0.053, 40 documents); a sheet
 written from unrepresentative samples can lower it. See the
 [package README](packages/section-anything/README.md#optional-collection-tuning-heading_guidance).

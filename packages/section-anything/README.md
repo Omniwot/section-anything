@@ -75,8 +75,9 @@ documents (laws, manuals, reports) have not been tested on held-out documents ye
 When you section many long documents of one type (one publisher's manuals, one series of
 standards, one kind of legal instrument), you can give `standard` a short guidance text on what
 the sections of that type look like. It is appended to the model's instructions on every call;
-with no guidance (the default) the instructions are unchanged. It also applies to `quick`, where
-it has not been shown to help.
+with no guidance (the default) the instructions are unchanged. It also applies to `quick`, but don't
+use it there: with Claude Haiku 5.5's own sheets `quick` was level overall (-0.012, 95% CI -0.046
+to +0.020, 40 documents) and dropped real sections on UK Acts (-0.134, CI -0.214 to -0.059).
 
 ```python
 from section_anything import Settings, section
@@ -91,7 +92,7 @@ the sheet (at most about 1,400 words); the library does not write sheets for you
 `standard` and the default `keep_strong`, section F1 against hand-checked section keys (research
 findings F069 and F075, pre-registered):
 
-- Claude Haiku 5.5 with sheets it wrote itself: +0.078 (95% CI +0.031 to +0.128) on 33 held-out
+- Claude Haiku 5.5 with sheets it wrote itself: +0.081 (95% CI +0.037 to +0.127) on 39 held-out
   documents of four types (UK Acts, RFCs, theses, GNU manuals); gpt-6-luna with its own sheets:
   +0.028 (CI +0.006 to +0.053) on 40.
 - Claude Haiku 5.5 on 12 regulations of six publishers' formats (two test documents each): 0.836
