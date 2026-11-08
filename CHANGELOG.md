@@ -309,8 +309,8 @@ and metric given there, with the research finding that holds the evidence. No si
 
 - **Optional collection tuning for `standard` (`heading_guidance`, off by default).** A short text on
   what the sections of one type of document look like (`Settings(heading_guidance=...)` or
-  `SECTIONANY_HEADING_GUIDANCE`) is appended to the model's instructions on every `standard` (and
-  `quick`) call; without it the instructions are byte-identical to before, and the cost estimate counts
+  `SECTIONANY_HEADING_GUIDANCE`) is appended to the model's instructions on every `standard` call;
+  without it the instructions are byte-identical to before, and the cost estimate counts
   its length. The library does not write the text. In pre-registered tests a model read the full text of
   two to five sample documents of one type and wrote a sheet of at most about 1,400 words, and section
   F1 was scored against section keys with the default `keep_strong` (research finding F069): Claude
@@ -321,10 +321,12 @@ and metric given there, with the research finding that holds the evidence. No si
   it numbered provisions printed without titles. A sheet can also hurt: there an EU sheet written from
   samples unlike the test regulation's annex made the model skip numbered annex groups (that group's
   recall -0.084), and in F069's first round gpt-6-luna's own sheets lowered its heading F1 (-0.034, CI
-  -0.064 to -0.006, 40 documents). Do not use sheets with `quick`: there Claude Haiku 5.5 with its own
-  sheets was level overall (-0.012, CI -0.046 to +0.020, 40 documents) but lost real sections on UK
-  Acts (-0.134, CI -0.214 to -0.059), and gpt-6-luna was level (21 documents, -0.022, CI -0.063 to
-  +0.003). Write sheets from samples that represent the documents they will be used on, and
+  -0.064 to -0.006, 40 documents). `quick` ignores the guidance (so do `auto`'s quick step and
+  `local:<model>`, which run the same strategy) and logs one warning when it is set, and its cost
+  estimate no longer counts it: with sheets, Quick check gained nothing and lost real sections. Claude
+  Haiku 5.5 with its own sheets was level overall (-0.012, CI -0.046 to +0.020, 40 documents) but lost
+  real sections on UK Acts (-0.134, CI -0.214 to -0.059; F069 round 2), and gpt-6-luna was level (21
+  documents, -0.022, CI -0.063 to +0.003). Write sheets from samples that represent the documents they will be used on, and
   check them on a few known documents first.
 
 ### New modes, inputs and outputs

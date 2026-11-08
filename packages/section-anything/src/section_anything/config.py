@@ -187,9 +187,10 @@ class Settings(BaseSettings):
     # precision where bookmarks list far more than headings (research finding F057).
     # Env: JSON list, e.g. SECTIONANY_CONTENTS_CHECK='["quick","standard"]'. "quick" also covers local mode.
     contents_check: list[Literal["free", "quick", "standard"]] = Field(default_factory=list)
-    # Experimental: guidance on what headings look like in one type of document (for example a rule
-    # sheet written from sample documents of that type), appended to Quick check's and Standard's
-    # instructions. Empty: the instructions are unchanged.
+    # Optional collection tuning: guidance on what sections look like in one type of document (for
+    # example a sheet written from sample documents of that type), appended to
+    # Standard's instructions. Quick check (modes quick, auto, local) ignores it and logs a warning: with
+    # sheets it dropped real sections (research finding F069). Empty: the instructions are unchanged.
     heading_guidance: str = ""
 
     # Model calls.

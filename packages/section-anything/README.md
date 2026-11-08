@@ -75,9 +75,10 @@ documents (laws, manuals, reports) have not been tested on held-out documents ye
 When you section many long documents of one type (one publisher's manuals, one series of
 standards, one kind of legal instrument), you can give `standard` a short guidance text on what
 the sections of that type look like. It is appended to the model's instructions on every call;
-with no guidance (the default) the instructions are unchanged. It also applies to `quick`, but don't
-use it there: with Claude Haiku 5.5's own sheets `quick` was level overall (-0.012, 95% CI -0.046
-to +0.020, 40 documents) and dropped real sections on UK Acts (-0.134, CI -0.214 to -0.059).
+with no guidance (the default) the instructions are unchanged. `quick` (also `auto`'s quick step
+and `local:<model>`) ignores it and logs one warning: with Claude Haiku 5.5's own sheets `quick` was
+level overall (-0.012, 95% CI -0.046 to +0.020, 40 documents) but dropped real sections on UK Acts
+(-0.134, CI -0.214 to -0.059).
 
 ```python
 from section_anything import Settings, section
@@ -358,7 +359,7 @@ Arguments win over the environment. **No `.env` file is read, and nothing is eve
 | `SECTIONANY_COVERAGE_RETRY` / `coverage_retry=` | `true` | `standard`: a window whose answer leaves many heading-like lines unlisted is read once more, and the answer that lists more of them is kept. At most one extra call per window, only while the per-document cap covers it and the windows after it; not counted in the up-front estimate. Each re-read is listed in `tree.usage["coverage_retries"]` |
 | `SECTIONANY_KEEP_STRONG` / `keep_strong=` | `ask` | `quick` and `standard` (and `local`): Free's headings with evidence that needs no model (the outline lists them, their number follows the previous one, a standard name such as References) that the model's answer leaves out are put back when the outline lists them, and otherwise shown to the model once more in one call per document to keep or reject (`ask`); `restore` puts them all back without a call, `off` leaves the answer as it is. Decisions are in `tree.usage["kept_strong"]`. On a random 980 of the held-out READoc documents, Claude Haiku 5.5, `ask` raised `quick`'s heading-tree TEDS by 1.76 (95% CI 1.36 to 2.18) |
 | `SECTIONANY_CONTENTS_CHECK` / `contents_check=` | `[]` | modes (JSON list of `free`, `quick`, `standard`) in which bookmark and contents entries that no section covers are looked for in the body and added (flag `from_contents`); entries not found go to `tree.possible_misses`. Off by default: it removed under 1% of `free`'s missed headings on held-out documents |
-| `SECTIONANY_HEADING_GUIDANCE` / `Settings(heading_guidance=...)` | (empty) | `standard` and `quick`: text appended to the model's instructions on every call, for documents of one type (see [Optional collection tuning](#optional-collection-tuning-heading_guidance)). Off by default; a sheet written from unrepresentative samples can lower accuracy |
+| `SECTIONANY_HEADING_GUIDANCE` / `Settings(heading_guidance=...)` | (empty) | `standard` only: text appended to the model's instructions on every call, for documents of one type (see [Optional collection tuning](#optional-collection-tuning-heading_guidance)). Off by default; a sheet written from unrepresentative samples can lower accuracy. `quick`, `auto` and `local` ignore it and log a warning |
 | `SECTIONANY_EXTRACT_TIMEOUT_SECONDS` / `extract_timeout=` | 120 | extraction worker is killed after this |
 | `SECTIONANY_EXTRACT_MEMORY_MB` | 4096 | worker memory limit (Linux only; 0 = none) |
 | `SECTIONANY_ISOLATE_EXTRACTION` | `true` | run extraction in a separate process |
