@@ -62,6 +62,6 @@ jobs:
         with:
           name: dist
           path: dist/
-      - uses: pypa/gh-action-pypi-publish@v1.13.0
+      - uses: pypa/gh-action-pypi-publish@v1.14.3
         with:
           verbose: true  # PyPI's reason for a rejected upload is only in the response body
