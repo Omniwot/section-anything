@@ -72,8 +72,7 @@ def _answer(user: str, keep) -> TextResult:
             continue
         text = rest.removeprefix("⟨B⟩ ")
         if keep(text, rest.startswith("⟨B⟩")):
-            out.append(TextSection(start_line=int(num), number="", title=text, title_from_text=True, level=1,
-                                   start_marker=text, end_marker=""))
+            out.append(TextSection(start_line=int(num), title="", title_from_text=True, level=1))
     return TextResult(sections=out)
 
 
