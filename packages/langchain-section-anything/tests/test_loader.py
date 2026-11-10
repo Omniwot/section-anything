@@ -10,7 +10,7 @@ from langchain_core.documents import Document
 
 from langchain_section_anything import SectionAnythingLoader
 
-KEYS = {"source", "section_index", "title", "number", "level", "heading_path", "page_start", "page_end",
+KEYS = {"source", "section_index", "title", "number", "level", "heading_path", "page_start", "page_end", "heading_bbox",
         "start", "end", "flags", "document_title", "mode", "model", "document_cost_usd"}
 
 
@@ -26,7 +26,9 @@ def test_one_document_per_section(paper_pdf):
     assert scope.metadata["source"] == str(paper_pdf)
     assert (scope.metadata["number"], scope.metadata["title"], scope.metadata["level"]) == ("1.1", "Scope", 2)
     assert (scope.metadata["page_start"], scope.metadata["page_end"]) == (1, 1)
-    assert docs[4].metadata["page_start"] == 2
+    box = scope.metadata["heading_bbox"]  # where "1.1 Scope" is printed, PDF points from the page's bottom left
+    assert box["page"] == 1 and box["x0"] == 72.0 and 72.0 < box["x1"] < 612 and 0 < box["y0"] < box["y1"] < 792
+    assert docs[4].metadata["page_start"] == 2 and docs[4].metadata["heading_bbox"]["page"] == 2
     assert scope.metadata["document_title"] == "A Study of Sectioning"
     assert (scope.metadata["mode"], scope.metadata["model"], scope.metadata["document_cost_usd"]) == ("free", None, 0.0)
     assert docs[0].metadata["flags"] == ["doc_title"]

@@ -41,7 +41,9 @@ def section_records(tree: Any, include_heading: bool = True) -> list[SectionReco
     """One record per section of a `SectionTree`, in reading order.
 
     `heading_path` lists the headings from the outermost enclosing section down to this one
-    (["3 Method", "3.1 Data"]); the document title and front matter are not part of it. With
+    (["3 Method", "3.1 Data"]); the document title and front matter are not part of it.
+    `heading_bbox` is where the heading is printed (page and box in PDF points from the page's
+    bottom-left corner), or None when nothing is printed (front matter, a model-written title). With
     `include_heading`, the text starts with the heading as a Markdown line ("## 3.1 Data"), so
     joining all texts gives `tree.to_markdown(body=True)`. Without it, sections with no text of
     their own (a heading directly followed by a subheading) are skipped."""
@@ -82,6 +84,7 @@ def section_records(tree: Any, include_heading: bool = True) -> list[SectionReco
             "heading_path": heading_path,
             "page_start": sec["page_start"],
             "page_end": sec["page_end"],
+            "heading_bbox": sec.get("heading_bbox"),  # {"page", "x0", "y0", "x1", "y1"} in PDF points, or None
             "start": sec["start"],
             "end": sec["end"],
             "flags": flags,

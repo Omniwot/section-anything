@@ -21,8 +21,8 @@ if TYPE_CHECKING:
 # Metadata the reader sets. Embeddings see only the heading path and the document title; the LLM
 # also sees the file name and pages (for citations). The rest is for filtering and debugging.
 KEYS = ("file_path", "file_name", "section_index", "title", "number", "level", "heading_path",
-        "page_start", "page_end", "start", "end", "flags", "document_title", "mode", "model",
-        "document_cost_usd")
+        "page_start", "page_end", "heading_bbox", "heading_page", "start", "end", "flags", "document_title",
+        "mode", "model", "document_cost_usd")
 EMBED_KEYS = {"heading_path", "document_title"}
 LLM_KEYS = EMBED_KEYS | {"file_name", "page_start", "page_end"}
 
@@ -45,9 +45,11 @@ class SectionAnythingReader(BaseReader):
 
     Metadata is flat (str, int, float or None), so it fits every vector store: file_path,
     file_name, section_index, title, number, level, heading_path ("3 Method > 3.1 Data"),
-    page_start, page_end, start and end (offsets into the library's extracted text), flags
-    (comma-separated), document_title, and the run's mode (after any downgrade), model and
-    document_cost_usd (the whole document's cost). `extra_info` is merged over it.
+    page_start, page_end, heading_page and heading_bbox (where the heading is printed: its page
+    and "x0,y0,x1,y1" in PDF points from the page's bottom-left corner; both None when nothing is
+    printed), start and end (offsets into the library's extracted text), flags (comma-separated),
+    document_title, and the run's mode (after any downgrade), model and document_cost_usd (the
+    whole document's cost). `extra_info` is merged over it.
 
     Example:
         .. code-block:: python
@@ -89,6 +91,9 @@ class SectionAnythingReader(BaseReader):
             meta = {"file_path": path, "file_name": os.path.basename(path), **rec.metadata}
             meta["heading_path"] = " > ".join(meta["heading_path"])
             meta["flags"] = ", ".join(meta["flags"])
+            box = meta["heading_bbox"]
+            meta["heading_bbox"] = ",".join(str(box[k]) for k in ("x0", "y0", "x1", "y1")) if box else None
+            meta["heading_page"] = box["page"] if box else None
             meta.update(extra_info or {})
             docs.append(Document(
                 id_=f"{path}_part_{n}", text=rec.text, metadata=meta,

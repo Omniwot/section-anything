@@ -30,9 +30,11 @@ class SectionAnythingLoader(BaseLoader):
             given falls back to the SECTIONANY_* environment variables.
 
     Metadata per Document: source, section_index, title, number, level, heading_path (list,
-    outermost first, ending with this section), page_start, page_end, start and end (offsets
-    into the library's extracted text), flags, document_title, and the run's mode (after any
-    downgrade), model and document_cost_usd (the whole document's cost).
+    outermost first, ending with this section), page_start, page_end, heading_bbox (where the
+    heading is printed: ``{"page", "x0", "y0", "x1", "y1"}`` in PDF points from the page's
+    bottom-left corner, or None), start and end (offsets into the library's extracted text),
+    flags, document_title, and the run's mode (after any downgrade), model and document_cost_usd
+    (the whole document's cost).
 
     Example:
         .. code-block:: python

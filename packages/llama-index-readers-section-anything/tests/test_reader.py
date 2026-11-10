@@ -14,7 +14,7 @@ from llama_index.core.vector_stores.utils import node_to_metadata_dict
 from llama_index.readers.section_anything import SectionAnythingReader
 
 KEYS = {"file_path", "file_name", "section_index", "title", "number", "level", "heading_path", "page_start",
-        "page_end", "start", "end", "flags", "document_title", "mode", "model", "document_cost_usd"}
+        "page_end", "heading_bbox", "heading_page", "start", "end", "flags", "document_title", "mode", "model", "document_cost_usd"}
 
 
 def test_one_document_per_section(paper_pdf):
@@ -31,6 +31,8 @@ def test_one_document_per_section(paper_pdf):
     assert scope.metadata["file_path"] == str(paper_pdf) and scope.metadata["file_name"] == "paper.pdf"
     assert (scope.metadata["number"], scope.metadata["title"], scope.metadata["level"]) == ("1.1", "Scope", 2)
     assert (scope.metadata["page_start"], scope.metadata["page_end"]) == (1, 1)
+    x0, y0, x1, y1 = (float(v) for v in scope.metadata["heading_bbox"].split(","))  # flat: "x0,y0,x1,y1"
+    assert scope.metadata["heading_page"] == 1 and x0 == 72.0 and x0 < x1 < 612 and 0 < y0 < y1 < 792
     assert (scope.metadata["mode"], scope.metadata["model"], scope.metadata["document_cost_usd"]) == ("free", None, 0.0)
     assert docs[0].metadata["flags"] == "doc_title"
     assert scope.id_ == f"{paper_pdf}_part_2"
