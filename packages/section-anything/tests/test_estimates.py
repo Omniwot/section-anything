@@ -35,11 +35,12 @@ def _ext(n_lines: int, heading_every: int = 20, text: str = TEXT) -> Extraction:
 
 
 def _old_text_estimate(ext: Extraction) -> tuple[int, int, int]:
-    """The 0.1.3 formula, kept here to show OpenAI estimates did not move."""
+    """The 0.1.3 input formula, kept here to show OpenAI input estimates did not move; the answer is the compact
+    answer's (F079: 0.75 answer tokens per line, where the 7-field answer's formula assumed 5)."""
     rows = _tagged(ext)
     n = len(_windows(ext, rows, LlmTextStrategy.window_chars))
     chars = sum(len(r) + 1 for r in rows)
-    return int(chars / 3.6) + n * 900, int(len(ext.lines) / 18) * 90, n
+    return int(chars / 3.6) + n * 900, int(len(ext.lines) * 0.75), n
 
 
 def test_profiles_follow_the_provider():
@@ -74,7 +75,7 @@ def test_claude_counts_more_input_and_adds_thinking():
     est = LlmTextStrategy().estimate(ext, HAIKU)
     assert est.calls == 1
     assert est.input_tokens == int(chars / 1.5) + 2_160  # 900 tokens a call at 3.6 is 2,160 at 1.5
-    answer = int(len(ext.lines) / 18) * 90
+    answer = int(len(ext.lines) * 0.75)
     assert est.output_tokens == answer + int(0.5 * est.input_tokens)
     luna = LlmTextStrategy().estimate(ext, LUNA)
     assert est.input_tokens > 2 * luna.input_tokens and est.output_tokens > luna.output_tokens
@@ -94,8 +95,8 @@ def test_measured_paper_is_not_underestimated():
     # estimate assumed 19,671 prompt tokens and 8,280 output tokens.
     prof = llm.token_profile(HAIKU)
     inp = prof.tokens(67_579) + prof.per_call(900)
-    out = prof.output(int(1_665 / 18) * 90, inp, 1)
-    assert inp >= 38_019 and out >= 19_788
+    out = prof.output(int(1_665 * 0.75), inp, 1)
+    assert inp >= 38_019 and out >= 19_788  # the thinking allowance (0.5 x the prompt) carries it
     assert DEFAULT_PRICES[HAIKU].estimate(inp, out, 1) >= 0.0137
 
 

@@ -259,6 +259,16 @@ def _prev_block(found: list[RawSection]) -> str:
     return "\n".join(f"L{s.level} {s.number} {s.title}".replace("  ", " ") for s in found[-8:])
 
 
+# The compact answer costs about 30 answer tokens per section, one section per 40 lines: 0.69 answer tokens per line
+# over the F079 paid check (Claude Haiku 5.5, the 40 F069 test documents; the old 7-field answer took 2.6 per line,
+# against the 5 per line the estimate assumed). Thinking is added by the token profile.
+ANSWER_TOKENS_PER_LINE = 0.75
+
+
+def _answer_tokens(lines: int) -> int:
+    return int(lines * ANSWER_TOKENS_PER_LINE)
+
+
 class LlmTextStrategy(Strategy):
     id = "llm_text"
     label = "LLM on full text"
@@ -367,7 +377,7 @@ class LlmTextStrategy(Strategy):
         prof = token_profile(ctx.model, ctx.settings, self.effort)
         inp = (prof.tokens(sum(len(r) + 1 for r in rows[a:b])) + prof.per_call(900)
                + prof.tokens(_guidance_chars(ctx.settings)))
-        return price.cost(inp, prof.output(int((b - a) / 18) * 90, inp, 1))
+        return price.cost(inp, prof.output(_answer_tokens(b - a), inp, 1))
 
     def estimate(self, ext: Extraction, model: str = "", settings: Settings | None = None) -> Estimate:
         prof = token_profile(model, settings, self.effort)
@@ -375,8 +385,7 @@ class LlmTextStrategy(Strategy):
         n = len(_windows(ext, rows, self.window_chars))
         chars = sum(len(r) + 1 for r in rows)
         inp = prof.tokens(chars) + n * (prof.per_call(900) + prof.tokens(_guidance_chars(settings)))
-        out = int(len(ext.lines) / 18) * 90  # ~one section per 18 lines, incl. reasoning
-        return Estimate(inp, prof.output(out, inp, n), n)
+        return Estimate(inp, prof.output(_answer_tokens(len(ext.lines)), inp, n), n)
 
 
 # ── Candidate review ────────────────────────────────────────────────────────
