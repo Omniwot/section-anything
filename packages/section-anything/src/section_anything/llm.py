@@ -8,6 +8,9 @@
   ``OPENAI_BASE_URL`` / ``ANTHROPIC_BASE_URL`` settings of a host application never redirect these
   calls. Nothing is written to ``os.environ``.
 - No hidden retries (`max_retries=0`): one retry on refusal or unparsable output, done here.
+- Each attempt has a total wall-clock deadline (`llm_timeout_seconds`; `local_timeout_seconds` for local
+  models), stream consumption included: the clients' own timeouts only limit each read, so a stream
+  that keeps sending keep-alive pings could otherwise run forever.
 - Cost cap: checked before every attempt, and each call's output tokens are limited to what the
   remaining budget can pay for.
 - Errors kept in logs and call records name the error type, HTTP status and error code, never
@@ -18,10 +21,12 @@
 
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import logging
 import time
-from collections.abc import Awaitable, Callable
+from collections.abc import AsyncIterator, Awaitable, Callable
+from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 from typing import Any, TypeVar
 
@@ -210,6 +215,18 @@ def describe_error(exc: BaseException) -> str:
     return " ".join(parts)
 
 
+def _openai_sdk():
+    import openai
+
+    return openai
+
+
+def _anthropic_sdk():
+    import anthropic
+
+    return anthropic
+
+
 def _is_anthropic(model: str, settings: Settings) -> bool:
     return not model.startswith((LOCAL_PREFIX, BROWSER_PREFIX)) and settings.provider_for(model) == "anthropic"
 
@@ -256,6 +273,31 @@ def _client(model: str, settings: Settings):
     # max_retries=0: our own loop retries; the SDK's hidden retries would spend past the cap.
     return AsyncOpenAI(api_key=key.get_secret_value(), base_url=settings.base_url,
                        timeout=settings.llm_timeout_seconds, max_retries=0)
+
+
+def _deadline_seconds(model: str, settings: Settings) -> float:
+    """Total time one attempt may take: `local_timeout_seconds` for local models (slow generation on a
+    laptop), `llm_timeout_seconds` for every other model."""
+    return settings.local_timeout_seconds if model.startswith(LOCAL_PREFIX) else settings.llm_timeout_seconds
+
+
+@asynccontextmanager
+async def _deadline(seconds: float, sdk: Any, url: str) -> AsyncIterator[None]:
+    """A total wall-clock limit on one attempt, response streaming included. The SDK clients' `timeout`
+    is an httpx per-operation limit (connect, each read, ...): a streamed answer that keeps sending
+    events or pings never trips it. Past the deadline the request is cancelled (the stream's `async
+    with` closes the connection) and `sdk.APITimeoutError` is raised, the error a client timeout
+    raises, so the attempt is logged, counted and retried as one."""
+    limit = asyncio.timeout(seconds)
+    try:
+        async with limit:
+            yield
+    except TimeoutError:
+        if not limit.expired():
+            raise
+        import httpx  # the openai dependency; the SDK errors only keep the request for reference
+
+        raise sdk.APITimeoutError(request=httpx.Request("POST", url)) from None
 
 
 def _is_free(price: Price | None) -> bool:
@@ -360,7 +402,8 @@ async def structured(
             t0 = time.monotonic()
             entry = {**base, "attempt": attempt, "status": "error", "error": None, "response": None}
             try:
-                resp = await client.chat.completions.parse(**kwargs)
+                async with _deadline(_deadline_seconds(model, s), _openai_sdk(), "chat/completions"):
+                    resp = await client.chat.completions.parse(**kwargs)
                 entry.update(usage.add(model, resp.usage, price))
                 msg = resp.choices[0].message
                 if msg.refusal:
@@ -456,7 +499,8 @@ async def _structured_anthropic(
             t0 = time.monotonic()
             entry = {**base, "attempt": attempt, "status": "error", "error": None, "response": None}
             try:
-                async with client.messages.stream(**kwargs) as stream:
+                async with _deadline(settings.llm_timeout_seconds, _anthropic_sdk(), "v1/messages"), \
+                        client.messages.stream(**kwargs) as stream:
                     msg = await stream.get_final_message()
                 entry.update(usage.add_anthropic(model, msg.usage, price))
                 if msg.stop_reason == "refusal":
