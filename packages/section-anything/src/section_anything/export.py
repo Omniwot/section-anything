@@ -119,6 +119,42 @@ def section_parts(ext: Any, sections: list[dict], furniture: set[int] | None = N
     return out
 
 
+def line_box(lines: list[Any], pages: dict[int, Any]) -> tuple[float, float, float, float] | None:
+    """(left, bottom, right, top) around `lines` on the first one's page, in PDF points from the
+    page's bottom-left corner (the union box of a heading that wraps)."""
+    if not lines or lines[0].page not in pages:
+        return None
+    pg = pages[lines[0].page]
+    on = [ln for ln in lines if ln.page == pg.n]
+    return (round(min(ln.x0 for ln in on) - pg.origin_x, 2), round(min(ln.y0 for ln in on) - pg.origin_y, 2),
+            round(max(ln.x1 for ln in on) - pg.origin_x, 2), round(max(ln.y1 for ln in on) - pg.origin_y, 2))
+
+
+def heading_boxes(ext: Any, sections: list[dict], furniture: set[int] | None = None) -> list[dict[str, Any] | None]:
+    """Per section, the box of its printed heading: ``{"page", "x0", "y0", "x1", "y1"}`` (PDF
+    points from the page's bottom-left corner; the union of the heading's lines when it wraps), or
+    None for front matter, a title a model wrote (no printed heading) or a section with no lines.
+    Sections must be the resolved dicts (with `first_line`), in document order."""
+    furniture = furniture or set()
+    lines, pages = ext.lines, {p.n: p for p in ext.pages}
+    starts = [s["first_line"] for s in sections]
+    out: list[dict[str, Any] | None] = []
+    for k, sec in enumerate(sections):
+        if "front_matter" in (sec.get("flags") or []) or sec.get("title_from_text") is False:
+            out.append(None)
+            continue
+        end = starts[k + 1] if k + 1 < len(starts) else len(lines)
+        seg: list[Any] = []
+        for i in range(sec["first_line"], end):  # `heading_lines` reads four lines at most
+            if lines[i].i not in furniture:
+                seg.append(lines[i])
+                if len(seg) == 4:
+                    break
+        box = line_box(seg[:max(heading_lines(seg, heading_text(sec)), 1)], pages) if seg else None
+        out.append(None if box is None else {"page": seg[0].page, "x0": box[0], "y0": box[1], "x1": box[2], "y1": box[3]})
+    return out
+
+
 def section_bodies(ext: Any, sections: list[dict], furniture: set[int] | None = None) -> list[list[str]]:
     """Body paragraphs per section (heading lines and running headers/footers removed). Sections
     must be the resolved dicts (with `first_line`), in document order."""

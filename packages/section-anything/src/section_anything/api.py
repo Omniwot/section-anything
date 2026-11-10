@@ -45,7 +45,7 @@ from section_anything.errors import (
     too_many_pages,
     too_much_text,
 )
-from section_anything.export import heading_text, markdown_hashes, section_bodies
+from section_anything.export import heading_boxes, heading_text, markdown_hashes, section_bodies
 from section_anything.extract import Extraction
 from section_anything.isolate import PdfInput, extract_pdf
 from section_anything.llm import Usage
@@ -58,8 +58,20 @@ STRATEGY = {"free": "rules", "quick": "llm_review", "standard": "llm_text", "loc
 DOWNGRADE = {"standard": "quick", "quick": "free", "local": None, "free": None}
 SECTION_KEYS = ("number", "title", "level", "page_start", "page_end", "start", "end", "flags", "confidence")
 LINK_KEYS = ("parent", "heading_path")  # derived from the levels by `SectionTree`
+BOX_KEYS = ("heading_bbox",)  # derived from the extraction by `SectionTree`
 
 Progress = Callable[[float, str], None]
+
+
+class HeadingBox(TypedDict):
+    """Where a section's heading is printed: its page and box in PDF points from the page's
+    bottom-left corner (the union box of a heading that wraps onto several lines)."""
+
+    page: int  # 1-based physical page
+    x0: float
+    y0: float
+    x1: float
+    y1: float
 
 
 class Section(TypedDict):
@@ -76,6 +88,7 @@ class Section(TypedDict):
     confidence: float | None  # Free only: 0-1, how much of Free's evidence backs this heading; else None
     parent: int | None  # index of the nearest enclosing section, or None
     heading_path: list[str]  # headings from the outermost enclosing section down to this one
+    heading_bbox: HeadingBox | None  # None: no printed heading (front matter, a model-written title) or no geometry
     text: NotRequired[str]  # only from `to_dict(text=True)`: text[start:end]
 
 
@@ -190,7 +203,8 @@ class SectionTree:
     `sections` holds one dict per section (`Section`) with number, title, level (1 = top),
     page_start, page_end, start and end (character offsets into `text`), flags (for example
     ``doc_title``, ``front_matter``, ``start_marker_fuzzy``, ``from_contents``), confidence (Free
-    only), parent and heading_path. `auto` says which mode a mode "auto" run took and why.
+    only), parent, heading_path and heading_bbox (where the heading is printed: `HeadingBox`, or
+    None). `auto` says which mode a mode "auto" run took and why.
     `possible_misses` lists, best first, the lines with heading evidence that are not headings of
     the result (`PossibleMiss`), and the contents entries the contents check could not find."""
 
@@ -207,9 +221,24 @@ class SectionTree:
     possible_misses: list[PossibleMiss] = field(default_factory=list)
 
     def __post_init__(self) -> None:
-        if any(k not in s for s in self.sections for k in LINK_KEYS):
+        links = any(k not in s for s in self.sections for k in LINK_KEYS)
+        boxes = any(k not in s for s in self.sections for k in BOX_KEYS)
+        if links or boxes:
             self.sections = [dict(s) for s in self.sections]  # type: ignore[misc]
+        if links:
             link_sections(self.sections)  # type: ignore[arg-type]
+        if boxes:
+            found = self._heading_boxes()
+            for sec, box in zip(self.sections, found, strict=True):
+                sec.setdefault("heading_bbox", box)
+
+    def _heading_boxes(self) -> list[HeadingBox | None]:
+        """Each heading's printed box from the extraction; all None for a tree built by hand."""
+        if self.extraction is None or len(self.resolved) != len(self.sections):
+            return [None] * len(self.sections)
+        from section_anything.structure import furniture_of
+
+        return heading_boxes(self.extraction, self.resolved, furniture_of(self.extraction))  # type: ignore[return-value]
 
     @property
     def text(self) -> str:

@@ -19,6 +19,7 @@ _EXPORTS = {
     "asection": "section_anything.api",
     "SectionTree": "section_anything.api",
     "Section": "section_anything.api",
+    "HeadingBox": "section_anything.api",
     "PossibleMiss": "section_anything.api",
     "TreeDict": "section_anything.api",
     "resolve_mode": "section_anything.api",
@@ -53,6 +54,7 @@ __all__ = [
     "Extraction",
     "ExtractionFailed",
     "ExtractionTimeout",
+    "HeadingBox",
     "LlmCallFailed",
     "PdfError",
     "PdfInput",
@@ -78,7 +80,7 @@ __all__ = [
 ]
 
 if TYPE_CHECKING:
-    from section_anything.api import PossibleMiss, Section, SectionTree, TreeDict, asection, resolve_mode, section
+    from section_anything.api import HeadingBox, PossibleMiss, Section, SectionTree, TreeDict, asection, resolve_mode, section
     from section_anything.batch import DocumentResult, asection_many, section_many
     from section_anything.config import DEFAULT_PRICES, Price, Settings
     from section_anything.errors import (

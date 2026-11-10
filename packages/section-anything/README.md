@@ -273,6 +273,7 @@ section-anything scanned.json                        # the Docling document itse
 | `confidence` | `free` only: 0 to 1, how much of Free's own evidence backs the heading (the PDF's outline lists it; its style is used on several pages and for little else; its number follows the previous one; a standard name such as References; not over ten words). A ranking within a document, fitted mostly on papers and READMEs, not a probability. `None` for front matter and in the model modes |
 | `parent` | index in `tree.sections` of the nearest enclosing section, or `None` |
 | `heading_path` | headings from the outermost enclosing section down to this one: `["1 Introduction", "1.1 Scope"]`. The document title's path is the title alone and front matter's is empty; neither is a parent |
+| `heading_bbox` | where the heading is printed: `{"page": 4, "x0": 65.91, "y0": 545.84, "x1": 128.24, "y1": 560.24}`, PDF points from the page's bottom-left corner (the union box when a heading wraps onto several lines; a Docling-document input keeps Docling's own box). `None` for front matter and for a title a model wrote (flag `generated_title`), which is printed nowhere |
 
 - `tree.to_markdown()`: the document title as `#`, every other heading as `#` x (level + 1),
   capped at six. `to_markdown(body=True)` adds each section's text, reflowed into paragraphs,
