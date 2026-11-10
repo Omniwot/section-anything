@@ -52,7 +52,9 @@ class Fake:
 
     async def __call__(self, **kw) -> TextResult:
         self.calls.append(kw)
+        # Counted as `structured` counts a call: in the total and under its step.
         kw["usage"].cost_usd += 0.001
+        kw["usage"].by_step[kw["step"]] = kw["usage"].by_step.get(kw["step"], 0.0) + 0.001
         if kw["step"].startswith("re-read"):
             if self.fail_again:
                 raise LlmCallFailed("model call failed after 2 attempts: APIConnectionError")
