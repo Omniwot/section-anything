@@ -1,4 +1,4 @@
-"""Standard's compact answer (research finding F078): the model returns only each section's start line, level and
+"""Standard's compact answer (research finding F079): the model returns only each section's start line, level and
 whether its title is printed (with a title of its own when it is not). The number, a printed title and the start
 marker are read from the line as Free reads a heading, and each section ends where the next one starts. Fake model
 only."""

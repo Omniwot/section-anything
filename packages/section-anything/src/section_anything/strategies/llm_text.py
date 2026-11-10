@@ -101,7 +101,7 @@ def _clip(n: int):
 class TextSection(BaseModel):
     """One section start as the model reports it. The number, a printed title and the start marker are read from
     the document at `start_line` (`rules.headings_at`), and a section ends where the next one starts: the model
-    does not copy them (research finding F078: output tokens are what Standard's time goes on)."""
+    does not copy them (research finding F079: output tokens are what Standard's time goes on)."""
 
     start_line: int
     level: int = Field(ge=1, le=8)
