@@ -3,6 +3,20 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
+## Unreleased (0.1.10)
+
+### Fixed
+
+- **A streamed model call could hang past `llm_timeout_seconds` (research finding F078).** The setting
+  reached the OpenAI and Anthropic clients as a per-read HTTP timeout, and Claude calls stream: the API
+  sends keep-alive pings while an answer is pending, so a stalled call never went 300 s without a read.
+  In one paid run a Claude Haiku 5.5 call stalled for more than 10 minutes. Every model call attempt now
+  has a total wall-clock deadline, response streaming included: `llm_timeout_seconds` (default 300) for
+  cloud models, `local_timeout_seconds` (default 600) for local ones. A call past it is stopped, its
+  connection closed, and it is retried once and then fails with `LlmCallFailed`, as a client timeout
+  always was. A stopped attempt adds no tokens or cost to the run's totals, as for any failed call whose
+  usage never arrived; the provider may still bill the part it generated.
+
 ## 0.1.9 (unreleased)
 
 0.1.7 and 0.1.8 were never published; this release holds everything since 0.1.6. Each entry's numbers
