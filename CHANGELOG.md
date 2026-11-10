@@ -3,6 +3,17 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
+## 0.1.10 (unreleased)
+
+- `standard` asks the model for a compact answer: per section only its start line, level, whether its
+  title is printed, and a title of its own when it is not. The number, the printed title and the start
+  marker are read from the start line by Free's heading reading (`rules.headings_at`: a number split off
+  its title, a title that wraps, a bare label with its title line), and a section ends where the next
+  starts, as it already did. The model no longer copies 8-15 words at each section's start and end, so
+  Standard's output tokens (what its time goes on) fall; the cost estimate is recalibrated (0.75 answer
+  tokens per line of text). Claude Haiku 5.5 on the 40 F069 test documents (keys v3): see research
+  finding F079 for the numbers. Free is unchanged (3,060 of 3,060 saved outputs identical).
+
 ## 0.1.9 (unreleased)
 
 0.1.7 and 0.1.8 were never published; this release holds everything since 0.1.6. Each entry's numbers
