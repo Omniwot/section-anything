@@ -193,6 +193,21 @@ pip install lightrag-section-anything
 | LlamaIndex | [`llama-index-readers-section-anything`](packages/llama-index-readers-section-anything) | `SectionAnythingReader(mode="free").load_data("paper.pdf")`, or as the `.pdf` reader of `SimpleDirectoryReader` |
 | LightRAG | [`lightrag-section-anything`](packages/lightrag-section-anything) | parser engines (`sectionany_free`, `sectionany_quick`, ...) for LightRAG's heading-based chunker, without a MinerU or Docling service |
 
+**Section records for RAG** need no loader: every section already carries its title, heading
+path, level, page span, the heading's position on the page (`heading_bbox`, PDF points) and, with
+`to_dict(text=True)`, its text ([`examples/section_records.py`](examples/section_records.py), with
+[its output](examples/section_records.out.txt) on RFC 8747):
+
+```python
+from section_anything import section
+
+for sec in section("rfc8747.pdf").to_dict(text=True)["sections"]:
+    print({k: sec[k] for k in ("title", "heading_path", "level", "page_start", "page_end", "heading_bbox", "text")})
+# {'title': 'Abstract', 'heading_path': ['Proof-of-Possession Key Semantics ...', 'Abstract'], 'level': 2,
+#  'page_start': 1, 'page_end': 1, 'heading_bbox': {'page': 1, 'x0': 65.91, 'y0': 545.84, 'x1': 128.24, 'y1': 560.24},
+#  'text': 'Abstract\nThis speciﬁcation describes how to declare in a CBOR Web Token ...'}
+```
+
 To run Docling's `HybridChunker` or Unstructured's `chunk_by_title` on these headings, export the
 tree with `tree.to_docling_document()` or `tree.to_unstructured_elements()`
 ([how](packages/section-anything/README.md#use-doclings-or-unstructureds-chunkers)). If you already

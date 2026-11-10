@@ -3,6 +3,21 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
+## Unreleased (0.1.10)
+
+### Added
+
+- **`heading_bbox` on every section: where its heading is printed (research finding F081, gap G3).**
+  `{"page", "x0", "y0", "x1", "y1"}` in PDF points from the page's bottom-left corner, the union box
+  when a heading wraps onto several lines, `None` for front matter and for a title a model wrote
+  (flag `generated_title`). A Docling-document input keeps Docling's own provenance box. It is in
+  `tree.sections`, `to_dict()` / `to_json()` and the JSON Schema (new `HeadingBox` type), in the
+  LangChain loader's metadata, and flat in the LlamaIndex reader's (`heading_page`, `heading_bbox`
+  as `"x0,y0,x1,y1"`). Additive: every other field, and Free's section output, is unchanged (Free
+  regression: 3,060 / 3,060 document-modes identical). With `heading_path`, `page_start` /
+  `page_end` and `text`, this is the section record that docling#2147, unstructured#3996 and
+  llama_index#21213 ask for; `examples/section_records.py` prints it.
+
 ## 0.1.9 (unreleased)
 
 0.1.7 and 0.1.8 were never published; this release holds everything since 0.1.6. Each entry's numbers
