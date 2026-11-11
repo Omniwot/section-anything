@@ -44,9 +44,7 @@ def _answer(user: str) -> TextResult:
     for row in user.split("\n"):
         num, sep, rest = row.partition("| ")
         if sep and num.isdigit() and rest.startswith("⟨B⟩ "):
-            title = rest.removeprefix("⟨B⟩ ")
-            out.append(TextSection(start_line=int(num), number="", title=title, title_from_text=True, level=1,
-                                   start_marker=title, end_marker=""))
+            out.append(TextSection(start_line=int(num), title="", title_from_text=True, level=1))
     return TextResult(sections=out)
 
 

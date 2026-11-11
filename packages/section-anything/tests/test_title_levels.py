@@ -57,8 +57,9 @@ def _nesting(monkeypatch):
     async def nested(**kwargs):
         res = await parse(**kwargs)
         parsed = res.choices[0].message.parsed
-        for item in getattr(parsed, "sections", None) or getattr(parsed, "items", None) or []:
-            if item.number:
+        sections = getattr(parsed, "sections", None)
+        for k, item in enumerate(sections or getattr(parsed, "items", None) or []):
+            if (k > 0) if sections is not None else item.number:  # Standard's answer has no number: all but the title
                 item.level += 1
         return res
 

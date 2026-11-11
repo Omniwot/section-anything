@@ -1168,6 +1168,94 @@ def _title_line(cands: list[tuple[Line, str, str]]) -> int | None:
     return 0 if cands[0][0].size >= max(ln.size for ln, _, _ in cands[1:]) + 1.0 else None
 
 
+def _heading_parts(ext: Extraction, ln: Line, num: str, text: str, side: set[int], body: float) -> tuple[str, str, str]:
+    """A merged heading (`_merge_wrapped`: first line `ln`, numbering `num`, its lines joined by "\\n") as Free
+    reports it: (number, title without the number, the heading as printed for the start marker)."""
+    title = text.replace("\n", " ")
+    marker = _printed(ext, ln, text, side)
+    first, _, rest = text.partition("\n")
+    if num and rest and _label_text(first) == num:
+        title = rest.replace("\n", " ")  # "T e i l 1" / "Gemeinsame Bestimmungen"
+    elif num and title.startswith(num):
+        title = title[len(num):].strip()
+    if ABSTRACT_RUNIN.match(title):
+        title = re.match(r"\W*(\w+)", title).group(1)  # "Abstract", as printed
+    last = ext.lines[ln.i + text.count("\n")]
+    if not num and _style(ln, body) == (0.0, False) and _style(last, body) == (0.0, False):
+        # A schedule paragraph's own title takes the paragraph's number, printed at the margin
+        # under it; the levels above were set without it.
+        num = _paragraph_number(ext, last, _neighbours(ext, last)[2]) or ""
+        title = AMENDMENT_MARK.sub("", title)  # "[F64Human Trafficking ..." as the reader sees it
+    return num, title, marker
+
+
+def headings_at(ext: Extraction, starts: list[int]) -> dict[int, tuple[int, str, str, str]]:
+    """Free's reading of the headings that open on the lines `starts` (a model's section starts): {line: (the
+    heading's first line, number, title, the heading as printed)}.
+
+    A line's number is split off its title as Free splits it, and the heading takes the lines Free joins with it
+    (`_merge_wrapped`): a title that wraps onto Free's next heading line in its style, a bare label ("CHAPTER 4",
+    "PART 2") with the title line under it, a number split off its title. A bare number on its own line ("1" over
+    "Introduction" in a thesis) takes the line under it as its title, and a title line whose bare number sits
+    before it on its baseline ("4" | "Section 3: ...") starts at the number, as Free reads a bookmark that names
+    the title line. A heading never takes a line another start opens on, nor a line Free does not count as
+    heading-like (body text after a heading in body type). Free's titles are kept otherwise, except that a label
+    or number left in one ("CHAPTER 1 INTRODUCTION", "A.2.1. Update Test Vector") becomes the number."""
+    lines = ext.lines
+    side = side_notes(ext)
+    free = dict((ln.i, num) for ln, num in candidates(ext))
+    hints, body = hints_of(ext), ext.body_size()
+    opens = set(starts)
+
+    def bare(ln: Line) -> bool:  # a section number alone ("1", "4.2"), not an index letter ("A")
+        return bool(NUMBER_ALONE.match(ln.text.strip())) and any(c.isdigit() for c in ln.text)
+
+    def after(j: int) -> int:
+        while j < len(lines) and j in side:
+            j += 1
+        return j
+
+    def read(i: int, own: set[int], title_line: bool = False) -> tuple[int, str, str, str]:
+        ln = lines[i]
+        m = NUMBERING.match(ln.text)
+        num = free.get(i, ln.text.strip() if split_number(ext, ln) else m.group("num").strip() if m else "")
+        group = [(ln, num)]
+        joins_next = split_number(ext, ln) or bool(LABEL_ONLY.match(_label_text(ln.text)))
+        j = after(i + 1)
+        while j < len(lines) and len(group) <= WRAPPED_MAX:
+            if (j in opens and j not in own) or not (j in free or j in own or (joins_next and len(group) == 1)):
+                break
+            group.append((lines[j], free.get(j, "")))
+            j = after(j + 1)
+        first, gnum, text = _merge_wrapped(group, hints, side, ext)[0]
+        num, title, printed = _heading_parts(ext, first, gnum, text, side, body)
+        if "\n" not in text and bare(first) and not title_line:
+            nxt = after(i + 1)
+            if nxt < len(lines) and lines[nxt].page == first.page and (nxt not in opens or nxt in own):
+                _, n2, t2, p2 = read(nxt, own, True)
+                return i, text.strip(), f"{n2} {t2}".strip(), f"{text.strip()} {p2}"
+        if not num:
+            head_line, _, rest_lines = text.partition("\n")
+            head, _, rest = title.partition(" ")
+            if rest_lines and LABEL_ONLY.match(_label_text(head_line)):
+                num, title = _label_text(head_line), rest_lines.replace("\n", " ")
+            elif rest and NUMBER_ALONE.match(head) and re.search(r"[\d.]", head):
+                num, title = head, rest.strip()
+        return i, num, title, printed
+
+    out: dict[int, tuple[int, str, str, str]] = {}
+    for i in sorted(opens):
+        if not 0 <= i < len(lines):
+            continue
+        ln, prev = lines[i], lines[i - 1] if i else None
+        if (prev is not None and i - 1 not in opens and prev.page == ln.page and not bare(ln)
+                and (split_number(ext, prev) or bare(prev) and abs(prev.y0 - ln.y0) <= 0.3 * max(ln.size, 1.0))):
+            out[i] = read(i - 1, {i})
+        else:
+            out[i] = read(i, {i})
+    return out
+
+
 class RulesStrategy(Strategy):
     # The id predates the outline sources; kept so saved runs stay readable.
     id = "rules"
@@ -1259,21 +1347,7 @@ class RulesStrategy(Strategy):
                 level = by_label[k]
             else:
                 level = num.rstrip(".").count(".") + 1 if dotted else style_level[_style(ln, body)]
-            title = text.replace("\n", " ")
-            marker = _printed(ext, ln, text, side)
-            first, _, rest = text.partition("\n")
-            if num and rest and _label_text(first) == num:
-                title = rest.replace("\n", " ")  # "T e i l 1" / "Gemeinsame Bestimmungen"
-            elif num and title.startswith(num):
-                title = title[len(num):].strip()
-            if ABSTRACT_RUNIN.match(title):
-                title = re.match(r"\W*(\w+)", title).group(1)  # "Abstract", as printed
-            last = ext.lines[ln.i + text.count("\n")]
-            if not num and _style(ln, body) == (0.0, False) and _style(last, body) == (0.0, False):
-                # A schedule paragraph's own title takes the paragraph's number, printed at the margin
-                # under it; the levels above were set without it.
-                num = _paragraph_number(ext, last, _neighbours(ext, last)[2]) or ""
-                title = AMENDMENT_MARK.sub("", title)  # "[F64Human Trafficking ..." as the reader sees it
+            num, title, marker = _heading_parts(ext, ln, num, text, side, body)
             out.append(RawSection(title=title, level=level, number=num, start_marker=marker[:160], start_line=ln.i))
         if cross:
             # The cross-headings take the level of the sections under them, and every heading at that level

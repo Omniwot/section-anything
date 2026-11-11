@@ -36,10 +36,8 @@ class FakeModel:
             for m in re.finditer(r"^(\d+)\| ⟨H\+\d+⟩⟨B⟩ (.*)$", user, re.M):
                 text = m.group(2)
                 num = re.match(r"(\d+(?:\.\d+)*)\s+(.*)", text)
-                sections.append(TextSection(
-                    start_line=int(m.group(1)), number=num.group(1) if num else "",
-                    title=num.group(2) if num else text, title_from_text=True,
-                    level=num.group(1).count(".") + 1 if num else 1, start_marker=text, end_marker=""))
+                sections.append(TextSection(start_line=int(m.group(1)), title="", title_from_text=True,
+                                            level=num.group(1).count(".") + 1 if num else 1))
             parsed = TextResult(sections=sections)
         usage = SimpleNamespace(prompt_tokens=1000, completion_tokens=100, prompt_tokens_details=None,
                                 completion_tokens_details=None)

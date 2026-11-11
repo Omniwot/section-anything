@@ -29,7 +29,7 @@ from section_anything.extract import Extraction, Line
 from section_anything.llm import fits_together, structured, token_profile
 from section_anything.markers import canon
 from section_anything.strategies.base import Context, Estimate, RawSection, Strategy
-from section_anything.strategies.rules import CAPTION, LABEL_ONLY, NUMBERING, candidates, side_notes
+from section_anything.strategies.rules import CAPTION, LABEL_ONLY, NUMBERING, candidates, headings_at, side_notes
 from section_anything.structure import Toc, furniture_of, listing_of, split_number, toc_of, toc_with
 
 logger = logging.getLogger(__name__)
@@ -85,15 +85,11 @@ Identify every section that STARTS within this slice. A section starts at a head
 
 For each section return:
 - start_line: the line number where the section starts (its heading line, if it has one).
-- number: the numbering exactly as printed ("2.3", "Chapter 4", "IV"), or "" if unnumbered.
-- title: the heading text as printed, without the number. If there is no printed heading, a short descriptive title.
-- title_from_text: true if the title is printed in the document, false if you wrote it.
 - level: depth in the hierarchy (1 = top level such as a part or chapter, 2 = its subsections, and so on). Keep levels consistent with PREVIOUS SECTIONS.
-- start_marker: the first 8–15 words of the section, copied exactly, starting with its heading.
-- end_marker: the last 8–15 words of the section copied exactly, if the section ends inside this slice (including where its last subsection ends); otherwise "".
+- title_from_text: true if the section starts at a printed heading, false if it has none.
+- title: "" if title_from_text is true (the heading is read from its line). If there is no printed heading, a short descriptive title.
 
 Rules:
-- Copy markers character for character from the lines. Never paraphrase, fix typos or add punctuation. Leave out the line numbers and tags.
 - Running headers and footers, page numbers, figure and table captions, table cells, list items and callout-box labels are not section headings.
 - The document's own title on its first page starts a section (level 1, title_from_text true). Printed headings such as Abstract, Acknowledgements, References, Bibliography and Appendix are section starts like any other.
 - Labels of theorem-like statements (Theorem, Lemma, Proposition, Corollary, Definition, Proof, Remark, Example, Claim) are part of the text, not section headings.
@@ -107,13 +103,14 @@ def _clip(n: int):
 
 
 class TextSection(BaseModel):
+    """One section start as the model reports it. The number, a printed title and the start marker are read from
+    the document at `start_line` (`rules.headings_at`), and a section ends where the next one starts: the model
+    does not copy them (research finding F079: output tokens are what Standard's time goes on)."""
+
     start_line: int
-    number: str
-    title: str
-    title_from_text: bool
     level: int = Field(ge=1, le=8)
-    start_marker: str
-    end_marker: str
+    title_from_text: bool
+    title: str  # "" when title_from_text is true; otherwise the model's own title
     clip_strings = _clip(300)
 
 
@@ -244,21 +241,26 @@ def _halves(ext: Extraction, a: int, b: int) -> list[tuple[int, int]] | None:
     return [(a, cut), (cut, b)]
 
 
+def _proposals(ext: Extraction, secs: list[TextSection]) -> list[RawSection]:
+    """The model's section starts with the number, printed title and start marker read from each start line as
+    Free reads a heading (`headings_at`: number split off, wrapped lines and a bare label's title line joined).
+    A section with no printed heading keeps the model's title (none given: the line's). The marker is the printed heading, so the pipeline places the start on that line."""
+    heads = headings_at(ext, [s.start_line for s in secs])
+    out = []
+    for s in secs:
+        line, number, printed_title, marker = heads.get(s.start_line, (s.start_line, "", "", ""))
+        title = s.title.strip() if not s.title_from_text else ""
+        out.append(RawSection(
+            title=title or printed_title, level=s.level, number=number.strip(),
+            start_marker=marker[:160], start_line=line, title_from_text=s.title_from_text or not title,
+        ))
+    return out
+
+
 def _prev_block(found: list[RawSection]) -> str:
     if not found:
         return "(none: this slice is the start of the document)"
     return "\n".join(f"L{s.level} {s.number} {s.title}".replace("  ", " ") for s in found[-8:])
-
-
-def _raw(secs: list[TextSection]) -> list[RawSection]:
-    return [
-        RawSection(
-            title=s.title.strip(), level=s.level, number=s.number.strip(),
-            start_marker=s.start_marker, end_marker=s.end_marker,
-            start_line=s.start_line, title_from_text=s.title_from_text,
-        )
-        for s in secs
-    ]
 
 
 @dataclass
@@ -278,6 +280,16 @@ async def _drop(ahead: _Ahead | None) -> None:
         ahead.task.cancel()
     with contextlib.suppress(BaseException):
         await ahead.task
+
+
+# The compact answer costs 0.64 answer tokens per line of text over the F079 paid check (Claude Haiku 5.5, 36 of the
+# F069 test documents, one run each; the old 7-field answer took 3.1 per line, against the 5 per line the estimate
+# assumed). Thinking is added by the token profile.
+ANSWER_TOKENS_PER_LINE = 0.75
+
+
+def _answer_tokens(lines: int) -> int:
+    return int(lines * ANSWER_TOKENS_PER_LINE)
 
 
 class LlmTextStrategy(Strategy):
@@ -316,7 +328,7 @@ class LlmTextStrategy(Strategy):
             if ahead is not None or k + 1 >= len(windows):
                 return
             na, nb = windows[k + 1]
-            user = user_for(na, nb, found + _raw(secs))
+            user = user_for(na, nb, found + _proposals(ext, secs))
             system = _system(TEXT_SYSTEM, ctx.settings)
             chars = [len(system) + 2 + len(again_user), len(system) + 2 + len(user)]
             if not fits_together(ctx.usage, ctx.cost_cap_usd, ctx.model, chars, ctx.settings):
@@ -365,7 +377,7 @@ class LlmTextStrategy(Strategy):
                         windows[k:k + 1] = halves
                         continue
                     secs = secs if checked is None else checked
-                found += _raw(secs)
+                found += _proposals(ext, secs)
                 k += 1
         finally:
             await _drop(ahead)
@@ -441,7 +453,7 @@ class LlmTextStrategy(Strategy):
         prof = token_profile(ctx.model, ctx.settings, self.effort)
         inp = (prof.tokens(sum(len(r) + 1 for r in rows[a:b])) + prof.per_call(900)
                + prof.tokens(_guidance_chars(ctx.settings)))
-        return price.cost(inp, prof.output(int((b - a) / 18) * 90, inp, 1))
+        return price.cost(inp, prof.output(_answer_tokens(b - a), inp, 1))
 
     def estimate(self, ext: Extraction, model: str = "", settings: Settings | None = None) -> Estimate:
         prof = token_profile(model, settings, self.effort)
@@ -449,8 +461,7 @@ class LlmTextStrategy(Strategy):
         n = len(_windows(ext, rows, self.window_chars))
         chars = sum(len(r) + 1 for r in rows)
         inp = prof.tokens(chars) + n * (prof.per_call(900) + prof.tokens(_guidance_chars(settings)))
-        out = int(len(ext.lines) / 18) * 90  # ~one section per 18 lines, incl. reasoning
-        return Estimate(inp, prof.output(out, inp, n), n)
+        return Estimate(inp, prof.output(_answer_tokens(len(ext.lines)), inp, n), n)
 
 
 # ── Candidate review ────────────────────────────────────────────────────────

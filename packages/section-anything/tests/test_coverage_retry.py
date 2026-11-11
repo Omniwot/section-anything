@@ -37,9 +37,8 @@ def _sections(user: str, limit: int | None = None) -> TextResult:
     """The headings shown in the slice, as a model would list them; `limit` stops early."""
     found = [(int(m.group(1)), m.group(2), m.group(3)) for m in re.finditer(r"^(\d+)\| ⟨H\+2⟩⟨B⟩ (\d+) (.*)$", user, re.M)]
     return TextResult(sections=[
-        TextSection(start_line=i, number=num, title=title, title_from_text=True, level=1,
-                    start_marker=f"{num} {title}", end_marker="")
-        for i, num, title in found[:limit]
+        TextSection(start_line=i, title="", title_from_text=True, level=1)
+        for i, _num, _title in found[:limit]
     ])
 
 

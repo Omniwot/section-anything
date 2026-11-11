@@ -3,7 +3,25 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
-## 0.1.10 (unreleased)
+## 0.1.11 (unreleased)
+
+### Changed
+
+- **`standard` asks the model for a compact answer**: per section only its start line, level, whether
+  its title is printed, and a title of its own when it is not. The number, the printed title and the
+  start marker are read from the start line by Free's heading reading (`rules.headings_at`: a number
+  split off its title, a title that wraps, a bare label with its title line), and a section ends where
+  the next starts, as it already did. The model no longer copies 8-15 words at each section's start
+  and end, so Standard's output tokens (what its time goes on) fall; the cost estimate is recalibrated
+  (0.75 answer tokens per line of text). In short: about 10x fewer output tokens and about 9x faster
+  on long documents, section F1 level. Claude Haiku 5.5 on 36 of the 40 F069 test documents (UK Acts,
+  RFCs, theses, GNU manuals; n = 36, one run per arm; research finding F079): output tokens per
+  document 99,274 -> 9,779 (ratio 0.10, 36 of 36 documents lower), wall time 350 -> 39 s per document
+  (14 long documents 709 -> 73 s), cost $0.068 -> $0.016, no 32,000-token cut-offs (67 in the old
+  answer's runs); section F1 on keys v3 +0.016 (95% CI -0.010 to +0.041; 19 documents higher, 8 same,
+  9 lower), level agreement 0.967 -> 0.974. Free is unchanged (3,060 of 3,060 saved outputs identical).
+
+## 0.1.10 (2026-11-11)
 
 ### Added
 

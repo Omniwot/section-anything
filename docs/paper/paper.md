@@ -33,9 +33,10 @@ born-digital PDFs that works from the PDF text layer and its typography rather t
 images. It has three settings of increasing cost. *Free* uses no model: it anchors the PDF's
 bookmarks or its printed table of contents to body lines and fills the gaps with typography and
 numbering rules. *Quick check* sends only candidate heading lines to a small language model.
-*Standard* lets a model read every line in windows and quote verbatim start and end markers,
-which a deterministic resolver maps back to exact character ranges, rejecting table-of-contents
-copies and flagging anything it cannot verify. On READoc, scored with the benchmark's own
+*Standard* lets a model read every line in windows and name each section's start line and level;
+the number, printed title and start marker are read from that line, and a deterministic resolver
+maps them back to exact character ranges, rejecting table-of-contents copies and flagging anything
+it cannot verify. On READoc, scored with the benchmark's own
 Heading Tree TEDS code, Standard with a small model scores 70.0 on 905 arXiv papers that were not
 used during development, against 49.4 for Docling 2.140 with its heading-hierarchy stage enabled.
 On the same papers, MinerU with its own LLM title-levelling step on a larger model scores 64.8. On GitHub READMEs there is no
@@ -286,13 +287,18 @@ Standard sends every line, numbered and tagged (`<line>| <text>`, with ⟨H+n⟩
 least 0.8 pt above body size and ⟨B⟩ when it is bold), in windows of about 120,000 characters that
 end at a page break where possible (a window is cut at the first page break after the budget, or at
 1.3 times the budget). Windows do not overlap; each carries the last eight sections found so far so
-that levels stay consistent. For every section that starts in the window, the model returns the
-start line, the printed number, the title, whether the title is printed (`title_from_text`), the
-level, a start marker (the first 8 to 15 words of the section, copied exactly) and, if the section
-ends inside the window, an end marker (its last 8 to 15 words). Where a stretch of text has no
-headings, the model is asked to split it at clear topic shifts and to write a short title, marked
-as not printed. The exclusion rules match those of Quick check (Appendix A).
-<!-- src: llm_text.py (TEXT_SYSTEM, _tagged, _windows, window_chars = 120_000, _prev_block, TextSection). -->
+that levels stay consistent. For every section that starts in the window, the model returns only
+the start line, the level, whether the title is printed (`title_from_text`) and, when it is not, a
+short title of its own. The number, the printed title and the start marker are then read from the
+start line with the same heading reading Free uses (`rules.headings_at`: a number split off its
+title, a title that wraps, a bare label with its title line), and a section ends where the next one
+starts. Up to version 0.1.10 the model also copied the number, the title and 8 to 15 words at each
+section's start and end; dropping those fields cut its output tokens about 10 times and its wall
+time about 9 times on long documents at level section F1 (research finding F079, 36 documents, one
+run per arm, Claude Haiku 5.5). Where a stretch of text has no headings, the model is asked to split
+it at clear topic shifts and to write a short title, marked as not printed. The exclusion rules match
+those of Quick check (Appendix A).
+<!-- src: llm_text.py (TEXT_SYSTEM, _tagged, _windows, window_chars = 120_000, _prev_block, TextSection, _proposals); rules.py (headings_at). -->
 
 ### 3.6 Resolution: from markers to sections
 
@@ -308,9 +314,8 @@ a bounded fuzzy match or to the line hint, flagging either. Proposals with the f
 positions claim offsets first, so a heading repeated in an outline, the body and a summary cannot
 take another section's place, and no two sections share a start. Text before the first heading
 becomes an explicit front-matter section. Each section gets a *segment* (to the next section of any
-level) and a *span* (to the next section at the same or a higher level). End markers are checked
-against these boundaries, and titles the model says are printed must appear at the section start;
-mismatches are flagged, not silently accepted. Every output section therefore has a level, number,
+level) and a *span* (to the next section at the same or a higher level). Titles the model says are
+printed must appear at the section start; mismatches are flagged, not silently accepted. Every output section therefore has a level, number,
 title, character range, pages, lines and flags, and a viewer can highlight it from the line boxes.
 <!-- src: section-anything/backend/app/sectioning/pipeline.py (module docstring, _candidates, _assign, resolve, FRONT_MATTER_MIN_CHARS = 300); markers.py (FUZZY_MIN = 85). -->
 
@@ -914,19 +919,13 @@ sections of a few paragraphs to a few pages, and give each a short descriptive t
 
 For each section return:
 - start_line: the line number where the section starts (its heading line, if it has one).
-- number: the numbering exactly as printed ("2.3", "Chapter 4", "IV"), or "" if unnumbered.
-- title: the heading text as printed, without the number. If there is no printed heading, a short
-  descriptive title.
-- title_from_text: true if the title is printed in the document, false if you wrote it.
 - level: depth in the hierarchy (1 = top level such as a part or chapter, 2 = its subsections,
   and so on). Keep levels consistent with PREVIOUS SECTIONS.
-- start_marker: the first 8–15 words of the section, copied exactly, starting with its heading.
-- end_marker: the last 8–15 words of the section copied exactly, if the section ends inside this
-  slice (including where its last subsection ends); otherwise "".
+- title_from_text: true if the section starts at a printed heading, false if it has none.
+- title: "" if title_from_text is true (the heading is read from its line). If there is no printed
+  heading, a short descriptive title.
 
 Rules:
-- Copy markers character for character from the lines. Never paraphrase, fix typos or add
-  punctuation. Leave out the line numbers and tags.
 - Running headers and footers, page numbers, figure and table captions, table cells, list items
   and callout-box labels are not section headings.
 - The document's own title on its first page starts a section (level 1, title_from_text true).
