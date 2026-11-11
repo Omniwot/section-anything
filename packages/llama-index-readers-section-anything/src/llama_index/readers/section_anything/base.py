@@ -98,7 +98,7 @@ class SectionAnythingReader(BaseReader):
             meta = {"file_path": path, "file_name": os.path.basename(path), **rec.metadata}
             meta["heading_path"] = " > ".join(meta["heading_path"])
             meta["flags"] = ", ".join(meta["flags"])
-            box = meta.get("heading_bbox")  # chunk records carry no heading box
+            box = meta["heading_bbox"]
             meta["heading_bbox"] = ",".join(str(box[k]) for k in ("x0", "y0", "x1", "y1")) if box else None
             meta["heading_page"] = box["page"] if box else None
             meta.update(extra_info or {})

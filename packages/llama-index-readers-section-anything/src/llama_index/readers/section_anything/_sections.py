@@ -103,7 +103,8 @@ def chunk_records(tree: Any, chunk: bool | dict[str, Any]) -> list[SectionRecord
     (at most 2,000 characters, sibling sections under 200 merged) and a dict sets its options
     (`max_chars`, `min_chars`, `overlap_chars`, `length`, `prefix`). Each chunk's text starts with
     its heading path ("3 Method > 3.1 Data") unless `prefix` is False; `section_index`, `title`,
-    `number`, `level` and `flags` are its section's (the first one, for merged short sections)."""
+    `number`, `level`, `heading_bbox` and `flags` are its section's (the first one, for merged short
+    sections)."""
     options = {"prefix": True, **(chunk if isinstance(chunk, dict) else {})}
     sections = tree.sections
     doc_title = next((heading_text(s) for s in sections if "doc_title" in s["flags"]), None)
@@ -119,6 +120,7 @@ def chunk_records(tree: Any, chunk: bool | dict[str, Any]) -> list[SectionRecord
             "heading_path": list(c.heading_path),
             "page_start": c.page_start,
             "page_end": c.page_end,
+            "heading_bbox": sec.get("heading_bbox"),  # its section's heading box (the first one, for merged sections)
             "flags": list(sec["flags"]),
             "document_title": doc_title,
             "mode": tree.mode,
