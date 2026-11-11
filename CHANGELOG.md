@@ -3,6 +3,15 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
+## Unreleased (0.1.10)
+
+### Added
+
+- **MCP: `outline_pdf`**, a PDF's outline as text, one line per section (`index: heading (pages)`),
+  for an agent to read before fetching one section with `read_sections`; about a fifth of the
+  tokens of `section_pdf`'s JSON (median 848 against 4,773 on 20 public documents, finding F086).
+  `section_pdf` is unchanged.
+
 ## 0.1.9 (unreleased)
 
 0.1.7 and 0.1.8 were never published; this release holds everything since 0.1.6. Each entry's numbers

@@ -39,9 +39,12 @@ print(tree.summary())  # mode, model, pages, sections, calls, tokens, cost_usd, 
 
 An agent can take a PDF's outline first and then read only the sections it needs (0.1.6 or newer).
 
-**MCP server** for Claude Code, Claude Desktop, Cursor and other MCP hosts, with three read-only
-tools: `section_pdf` (the heading tree; free mode by default, no model, $0), `read_sections` (the
-text of chosen sections) and `estimate_cost` (what `quick` and `standard` would cost).
+**MCP server** for Claude Code, Claude Desktop, Cursor and other MCP hosts, with four read-only
+tools: `outline_pdf` (the outline as text: one line per section with its index, heading and pages;
+free mode by default, no model, $0), `section_pdf` (the same heading tree as JSON, about five times
+the tokens), `read_sections` (the text of chosen sections) and `estimate_cost` (what `quick` and
+`standard` would cost). An agent reads the outline first and then fetches the sections it needs by
+index.
 
 ```sh
 claude mcp add --transport stdio section-anything -- uvx --from "section-anything[mcp]" section-anything-mcp

@@ -7,9 +7,15 @@ MCP clients can start it with `uvx section-anything-mcp`. It installs `section-a
 runs its server on stdio. Installing `section-anything[mcp]` yourself gives the same
 `section-anything-mcp` command.
 
-Tools (read-only): `section_pdf` (a PDF's heading tree: levels, parents, heading paths, pages,
-character spans), `read_sections` (the text of chosen sections) and `estimate_cost` (what Quick
-check and Standard would cost). Free mode by default: local, no model, $0.
+Tools (read-only): `outline_pdf` (a PDF's outline as text, one line per section with its index,
+heading and pages), `section_pdf` (the same heading tree as JSON: levels, parents, heading paths,
+pages, character spans), `read_sections` (the text of chosen sections) and `estimate_cost` (what
+Quick check and Standard would cost). Free mode by default: local, no model, $0.
+
+An agent calls `outline_pdf` first, then `read_sections` with the indexes of the sections it needs.
+The outline costs about a fifth of the tokens of `section_pdf`'s JSON (median 848 against 4,773 on
+20 public documents; research finding F086), so the full tree is only worth fetching when its
+parents, spans or confidence values are needed.
 
 ```sh
 claude mcp add --transport stdio section-anything -- uvx section-anything-mcp
