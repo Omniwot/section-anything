@@ -7,14 +7,18 @@
 - LlmTextStrategy: the model reads every line, numbered, with light typography
   tags, in windows, and proposes sections with verbatim start/end markers. Can
   section text that has no headings at all. A window whose answer leaves many
-  heading-like lines unlisted is read once more (the coverage check).
+  heading-like lines unlisted is read once more (the coverage check), while the
+  next window's first reading runs beside it.
 """
 
 from __future__ import annotations
 
+import asyncio
+import contextlib
 import logging
 import re
 from collections import Counter
+from collections.abc import Callable
 from dataclasses import dataclass
 
 from pydantic import BaseModel, Field, field_validator
@@ -22,7 +26,7 @@ from pydantic import BaseModel, Field, field_validator
 from section_anything.config import BROWSER_PREFIX, LOCAL_PREFIX, Settings
 from section_anything.errors import CostCapExceeded, LlmCallFailed
 from section_anything.extract import Extraction, Line
-from section_anything.llm import structured, token_profile
+from section_anything.llm import fits_together, structured, token_profile
 from section_anything.markers import canon
 from section_anything.strategies.base import Context, Estimate, RawSection, Strategy
 from section_anything.strategies.rules import CAPTION, LABEL_ONLY, NUMBERING, candidates, side_notes
@@ -246,12 +250,48 @@ def _prev_block(found: list[RawSection]) -> str:
     return "\n".join(f"L{s.level} {s.number} {s.title}".replace("  ", " ") for s in found[-8:])
 
 
+def _raw(secs: list[TextSection]) -> list[RawSection]:
+    return [
+        RawSection(
+            title=s.title.strip(), level=s.level, number=s.number.strip(),
+            start_marker=s.start_marker, end_marker=s.end_marker,
+            start_line=s.start_line, title_from_text=s.title_from_text,
+        )
+        for s in secs
+    ]
+
+
+@dataclass
+class _Ahead:
+    """A window's first reading, started beside the coverage re-read of the window before it."""
+
+    window: tuple[int, int]
+    user: str
+    task: asyncio.Task
+
+
+async def _drop(ahead: _Ahead | None) -> None:
+    """Stop a reading started ahead that the run no longer waits for."""
+    if ahead is None:
+        return
+    if not ahead.task.done():
+        ahead.task.cancel()
+    with contextlib.suppress(BaseException):
+        await ahead.task
+
+
 class LlmTextStrategy(Strategy):
     id = "llm_text"
     label = "LLM on full text"
     description = "The model reads every line (with font hints) and marks section starts and ends. Handles documents with no headings."
     uses_llm = True
     window_chars = 120_000
+
+    # A coverage re-read of window k runs at the same time as the first reading of window k + 1, whose
+    # PREVIOUS SECTIONS then come from window k's first answer (the kept answer, first or re-read, is what
+    # the result holds either way). Off for local and browser models (one model on the user's machine),
+    # and while the cap could not pay for both calls at their full output limit.
+    overlap = True
 
     async def run(self, ext: Extraction, ctx: Context) -> list[RawSection]:
         rows = _tagged(ext)
@@ -261,43 +301,74 @@ class LlmTextStrategy(Strategy):
         windows = _windows(ext, rows, 30_000 if small else self.window_chars)
         sig = _signals(ext) if (ctx.settings or Settings()).coverage_retry else None
         found: list[RawSection] = []
+        ahead: _Ahead | None = None
         k = 0
-        while k < len(windows):
-            a, b = windows[k]
-            ctx.progress(k / len(windows), f"Reading lines {a}–{b - 1} ({k + 1}/{len(windows)})")
-            user = (
-                f"PREVIOUS SECTIONS (most recent last):\n{_prev_block(found)}\n\n"
+
+        def user_for(a: int, b: int, prev: list[RawSection]) -> str:
+            return (
+                f"PREVIOUS SECTIONS (most recent last):\n{_prev_block(prev)}\n\n"
                 f"DOCUMENT SLICE (lines {a}–{b - 1} of {len(rows)}):\n" + "\n".join(rows[a:b])
             )
-            try:
-                secs = await self._read(ctx, user, a, b, f"read window {k + 1}/{len(windows)}")
-            except LlmCallFailed as exc:
-                halves = _halves(ext, a, b) if _cut_off(exc) else None
-                if halves is None:
-                    raise
-                ctx.usage.window_splits.append({"lines": [a, b - 1], "halves": [[x, y - 1] for x, y in halves]})
-                windows[k:k + 1] = halves
-                continue
-            if sig is not None:
-                checked = await self._check_coverage(ctx, sig, rows, windows, k, user, secs)
-                halves = _halves(ext, a, b) if checked is None else None
-                if halves is not None:
-                    # The re-read was cut off: read the window as two halves instead of keeping an
-                    # answer that left many headings out.
-                    ctx.usage.coverage_retries[-1]["kept"] = "halves"
+
+        def read_next_beside(again_user: str, secs: list[TextSection]) -> None:
+            """Start window k + 1's first reading now, beside window k's re-read (`again_user`)."""
+            nonlocal ahead
+            if ahead is not None or k + 1 >= len(windows):
+                return
+            na, nb = windows[k + 1]
+            user = user_for(na, nb, found + _raw(secs))
+            system = _system(TEXT_SYSTEM, ctx.settings)
+            chars = [len(system) + 2 + len(again_user), len(system) + 2 + len(user)]
+            if not fits_together(ctx.usage, ctx.cost_cap_usd, ctx.model, chars, ctx.settings):
+                return
+            ctx.progress((k + 1) / len(windows), f"Reading lines {na}–{nb - 1} ({k + 2}/{len(windows)})")
+            task = asyncio.ensure_future(self._read(ctx, user, na, nb, f"read window {k + 2}/{len(windows)}"))
+            ahead = _Ahead((na, nb), user, task)
+
+        try:
+            while k < len(windows):
+                a, b = windows[k]
+                pending = None
+                if ahead is not None and ahead.window == (a, b):
+                    pending, ahead = ahead, None
+                    user = pending.user
+                else:
+                    ctx.progress(k / len(windows), f"Reading lines {a}–{b - 1} ({k + 1}/{len(windows)})")
+                    user = user_for(a, b, found)
+                step = f"read window {k + 1}/{len(windows)}"
+                try:
+                    try:
+                        secs = await (pending.task if pending is not None else self._read(ctx, user, a, b, step))
+                    except CostCapExceeded:
+                        if pending is None:
+                            raise
+                        # Started ahead, it found the cap held by the re-read beside it: read it now, as
+                        # it would have been read after the re-read.
+                        user = user_for(a, b, found)
+                        secs = await self._read(ctx, user, a, b, step)
+                except LlmCallFailed as exc:
+                    halves = _halves(ext, a, b) if _cut_off(exc) else None
+                    if halves is None:
+                        raise
                     ctx.usage.window_splits.append({"lines": [a, b - 1], "halves": [[x, y - 1] for x, y in halves]})
                     windows[k:k + 1] = halves
                     continue
-                secs = secs if checked is None else checked
-            found += [
-                RawSection(
-                    title=s.title.strip(), level=s.level, number=s.number.strip(),
-                    start_marker=s.start_marker, end_marker=s.end_marker,
-                    start_line=s.start_line, title_from_text=s.title_from_text,
-                )
-                for s in secs
-            ]
-            k += 1
+                if sig is not None:
+                    beside = read_next_beside if self.overlap and not small else None
+                    checked = await self._check_coverage(ctx, sig, rows, windows, k, user, secs, beside)
+                    halves = _halves(ext, a, b) if checked is None else None
+                    if halves is not None:
+                        # The re-read was cut off: read the window as two halves instead of keeping an
+                        # answer that left many headings out.
+                        ctx.usage.coverage_retries[-1]["kept"] = "halves"
+                        ctx.usage.window_splits.append({"lines": [a, b - 1], "halves": [[x, y - 1] for x, y in halves]})
+                        windows[k:k + 1] = halves
+                        continue
+                    secs = secs if checked is None else checked
+                found += _raw(secs)
+                k += 1
+        finally:
+            await _drop(ahead)
         ctx.progress(1.0, f"{len(found)} sections proposed")
         return found
 
@@ -316,10 +387,12 @@ class LlmTextStrategy(Strategy):
         return [s for s in res.sections if a <= s.start_line < b]
 
     async def _check_coverage(self, ctx: Context, sig: _Signals, rows: list[str], windows: list[tuple[int, int]],
-                              k: int, user: str, secs: list[TextSection]) -> list[TextSection] | None:
+                              k: int, user: str, secs: list[TextSection],
+                              beside: Callable[[str, list[TextSection]], None] | None = None) -> list[TextSection] | None:
         """Read window `k` once more if its answer leaves many heading-like lines unlisted, and keep
         the answer that lists more of them; None if the re-read was cut off at the output limit. Each
-        check is recorded in `usage.coverage_retries`."""
+        check is recorded in `usage.coverage_retries`. `beside(re-read prompt, first answer)` is called
+        as the re-read starts, to start other work alongside it."""
         a, b = windows[k]
         starts = [s.start_line for s in secs]
         unlisted, pool = _unlisted(sig, a, b, starts, _styles(sig, starts))
@@ -334,15 +407,22 @@ class LlmTextStrategy(Strategy):
             note["skipped"] = "cost cap"
             return secs
         ctx.progress(k / len(windows), f"Reading lines {a}–{b - 1} again: many headings were not listed")
-        before = ctx.usage.cost_usd
+        step = f"re-read window {k + 1}/{len(windows)} (coverage)"
+        again_user = user + COVERAGE_NOTE.format(a=a, b=b - 1)
+        # Its own calls' cost: another call may be counted while it runs.
+        before = ctx.usage.by_step.get(step, 0.0)
+        reread = self._read(ctx, again_user, a, b, step)
+        if beside is not None:
+            # Started as a task, so it runs once the re-read is waiting on the model (the re-read takes
+            # its call-log number and step first).
+            beside(again_user, secs)
         try:
-            again = await self._read(ctx, user + COVERAGE_NOTE.format(a=a, b=b - 1), a, b,
-                                     f"re-read window {k + 1}/{len(windows)} (coverage)")
+            again = await reread
         except (CostCapExceeded, LlmCallFailed) as exc:
             note["skipped"] = type(exc).__name__
             return None if isinstance(exc, LlmCallFailed) and _cut_off(exc) else secs
         finally:
-            note["cost_usd"] = round(ctx.usage.cost_usd - before, 6)
+            note["cost_usd"] = round(ctx.usage.by_step.get(step, 0.0) - before, 6)
         # Both answers are measured against the same lines: the styles either of them listed.
         styles = _styles(sig, starts) | _styles(sig, [s.start_line for s in again])
         first = len(_unlisted(sig, a, b, starts, styles)[0])

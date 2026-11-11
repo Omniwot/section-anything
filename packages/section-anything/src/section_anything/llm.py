@@ -9,7 +9,8 @@
   calls. Nothing is written to ``os.environ``.
 - No hidden retries (`max_retries=0`): one retry on refusal or unparsable output, done here.
 - Cost cap: checked before every attempt, and each call's output tokens are limited to what the
-  remaining budget can pay for.
+  remaining budget can pay for. A call in flight holds its worst case (`Usage.reserved_usd`) until its
+  cost is counted, so calls made at the same time cannot together pass the cap.
 - Errors kept in logs and call records name the error type, HTTP status and error code, never
   prompt or response text (the prompt is the document). Prompt text is stored in call records
   only with `store_prompts`.
@@ -120,6 +121,22 @@ class Usage:
     window_splits: list[dict] = field(default_factory=list)
     # Quick and Standard: strong Free headings the answer left out, and what became of each (`keep`).
     kept_strong: dict | None = None
+    # Worst-case cost of the paid attempts in flight, not yet in `cost_usd` (see `structured`).
+    reserved_usd: float = 0.0
+    in_flight: int = 0
+
+    def begin(self, step: str, reserve: float) -> int:
+        """An attempt starts: its call-log number and its step's place in `by_step` are taken now, in
+        start order, and its worst-case cost is held until `end`."""
+        self.seq += 1
+        self.by_step.setdefault(step, 0.0)
+        self.reserved_usd += reserve
+        self.in_flight += 1
+        return self.seq
+
+    def end(self, reserve: float) -> None:
+        self.in_flight -= 1
+        self.reserved_usd = self.reserved_usd - reserve if self.in_flight else 0.0
 
     def add(self, model: str, usage, price: Price | None = None) -> dict:
         tokens = {"input_tokens": 0, "cached_tokens": 0, "output_tokens": 0, "reasoning_tokens": 0, "cost_usd": 0.0}
@@ -161,8 +178,9 @@ class Usage:
         }
 
     async def record(self, entry: dict) -> None:
-        self.seq += 1
-        entry["seq"] = self.seq
+        if "seq" not in entry:  # numbered at its start by `begin`, or here
+            self.seq += 1
+            entry["seq"] = self.seq
         step = entry.get("step", "")
         self.by_step[step] = self.by_step.get(step, 0.0) + (entry.get("cost_usd") or 0.0)
         if self.sink:
@@ -263,7 +281,7 @@ def _is_free(price: Price | None) -> bool:
 
 
 def _over_cap(usage: Usage, cap: float, price: Price | None) -> bool:
-    return usage.priced and usage.cost_usd >= cap and not _is_free(price)
+    return usage.priced and usage.cost_usd + usage.reserved_usd >= cap and not _is_free(price)
 
 
 def _cap_reached(usage: Usage, cap: float) -> CostCapExceeded:
@@ -280,7 +298,7 @@ def _affordable_output(price: Price | None, prompt_chars: int, usage: Usage, cap
     if price is None or not usage.priced or _is_free(price):
         return wanted
     price = price.for_prompt(prompt_chars / chars_per_token)
-    left = cap - usage.cost_usd
+    left = cap - usage.cost_usd - usage.reserved_usd  # calls in flight hold their worst case
     input_cost = prompt_chars / chars_per_token * price.input / 1e6
     if price.output <= 0:
         if left - input_cost < 0:
@@ -290,6 +308,29 @@ def _affordable_output(price: Price | None, prompt_chars: int, usage: Usage, cap
     if afford < MIN_OUTPUT_TOKENS:
         raise _cap_reached(usage, cap)
     return min(wanted, afford)
+
+
+def _worst_cost(price: Price | None, prompt_chars: int, usage: Usage, output_tokens: int,
+                chars_per_token: float = CHARS_PER_TOKEN) -> float:
+    """The most one attempt can cost (its prompt at `chars_per_token`, all `output_tokens` used), as
+    `_affordable_output` counts it; 0 when the cap does not apply."""
+    if price is None or not usage.priced or _is_free(price):
+        return 0.0
+    price = price.for_prompt(prompt_chars / chars_per_token)
+    return (prompt_chars / chars_per_token * price.input + output_tokens * max(price.output, 0.0)) / 1e6
+
+
+def fits_together(usage: Usage, cap: float, model: str, prompts_chars: list[int],
+                  settings: Settings | None = None) -> bool:
+    """Whether calls with these prompts (characters, instructions included) could all run at the same
+    time at their full output limit within the cap: then holding each one's worst case never lowers
+    another's output limit. Always true for an unpriced or free model."""
+    s = settings or Settings()
+    price = s.price_for(model)
+    cpt = CLAUDE_CHARS_PER_TOKEN if _is_anthropic(model, s) else CHARS_PER_TOKEN
+    worst = sum(_worst_cost(price, n, usage, MAX_OUTPUT_TOKENS, cpt) for n in prompts_chars)
+    return not usage.priced or _is_free(price) or price is None or (
+        usage.cost_usd + usage.reserved_usd + worst <= cap)
 
 
 async def structured(
@@ -357,8 +398,10 @@ async def structured(
             if _over_cap(usage, cost_cap_usd, price):  # re-checked before every paid attempt
                 raise _cap_reached(usage, cost_cap_usd)
             kwargs[max_key] = _affordable_output(price, len(prompt), usage, cost_cap_usd, max_output_tokens)
+            hold = _worst_cost(price, len(prompt), usage, kwargs[max_key])
             t0 = time.monotonic()
-            entry = {**base, "attempt": attempt, "status": "error", "error": None, "response": None}
+            entry = {**base, "attempt": attempt, "status": "error", "error": None, "response": None,
+                     "seq": usage.begin(step, hold)}
             try:
                 resp = await client.chat.completions.parse(**kwargs)
                 entry.update(usage.add(model, resp.usage, price))
@@ -378,6 +421,7 @@ async def structured(
                 entry["error"] = describe_error(exc)
                 logger.warning("sectioning model call attempt %s failed: %s", attempt, entry["error"])
             finally:
+                usage.end(hold)
                 entry["latency_ms"] = int((time.monotonic() - t0) * 1000)
                 await usage.record(entry)
     finally:
@@ -453,8 +497,10 @@ async def _structured_anthropic(
                 raise _cap_reached(usage, cost_cap_usd)
             kwargs["max_tokens"] = _affordable_output(price, len(prompt), usage, cost_cap_usd, max_output_tokens,
                                                      CLAUDE_CHARS_PER_TOKEN)
+            hold = _worst_cost(price, len(prompt), usage, kwargs["max_tokens"], CLAUDE_CHARS_PER_TOKEN)
             t0 = time.monotonic()
-            entry = {**base, "attempt": attempt, "status": "error", "error": None, "response": None}
+            entry = {**base, "attempt": attempt, "status": "error", "error": None, "response": None,
+                     "seq": usage.begin(step, hold)}
             try:
                 async with client.messages.stream(**kwargs) as stream:
                     msg = await stream.get_final_message()
@@ -483,6 +529,7 @@ async def _structured_anthropic(
                 entry["error"] = describe_error(exc)
                 logger.warning("sectioning model call attempt %s failed: %s", attempt, entry["error"])
             finally:
+                usage.end(hold)
                 entry["latency_ms"] = int((time.monotonic() - t0) * 1000)
                 await usage.record(entry)
     finally:
