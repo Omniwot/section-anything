@@ -3,7 +3,49 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
-## Unreleased (0.1.10)
+## 0.1.10 (unreleased)
+
+### Added
+
+- **`heading_bbox` on every section: where its heading is printed (research finding F081, gap G3).**
+  `{"page", "x0", "y0", "x1", "y1"}` in PDF points from the page's bottom-left corner, the union box
+  when a heading wraps onto several lines, `None` for front matter and for a title a model wrote
+  (flag `generated_title`). A Docling-document input keeps Docling's own provenance box. It is in
+  `tree.sections`, `to_dict()` / `to_json()` and the JSON Schema (new `HeadingBox` type), in the
+  LangChain loader's metadata, and flat in the LlamaIndex reader's (`heading_page`, `heading_bbox`
+  as `"x0,y0,x1,y1"`). Additive: every other field, and Free's section output, is unchanged (Free
+  regression: 3,060 / 3,060 document-modes identical). With `heading_path`, `page_start` /
+  `page_end` and `text`, this is the section record that docling#2147, unstructured#3996 and
+  llama_index#21213 ask for; `examples/section_records.py` prints it.
+- **Section-aware chunks with a size cap: `tree.chunks()` and `chunk_sections()` (research finding
+  F081, gap G4).** A section over `max_chars` (2,000) is split on paragraph breaks, then sentence
+  ends, then cut, packed greedily; consecutive sections under `min_chars` (200) merge with the
+  following siblings under the same parent, never across a parent; a heading with no body is one
+  chunk of its own, so a headings-only PDF gives chunks rather than none; `overlap_chars` repeats
+  the previous chunk's tail; `length` takes a token counter in place of `len`. Each `Chunk` has
+  `text`, `heading_path`, `section_index`, `chunk_index`, `page_start`, `page_end` and
+  `prefixed_text` (`"3 Safety > 3.2 Storage\n\n..."`). Pure Python, deterministic, no new
+  dependency. The LangChain loader and LlamaIndex reader take `chunk=True` or
+  `chunk={"max_chars": ...}` and put `heading_path` and `chunk_index` in each chunk's metadata.
+  `examples/section_chunks.py` prints the chunks of a PDF.
+- **MCP: `outline_pdf`**, a PDF's outline as text, one line per section (`index: heading (pages)`),
+  for an agent to read before fetching one section with `read_sections`; about a fifth of the
+  tokens of `section_pdf`'s JSON (median 848 against 4,773 on 20 public documents, finding F086).
+  `section_pdf` is unchanged.
+- **Notebooks** (`notebooks/`, all in Free mode): a quickstart, heading trees from Section Anything,
+  Docling and pymupdf4llm side by side, and Markdown chunking through LangChain's and LlamaIndex's
+  Markdown splitters (research finding F081).
+
+### Changed
+
+- **`standard` reads the next window while a window is read again for coverage.** The coverage
+  re-read of window k now runs at the same time as window k+1's first reading; window k+1's
+  PREVIOUS SECTIONS come from window k's first answer, and the kept answer (first, re-read or
+  halves) is still what the result and `usage.coverage_retries` hold. Off for local and browser
+  models, and when the cost cap could not pay for both calls at their full output limit. Calls in
+  flight hold their worst-case cost against `cost_cap_usd` (`Usage.reserved_usd`), so calls made at
+  the same time cannot together pass the cap; with one call at a time nothing changes. Same
+  sections as the sequential reading.
 
 ### Fixed
 
@@ -17,7 +59,7 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   always was. A stopped attempt adds no tokens or cost to the run's totals, as for any failed call whose
   usage never arrived; the provider may still bill the part it generated.
 
-## 0.1.9 (unreleased)
+## 0.1.9 (2026-11-08)
 
 0.1.7 and 0.1.8 were never published; this release holds everything since 0.1.6. Each entry's numbers
 compare the build with that change against the build just before it, on the data set, document count

@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from section_anything.errors import ConfigError
-from section_anything.export import Paragraph, heading_text, section_parts
+from section_anything.export import Paragraph, heading_text, line_box, section_parts
 
 if TYPE_CHECKING:
     from docling_core.types.doc import DoclingDocument
@@ -46,13 +46,8 @@ def _parts(tree: SectionTree) -> list[tuple[list[Any], list[Paragraph]]]:
 
 def _box(lines: list[Any], pages: dict[int, Any]) -> tuple[float, float, float, float] | None:
     """(left, bottom, right, top) around `lines` on the first one's page, in PDF points from the
-    page's bottom-left corner."""
-    if not lines or lines[0].page not in pages:
-        return None
-    pg = pages[lines[0].page]
-    on = [ln for ln in lines if ln.page == pg.n]
-    return (round(min(ln.x0 for ln in on) - pg.origin_x, 2), round(min(ln.y0 for ln in on) - pg.origin_y, 2),
-            round(max(ln.x1 for ln in on) - pg.origin_x, 2), round(max(ln.y1 for ln in on) - pg.origin_y, 2))
+    page's bottom-left corner (`export.line_box`; the same box as a section's `heading_bbox`)."""
+    return line_box(lines, pages)
 
 
 def _depth(sec: dict) -> int:
