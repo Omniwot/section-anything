@@ -291,10 +291,44 @@ section-anything scanned.json                        # the Docling document itse
   `SectionTree.json_schema()` returns the JSON Schema of the JSON output.
 - `tree.extraction` holds the lines with their boxes (PDF points), for highlighting.
 
+### Chunks with a size cap
+
+`tree.chunks(max_chars=2000, min_chars=200, overlap_chars=0, length=len, prefix=False)` returns
+section-aware chunks in reading order, each a `Chunk` with `text`, `heading_path` (outermost
+heading down to the chunk's section), `section_index`, `chunk_index` (within the section),
+`page_start`, `page_end` and `prefixed_text` (the heading path on top: `"3 Safety > 3.2 Storage\n\n..."`).
+
+```python
+tree = section_anything.section("report.pdf")
+for chunk in tree.chunks(max_chars=1500):
+    store(chunk.prefixed_text, metadata={"heading_path": chunk.heading_path, "pages": (chunk.page_start, chunk.page_end)})
+```
+
+- A section's text is its body as `to_markdown(body=True)` prints it: reflowed into paragraphs,
+  heading lines and running headers and footers removed.
+- A section over `max_chars` is split on paragraph breaks (blank lines), a paragraph over it on
+  sentence ends, a sentence over it at a space (or anywhere, as a last resort), packing greedily.
+- Consecutive sections under `min_chars` merge with the following sections under the same parent
+  until `min_chars` is reached, never across a different parent; a last short sibling joins the
+  previous chunk when that stays within `max_chars`. A merged chunk's `heading_path` is the
+  parent's, and the sections' own headings are in its text.
+- A heading with no body of its own is one chunk whose text is the heading, so a PDF of headings
+  gives chunks rather than nothing.
+- `overlap_chars` > 0 repeats that much of the previous chunk's tail (from a word boundary) at
+  the start of the next chunk of the same section; chunks stay within `max_chars`.
+- `length` measures `max_chars`, `min_chars` and `overlap_chars`: `len` by default, or a token
+  counter, for example tiktoken's `length=lambda s: len(enc.encode(s))`.
+- `prefix=True` puts the heading path into `text` itself.
+- `section_anything.chunk_sections(sections, ...)` does the same on section dicts with `text`
+  (as `to_dict(text=True)` gives), for trees loaded back from JSON.
+
+Pure Python, deterministic, no model and no extra package. The LangChain loader and LlamaIndex
+reader take `chunk=True` or a dict of these options.
+
 ### Use Docling's or Unstructured's chunkers
 
-Section Anything finds the headings but has no chunker that caps chunk size. Export the tree to
-Unstructured's or Docling's format and run their section-aware chunkers on these headings.
+To chunk with Docling's or Unstructured's own section-aware chunkers instead, export the tree to
+their formats and run them on these headings.
 
 Unstructured (`pip install unstructured`; the export itself needs no extra):
 

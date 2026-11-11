@@ -53,6 +53,8 @@ from section_anything.llm import Usage
 if TYPE_CHECKING:
     from docling_core.types.doc import DoclingDocument
 
+    from section_anything.chunking import Chunk
+
 MODES = ("free", "quick", "standard", "local", "auto")
 STRATEGY = {"free": "rules", "quick": "llm_review", "standard": "llm_text", "local": "llm_review"}
 DOWNGRADE = {"standard": "quick", "quick": "free", "local": None, "free": None}
@@ -328,6 +330,31 @@ class SectionTree:
         from section_anything.interop import docling_document
 
         return docling_document(self, filename)
+
+    def chunks(self, max_chars: int = 2000, min_chars: int = 200, *, overlap_chars: int = 0,
+               length: Callable[[str], int] = len, prefix: bool = False) -> list[Chunk]:
+        """Section-aware chunks with a size cap (`section_anything.chunk_sections`), in reading
+        order. Each section's text is its body as `to_markdown(body=True)` prints it (reflowed
+        into paragraphs, heading lines and running headers and footers removed); a section over
+        `max_chars` is split on paragraph breaks, then sentence ends, then cut; sibling sections
+        under `min_chars` are merged; a heading with no body is one chunk of its own. Every
+        `Chunk` has `text`, `heading_path`, `section_index`, `chunk_index`, `page_start` and
+        `page_end`, and `prefixed_text` ("3 Safety > 3.2 Storage\n\n..."); with `prefix`, `text`
+        is that. Sizes are in units of `length` (`len`; pass a token counter to cap by tokens)."""
+        from section_anything.chunking import chunk_sections
+
+        if self.extraction is not None and self.resolved:
+            from section_anything.structure import furniture_of
+
+            bodies = section_bodies(self.extraction, self.resolved, furniture_of(self.extraction))
+            secs = []
+            for sec, paras in zip(self.sections, bodies, strict=True):
+                head = "" if "front_matter" in sec["flags"] else heading_text(sec)
+                secs.append({**sec, "text": "\n".join(p for p in (head, "\n\n".join(paras)) if p)})
+        else:
+            secs = [{**s, "text": self.text[s["start"]:s["end"]]} for s in self.sections]
+        return chunk_sections(secs, max_chars=max_chars, min_chars=min_chars, overlap_chars=overlap_chars,
+                              length=length, prefix=prefix)
 
     @staticmethod
     def json_schema() -> dict:

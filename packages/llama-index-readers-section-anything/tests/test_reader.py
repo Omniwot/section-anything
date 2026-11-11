@@ -129,3 +129,16 @@ def test_real_pdf(real_pdf):
     docs = SectionAnythingReader().load_data(real_pdf)
     assert len(docs) >= 5
     assert all(1 <= d.metadata["page_start"] <= d.metadata["page_end"] for d in docs)
+
+
+def test_chunks_with_a_size_cap(paper_pdf):
+    docs = SectionAnythingReader(chunk={"max_chars": 250, "min_chars": 0}).load_data(paper_pdf)
+    whole = SectionAnythingReader(include_heading=False).load_data(paper_pdf)
+    assert len(docs) > len(whole) and all(len(d.text) <= 250 for d in docs)
+    scope = next(d for d in docs if d.metadata["heading_path"] == "1 Introduction > 1.1 Scope")
+    assert scope.text.startswith("1 Introduction > 1.1 Scope\n\nSectioning splits")
+    assert (scope.metadata["title"], scope.metadata["level"], scope.metadata["chunk_index"]) == ("Scope", 2, 0)
+    assert set(scope.metadata) == (KEYS | {"chunk_index"}) - {"start", "end"}
+    assert NodeRelationship.PARENT not in scope.relationships and NodeRelationship.NEXT in scope.relationships
+    for doc in docs:
+        node_to_metadata_dict(doc, flat_metadata=True)

@@ -23,6 +23,8 @@ _EXPORTS = {
     "PossibleMiss": "section_anything.api",
     "TreeDict": "section_anything.api",
     "resolve_mode": "section_anything.api",
+    "chunk_sections": "section_anything.chunking",
+    "Chunk": "section_anything.chunking",
     "section_many": "section_anything.batch",
     "asection_many": "section_anything.batch",
     "DocumentResult": "section_anything.batch",
@@ -47,6 +49,7 @@ _EXPORTS = {
 }
 
 __all__ = [
+    "Chunk",
     "DEFAULT_PRICES",
     "ConfigError",
     "CostCapExceeded",
@@ -72,6 +75,7 @@ __all__ = [
     "asection_many",
     "awrite_guidance",
     "check_pdf",
+    "chunk_sections",
     "extract_pdf",
     "resolve_mode",
     "section",
@@ -82,6 +86,7 @@ __all__ = [
 if TYPE_CHECKING:
     from section_anything.api import HeadingBox, PossibleMiss, Section, SectionTree, TreeDict, asection, resolve_mode, section
     from section_anything.batch import DocumentResult, asection_many, section_many
+    from section_anything.chunking import Chunk, chunk_sections
     from section_anything.config import DEFAULT_PRICES, Price, Settings
     from section_anything.errors import (
         ConfigError,

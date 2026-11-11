@@ -95,3 +95,15 @@ def test_real_pdf(real_pdf):
     docs = SectionAnythingLoader(real_pdf).load()
     assert len(docs) >= 5
     assert all(1 <= d.metadata["page_start"] <= d.metadata["page_end"] for d in docs)
+
+
+def test_chunks_with_a_size_cap(paper_pdf):
+    docs = SectionAnythingLoader(paper_pdf, chunk={"max_chars": 250, "min_chars": 0}).load()
+    whole = SectionAnythingLoader(paper_pdf, include_heading=False).load()
+    assert len(docs) > len(whole) and all(len(d.page_content) <= 250 for d in docs)
+    scope = next(d for d in docs if d.metadata["heading_path"] == ["1 Introduction", "1.1 Scope"])
+    assert scope.page_content.startswith("1 Introduction > 1.1 Scope\n\nSectioning splits")
+    assert (scope.metadata["title"], scope.metadata["level"], scope.metadata["chunk_index"]) == ("Scope", 2, 0)
+    assert set(scope.metadata) == (KEYS | {"chunk_index"}) - {"start", "end"}
+    assert [d.metadata["chunk_index"] for d in docs if d.metadata["section_index"] == scope.metadata["section_index"]] == [0, 1]
+    assert SectionAnythingLoader(paper_pdf, chunk=True).load()[2].page_content.startswith("1 Introduction > 1.1 Scope")
