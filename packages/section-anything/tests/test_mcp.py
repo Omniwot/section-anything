@@ -27,10 +27,12 @@ def test_tools_are_listed_read_only_with_output_schemas():
             return (await client.list_tools()).tools
 
     tools = {t.name: t for t in asyncio.run(go())}
-    assert set(tools) == {"section_pdf", "read_sections", "estimate_cost"}
+    assert set(tools) == {"outline_pdf", "section_pdf", "read_sections", "estimate_cost"}
     for t in tools.values():
-        assert t.annotations.read_only_hint is True and t.output_schema
+        assert t.annotations.read_only_hint is True
+        assert bool(t.output_schema) == (t.name != "outline_pdf")  # the outline is plain text
     assert "heading_path" in str(tools["section_pdf"].output_schema)
+    assert "Call this first" in tools["outline_pdf"].description
 
 
 def test_outline_then_read_sections(paper_pdf):
