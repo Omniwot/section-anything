@@ -193,6 +193,24 @@ pip install lightrag-section-anything
 | LlamaIndex | [`llama-index-readers-section-anything`](packages/llama-index-readers-section-anything) | `SectionAnythingReader(mode="free").load_data("paper.pdf")`, or as the `.pdf` reader of `SimpleDirectoryReader` |
 | LightRAG | [`lightrag-section-anything`](packages/lightrag-section-anything) | parser engines (`sectionany_free`, `sectionany_quick`, ...) for LightRAG's heading-based chunker, without a MinerU or Docling service |
 
+**Chunks with a size cap** come from the tree itself: `tree.chunks()` splits a long section on
+paragraph breaks (then sentence ends, then cuts) up to `max_chars`, merges short sibling sections
+up to `min_chars`, keeps a heading with no body as a chunk of its own, and gives every chunk its
+heading path and pages ([`examples/section_chunks.py`](examples/section_chunks.py)):
+
+```python
+from section_anything import section
+
+for chunk in section("report.pdf").chunks(max_chars=1500, min_chars=200):
+    print(chunk.heading_path, chunk.page_start, chunk.page_end, len(chunk.text))
+    chunk.prefixed_text  # "3 Safety > 3.2 Storage\n\n..." for embedding
+# ['3 Safety', '3.2 Storage'] 12 13 1472
+```
+
+`length=` takes a token counter (tiktoken's `lambda s: len(enc.encode(s))`) to cap by tokens, and
+the LangChain loader and LlamaIndex reader take `chunk=True` or `chunk={"max_chars": 1500}` to
+return chunks with `heading_path` and `chunk_index` in their metadata.
+
 To run Docling's `HybridChunker` or Unstructured's `chunk_by_title` on these headings, export the
 tree with `tree.to_docling_document()` or `tree.to_unstructured_elements()`
 ([how](packages/section-anything/README.md#use-doclings-or-unstructureds-chunkers)). If you already

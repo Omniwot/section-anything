@@ -3,6 +3,22 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
+## Unreleased (0.1.10)
+
+### Added
+
+- **Section-aware chunks with a size cap: `tree.chunks()` and `chunk_sections()` (research finding
+  F081, gap G4).** A section over `max_chars` (2,000) is split on paragraph breaks, then sentence
+  ends, then cut, packed greedily; consecutive sections under `min_chars` (200) merge with the
+  following siblings under the same parent, never across a parent; a heading with no body is one
+  chunk of its own, so a headings-only PDF gives chunks rather than none; `overlap_chars` repeats
+  the previous chunk's tail; `length` takes a token counter in place of `len`. Each `Chunk` has
+  `text`, `heading_path`, `section_index`, `chunk_index`, `page_start`, `page_end` and
+  `prefixed_text` (`"3 Safety > 3.2 Storage\n\n..."`). Pure Python, deterministic, no new
+  dependency. The LangChain loader and LlamaIndex reader take `chunk=True` or
+  `chunk={"max_chars": ...}` and put `heading_path` and `chunk_index` in each chunk's metadata.
+  `examples/section_chunks.py` prints the chunks of a PDF.
+
 ## 0.1.9 (unreleased)
 
 0.1.7 and 0.1.8 were never published; this release holds everything since 0.1.6. Each entry's numbers
