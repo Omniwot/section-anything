@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "langchain-section-anything"
-version = "0.1.0"
+version = "0.1.1"
 description = "LangChain document loader for Section Anything: one Document per PDF section, with its heading path, pages and character span."
 readme = "README.md"
 license = "Apache-2.0"
@@ -24,7 +24,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "section-anything>=0.1.1,<0.2",  # uses its body export (section_anything.export)
+    "section-anything>=0.1.10,<0.2",  # body export (0.1.1), heading_bbox and tree.chunks() (0.1.10)
     "langchain-core>=1.0,<2",
 ]
 
