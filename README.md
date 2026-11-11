@@ -65,6 +65,14 @@ same way: outline, then the sections it needs.
 **Shell:** `section-anything paper.pdf --format json --body` prints every section with its
 `heading_path`, `parent`, pages and `text`.
 
+## Notebooks
+
+All run in Free mode, with no API key.
+
+- [`notebooks/quickstart.ipynb`](notebooks/quickstart.ipynb): install, section one paper, read one section (optional Quick mode with your own key).
+- [`notebooks/heading-levels.ipynb`](notebooks/heading-levels.ipynb): heading trees from Section Anything, Docling (default and with its heading hierarchy on) and pymupdf4llm on three papers, side by side.
+- [`notebooks/markdown-chunks.ipynb`](notebooks/markdown-chunks.ipynb): `tree.to_markdown(body=True)` and pymupdf4llm Markdown through the same LangChain `MarkdownHeaderTextSplitter` and LlamaIndex `MarkdownNodeParser`; chunks with a heading path, chunks starting mid-sentence.
+
 ## Why
 
 PDF converters mostly infer headings from how a line looks, so paper titles, author names,
