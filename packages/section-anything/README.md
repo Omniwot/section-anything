@@ -384,7 +384,7 @@ Arguments win over the environment. **No `.env` file is read, and nothing is eve
 | `SECTIONANY_EXTRACT_TIMEOUT_SECONDS` / `extract_timeout=` | 120 | extraction worker is killed after this |
 | `SECTIONANY_EXTRACT_MEMORY_MB` | 4096 | worker memory limit (Linux only; 0 = none) |
 | `SECTIONANY_ISOLATE_EXTRACTION` | `true` | run extraction in a separate process |
-| `SECTIONANY_LLM_TIMEOUT_SECONDS`, `SECTIONANY_LOCAL_TIMEOUT_SECONDS` | 300, 600 | per model call |
+| `SECTIONANY_LLM_TIMEOUT_SECONDS`, `SECTIONANY_LOCAL_TIMEOUT_SECONDS` | 300, 600 | total time per call, including streaming (cloud models, local models); a call past it is stopped and retried once like any timeout, so one call can take up to twice this |
 | `SECTIONANY_STORE_PROMPTS` | `false` | keep prompt text in call records passed to a `Usage(sink=...)` |
 | `SECTIONANY_LANGFUSE` | `false` | trace calls with Langfuse (needs the `langfuse` extra and Langfuse's own keys); OpenAI-client calls only, Claude calls are not traced |
 
