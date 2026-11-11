@@ -259,9 +259,9 @@ def _prev_block(found: list[RawSection]) -> str:
     return "\n".join(f"L{s.level} {s.number} {s.title}".replace("  ", " ") for s in found[-8:])
 
 
-# The compact answer costs about 30 answer tokens per section, one section per 40 lines: 0.69 answer tokens per line
-# over the F079 paid check (Claude Haiku 5.5, the 40 F069 test documents; the old 7-field answer took 2.6 per line,
-# against the 5 per line the estimate assumed). Thinking is added by the token profile.
+# The compact answer costs 0.64 answer tokens per line of text over the F079 paid check (Claude Haiku 5.5, 36 of the
+# F069 test documents, one run each; the old 7-field answer took 3.1 per line, against the 5 per line the estimate
+# assumed). Thinking is added by the token profile.
 ANSWER_TOKENS_PER_LINE = 0.75
 
 

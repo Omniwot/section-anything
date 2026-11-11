@@ -11,8 +11,12 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   its title, a title that wraps, a bare label with its title line), and a section ends where the next
   starts, as it already did. The model no longer copies 8-15 words at each section's start and end, so
   Standard's output tokens (what its time goes on) fall; the cost estimate is recalibrated (0.75 answer
-  tokens per line of text). Claude Haiku 5.5 on the 40 F069 test documents (keys v3): see research
-  finding F079 for the numbers. Free is unchanged (3,060 of 3,060 saved outputs identical).
+  tokens per line of text). Claude Haiku 5.5 on 36 of the 40 F069 test documents (UK Acts, RFCs,
+  theses, GNU manuals; one run per arm; research finding F079): output tokens per document 99,274 ->
+  9,779 (ratio 0.10, 36 of 36 documents lower), wall time 350 -> 39 s per document (14 long documents
+  709 -> 73 s), cost $0.068 -> $0.016, no 32,000-token cut-offs (67 in the old answer's runs); section
+  F1 on keys v3 +0.016 (95% CI -0.010 to +0.041; 19 documents higher, 8 same, 9 lower), level agreement
+  0.967 -> 0.974. Free is unchanged (3,060 of 3,060 saved outputs identical).
 
 ## 0.1.9 (unreleased)
 
