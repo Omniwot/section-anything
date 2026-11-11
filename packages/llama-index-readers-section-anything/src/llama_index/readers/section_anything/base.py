@@ -13,14 +13,14 @@ import section_anything
 from llama_index.core.readers.base import BaseReader
 from llama_index.core.schema import Document, NodeRelationship, ObjectType, RelatedNodeInfo
 
-from llama_index.readers.section_anything._sections import section_options, section_records
+from llama_index.readers.section_anything._sections import chunk_records, section_options, section_records
 
 if TYPE_CHECKING:
     from fsspec import AbstractFileSystem
 
 # Metadata the reader sets. Embeddings see only the heading path and the document title; the LLM
 # also sees the file name and pages (for citations). The rest is for filtering and debugging.
-KEYS = ("file_path", "file_name", "section_index", "title", "number", "level", "heading_path",
+KEYS = ("file_path", "file_name", "section_index", "chunk_index", "title", "number", "level", "heading_path",
         "page_start", "page_end", "start", "end", "flags", "document_title", "mode", "model",
         "document_cost_usd")
 EMBED_KEYS = {"heading_path", "document_title"}
@@ -39,6 +39,12 @@ class SectionAnythingReader(BaseReader):
         relationships: link the Documents: PARENT (the enclosing section), CHILD, PREVIOUS and
             NEXT. Default True. Ids are "<file path>_part_<n>", the format SimpleDirectoryReader's
             `filename_as_id` uses, so the links survive it.
+        chunk: size-capped chunks instead of whole sections (`SectionTree.chunks`): True for
+            its defaults (at most 2,000 characters, sibling sections under 200 merged), or a
+            dict of its options (max_chars, min_chars, overlap_chars, length, prefix). Each
+            Document's text then starts with the chunk's heading path ("3 Method > 3.1 Data")
+            unless prefix is False; its metadata adds chunk_index (and has no start / end), and
+            the relationships are PREVIOUS and NEXT only.
         **opts: passed to `section_anything.section`: api_key, base_url, model, max_usd,
             prices, over_budget, max_pages, extract_timeout, progress, settings. Anything not
             given falls back to the SECTIONANY_* environment variables.
@@ -59,9 +65,10 @@ class SectionAnythingReader(BaseReader):
     """
 
     def __init__(self, mode: str = "free", *, include_heading: bool = True, relationships: bool = True,
-                 **opts: Any) -> None:
+                 chunk: bool | dict[str, Any] = False, **opts: Any) -> None:
         self.mode = mode
         self.include_heading = include_heading
+        self.chunk = chunk
         self.relationships = relationships
         self._opts = section_options(opts)  # may hold an API key: never logged or put in metadata
 
@@ -83,7 +90,7 @@ class SectionAnythingReader(BaseReader):
                 tree = section_anything.section(local, self.mode, **self._opts)
 
         path = os.fspath(file)
-        records = section_records(tree, self.include_heading)
+        records = chunk_records(tree, self.chunk) if self.chunk else section_records(tree, self.include_heading)
         docs = []
         for n, rec in enumerate(records):
             meta = {"file_path": path, "file_name": os.path.basename(path), **rec.metadata}
