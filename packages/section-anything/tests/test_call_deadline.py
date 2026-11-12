@@ -213,6 +213,50 @@ def test_non_streaming_call_past_the_deadline_is_retried_then_fails(monkeypatch)
     assert [r["error"] for r in records] == ["APITimeoutError", "APITimeoutError"]
 
 
+def test_deadline_error_is_built_with_the_sdk_own_http_library():
+    # openai 3 and anthropic 2 are built on httpx2 and no longer install httpx; openai 1 and 2 use httpx.
+    import openai
+
+    async def late():
+        async with llm._deadline(0.05, openai, "chat/completions"):
+            await asyncio.sleep(3600)
+
+    with pytest.raises(openai.APITimeoutError) as err:
+        _run(late())
+    own = openai.DefaultAsyncHttpxClient.__mro__[1].__module__.partition(".")[0]
+    assert type(err.value.request).__module__.partition(".")[0] == own
+
+
+def test_deadline_error_needs_no_httpx_install(monkeypatch):
+    # A fresh install with openai 3 has no `httpx` module: a past-deadline call raised
+    # ModuleNotFoundError("No module named 'httpx'") in place of APITimeoutError (research finding F091).
+    import sys
+    import types
+
+    http = types.ModuleType("httpx_standin")
+    http.Request = type("Request", (), {"__init__": lambda self, method, url: None})
+    http.AsyncClient = type("AsyncClient", (), {"__module__": "httpx_standin._client"})
+    monkeypatch.setitem(sys.modules, "httpx_standin", http)
+    monkeypatch.setitem(sys.modules, "httpx", None)  # `import httpx` now raises ImportError
+    monkeypatch.setitem(sys.modules, "httpx2", None)
+
+    class APITimeoutError(Exception):
+        def __init__(self, *, request) -> None:
+            super().__init__("Request timed out.")
+            self.request = request
+
+    sdk = SimpleNamespace(APITimeoutError=APITimeoutError,
+                          DefaultAsyncHttpxClient=type("DefaultAsyncHttpxClient", (http.AsyncClient,), {}))
+
+    async def late():
+        async with llm._deadline(0.05, sdk, "chat/completions"):
+            await asyncio.sleep(3600)
+
+    with pytest.raises(APITimeoutError) as err:
+        _run(late())
+    assert isinstance(err.value.request, http.Request)
+
+
 def test_local_models_use_the_local_deadline(monkeypatch):
     # Local generation is slow: local models keep their own, longer `local_timeout_seconds`.
     fake = FakeClient(0.3)
