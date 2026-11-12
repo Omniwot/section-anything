@@ -7,6 +7,7 @@ the "rules + LLM review" strategy.
 from __future__ import annotations
 
 import re
+from bisect import bisect_left
 from collections import defaultdict
 
 from section_anything.docling_input import DoclingHints, hints_of
@@ -1146,18 +1147,159 @@ def _style_levels(heads: list[tuple[Line, str]], body: float) -> dict[Style, int
     styles' ranks: bigger first, bold before regular. Numbered lines on one page (a list of
     affiliations under the title) are not a document's numbering, and with only "2.1"-style
     numbers seen the top level is missing, so depth says nothing about the other styles."""
-    depths: dict[Style, list[tuple[int, int]]] = defaultdict(list)
-    for ln, num in heads:
-        if re.fullmatch(r"\d+(?:\.\d+)*\.?", num):
-            depths[_style(ln, body)].append((num.rstrip(".").count(".") + 1, ln.page))
-    known = {}
-    for s, seen in depths.items():
+    known, _mixed = _known_depths(heads, body)
+    return _levels_from_outline({_style(ln, body) for ln, _ in heads}, known)
+
+
+def _known_depths(heads: list[tuple[Line, str]], body: float,
+                  depths: list[int | None] | None = None) -> tuple[dict[Style, int], set[Style]]:
+    """The numbering depth each heading style stands for (`_style_levels`), and the styles that numbered headings
+    of several depths share (fewer than three quarters at the style's depth): such a style says little about
+    an unnumbered heading set in it ("2.1" and "2.1.1" in one style).
+
+    `depths`, one per heading, replaces the depth read from each number (None for a heading that takes no part:
+    unnumbered, or numbered outside the document's running numbers, `_numbering_spine`)."""
+    seen_at: dict[Style, list[tuple[int, int]]] = defaultdict(list)
+    for k, (ln, num) in enumerate(heads):
+        if depths is not None:
+            if depths[k] is not None:
+                seen_at[_style(ln, body)].append((depths[k], ln.page))
+        elif re.fullmatch(r"\d+(?:\.\d+)*\.?", num):
+            seen_at[_style(ln, body)].append((num.rstrip(".").count(".") + 1, ln.page))
+    known: dict[Style, int] = {}
+    mixed: set[Style] = set()
+    for s, seen in seen_at.items():
         ds = [d for d, _ in seen]
         if len(ds) >= 2 and len({p for _, p in seen}) >= 2:
-            known[s] = min(set(ds), key=lambda d: (-ds.count(d), d))
+            top = min(set(ds), key=lambda d: (-ds.count(d), d))
+            known[s] = top
+            if 4 * ds.count(top) < 3 * len(ds):
+                mixed.add(s)
     if 1 not in known.values():
         known = {}
-    return _levels_from_outline({_style(ln, body) for ln, _ in heads}, known)
+    return known, mixed
+
+
+_ROMAN = {"i": 1, "v": 5, "x": 10, "l": 50, "c": 100}
+
+
+def _label_number(num: str) -> tuple[str, int] | None:
+    """("chapter", 3) for a heading numbered "Chapter 3" or "CHAPTER III"; None for any other numbering and for
+    annexes, schedules and appendices, which stand outside a document's running section numbers."""
+    m = STRUCTURE_LABEL.match(num)
+    if not m or m.group("kind").lower().rstrip(".") in TOP_KINDS or m.group("kind").startswith("§"):
+        return None
+    n = m.group("n").lower()
+    if n.isdigit():
+        return m.group("kind").lower().rstrip("."), int(n)
+    if len(n) == 1 and n not in _ROMAN:
+        return None
+    vals = [_ROMAN[ch] for ch in n]
+    return m.group("kind").lower().rstrip("."), sum(-v if v < nxt else v for v, nxt in zip(vals, [*vals[1:], 0], strict=True))
+
+
+def _carries_on(prev: tuple[int, ...], nxt: tuple[int, ...], skip: int = 1) -> int:
+    """How many levels of numbered sections stay open from the section numbered `prev` to the one numbered `nxt`,
+    when `nxt` carries the same numbering on inside the same top-level section: 2 from 3.2.1 to 3.2.2 (3 and 3.2
+    stay open), 1 from 3.1.2 to 3.2 and from 3 to 3.1. 0 when it does not (a new top-level number, a number
+    that goes back, or one that skips more than `skip` numbers: one missed heading is allowed for)."""
+    k = len(nxt) - 1
+    if k < 1 or k > len(prev) or nxt[:k] != prev[:k]:
+        return 0
+    if k == len(prev):
+        return k if nxt[k] <= 1 + skip else 0
+    return k if 1 <= nxt[k] - prev[k] <= 1 + skip else 0
+
+
+def _numbering_spine(nums: list[str]) -> list[tuple[int, ...] | None]:
+    """Each heading's place in the document's running section numbers, or None when it has none.
+
+    A multi-level number ("3.2", "3.2.1") is its own place. A single number ("3") is one too, unless the
+    multi-level numbers before and after it run on inside one top-level section (`_carries_on`: "1." between 1.2
+    and 1.3, a numbered list item or a line number of a listing): that section is still open, so the single
+    number is not the document's next top-level section. A labeled heading ("Chapter 3") takes the place (3,)
+    when the multi-level numbers under it start with its number ("3.1"), provided the document's headings of
+    that kind do so twice or more and at least half of the times a multi-level number follows them: the label
+    is then the numbering's top level."""
+    paths: list[tuple[int, ...] | None] = []
+    for num in nums:
+        paths.append(tuple(int(x) for x in num.rstrip(".").split(".")) if SECTION_NUMBER_ONLY.fullmatch(num) else None)
+    deep = [i for i, p in enumerate(paths) if p is not None and len(p) >= 2]
+    labels = {i: lab for i, num in enumerate(nums) if paths[i] is None and (lab := _label_number(num))}
+    checked: dict[str, list[tuple[int, bool]]] = defaultdict(list)
+    for i, (kind, n) in labels.items():
+        for j in range(i + 1, len(nums)):
+            if j in labels and labels[j][0] == kind:
+                break
+            if paths[j] is not None and len(paths[j]) >= 2:
+                checked[kind].append((i, paths[j][0] == n))
+                break
+    for seen in checked.values():
+        good = [i for i, ok in seen if ok]
+        if len(good) >= 2 and 2 * len(good) >= len(seen):
+            for i in good:
+                paths[i] = (labels[i][1],)
+    out = list(paths)
+    for i, p in enumerate(paths):
+        if p is None or len(p) != 1:
+            continue
+        at = bisect_left(deep, i)
+        if 0 < at < len(deep) and _carries_on(paths[deep[at - 1]], paths[deep[at]]):
+            out[i] = None
+    return out
+
+
+def _keep_sections_open(levels: list[int], spine: list[tuple[int, ...] | None], fixed: set[int],
+                        unsure: set[int] = frozenset()) -> None:
+    """A heading cannot close a numbered section that the next numbered heading shows to be still open.
+
+    Between two headings of the running numbers of which the second carries the first's numbering on
+    (`_carries_on`: 3.2.1 and 3.2.2 leave 3 and 3.2 open), a heading whose level would close one of the open
+    sections (an unnumbered heading in a style ranked with the chapters, a numbered list item) goes under the
+    first of the two instead, one level below it. So does a heading there whose style says little about its
+    level (`unsure`: a style that numbered headings of several depths share), unless a number is skipped between
+    the two. The headings between the two keep
+    their order of levels, so a smaller heading after it stays below it. Levels change in place; the headings
+    in `fixed` are left alone."""
+    idx = [i for i, p in enumerate(spine) if p is not None]
+    for a, b in zip(idx, idx[1:], strict=False):
+        # The two numbered headings' own levels must agree with their numbers (they do when the numbering
+        # depth set them; labels may have set them otherwise).
+        if not _carries_on(spine[a], spine[b]) or levels[b] - levels[a] != len(spine[b]) - len(spine[a]):
+            continue
+        still_open = levels[b] - 1
+        gap = [i for i in range(a + 1, b) if i not in fixed]
+        # Where a number is skipped (4.5.2 then 4.5.4), a heading in between may be the skipped section with its
+        # number unread: its style still counts.
+        moves = [i for i in gap if levels[i] <= still_open or (i in unsure and _carries_on(spine[a], spine[b], skip=0))]
+        if not moves:
+            continue
+        low = min(levels[i] for i in moves)
+        order = sorted({levels[i] for i in gap if levels[i] >= low})
+        for i in gap:
+            if levels[i] >= low:
+                levels[i] = max(levels[i], levels[a] + 1 + order.index(levels[i]))
+
+
+def _running_levels(heads: list[tuple[Line, str, str]], body: float, fixed: set[int]) -> list[int]:
+    """Levels from the document's running section numbers and its heading styles, for a document whose labels
+    do not set them (`_label_levels`). `heads`: (first line, numbering, text) per heading; `fixed`: indexes of
+    headings that take no part (the abstract).
+
+    A heading on the running numbers (`_numbering_spine`) takes its numbering depth; every other heading takes
+    its style's level (`_style_levels`, from the depths of the numbered headings set in each style). Last, no
+    heading closes a numbered section that is still open (`_keep_sections_open`)."""
+    # A label read as part of the title ("CHAPTER 3 METHODS" with no numbering of its own) counts as the numbering.
+    nums = [num or (text.partition("\n")[0] if _label_number(text) else "") for _, num, text in heads]
+    spine = _numbering_spine(nums)
+    live = [k for k in range(len(heads)) if k not in fixed]
+    pairs = [(heads[k][0], heads[k][1]) for k in live]
+    known, mixed = _known_depths(pairs, body, [len(spine[k]) if spine[k] else None for k in live])
+    style_level = _levels_from_outline({_style(ln, body) for ln, _ in pairs}, known)
+    levels = [len(p) if p else style_level.get(_style(ln, body), 1) for (ln, _, _), p in zip(heads, spine, strict=True)]
+    unsure = {k for k in live if spine[k] is None and not heads[k][1] and _style(heads[k][0], body) in mixed}
+    _keep_sections_open(levels, spine, fixed, unsure)
+    return levels
 
 
 def _title_line(cands: list[tuple[Line, str, str]]) -> int | None:
@@ -1324,7 +1466,6 @@ class RulesStrategy(Strategy):
         # the other levels (see _abstract_levels).
         abstract = {ln.i for ln, _, _ in cands if _abstract_heading(ln)}
         body = ext.body_size()
-        style_level = _style_levels([(ln, num) for ln, num, _ in cands if ln.i not in abstract], body)
         # Legislation sets its structure in labels ("KAPITEL I", "Artikel 5"), often in the body face
         # or smaller, so typography ranks it upside down; when the labels are clear they set the levels.
         texts = [f"{num} {text}" if num and not text.startswith(num) else text.replace("\n", " ") for _, num, text in cands]
@@ -1338,15 +1479,14 @@ class RulesStrategy(Strategy):
         # Without clear labels (a short UK Act with no Parts or Chapters), italic cross-headings would rank
         # below every other style, under the sections they head: they go just above those sections.
         cross = set() if by_label else _cross_headings(ext, cands, body, furniture_of(ext) | side)
+        if by_label:
+            levels = list(by_label)
+            _keep_sections_open(levels, _numbering_spine([num for _, num, _ in cands]), set())
+        else:
+            levels = _running_levels(cands, body, {k for k, (ln, _, _) in enumerate(cands) if ln.i in abstract})
         out = []
         for k, (ln, num, text) in enumerate(cands):
-            dotted = re.fullmatch(r"\d+(?:\.\d+)*\.?", num)
-            if ln.i in abstract:
-                level = 1  # set by _abstract_levels below
-            elif by_label:
-                level = by_label[k]
-            else:
-                level = num.rstrip(".").count(".") + 1 if dotted else style_level[_style(ln, body)]
+            level = 1 if ln.i in abstract else levels[k]  # the abstract's is set by _abstract_levels below
             num, title, marker = _heading_parts(ext, ln, num, text, side, body)
             out.append(RawSection(title=title, level=level, number=num, start_marker=marker[:160], start_line=ln.i))
         if cross:
