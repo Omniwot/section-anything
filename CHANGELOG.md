@@ -20,6 +20,20 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   (14 long documents 709 -> 73 s), cost $0.068 -> $0.016, no 32,000-token cut-offs (67 in the old
   answer's runs); section F1 on keys v3 +0.016 (95% CI -0.010 to +0.041; 19 documents higher, 8 same,
   9 lower), level agreement 0.967 -> 0.974. Free is unchanged (3,060 of 3,060 saved outputs identical).
+- **`free`: levels follow the document's running section numbers (research finding F092).** Without
+  an outline or clear labels, a heading could close a numbered section that the next numbered heading
+  shows to be still open: an unnumbered heading between 3.2.1 and 3.2.2 ranked by its type alone, a
+  list item "1." between 1.2 and 1.3 read as chapter 1, and "Chapter 3" set at the level of "3.1".
+  Now a heading there goes under the numbered heading before it (unless it is set exactly like that
+  heading), a single number inside a chapter is not a chapter, and a label is the numbering's top
+  level when the numbers under it say so ("Chapter 3" over "3.1"). Only levels change: sections,
+  titles and offsets are the same. Our keys v3 and strict scorer, no bookmarks, one run: on the 10
+  theses the rule was developed on, level agreement 0.597 -> 0.949 (section F1 0.837 both); on 28
+  other theses 0.709 -> 0.897 (17 documents higher, 11 same, none lower); on the 325 keyed documents
+  outside the development set (ten document types) 0.820 -> 0.839 (27 higher, 297 same, 1 lower),
+  section F1 identical on every one. Free regression: 102 of 3,060 saved outputs change, levels
+  only. READoc arXiv papers (905, heading-tree TEDS): 61.66 -> 61.68 with bookmarks, 49.18 -> 49.30
+  without; the rule rarely applies to short papers.
 
 ## 0.1.10 (2026-11-11)
 
