@@ -1211,13 +1211,15 @@ def _carries_on(prev: tuple[int, ...], nxt: tuple[int, ...], skip: int = 1) -> i
     return k if 1 <= nxt[k] - prev[k] <= 1 + skip else 0
 
 
-def _numbering_spine(nums: list[str]) -> list[tuple[int, ...] | None]:
+def _numbering_spine(nums: list[str], sizes: list[float] | None = None) -> list[tuple[int, ...] | None]:
     """Each heading's place in the document's running section numbers, or None when it has none.
 
     A multi-level number ("3.2", "3.2.1") is its own place. A single number ("3") is one too, unless the
     multi-level numbers before and after it run on inside one top-level section (`_carries_on`: "1." between 1.2
     and 1.3, a numbered list item or a line number of a listing): that section is still open, so the single
-    number is not the document's next top-level section. A labeled heading ("Chapter 3") takes the place (3,)
+    number is not the document's next top-level section. Given the headings' type `sizes`, the open section's
+    number plus one stands when it is set no smaller than the multi-level numbers around it: it may be the
+    next section read out of order (two columns), where a list item is set smaller. A labeled heading ("Chapter 3") takes the place (3,)
     when the multi-level numbers under it start with its number ("3.1"), provided the document's headings of
     that kind do so twice or more and at least half of the times a multi-level number follows them: the label
     is then the numbering's top level."""
@@ -1244,8 +1246,12 @@ def _numbering_spine(nums: list[str]) -> list[tuple[int, ...] | None]:
         if p is None or len(p) != 1:
             continue
         at = bisect_left(deep, i)
-        if 0 < at < len(deep) and _carries_on(paths[deep[at - 1]], paths[deep[at]]):
-            out[i] = None
+        if not (0 < at < len(deep) and _carries_on(paths[deep[at - 1]], paths[deep[at]])):
+            continue
+        before, after = deep[at - 1], deep[at]
+        if sizes is not None and p[0] == paths[after][0] + 1 and sizes[i] >= max(sizes[before], sizes[after]) - 0.5:
+            continue  # "5 Conclusions" read between 4.1 and 4.3
+        out[i] = None
     return out
 
 
@@ -1294,17 +1300,27 @@ def _running_levels(heads: list[tuple[Line, str, str]], body: float, fixed: set[
 
     A heading on the running numbers (`_numbering_spine`) takes its numbering depth; every other heading takes
     its style's level (`_style_levels`, from the depths of the numbered headings set in each style). Last, no
-    heading closes a numbered section that is still open (`_keep_sections_open`)."""
+    heading closes a numbered section that is still open (`_keep_sections_open`), except one set exactly like
+    the numbered heading before it."""
     # A label read as part of the title ("CHAPTER 3 METHODS" with no numbering of its own) counts as the numbering.
     nums = [num or (text.partition("\n")[0] if _label_number(text) else "") for _, num, text in heads]
-    spine = _numbering_spine(nums)
+    spine = _numbering_spine(nums, [ln.size for ln, _, _ in heads])
     live = [k for k in range(len(heads)) if k not in fixed]
     pairs = [(heads[k][0], heads[k][1]) for k in live]
     known, mixed = _known_depths(pairs, body, [len(spine[k]) if spine[k] else None for k in live])
     style_level = _levels_from_outline({_style(ln, body) for ln, _ in pairs}, known)
     levels = [len(p) if p else style_level.get(_style(ln, body), 1) for (ln, _, _), p in zip(heads, spine, strict=True)]
     unsure = {k for k in live if spine[k] is None and not heads[k][1] and _style(heads[k][0], body) in mixed}
-    _keep_sections_open(levels, spine, fixed, unsure)
+    # A heading set exactly like the numbered heading before it, in a style that stands for one depth, is that
+    # heading's sibling as its type says ("Acknowledgements" and "Appendix" after "4 Discussion", before an
+    # appendix numbered 4.1): it keeps its level.
+    beside, last = set(), None
+    for k in live:
+        if spine[k] is not None:
+            last = _style(heads[k][0], body)
+        elif last is not None and last not in mixed and _style(heads[k][0], body) == last:
+            beside.add(k)
+    _keep_sections_open(levels, spine, fixed | beside, unsure)
     return levels
 
 

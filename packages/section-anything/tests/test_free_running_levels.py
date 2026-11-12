@@ -40,6 +40,15 @@ def test_label_number_reads_chapter_labels_only():
 def test_a_list_item_between_two_sections_of_one_chapter_is_not_a_chapter():
     nums = ["1", "1.1", "1.2", "1.", "2.", "1.3", "2", "2.1"]
     assert _numbering_spine(nums) == [(1,), (1, 1), (1, 2), None, None, (1, 3), (2,), (2, 1)]
+    assert _numbering_spine(nums, [14, 12, 12, 10, 10, 12, 14, 12]) == [(1,), (1, 1), (1, 2), None, None, (1, 3), (2,), (2, 1)]
+
+
+def test_the_next_chapter_number_read_out_of_order_stays_a_chapter():
+    # Two columns: "5 Conclusions" is read between 4.1 and 4.3, set no smaller than they are.
+    nums = ["4", "4.1", "5", "4.3"]
+    assert _numbering_spine(nums, [12, 10, 12, 10]) == [(4,), (4, 1), (5,), (4, 3)]
+    assert _numbering_spine(nums, [12, 10, 9, 10]) == [(4,), (4, 1), None, (4, 3)]  # a list item "5." in small type
+    assert _numbering_spine(["4", "4.1", "7", "4.2"], [12, 10, 12, 10]) == [(4,), (4, 1), None, (4, 2)]
 
 
 def test_single_numbers_stand_when_the_numbering_moves_on():
@@ -138,3 +147,13 @@ def test_a_paper_without_stray_headings_is_unchanged():
              ("2.1 Data", 10, True), ("2.2 Models", 10, True), ("3 Results", 12, True), ("References", 12, True)]
     levels = _free(_ext(paper))
     assert [levels[t] for t in ("1 Introduction", "2 Methods", "2.1 Data", "2.2 Models", "3 Results", "References")] == [1, 1, 2, 2, 1, 1]
+
+
+def test_back_matter_set_like_the_last_section_stays_beside_it():
+    # An appendix that carries on the last section's number (4.1 after "4 Discussion") does not pull the
+    # back matter before it into that section.
+    paper = [("A Study of Sectioning", 18, True), ("1 Introduction", 12, True), ("2 Methods", 12, True),
+             ("2.1 Data", 10, True), ("3 Results", 12, True), ("3.1 Main", 10, True), ("4 Discussion", 12, True),
+             ("Acknowledgements", 12, True), ("Appendix", 12, True), ("4.1 Details", 10, True)]
+    levels = _free(_ext(paper))
+    assert levels["Acknowledgements"] == levels["Appendix"] == levels["4 Discussion"] == 1, levels
