@@ -66,17 +66,17 @@ def test_labels_that_do_not_match_the_numbers_are_left_alone():
 
 def test_a_heading_that_would_close_an_open_section_goes_under_the_one_before():
     #         3.2  3.2.1  ?  ?  3.2.2  3.3
-    spine = [(3, 2), (3, 2, 1), None, None, (3, 2, 2), (3, 3)]
-    levels = [2, 3, 1, 5, 3, 2]
+    spine = [(3,), (3, 2), (3, 2, 1), None, None, (3, 2, 2), (3, 3)]
+    levels = [1, 2, 3, 1, 5, 3, 2]
     _keep_sections_open(levels, spine, set())
-    assert levels == [2, 3, 4, 5, 3, 2]  # the level-1 heading is inside 3.2.1; the smaller one stays below it
+    assert levels == [1, 2, 3, 4, 5, 3, 2]  # the level-1 heading is inside 3.2.1; the smaller one stays below it
 
 
 def test_headings_keep_their_order_of_levels_when_moved():
-    spine = [(2, 4, 1), None, None, None, (2, 4, 2)]
-    levels = [3, 2, 4, 2, 3]
+    spine = [(2, 4), (2, 4, 1), None, None, None, (2, 4, 2)]
+    levels = [2, 3, 2, 4, 2, 3]
     _keep_sections_open(levels, spine, set())
-    assert levels == [3, 4, 5, 4, 3]
+    assert levels == [2, 3, 4, 5, 4, 3]
 
 
 def test_headings_stay_when_no_section_is_open_across_them():
@@ -84,6 +84,15 @@ def test_headings_stay_when_no_section_is_open_across_them():
     levels = [2, 1, 1, 2, 2, 2]
     _keep_sections_open(levels, spine, set())
     assert levels == [2, 1, 1, 2, 2, 2]  # back matter between chapters; a sibling of 4.1 in its own style
+
+
+def test_headings_stay_between_flat_numbers_with_no_section_above_them():
+    # A statute's inserted sections 26.1 and 26.2, a regulation's 122.49 and 122.51: no heading numbered 26 or 122
+    # was read, so nothing shows that these numbers nest, and a group heading between them keeps its level.
+    spine = [(26, 1), None, (26, 2), (27, 1), None, (27, 2)]
+    levels = [2, 1, 2, 2, 1, 2]
+    _keep_sections_open(levels, spine, set())
+    assert levels == [2, 1, 2, 2, 1, 2]
 
 
 def test_headings_stay_where_labels_set_the_numbered_levels_otherwise():
@@ -99,10 +108,10 @@ def test_a_style_shared_by_several_depths_is_unsure_and_goes_under_the_section_b
     _keep_sections_open(levels, spine, set(), unsure={2})
     assert levels == [2, 3, 4, 3]
     # With a number skipped (4.5.2 then 4.5.4) the heading may be 4.5.3 with its number unread: it stays.
-    spine = [(4, 5, 2), None, (4, 5, 4)]
-    levels = [3, 3, 3]
-    _keep_sections_open(levels, spine, set(), unsure={1})
-    assert levels == [3, 3, 3]
+    spine = [(4, 5), (4, 5, 2), None, (4, 5, 4)]
+    levels = [2, 3, 3, 3]
+    _keep_sections_open(levels, spine, set(), unsure={2})
+    assert levels == [2, 3, 3, 3]
 
 
 THESIS = [("Contents", 24, True), ("Chapter 1 Introduction", 20, True), ("1.1 Motivation", 14, True),

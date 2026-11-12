@@ -1256,16 +1256,22 @@ def _keep_sections_open(levels: list[int], spine: list[tuple[int, ...] | None], 
     Between two headings of the running numbers of which the second carries the first's numbering on
     (`_carries_on`: 3.2.1 and 3.2.2 leave 3 and 3.2 open), a heading whose level would close one of the open
     sections (an unnumbered heading in a style ranked with the chapters, a numbered list item) goes under the
-    first of the two instead, one level below it. So does a heading there whose style says little about its
+    first of the two instead, one level below it, provided the open section has a numbered heading of its own
+    (3.2 before 3.2.1 and 3.2.2). So does a heading there whose style says little about its
     level (`unsure`: a style that numbered headings of several depths share), unless a number is skipped between
     the two. The headings between the two keep
     their order of levels, so a smaller heading after it stays below it. Levels change in place; the headings
     in `fixed` are left alone."""
     idx = [i for i, p in enumerate(spine) if p is not None]
+    seen: set[tuple[int, ...]] = set()
     for a, b in zip(idx, idx[1:], strict=False):
+        seen.add(spine[a])
         # The two numbered headings' own levels must agree with their numbers (they do when the numbering
-        # depth set them; labels may have set them otherwise).
-        if not _carries_on(spine[a], spine[b]) or levels[b] - levels[a] != len(spine[b]) - len(spine[a]):
+        # depth set them; labels may have set them otherwise). And the open section must have a heading of
+        # its own: "26.1" and "26.2" with no "26" above them are a statute's inserted sections or a
+        # regulation's "part.section" numbers, flat numbers that a group heading may well stand between.
+        if (not _carries_on(spine[a], spine[b]) or levels[b] - levels[a] != len(spine[b]) - len(spine[a])
+                or spine[b][:-1] not in seen):
             continue
         still_open = levels[b] - 1
         gap = [i for i in range(a + 1, b) if i not in fixed]
