@@ -313,9 +313,26 @@ async def _deadline(seconds: float, sdk: Any, url: str) -> AsyncIterator[None]:
     except TimeoutError:
         if not limit.expired():
             raise
-        import httpx  # the openai dependency; the SDK errors only keep the request for reference
+        raise sdk.APITimeoutError(request=_http_lib(sdk).Request("POST", url)) from None
 
-        raise sdk.APITimeoutError(request=httpx.Request("POST", url)) from None
+
+def _http_lib(sdk: Any) -> Any:
+    """The HTTP library `sdk` is built on: httpx for openai 1 and 2, httpx2 for openai 3 and anthropic 2,
+    which no longer install httpx (a plain `import httpx` here raised ModuleNotFoundError in place of the
+    timeout error on a fresh install; research finding F091). Read from the SDK's own HTTP client class;
+    the SDK errors only keep the request for reference."""
+    import importlib
+
+    for base in getattr(sdk, "DefaultAsyncHttpxClient", object).__mro__[1:]:
+        root = base.__module__.partition(".")[0]
+        if root.startswith("httpx"):
+            return importlib.import_module(root)
+    for name in ("httpx2", "httpx"):
+        try:
+            return importlib.import_module(name)
+        except ImportError:
+            continue
+    raise ImportError("neither httpx2 nor httpx is installed")
 
 
 def _is_free(price: Price | None) -> bool:

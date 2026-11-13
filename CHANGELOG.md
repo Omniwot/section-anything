@@ -35,6 +35,16 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   only. READoc arXiv papers (905, heading-tree TEDS): 61.66 -> 61.68 with bookmarks, 49.18 -> 49.30
   without; the rule rarely applies to short papers.
 
+### Fixed
+
+- **A model call past its deadline failed with `ModuleNotFoundError: No module named 'httpx'` on a
+  fresh install (research finding F091).** openai 3 and anthropic 2 are built on httpx2 and no longer
+  install httpx, which the deadline added in 0.1.10 imported to build its timeout error. The attempt
+  was still stopped and retried, but logs, call records and the final `LlmCallFailed` named
+  `ModuleNotFoundError` in place of `APITimeoutError`. The timeout error is now built with the HTTP
+  library of the SDK in use (httpx for openai 1 and 2, httpx2 for openai 3 and anthropic 2). Checked
+  with openai 2.54.0 and 3.50.0.
+
 ## 0.1.10 (2026-11-11)
 
 ### Added
