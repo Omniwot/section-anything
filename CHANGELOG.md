@@ -3,7 +3,7 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
-## 0.1.11 (unreleased)
+## 0.1.11 (2026-11-13)
 
 ### Changed
 
@@ -19,7 +19,7 @@ Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
   document 99,274 -> 9,779 (ratio 0.10, 36 of 36 documents lower), wall time 350 -> 39 s per document
   (14 long documents 709 -> 73 s), cost $0.068 -> $0.016, no 32,000-token cut-offs (67 in the old
   answer's runs); section F1 on keys v3 +0.016 (95% CI -0.010 to +0.041; 19 documents higher, 8 same,
-  9 lower), level agreement 0.967 -> 0.974. Free is unchanged (3,060 of 3,060 saved outputs identical).
+  9 lower), level agreement 0.967 -> 0.974. This change on its own leaves Free unchanged (3,060 of 3,060 saved outputs identical); the Free level change below is separate.
 - **`free`: levels follow the document's running section numbers (research finding F092).** Without
   an outline or clear labels, a heading could close a numbered section that the next numbered heading
   shows to be still open: an unnumbered heading between 3.2.1 and 3.2.2 ranked by its type alone, a
