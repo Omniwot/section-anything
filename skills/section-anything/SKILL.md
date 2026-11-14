@@ -55,10 +55,10 @@ very few sections, every heading at one level, figure captions as sections. Then
 
 - `quick` (a small model reviews only the candidate heading lines) or `standard` (a model reads the
   whole text) usually do better on papers. On 905 held-out arXiv papers (READoc heading-tree TEDS,
-  0-100): free 60.0, quick 68.0, standard 70.0. On 1,124 held-out GitHub READMEs free scores
-  higher (81.4 against about 75 for quick and standard), so keep free for README-like documents.
+  0-100, release 0.1.11): quick 69.9, standard 68.0, free 61.7. On 1,124 held-out GitHub READMEs free
+  scores higher (81.4 against about 76 for quick and standard), so keep free for README-like documents.
 - They need an API key in the environment (`OPENAI_API_KEY`, or `ANTHROPIC_API_KEY` with a Claude
-  model) and cost about $0.07 (quick) or $0.16 (standard) per 1,000 pages with the default model.
+  model) and cost about $0.07 (quick) or $0.12 (standard) per 1,000 pages with the default model.
   Every run is estimated first and capped per document (default $0.50); over the cap it falls back
   to a cheaper mode and says so in `downgraded`.
 - Ask the user before running a paid mode on their documents: it sends text to the model provider.

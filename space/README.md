@@ -60,7 +60,7 @@ public demo.
   `quick` with an Ollama model on your machine. See the
   [README](https://github.com/Omniwot/section-anything#readme).
 - The three examples are examples, not a benchmark. Over 905 held-out READoc arXiv papers the
-  README reports heading-tree TEDS of 70.0 for `standard`, 68.0 for `quick` and 60.0 for `free`
+  README reports heading-tree TEDS of 69.9 for `quick`, 68.0 for `standard` and 61.7 for `free`
   ([results](https://github.com/Omniwot/section-anything#results)).
 - A saved run's section text is cut from this Space's own extraction of the paper, and only where
   the cut matches the saved run (a hash of the section's text or of its lines, and the heading

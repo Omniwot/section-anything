@@ -61,8 +61,8 @@ are not logged. Don't upload confidential documents: this is a public demo.
 **Limits:** {MAX_PAGES} pages and {MAX_MB} MB per PDF, with a text layer (scanned PDFs need OCR first)."""
 EXAMPLES_NOTE = f"""**Example papers.** Free runs live here. Quick check and Standard (both on gpt-6-luna) are
 saved runs: computed once by us, never on this Space. Three examples, not a benchmark: over 905 held-out
-READoc arXiv papers the [README]({REPO}#results) reports heading-tree TEDS of 70.0 for Standard, 68.0 for
-Quick check and 60.0 for Free."""
+READoc arXiv papers the [README]({REPO}#results) reports heading-tree TEDS of 69.9 for Quick check, 68.0 for
+Standard and 61.7 for Free (release 0.1.11)."""
 NO_MODEL = (f"Quick check and Standard call a model, so this Space runs them only as saved runs on the three "
             f"example papers. For your own PDFs, [install the library]({REPO}#install) and use your own API key.")
 HIDDEN = ("(Text not shown: this part of the PDF came out of this Space's extraction differently from the saved "

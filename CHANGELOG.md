@@ -3,6 +3,19 @@
 Releases of the `section-anything` library on [PyPI](https://pypi.org/project/section-anything/).
 Scores are READoc heading-tree TEDS (0-100) with READoc's own scoring code.
 
+## Unreleased
+
+### Documentation
+
+- **READoc held-out scores measured again on 0.1.11** (13 November 2026, end to end from the PDFs with the
+  published package, gpt-6-luna, one run, no failed document; research finding F106): 905 arXiv papers
+  `quick` 69.9, `standard` 68.0, `free` 61.7; 1,124 READMEs `free` 81.4, `quick` 76.3, `standard` 76.3.
+  On the papers `standard` is 1.9 lower than its October run (95% CI −2.5 to −1.3; which release caused it
+  is not isolated) and `quick` is 1.9 ahead of `standard` (95% CI +1.2 to +2.6). Measured cost per 1,000
+  pages: `quick` about $0.07, `standard` about $0.12. The README, the package README, the website, the demo
+  Space and the agent skill now give these numbers; Docling's and MinerU's rows are still their October
+  measurements.
+
 ## 0.1.11 (2026-11-13)
 
 ### Changed

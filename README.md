@@ -87,18 +87,23 @@ rules, and optionally a model that reviews or reads the text.
 ## Results
 
 Heading-tree similarity (TEDS, 0–100, higher is better) on [READoc](https://github.com/icip-cas/READoc)
-with READoc's own scoring code, October 2026. Docling and MinerU convert whole documents (layout,
-tables, figures, formulas, OCR); these numbers compare only the heading tree. Papers not used while
-developing the method:
+with READoc's own scoring code. Docling and MinerU convert whole documents (layout, tables, figures,
+formulas, OCR); these numbers compare only the heading tree. Papers not used while developing the
+method, run end to end from the PDFs with release 0.1.11 on 13 November 2026 (one run; `quick` and
+`standard` vary slightly between runs):
 
 | READoc arXiv papers (held out) | Docs | TEDS |
 |---|---|---|
-| Section Anything `standard` (gpt-6-luna) | 905 | **70.0** |
-| Section Anything `quick` (gpt-6-luna) | 905 | 68.0 |
-| Section Anything `free` (no model) | 905 | 60.0 |
-| Docling 2.140 (heading hierarchy on) | 905 | 49.4 |
+| Section Anything `quick` (gpt-6-luna) | 905 | **69.9** |
+| Section Anything `standard` (gpt-6-luna) | 905 | 68.0 |
+| Section Anything `free` (no model) | 905 | 61.7 |
+| Docling 2.140 (heading hierarchy on; measured October 2026) | 905 | 49.4 |
 
-`quick` is release 0.1.2 and `free` release 0.1.5. 0.1.1 found the abstract's heading (journals often set it
+On these papers `quick` is 1.9 points ahead of `standard` (95% CI +1.2 to +2.6), and `standard` is 1.9
+lower than its October run (95% CI −2.5 to −1.3); which release caused that is not isolated.
+
+Before 0.1.11 this table read `standard` 70.0 (October), `quick` 68.0 (release 0.1.2) and `free` 60.0
+(release 0.1.5), on text extracted by earlier releases. 0.1.1 found the abstract's heading (journals often set it
 small, bold or run into the first line): +2.4 to `free` and +3.7 to `quick` in a pre-registered
 held-out test (0.1.0: 54.8 and 63.9). 0.1.2 keeps a section number that the PDF extractor split
 off its title ("1" | "Introduction"): +0.7 to `free` (95% CI +0.5 to +1.0) and +0.5 to `quick`
@@ -109,23 +114,26 @@ numbered sections: +2.1 to `free` (95% CI +1.7 to +2.4; 136 papers better, 4 wor
 pre-registered test on these papers (0.1.4: 57.9); READMEs unchanged.
 `standard` uses none of these. See the [changelog](CHANGELOG.md).
 
-On the same 905 papers with MinerU's cloud (3.4.4, VLM): our `standard` 70.0, our `quick` 68.0,
-MinerU + its own LLM title levels (gpt-6.1-sol) 64.8 (paired difference: `standard` +5.1, 95% CI
-+4.0 to +6.2, or +2.8 without the 154 papers where that step, run by us on gpt-6.1-sol, returned no
-parsable levels and kept MinerU's raw levels; `quick` +3.1, 95% CI +2.1 to +4.1, but level without
-those papers: +1.0, 95% CI −0.03 to +2.0),
+On the same 905 papers with MinerU's cloud (3.4.4, VLM; measured October 2026): our `quick` 69.9, our
+`standard` 68.0, MinerU + its own LLM title levels (gpt-6.1-sol) 64.8 (paired difference: `quick` +5.1,
+95% CI +4.1 to +6.1, or +3.0, 95% CI +1.9 to +4.0, without the 154 papers where that step, run by us on
+gpt-6.1-sol, returned no parsable levels and kept MinerU's raw levels; `standard` +3.2, 95% CI +2.2 to
++4.2, but about level without those papers: +1.0, 95% CI +0.0 to +1.9),
 MinerU alone 53.9, Docling 49.4.
 
-On GitHub READMEs, `free` scores higher than Docling: on 1,112 bookmarked READoc READMEs not used
-in development, 81.9 against 75.5, and Docling reaches 79.7 with the opt-in outline check we
-proposed upstream ([docling#5002](https://github.com/docling-project/docling/issues/5002)), the
-same idea as `free`'s outline check.
+On GitHub READMEs, `free` scores higher than Docling: on the 1,124 READoc READMEs not used in
+development, 81.4 against 75.2 (+6.2, 95% CI +5.2 to +7.1; release 0.1.11, Docling 2.140 from October).
+In October, on the 1,112 of them that had bookmarks, `free` scored 81.9 against 75.5, and Docling reached
+79.7 with the opt-in outline check we proposed upstream
+([docling#5002](https://github.com/docling-project/docling/issues/5002)), the same idea as `free`'s
+outline check.
 On 27 UK government reports never used in development (answer keys from each report's HTML
 version), the outline check improved `free` by +5.7 (95% CI +0.4 to +12.2; 43.1 → 48.8; measured on 0.1.0).
 
-**Where others win:** on the 1,124 held-out READoc READMEs our `quick` and `standard` only tie with
-Docling (about 75). On the 905 held-out papers Docling scored higher than `standard` on 103 papers
-and lower on 773 (by more than 0.5 points). Nougat, an OCR model trained on arXiv, has the highest published READoc arXiv score
+**Where others win:** on the 1,124 held-out READoc READMEs our `quick` and `standard` are only about
+level with Docling (76.3 against 75.2; +1.1, 95% CI −0.0 to +2.2), five points below our own `free`
+there. On the 905 held-out papers Docling scored higher than `quick` on 79 papers and lower on 774 (by
+more than 0.5 points). Nougat, an OCR model trained on arXiv, has the highest published READoc arXiv score
 (88.5 in the READoc paper, older tool versions; we have not run it). Docling and MinerU also read
 scanned pages with OCR; Section Anything needs a text layer. Better headings improved RAG retrieval in our
 [Qasper test](docs/rag-qasper.md) but not answer quality.
@@ -136,7 +144,7 @@ scanned pages with OCR; Section Anything needs a text layer. Better headings imp
 |---|---|---|---|
 | `free` (default) | bookmarks or the printed contents as the outline, then typography and numbering rules; headings a complete-looking outline does not list are dropped | nothing | $0 |
 | `quick` | rules propose candidate heading lines; a small model keeps the real ones and sets levels | candidate lines only | about $0.07 (gpt-6-luna) |
-| `standard` | a model reads every line, with font hints, and marks where sections start and end | the document text | about $0.16 (gpt-6-luna, the default); $2.90 with gpt-6.1-sol |
+| `standard` | a model reads every line, with font hints, and marks where sections start and end | the document text | about $0.12 (gpt-6-luna, the default; measured on 0.1.11); $2.90 with gpt-6.1-sol (measured in October) |
 | `local:<model>` | `quick`, answered by a local Ollama model | nothing leaves the machine | $0 |
 | `auto` | `free`, then `quick` only for documents where Free is unsure of its headings | nothing, or what `quick` sends | $0 for documents Free is sure of; `quick`'s cost for the rest |
 
@@ -155,7 +163,7 @@ documents); a sheet written from unrepresentative samples can lower it. See the
 
 The default model for `quick` and `standard` is gpt-6-luna, the model behind their READoc scores
 above. `standard` can run on gpt-6.1-sol instead (`SECTIONANY_STANDARD_MODEL=gpt-6.1-sol` or
-`model="gpt-6.1-sol"`) at about 18 times the cost. On development documents only (98 READoc papers
+`model="gpt-6.1-sol"`) at about 18 times the cost when both were measured in October. On development documents only (98 READoc papers
 and 100 READMEs, same code) it scored 5.8 points higher on READMEs (95% CI +2.1 to +9.6) and 0.9
 higher on papers (CI -0.3 to +2.1, not significant); this is not confirmed on held-out documents.
 

@@ -309,10 +309,10 @@ def render(cap: Path) -> None:
     d.text((X, 116), "Find the real sections of a PDF: every heading, its level, the pages it spans and "
            "the exact text under it.", font=sf(24), fill=DIM)
     big = sf(40, "Bold")
-    d.text((X, 160), "70.0", font=big, fill=GREEN)
-    d.text((X + big.getlength("70.0") + 12, 172), "vs 49.4 for Docling", font=sf(22, "Semibold"), fill=FG)
-    d.text((X, 212), "heading-tree TEDS (0–100) on 905 held-out arXiv papers from READoc; Standard mode, "
-           "gpt-6-luna", font=sf(17), fill=FAINT)
+    d.text((X, 160), "69.9", font=big, fill=GREEN)
+    d.text((X + big.getlength("69.9") + 12, 172), "vs 49.4 for Docling", font=sf(22, "Semibold"), fill=FG)
+    d.text((X, 212), "heading-tree TEDS (0–100) on 905 held-out arXiv papers from READoc; Quick mode, "
+           "gpt-6-luna, release 0.1.11; Docling 2.140", font=sf(17), fill=FAINT)
 
     # Terminal panel: scene 2 of the GIF, the same captured lines.
     px0, py0, px1, py1 = X, 252, SW - X, 592
