@@ -1,8 +1,8 @@
 {
  "schema": 1,
  "id": "2304.08485v2",
- "title": "Visual Instruction Tuning",
  "button": "Visual Instruction Tuning · 25 pages, bookmarks",
+ "title": "Visual Instruction Tuning",
  "authors": "Liu et al.",
  "licence": "CC BY 4.0",
  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
@@ -17,11 +17,11 @@
  "readoc": null,
  "runs": {
   "free": {
-   "section_anything": "0.1.5",
+   "section_anything": "0.1.11",
    "mode": "free",
    "model": null,
-   "date": "2026-10-28",
-   "seconds": 2.6,
+   "date": "2026-11-13",
+   "seconds": 2.58,
    "calls": 0,
    "input_tokens": 0,
    "output_tokens": 0,
@@ -48,6 +48,18 @@
      "flags": [
       "doc_title"
      ],
+     "confidence": 0.394,
+     "parent": null,
+     "heading_path": [
+      "Visual Instruction Tuning"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 211.14,
+      "y0": 675.35,
+      "x1": 400.25,
+      "y1": 692.57
+     },
      "sha": "5d8c57b4e7343ed2",
      "lines_sha": "33bf8949859ef8ea",
      "heading_check": true
@@ -61,6 +73,18 @@
      "start": 253,
      "end": 1501,
      "flags": [],
+     "confidence": 0.982,
+     "parent": null,
+     "heading_path": [
+      "Abstract"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 283.76,
+      "y0": 557.22,
+      "x1": 328.24,
+      "y1": 569.18
+     },
      "sha": "934bb8b0e02f73f5",
      "lines_sha": "4597db161517b650",
      "heading_check": true
@@ -74,6 +98,18 @@
      "start": 1502,
      "end": 5400,
      "flags": [],
+     "confidence": 0.964,
+     "parent": null,
+     "heading_path": [
+      "1 Introduction"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 108.0,
+      "y0": 338.97,
+      "x1": 190.81,
+      "y1": 350.93
+     },
      "sha": "331cdbfaf1cbd107",
      "lines_sha": "af27614c901685ef",
      "heading_check": true
@@ -87,6 +123,18 @@
      "start": 5401,
      "end": 8209,
      "flags": [],
+     "confidence": 0.964,
+     "parent": null,
+     "heading_path": [
+      "2 Related Work"
+     ],
+     "heading_bbox": {
+      "page": 2,
+      "x0": 108.0,
+      "y0": 471.42,
+      "x1": 197.09,
+      "y1": 483.37
+     },
      "sha": "556f3f278d628c1c",
      "lines_sha": "3151b3fc0b3a2beb",
      "heading_check": true
@@ -100,6 +148,18 @@
      "start": 8210,
      "end": 13604,
      "flags": [],
+     "confidence": 0.964,
+     "parent": null,
+     "heading_path": [
+      "3 GPT-assisted Visual Instruction Data Generation"
+     ],
+     "heading_bbox": {
+      "page": 2,
+      "x0": 108.0,
+      "y0": 103.58,
+      "x1": 376.12,
+      "y1": 115.54
+     },
      "sha": "0c42bbd7fbc7b3bf",
      "lines_sha": "a31f561dfdd33546",
      "heading_check": true
@@ -113,6 +173,18 @@
      "start": 13605,
      "end": 13632,
      "flags": [],
+     "confidence": 0.964,
+     "parent": null,
+     "heading_path": [
+      "4 Visual Instruction Tuning"
+     ],
+     "heading_bbox": {
+      "page": 4,
+      "x0": 108.0,
+      "y0": 584.74,
+      "x1": 257.26,
+      "y1": 596.7
+     },
      "sha": "8814fbca0a390624",
      "lines_sha": "8814fbca0a390624",
      "heading_check": true
@@ -126,6 +198,19 @@
      "start": 13633,
      "end": 15017,
      "flags": [],
+     "confidence": 0.949,
+     "parent": 5,
+     "heading_path": [
+      "4 Visual Instruction Tuning",
+      "4.1 Architecture"
+     ],
+     "heading_bbox": {
+      "page": 4,
+      "x0": 108.0,
+      "y0": 562.39,
+      "x1": 184.27,
+      "y1": 572.35
+     },
      "sha": "a9a567d431958437",
      "lines_sha": "eb94fbd84b7a9a6d",
      "heading_check": true
@@ -139,6 +224,19 @@
      "start": 15018,
      "end": 18979,
      "flags": [],
+     "confidence": 0.949,
+     "parent": 5,
+     "heading_path": [
+      "4 Visual Instruction Tuning",
+      "4.2 Training"
+     ],
+     "heading_bbox": {
+      "page": 4,
+      "x0": 108.0,
+      "y0": 235.01,
+      "x1": 167.33,
+      "y1": 244.97
+     },
      "sha": "0e57e4367f67844d",
      "lines_sha": "fa1e430cf4e7b902",
      "heading_check": true
@@ -152,6 +250,18 @@
      "start": 18980,
      "end": 19547,
      "flags": [],
+     "confidence": 0.964,
+     "parent": null,
+     "heading_path": [
+      "5 Experiments"
+     ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 108.0,
+      "y0": 245.74,
+      "x1": 191.02,
+      "y1": 257.69
+     },
      "sha": "72a169d69979eec7",
      "lines_sha": "903a9d3cdbc1d8d5",
      "heading_check": true
@@ -165,6 +275,19 @@
      "start": 19548,
      "end": 30416,
      "flags": [],
+     "confidence": 0.949,
+     "parent": 8,
+     "heading_path": [
+      "5 Experiments",
+      "5.1 Multimodal Chatbot"
+     ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 108.0,
+      "y0": 144.44,
+      "x1": 218.15,
+      "y1": 154.4
+     },
      "sha": "07c1667c041a3861",
      "lines_sha": "77fe5d98d426306a",
      "heading_check": true
@@ -178,6 +301,19 @@
      "start": 30417,
      "end": 35952,
      "flags": [],
+     "confidence": 0.949,
+     "parent": 8,
+     "heading_path": [
+      "5 Experiments",
+      "5.2 ScienceQA"
+     ],
+     "heading_bbox": {
+      "page": 8,
+      "x0": 108.0,
+      "y0": 339.79,
+      "x1": 176.9,
+      "y1": 349.75
+     },
      "sha": "6889bd84c34e2b70",
      "lines_sha": "a18c40f5f6dad11b",
      "heading_check": true
@@ -191,6 +327,18 @@
      "start": 35953,
      "end": 37449,
      "flags": [],
+     "confidence": 0.964,
+     "parent": null,
+     "heading_path": [
+      "6 Conclusion"
+     ],
+     "heading_bbox": {
+      "page": 9,
+      "x0": 108.0,
+      "y0": 207.06,
+      "x1": 183.07,
+      "y1": 219.02
+     },
      "sha": "9d30613459fdd43f",
      "lines_sha": "1643a2bca77242c5",
      "heading_check": true
@@ -204,6 +352,18 @@
      "start": 37450,
      "end": 51758,
      "flags": [],
+     "confidence": 0.982,
+     "parent": null,
+     "heading_path": [
+      "References"
+     ],
+     "heading_bbox": {
+      "page": 10,
+      "x0": 108.0,
+      "y0": 624.92,
+      "x1": 163.54,
+      "y1": 636.87
+     },
      "sha": "9f10d3fdcdc09209",
      "lines_sha": "2f85f35d216111e0",
      "heading_check": true
@@ -217,6 +377,18 @@
      "start": 51759,
      "end": 54531,
      "flags": [],
+     "confidence": 0.941,
+     "parent": null,
+     "heading_path": [
+      "A Broader Impact"
+     ],
+     "heading_bbox": {
+      "page": 14,
+      "x0": 108.0,
+      "y0": 707.54,
+      "x1": 210.38,
+      "y1": 719.49
+     },
      "sha": "50f546d663a7a4e8",
      "lines_sha": "69e3023cf6c6fdaf",
      "heading_check": true
@@ -230,6 +402,18 @@
      "start": 54532,
      "end": 62143,
      "flags": [],
+     "confidence": 0.941,
+     "parent": null,
+     "heading_path": [
+      "B More Results"
+     ],
+     "heading_bbox": {
+      "page": 14,
+      "x0": 108.0,
+      "y0": 229.96,
+      "x1": 195.78,
+      "y1": 241.91
+     },
      "sha": "99c7d8cd98fb0520",
      "lines_sha": "4c14d0b7636775f6",
      "heading_check": true
@@ -243,6 +427,18 @@
      "start": 62144,
      "end": 62925,
      "flags": [],
+     "confidence": 0.941,
+     "parent": null,
+     "heading_path": [
+      "C Training Details"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 108.0,
+      "y0": 707.54,
+      "x1": 211.07,
+      "y1": 719.49
+     },
      "sha": "3c131ee64b1cdeea",
      "lines_sha": "a087164d969ecc4d",
      "heading_check": true
@@ -256,6 +452,18 @@
      "start": 62926,
      "end": 63525,
      "flags": [],
+     "confidence": 0.941,
+     "parent": null,
+     "heading_path": [
+      "D Assets"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 108.0,
+      "y0": 574.34,
+      "x1": 160.46,
+      "y1": 586.29
+     },
      "sha": "46d9a1a67f06570f",
      "lines_sha": "fe7546df40830d3b",
      "heading_check": true
@@ -269,6 +477,18 @@
      "start": 63526,
      "end": 66544,
      "flags": [],
+     "confidence": 0.941,
+     "parent": null,
+     "heading_path": [
+      "E Data"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 108.0,
+      "y0": 380.23,
+      "x1": 152.5,
+      "y1": 392.18
+     },
      "sha": "3102f100d82f2cb9",
      "lines_sha": "626ee28462b6bd97",
      "heading_check": true
@@ -282,6 +502,18 @@
      "start": 66545,
      "end": 78554,
      "flags": [],
+     "confidence": 0.941,
+     "parent": null,
+     "heading_path": [
+      "F Prompts"
+     ],
+     "heading_bbox": {
+      "page": 21,
+      "x0": 108.0,
+      "y0": 224.01,
+      "x1": 170.87,
+      "y1": 235.96
+     },
      "sha": "e3e026c96b0f8cfa",
      "lines_sha": "9d82e6372c4ee60a",
      "heading_check": true
@@ -289,27 +521,33 @@
    ]
   },
   "quick": {
-   "section_anything": "0.1.5",
+   "section_anything": "0.1.11",
    "mode": "quick",
    "model": "gpt-6-luna",
-   "date": "2026-10-28",
-   "seconds": 13.3,
+   "date": "2026-11-13",
+   "seconds": 13.55,
    "calls": 1,
    "input_tokens": 1939,
-   "output_tokens": 1114,
-   "cost_usd": 0.0006,
+   "output_tokens": 932,
+   "cost_usd": 0.0007,
    "usage": {
     "calls": 1,
     "input_tokens": 1939,
-    "cached_tokens": 1936,
-    "output_tokens": 1114,
-    "reasoning_tokens": 431,
-    "cost_usd": 0.0006,
+    "cached_tokens": 0,
+    "output_tokens": 932,
+    "reasoning_tokens": 249,
+    "cost_usd": 0.0007,
     "cost_by_step": {
-     "review batch 1/1": 0.0006
+     "review batch 1/1": 0.0007
+    },
+    "kept_strong": {
+     "how": "ask",
+     "left_out": 0,
+     "restored": [],
+     "rejected": []
     }
    },
-   "text_sha256": "548f6e972483e7901581ad86eea5c088d7c89671fac33a47f88d0db8d04b27ba",
+   "text_sha256": "fb6dfa3a7bea596c7a185a4e7314ef12ccd30c93523fe5e602f80945b3c0a1eb",
    "sections": [
     {
      "number": "",
@@ -322,6 +560,18 @@
      "flags": [
       "doc_title"
      ],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Visual Instruction Tuning"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 211.14,
+      "y0": 675.35,
+      "x1": 400.25,
+      "y1": 692.57
+     },
      "sha": "5d8c57b4e7343ed2",
      "lines_sha": "33bf8949859ef8ea",
      "heading_check": true
@@ -335,6 +585,18 @@
      "start": 253,
      "end": 1501,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Abstract"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 283.76,
+      "y0": 557.22,
+      "x1": 328.24,
+      "y1": 569.18
+     },
      "sha": "934bb8b0e02f73f5",
      "lines_sha": "4597db161517b650",
      "heading_check": true
@@ -348,6 +610,18 @@
      "start": 1502,
      "end": 5400,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "1 Introduction"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 108.0,
+      "y0": 338.97,
+      "x1": 190.81,
+      "y1": 350.93
+     },
      "sha": "331cdbfaf1cbd107",
      "lines_sha": "af27614c901685ef",
      "heading_check": true
@@ -361,6 +635,18 @@
      "start": 5401,
      "end": 8209,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "2 Related Work"
+     ],
+     "heading_bbox": {
+      "page": 2,
+      "x0": 108.0,
+      "y0": 471.42,
+      "x1": 197.09,
+      "y1": 483.37
+     },
      "sha": "556f3f278d628c1c",
      "lines_sha": "3151b3fc0b3a2beb",
      "heading_check": true
@@ -374,6 +660,18 @@
      "start": 8210,
      "end": 13604,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "3 GPT-assisted Visual Instruction Data Generation"
+     ],
+     "heading_bbox": {
+      "page": 2,
+      "x0": 108.0,
+      "y0": 103.58,
+      "x1": 376.12,
+      "y1": 115.54
+     },
      "sha": "0c42bbd7fbc7b3bf",
      "lines_sha": "a31f561dfdd33546",
      "heading_check": true
@@ -387,6 +685,18 @@
      "start": 13605,
      "end": 13632,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "4 Visual Instruction Tuning"
+     ],
+     "heading_bbox": {
+      "page": 4,
+      "x0": 108.0,
+      "y0": 584.74,
+      "x1": 257.26,
+      "y1": 596.7
+     },
      "sha": "8814fbca0a390624",
      "lines_sha": "8814fbca0a390624",
      "heading_check": true
@@ -400,6 +710,19 @@
      "start": 13633,
      "end": 15017,
      "flags": [],
+     "confidence": null,
+     "parent": 5,
+     "heading_path": [
+      "4 Visual Instruction Tuning",
+      "4.1 Architecture"
+     ],
+     "heading_bbox": {
+      "page": 4,
+      "x0": 108.0,
+      "y0": 562.39,
+      "x1": 184.27,
+      "y1": 572.35
+     },
      "sha": "a9a567d431958437",
      "lines_sha": "eb94fbd84b7a9a6d",
      "heading_check": true
@@ -413,6 +736,19 @@
      "start": 15018,
      "end": 18979,
      "flags": [],
+     "confidence": null,
+     "parent": 5,
+     "heading_path": [
+      "4 Visual Instruction Tuning",
+      "4.2 Training"
+     ],
+     "heading_bbox": {
+      "page": 4,
+      "x0": 108.0,
+      "y0": 235.01,
+      "x1": 167.33,
+      "y1": 244.97
+     },
      "sha": "0e57e4367f67844d",
      "lines_sha": "fa1e430cf4e7b902",
      "heading_check": true
@@ -426,6 +762,18 @@
      "start": 18980,
      "end": 19547,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "5 Experiments"
+     ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 108.0,
+      "y0": 245.74,
+      "x1": 191.02,
+      "y1": 257.69
+     },
      "sha": "72a169d69979eec7",
      "lines_sha": "903a9d3cdbc1d8d5",
      "heading_check": true
@@ -439,6 +787,19 @@
      "start": 19548,
      "end": 30416,
      "flags": [],
+     "confidence": null,
+     "parent": 8,
+     "heading_path": [
+      "5 Experiments",
+      "5.1 Multimodal Chatbot"
+     ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 108.0,
+      "y0": 144.44,
+      "x1": 218.15,
+      "y1": 154.4
+     },
      "sha": "07c1667c041a3861",
      "lines_sha": "77fe5d98d426306a",
      "heading_check": true
@@ -452,7 +813,20 @@
      "start": 30417,
      "end": 35952,
      "flags": [],
-     "sha": "3a5a69517b2d08a9",
+     "confidence": null,
+     "parent": 8,
+     "heading_path": [
+      "5 Experiments",
+      "5.2 ScienceQA"
+     ],
+     "heading_bbox": {
+      "page": 8,
+      "x0": 108.0,
+      "y0": 339.79,
+      "x1": 176.9,
+      "y1": 349.75
+     },
+     "sha": "6889bd84c34e2b70",
      "lines_sha": "a18c40f5f6dad11b",
      "heading_check": true
     },
@@ -465,6 +839,18 @@
      "start": 35953,
      "end": 37449,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "6 Conclusion"
+     ],
+     "heading_bbox": {
+      "page": 9,
+      "x0": 108.0,
+      "y0": 207.06,
+      "x1": 183.07,
+      "y1": 219.02
+     },
      "sha": "9d30613459fdd43f",
      "lines_sha": "1643a2bca77242c5",
      "heading_check": true
@@ -478,6 +864,18 @@
      "start": 37450,
      "end": 51758,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "References"
+     ],
+     "heading_bbox": {
+      "page": 10,
+      "x0": 108.0,
+      "y0": 624.92,
+      "x1": 163.54,
+      "y1": 636.87
+     },
      "sha": "9f10d3fdcdc09209",
      "lines_sha": "2f85f35d216111e0",
      "heading_check": true
@@ -491,6 +889,18 @@
      "start": 51759,
      "end": 54531,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "A Broader Impact"
+     ],
+     "heading_bbox": {
+      "page": 14,
+      "x0": 108.0,
+      "y0": 707.54,
+      "x1": 210.38,
+      "y1": 719.49
+     },
      "sha": "50f546d663a7a4e8",
      "lines_sha": "69e3023cf6c6fdaf",
      "heading_check": true
@@ -504,6 +914,18 @@
      "start": 54532,
      "end": 62143,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "B More Results"
+     ],
+     "heading_bbox": {
+      "page": 14,
+      "x0": 108.0,
+      "y0": 229.96,
+      "x1": 195.78,
+      "y1": 241.91
+     },
      "sha": "99c7d8cd98fb0520",
      "lines_sha": "4c14d0b7636775f6",
      "heading_check": true
@@ -517,6 +939,18 @@
      "start": 62144,
      "end": 62925,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "C Training Details"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 108.0,
+      "y0": 707.54,
+      "x1": 211.07,
+      "y1": 719.49
+     },
      "sha": "3c131ee64b1cdeea",
      "lines_sha": "a087164d969ecc4d",
      "heading_check": true
@@ -530,6 +964,18 @@
      "start": 62926,
      "end": 63525,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "D Assets"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 108.0,
+      "y0": 574.34,
+      "x1": 160.46,
+      "y1": 586.29
+     },
      "sha": "46d9a1a67f06570f",
      "lines_sha": "fe7546df40830d3b",
      "heading_check": true
@@ -543,6 +989,18 @@
      "start": 63526,
      "end": 66544,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "E Data"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 108.0,
+      "y0": 380.23,
+      "x1": 152.5,
+      "y1": 392.18
+     },
      "sha": "3102f100d82f2cb9",
      "lines_sha": "626ee28462b6bd97",
      "heading_check": true
@@ -556,6 +1014,18 @@
      "start": 66545,
      "end": 78554,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "F Prompts"
+     ],
+     "heading_bbox": {
+      "page": 21,
+      "x0": 108.0,
+      "y0": 224.01,
+      "x1": 170.87,
+      "y1": 235.96
+     },
      "sha": "e3e026c96b0f8cfa",
      "lines_sha": "9d82e6372c4ee60a",
      "heading_check": true
@@ -563,27 +1033,33 @@
    ]
   },
   "standard": {
-   "section_anything": "0.1.5",
+   "section_anything": "0.1.11",
    "mode": "standard",
    "model": "gpt-6-luna",
-   "date": "2026-10-28",
-   "seconds": 18.54,
+   "date": "2026-11-13",
+   "seconds": 9.97,
    "calls": 1,
-   "input_tokens": 23907,
-   "output_tokens": 1880,
-   "cost_usd": 0.0033,
+   "input_tokens": 23836,
+   "output_tokens": 691,
+   "cost_usd": 0.0027,
    "usage": {
     "calls": 1,
-    "input_tokens": 23907,
+    "input_tokens": 23836,
     "cached_tokens": 0,
-    "output_tokens": 1880,
-    "reasoning_tokens": 495,
-    "cost_usd": 0.0033,
+    "output_tokens": 691,
+    "reasoning_tokens": 289,
+    "cost_usd": 0.0027,
     "cost_by_step": {
-     "read window 1/1": 0.0033
+     "read window 1/1": 0.0027
+    },
+    "kept_strong": {
+     "how": "ask",
+     "left_out": 0,
+     "restored": [],
+     "rejected": []
     }
    },
-   "text_sha256": "548f6e972483e7901581ad86eea5c088d7c89671fac33a47f88d0db8d04b27ba",
+   "text_sha256": "fb6dfa3a7bea596c7a185a4e7314ef12ccd30c93523fe5e602f80945b3c0a1eb",
    "sections": [
     {
      "number": "",
@@ -594,9 +1070,20 @@
      "start": 68,
      "end": 252,
      "flags": [
-      "end_mismatch",
       "doc_title"
      ],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Visual Instruction Tuning"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 211.14,
+      "y0": 675.35,
+      "x1": 400.25,
+      "y1": 692.57
+     },
      "sha": "5d8c57b4e7343ed2",
      "lines_sha": "33bf8949859ef8ea",
      "heading_check": true
@@ -610,6 +1097,18 @@
      "start": 253,
      "end": 1501,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Abstract"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 283.76,
+      "y0": 557.22,
+      "x1": 328.24,
+      "y1": 569.18
+     },
      "sha": "934bb8b0e02f73f5",
      "lines_sha": "4597db161517b650",
      "heading_check": true
@@ -622,9 +1121,19 @@
      "page_end": 2,
      "start": 1502,
      "end": 5400,
-     "flags": [
-      "end_marker_not_found"
+     "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "1 Introduction"
      ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 108.0,
+      "y0": 338.97,
+      "x1": 190.81,
+      "y1": 350.93
+     },
      "sha": "331cdbfaf1cbd107",
      "lines_sha": "af27614c901685ef",
      "heading_check": true
@@ -638,6 +1147,18 @@
      "start": 5401,
      "end": 8209,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "2 Related Work"
+     ],
+     "heading_bbox": {
+      "page": 2,
+      "x0": 108.0,
+      "y0": 471.42,
+      "x1": 197.09,
+      "y1": 483.37
+     },
      "sha": "556f3f278d628c1c",
      "lines_sha": "3151b3fc0b3a2beb",
      "heading_check": true
@@ -651,6 +1172,18 @@
      "start": 8210,
      "end": 13604,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "3 GPT-assisted Visual Instruction Data Generation"
+     ],
+     "heading_bbox": {
+      "page": 2,
+      "x0": 108.0,
+      "y0": 103.58,
+      "x1": 376.12,
+      "y1": 115.54
+     },
      "sha": "0c42bbd7fbc7b3bf",
      "lines_sha": "a31f561dfdd33546",
      "heading_check": true
@@ -663,9 +1196,19 @@
      "page_end": 4,
      "start": 13605,
      "end": 13632,
-     "flags": [
-      "end_marker_not_found"
+     "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "4 Visual Instruction Tuning"
      ],
+     "heading_bbox": {
+      "page": 4,
+      "x0": 108.0,
+      "y0": 584.74,
+      "x1": 257.26,
+      "y1": 596.7
+     },
      "sha": "8814fbca0a390624",
      "lines_sha": "8814fbca0a390624",
      "heading_check": true
@@ -679,6 +1222,19 @@
      "start": 13633,
      "end": 15017,
      "flags": [],
+     "confidence": null,
+     "parent": 5,
+     "heading_path": [
+      "4 Visual Instruction Tuning",
+      "4.1 Architecture"
+     ],
+     "heading_bbox": {
+      "page": 4,
+      "x0": 108.0,
+      "y0": 562.39,
+      "x1": 184.27,
+      "y1": 572.35
+     },
      "sha": "a9a567d431958437",
      "lines_sha": "eb94fbd84b7a9a6d",
      "heading_check": true
@@ -692,6 +1248,19 @@
      "start": 15018,
      "end": 18979,
      "flags": [],
+     "confidence": null,
+     "parent": 5,
+     "heading_path": [
+      "4 Visual Instruction Tuning",
+      "4.2 Training"
+     ],
+     "heading_bbox": {
+      "page": 4,
+      "x0": 108.0,
+      "y0": 235.01,
+      "x1": 167.33,
+      "y1": 244.97
+     },
      "sha": "0e57e4367f67844d",
      "lines_sha": "fa1e430cf4e7b902",
      "heading_check": true
@@ -704,9 +1273,19 @@
      "page_end": 5,
      "start": 18980,
      "end": 19547,
-     "flags": [
-      "end_marker_not_found"
+     "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "5 Experiments"
      ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 108.0,
+      "y0": 245.74,
+      "x1": 191.02,
+      "y1": 257.69
+     },
      "sha": "72a169d69979eec7",
      "lines_sha": "903a9d3cdbc1d8d5",
      "heading_check": true
@@ -719,9 +1298,20 @@
      "page_end": 8,
      "start": 19548,
      "end": 30416,
-     "flags": [
-      "end_mismatch"
+     "flags": [],
+     "confidence": null,
+     "parent": 8,
+     "heading_path": [
+      "5 Experiments",
+      "5.1 Multimodal Chatbot"
      ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 108.0,
+      "y0": 144.44,
+      "x1": 218.15,
+      "y1": 154.4
+     },
      "sha": "07c1667c041a3861",
      "lines_sha": "77fe5d98d426306a",
      "heading_check": true
@@ -735,7 +1325,20 @@
      "start": 30417,
      "end": 35952,
      "flags": [],
-     "sha": "3a5a69517b2d08a9",
+     "confidence": null,
+     "parent": 8,
+     "heading_path": [
+      "5 Experiments",
+      "5.2 ScienceQA"
+     ],
+     "heading_bbox": {
+      "page": 8,
+      "x0": 108.0,
+      "y0": 339.79,
+      "x1": 176.9,
+      "y1": 349.75
+     },
+     "sha": "6889bd84c34e2b70",
      "lines_sha": "a18c40f5f6dad11b",
      "heading_check": true
     },
@@ -747,22 +1350,44 @@
      "page_end": 9,
      "start": 35953,
      "end": 36790,
-     "flags": [
-      "end_mismatch"
+     "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "6 Conclusion"
      ],
+     "heading_bbox": {
+      "page": 9,
+      "x0": 108.0,
+      "y0": 207.06,
+      "x1": 183.07,
+      "y1": 219.02
+     },
      "sha": "86f1902cc33b79df",
      "lines_sha": "918572c17913eba6",
      "heading_check": true
     },
     {
      "number": "",
-     "title": "Acknowledgements",
+     "title": "Acknowledgements. We thank Baolin Peng and Pan Lu for valuable discussions on instruction-tuning",
      "level": 1,
      "page_start": 9,
      "page_end": 10,
      "start": 36791,
      "end": 37449,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Acknowledgements. We thank Baolin Peng and Pan Lu for valuable discussions on instruction-tuning"
+     ],
+     "heading_bbox": {
+      "page": 9,
+      "x0": 107.64,
+      "y0": 80.76,
+      "x1": 504.0,
+      "y1": 90.79
+     },
      "sha": "49cab608103ef7c1",
      "lines_sha": "83110fb85699d158",
      "heading_check": true
@@ -776,86 +1401,168 @@
      "start": 37450,
      "end": 51758,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "References"
+     ],
+     "heading_bbox": {
+      "page": 10,
+      "x0": 108.0,
+      "y0": 624.92,
+      "x1": 163.54,
+      "y1": 636.87
+     },
      "sha": "9f10d3fdcdc09209",
      "lines_sha": "2f85f35d216111e0",
      "heading_check": true
     },
     {
-     "number": "A",
-     "title": "Broader Impact",
+     "number": "",
+     "title": "A Broader Impact",
      "level": 1,
      "page_start": 14,
      "page_end": 14,
      "start": 51759,
      "end": 54531,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "A Broader Impact"
+     ],
+     "heading_bbox": {
+      "page": 14,
+      "x0": 108.0,
+      "y0": 707.54,
+      "x1": 210.38,
+      "y1": 719.49
+     },
      "sha": "50f546d663a7a4e8",
      "lines_sha": "69e3023cf6c6fdaf",
      "heading_check": true
     },
     {
-     "number": "B",
-     "title": "More Results",
+     "number": "",
+     "title": "B More Results",
      "level": 1,
      "page_start": 14,
      "page_end": 19,
      "start": 54532,
      "end": 62143,
-     "flags": [
-      "end_mismatch"
+     "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "B More Results"
      ],
+     "heading_bbox": {
+      "page": 14,
+      "x0": 108.0,
+      "y0": 229.96,
+      "x1": 195.78,
+      "y1": 241.91
+     },
      "sha": "99c7d8cd98fb0520",
      "lines_sha": "4c14d0b7636775f6",
      "heading_check": true
     },
     {
-     "number": "C",
-     "title": "Training Details",
+     "number": "",
+     "title": "C Training Details",
      "level": 1,
      "page_start": 20,
      "page_end": 20,
      "start": 62144,
      "end": 62925,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "C Training Details"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 108.0,
+      "y0": 707.54,
+      "x1": 211.07,
+      "y1": 719.49
+     },
      "sha": "3c131ee64b1cdeea",
      "lines_sha": "a087164d969ecc4d",
      "heading_check": true
     },
     {
-     "number": "D",
-     "title": "Assets",
+     "number": "",
+     "title": "D Assets",
      "level": 1,
      "page_start": 20,
      "page_end": 20,
      "start": 62926,
      "end": 63525,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "D Assets"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 108.0,
+      "y0": 574.34,
+      "x1": 160.46,
+      "y1": 586.29
+     },
      "sha": "46d9a1a67f06570f",
      "lines_sha": "fe7546df40830d3b",
      "heading_check": true
     },
     {
-     "number": "E",
-     "title": "Data",
+     "number": "",
+     "title": "E Data",
      "level": 1,
      "page_start": 20,
      "page_end": 21,
      "start": 63526,
      "end": 66544,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "E Data"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 108.0,
+      "y0": 380.23,
+      "x1": 152.5,
+      "y1": 392.18
+     },
      "sha": "3102f100d82f2cb9",
      "lines_sha": "626ee28462b6bd97",
      "heading_check": true
     },
     {
-     "number": "F",
-     "title": "Prompts",
+     "number": "",
+     "title": "F Prompts",
      "level": 1,
      "page_start": 21,
      "page_end": 25,
      "start": 66545,
      "end": 78554,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "F Prompts"
+     ],
+     "heading_bbox": {
+      "page": 21,
+      "x0": 108.0,
+      "y0": 224.01,
+      "x1": 170.87,
+      "y1": 235.96
+     },
      "sha": "e3e026c96b0f8cfa",
      "lines_sha": "9d82e6372c4ee60a",
      "heading_check": true

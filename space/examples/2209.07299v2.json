@@ -1,12 +1,12 @@
 {
  "schema": 1,
  "id": "2209.07299v2",
- "title": "Knowledge Is Flat: A Seq2Seq Generative Framework for Various Knowledge Graph Completion",
  "button": "Knowledge Is Flat · 13 pages, no bookmarks",
+ "title": "Knowledge Is Flat: A Seq2Seq Generative Framework for Various Knowledge Graph Completion",
  "authors": "Chen et al.",
  "licence": "CC BY 4.0",
  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
- "why": "No PDF bookmarks, so Free has only typography and numbering to go on. Picked by a fixed rule: of the 73 held-out READoc arXiv papers with no bookmarks, 8-100 pages and at least 8 headings in the answer key, the CC BY paper whose Free (0.1.5) READoc heading-tree TEDS was closest to the group's median (55.9). Its Free score, 49.9, is at the group's 41st percentile.",
+ "why": "No PDF bookmarks, so Free has only typography and numbering to go on. Picked by a fixed rule: of the 73 held-out READoc arXiv papers with no bookmarks, 8-100 pages and at least 8 headings in the answer key, the CC BY paper whose Free (0.1.5) READoc heading-tree TEDS was closest to the group's median (55.9). Its Free score then, 49.9, was at the group's 41st percentile.",
  "arxiv": "https://arxiv.org/abs/2209.07299v2",
  "pdf_urls": [
   "https://arxiv.org/pdf/2209.07299v2",
@@ -24,11 +24,11 @@
  },
  "runs": {
   "free": {
-   "section_anything": "0.1.5",
+   "section_anything": "0.1.11",
    "mode": "free",
    "model": null,
-   "date": "2026-10-28",
-   "seconds": 0.6,
+   "date": "2026-11-13",
+   "seconds": 0.64,
    "calls": 0,
    "input_tokens": 0,
    "output_tokens": 0,
@@ -55,6 +55,18 @@
      "flags": [
       "doc_title"
      ],
+     "confidence": 0.051,
+     "parent": null,
+     "heading_path": [
+      "Knowledge Is Flat: A Seq2Seq Generative Framework for Various Knowledge Graph Completion"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 94.72,
+      "y0": 742.2,
+      "x1": 500.56,
+      "y1": 772.49
+     },
      "sha": "5cb33f27613bfff1",
      "lines_sha": "f7953b75aef08de2",
      "heading_check": true
@@ -68,6 +80,18 @@
      "start": 89,
      "end": 145,
      "flags": [],
+     "confidence": 0.76,
+     "parent": null,
+     "heading_path": [
+      "Chen Chen1,∗, Yufei Wang2,∗, Bing Li3 and Kwok-Yan Lam1†"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 146.22,
+      "y0": 721.87,
+      "x1": 455.81,
+      "y1": 735.21
+     },
      "sha": "58db3c2f2ecdd92d",
      "lines_sha": "58db3c2f2ecdd92d",
      "heading_check": true
@@ -81,6 +105,19 @@
      "start": 146,
      "end": 449,
      "flags": [],
+     "confidence": 0.033,
+     "parent": 1,
+     "heading_path": [
+      "Chen Chen1,∗, Yufei Wang2,∗, Bing Li3 and Kwok-Yan Lam1†",
+      "Nanyang Technological University, Singapore1 Macquarie University, Sydney, Australia2 Centre for Frontier AI Research (CFAR), A*STAR, Singapore3 {S190009,kwokyan.lam}@ntu.edu.sg, yufei.wang@students.mq.edu.au li_bing@ihpc.a-star.edu.sg"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 186.7,
+      "y0": 707.92,
+      "x1": 411.07,
+      "y1": 721.26
+     },
      "sha": "7409937d22bf8e13",
      "lines_sha": "3819e1b39be1a65b",
      "heading_check": true
@@ -94,6 +131,18 @@
      "start": 450,
      "end": 1556,
      "flags": [],
+     "confidence": 0.982,
+     "parent": null,
+     "heading_path": [
+      "Abstract"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 157.76,
+      "y0": 615.83,
+      "x1": 202.24,
+      "y1": 627.79
+     },
      "sha": "cd57f64e31a2209e",
      "lines_sha": "ddde4147a89650ef",
      "heading_check": true
@@ -107,6 +156,18 @@
      "start": 1557,
      "end": 5206,
      "flags": [],
+     "confidence": 0.842,
+     "parent": null,
+     "heading_path": [
+      "1 Introduction"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 70.87,
+      "y0": 286.98,
+      "x1": 153.68,
+      "y1": 298.93
+     },
      "sha": "c1f1a0faccc38c1e",
      "lines_sha": "e989ce593c21841e",
      "heading_check": true
@@ -120,6 +181,19 @@
      "start": 5207,
      "end": 7698,
      "flags": [],
+     "confidence": 0.662,
+     "parent": 4,
+     "heading_path": [
+      "1 Introduction",
+      "FB15K-237 and FB15K-237N for SKGC,"
+     ],
+     "heading_bbox": {
+      "page": 2,
+      "x0": 70.87,
+      "y0": 268.0,
+      "x1": 290.5,
+      "y1": 279.89
+     },
      "sha": "7283a92727b1bd1b",
      "lines_sha": "b484a2df899d2caa",
      "heading_check": true
@@ -133,6 +207,18 @@
      "start": 7699,
      "end": 7716,
      "flags": [],
+     "confidence": 0.76,
+     "parent": null,
+     "heading_path": [
+      "3 Proposed Method"
+     ],
+     "heading_bbox": {
+      "page": 2,
+      "x0": 306.14,
+      "y0": 135.97,
+      "x1": 414.52,
+      "y1": 147.92
+     },
      "sha": "4111a6a399f32381",
      "lines_sha": "4111a6a399f32381",
      "heading_check": true
@@ -146,6 +232,18 @@
      "start": 7717,
      "end": 8461,
      "flags": [],
+     "confidence": 0.76,
+     "parent": null,
+     "heading_path": [
+      "2 Related work"
+     ],
+     "heading_bbox": {
+      "page": 2,
+      "x0": 70.87,
+      "y0": 105.23,
+      "x1": 157.41,
+      "y1": 117.19
+     },
      "sha": "4e4ab259c49d202a",
      "lines_sha": "d429765d0260ec0b",
      "heading_check": true
@@ -159,6 +257,19 @@
      "start": 8462,
      "end": 9200,
      "flags": [],
+     "confidence": 0.662,
+     "parent": 7,
+     "heading_path": [
+      "2 Related work",
+      "3.1 Knowledge Graph Completion"
+     ],
+     "heading_bbox": {
+      "page": 3,
+      "x0": 70.87,
+      "y0": 588.63,
+      "x1": 238.34,
+      "y1": 599.54
+     },
      "sha": "774414fe69d6bac7",
      "lines_sha": "2e952a6be182190f",
      "heading_check": true
@@ -172,6 +283,19 @@
      "start": 9201,
      "end": 10503,
      "flags": [],
+     "confidence": 0.767,
+     "parent": 7,
+     "heading_path": [
+      "2 Related work",
+      "3.2 A Seq2Seq Framework for KGC"
+     ],
+     "heading_bbox": {
+      "page": 3,
+      "x0": 70.87,
+      "y0": 359.76,
+      "x1": 247.14,
+      "y1": 370.67
+     },
      "sha": "568a65dd664c9075",
      "lines_sha": "cba8df58f60ce822",
      "heading_check": true
@@ -181,25 +305,25 @@
      "title": "Entity & Relation Representation",
      "level": 2,
      "page_start": 3,
-     "page_end": 3,
-     "start": 10504,
-     "end": 11934,
-     "flags": [],
-     "sha": "da071451cfccd365",
-     "lines_sha": "643b3564eef61849",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "KG Soft Prompt",
-     "level": 2,
-     "page_start": 4,
      "page_end": 4,
-     "start": 11935,
+     "start": 10504,
      "end": 13148,
      "flags": [],
-     "sha": "0c6ff5a4c062516b",
-     "lines_sha": "9928a3b6a121da18",
+     "confidence": 0.767,
+     "parent": 7,
+     "heading_path": [
+      "2 Related work",
+      "3.3 Entity & Relation Representation"
+     ],
+     "heading_bbox": {
+      "page": 3,
+      "x0": 306.14,
+      "y0": 466.68,
+      "x1": 487.15,
+      "y1": 477.59
+     },
+     "sha": "870b470c2d3ac9d7",
+     "lines_sha": "1a27ef4e875fcb4c",
      "heading_check": true
     },
     {
@@ -211,6 +335,19 @@
      "start": 13149,
      "end": 14177,
      "flags": [],
+     "confidence": 0.662,
+     "parent": 7,
+     "heading_path": [
+      "2 Related work",
+      "Seq2Seq Dropout"
+     ],
+     "heading_bbox": {
+      "page": 4,
+      "x0": 70.87,
+      "y0": 409.69,
+      "x1": 155.27,
+      "y1": 420.6
+     },
      "sha": "22232189bc3161b6",
      "lines_sha": "bc0bec8d5bf8cbef",
      "heading_check": true
@@ -220,25 +357,25 @@
      "title": "KGC Inference",
      "level": 2,
      "page_start": 4,
-     "page_end": 4,
-     "start": 14178,
-     "end": 14616,
-     "flags": [],
-     "sha": "afa562e86b833935",
-     "lines_sha": "995a616a8be8c5b2",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "return cand",
-     "level": 2,
-     "page_start": 4,
      "page_end": 5,
-     "start": 14617,
+     "start": 14178,
      "end": 16833,
      "flags": [],
-     "sha": "25d3340d1938e58f",
-     "lines_sha": "65f489541a51da8d",
+     "confidence": 0.767,
+     "parent": 7,
+     "heading_path": [
+      "2 Related work",
+      "3.4 KGC Inference"
+     ],
+     "heading_bbox": {
+      "page": 4,
+      "x0": 70.87,
+      "y0": 114.31,
+      "x1": 167.02,
+      "y1": 125.22
+     },
+     "sha": "9574d3283b0f0e15",
+     "lines_sha": "f47164db78870c7f",
      "heading_check": true
     },
     {
@@ -250,6 +387,18 @@
      "start": 16834,
      "end": 16846,
      "flags": [],
+     "confidence": 0.842,
+     "parent": null,
+     "heading_path": [
+      "4 Experiment"
+     ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 70.87,
+      "y0": 691.77,
+      "x1": 149.23,
+      "y1": 703.72
+     },
      "sha": "9c5e37da1b6ae8bd",
      "lines_sha": "9c5e37da1b6ae8bd",
      "heading_check": true
@@ -263,6 +412,19 @@
      "start": 16847,
      "end": 17176,
      "flags": [],
+     "confidence": 0.662,
+     "parent": 13,
+     "heading_path": [
+      "4 Experiment",
+      "4.2 Experimental results"
+     ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 306.14,
+      "y0": 688.93,
+      "x1": 427.76,
+      "y1": 699.84
+     },
      "sha": "526aeb562ea5f217",
      "lines_sha": "91a89626bc10b200",
      "heading_check": true
@@ -276,6 +438,19 @@
      "start": 17177,
      "end": 26911,
      "flags": [],
+     "confidence": 0.662,
+     "parent": 13,
+     "heading_path": [
+      "4 Experiment",
+      "4.1 Experimental Settings"
+     ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 70.87,
+      "y0": 565.02,
+      "x1": 198.74,
+      "y1": 575.93
+     },
      "sha": "fc3151b50d96bd5e",
      "lines_sha": "3d3f21a80ffaee9d",
      "heading_check": true
@@ -289,6 +464,19 @@
      "start": 26912,
      "end": 29150,
      "flags": [],
+     "confidence": 0.662,
+     "parent": 13,
+     "heading_path": [
+      "4 Experiment",
+      "4.3 Ablation Study"
+     ],
+     "heading_bbox": {
+      "page": 7,
+      "x0": 70.87,
+      "y0": 217.04,
+      "x1": 166.04,
+      "y1": 227.95
+     },
      "sha": "7cbca032d053a25a",
      "lines_sha": "d0375869b1c71f87",
      "heading_check": true
@@ -302,6 +490,19 @@
      "start": 29151,
      "end": 30011,
      "flags": [],
+     "confidence": 0.662,
+     "parent": 13,
+     "heading_path": [
+      "4 Experiment",
+      "Impact of Decoding Methods"
+     ],
+     "heading_bbox": {
+      "page": 8,
+      "x0": 70.87,
+      "y0": 757.78,
+      "x1": 207.96,
+      "y1": 768.69
+     },
      "sha": "d060153b34464ccc",
      "lines_sha": "764c2afaa9d6d5d6",
      "heading_check": true
@@ -315,6 +516,19 @@
      "start": 30012,
      "end": 35734,
      "flags": [],
+     "confidence": 0.767,
+     "parent": 13,
+     "heading_path": [
+      "4 Experiment",
+      "4.4 Discussion"
+     ],
+     "heading_bbox": {
+      "page": 8,
+      "x0": 70.87,
+      "y0": 503.06,
+      "x1": 144.51,
+      "y1": 513.97
+     },
      "sha": "c819beecfd33f583",
      "lines_sha": "a8a9200911ffbf31",
      "heading_check": true
@@ -328,6 +542,19 @@
      "start": 35735,
      "end": 36461,
      "flags": [],
+     "confidence": 0.662,
+     "parent": 13,
+     "heading_path": [
+      "4 Experiment",
+      "Parameter Growth Since KG-S2S represents"
+     ],
+     "heading_bbox": {
+      "page": 9,
+      "x0": 306.14,
+      "y0": 567.75,
+      "x1": 524.41,
+      "y1": 579.64
+     },
      "sha": "2f0d27a968298e0b",
      "lines_sha": "74d78a5c0873ed02",
      "heading_check": true
@@ -341,6 +568,18 @@
      "start": 36462,
      "end": 37251,
      "flags": [],
+     "confidence": 0.842,
+     "parent": null,
+     "heading_path": [
+      "5 Conclusion and Future Work"
+     ],
+     "heading_bbox": {
+      "page": 9,
+      "x0": 306.14,
+      "y0": 353.16,
+      "x1": 473.42,
+      "y1": 365.12
+     },
      "sha": "4fc6895e65a687bc",
      "lines_sha": "d66f033156a5b780",
      "heading_check": true
@@ -354,6 +593,18 @@
      "start": 37252,
      "end": 37645,
      "flags": [],
+     "confidence": 0.982,
+     "parent": null,
+     "heading_path": [
+      "Acknowledgement"
+     ],
+     "heading_bbox": {
+      "page": 9,
+      "x0": 306.14,
+      "y0": 103.54,
+      "x1": 400.33,
+      "y1": 115.5
+     },
      "sha": "d9656c63aa13b9ea",
      "lines_sha": "f6e3603c37c4f998",
      "heading_check": true
@@ -367,6 +618,18 @@
      "start": 37646,
      "end": 52989,
      "flags": [],
+     "confidence": 0.982,
+     "parent": null,
+     "heading_path": [
+      "References"
+     ],
+     "heading_bbox": {
+      "page": 10,
+      "x0": 70.87,
+      "y0": 666.79,
+      "x1": 126.41,
+      "y1": 678.75
+     },
      "sha": "9c4dc85e7151957a",
      "lines_sha": "91a840bd05c66f33",
      "heading_check": true
@@ -380,6 +643,18 @@
      "start": 52990,
      "end": 54337,
      "flags": [],
+     "confidence": 0.76,
+     "parent": null,
+     "heading_path": [
+      "B Inplementation details"
+     ],
+     "heading_bbox": {
+      "page": 13,
+      "x0": 306.14,
+      "y0": 757.57,
+      "x1": 440.65,
+      "y1": 769.52
+     },
      "sha": "d18ec8957fddb3af",
      "lines_sha": "7ef38ed0215c3329",
      "heading_check": true
@@ -393,6 +668,19 @@
      "start": 54338,
      "end": 56002,
      "flags": [],
+     "confidence": 0.662,
+     "parent": 23,
+     "heading_path": [
+      "B Inplementation details",
+      "Hyperparameters"
+     ],
+     "heading_bbox": {
+      "page": 13,
+      "x0": 306.14,
+      "y0": 348.95,
+      "x1": 389.04,
+      "y1": 359.86
+     },
      "sha": "b4e5b4b69d86b8f5",
      "lines_sha": "2d6fb35a318f53a3",
      "heading_check": true
@@ -406,33 +694,50 @@
      "start": 56003,
      "end": 57153,
      "flags": [],
+     "confidence": 0.76,
+     "parent": null,
+     "heading_path": [
+      "A Dataset"
+     ],
+     "heading_bbox": {
+      "page": 13,
+      "x0": 70.87,
+      "y0": 445.66,
+      "x1": 129.96,
+      "y1": 457.62
+     },
      "sha": "b3403c56748fd482",
      "lines_sha": "0ec705ea6644f70d",
      "heading_check": true
     }
    ],
-   "readoc_teds": 49.9,
-   "readoc_headings": 28
+   "readoc_teds": 53.7
   },
   "quick": {
-   "section_anything": "0.1.5",
+   "section_anything": "0.1.11",
    "mode": "quick",
    "model": "gpt-6-luna",
-   "date": "2026-10-28",
-   "seconds": 10.47,
+   "date": "2026-11-13",
+   "seconds": 15.26,
    "calls": 1,
    "input_tokens": 2974,
-   "output_tokens": 1275,
-   "cost_usd": 0.0009,
+   "output_tokens": 1630,
+   "cost_usd": 0.0011,
    "usage": {
     "calls": 1,
     "input_tokens": 2974,
     "cached_tokens": 0,
-    "output_tokens": 1275,
-    "reasoning_tokens": 0,
-    "cost_usd": 0.0009,
+    "output_tokens": 1630,
+    "reasoning_tokens": 355,
+    "cost_usd": 0.0011,
     "cost_by_step": {
-     "review batch 1/1": 0.0009
+     "review batch 1/1": 0.0011
+    },
+    "kept_strong": {
+     "how": "ask",
+     "left_out": 0,
+     "restored": [],
+     "rejected": []
     }
    },
    "text_sha256": "9b6ea5ad2b0691a7c4f7c8150a35e4868f07fd43e4a58fb6480dc1aebc27d29e",
@@ -448,6 +753,18 @@
      "flags": [
       "doc_title"
      ],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Knowledge Is Flat: A Seq2Seq Generative Framework for Various Knowledge Graph Completion"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 94.72,
+      "y0": 742.2,
+      "x1": 500.56,
+      "y1": 772.49
+     },
      "sha": "12aec1184daa1105",
      "lines_sha": "8e7242090e26608f",
      "heading_check": true
@@ -461,6 +778,18 @@
      "start": 450,
      "end": 1556,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Abstract"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 157.76,
+      "y0": 615.83,
+      "x1": 202.24,
+      "y1": 627.79
+     },
      "sha": "cd57f64e31a2209e",
      "lines_sha": "ddde4147a89650ef",
      "heading_check": true
@@ -474,6 +803,18 @@
      "start": 1557,
      "end": 7698,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "1 Introduction"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 70.87,
+      "y0": 286.98,
+      "x1": 153.68,
+      "y1": 298.93
+     },
      "sha": "06160026cd6dd9eb",
      "lines_sha": "48eb7a28ed914df2",
      "heading_check": true
@@ -487,6 +828,18 @@
      "start": 7699,
      "end": 7716,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "3 Proposed Method"
+     ],
+     "heading_bbox": {
+      "page": 2,
+      "x0": 306.14,
+      "y0": 135.97,
+      "x1": 414.52,
+      "y1": 147.92
+     },
      "sha": "4111a6a399f32381",
      "lines_sha": "4111a6a399f32381",
      "heading_check": true
@@ -500,6 +853,18 @@
      "start": 7717,
      "end": 8461,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "2 Related work"
+     ],
+     "heading_bbox": {
+      "page": 2,
+      "x0": 70.87,
+      "y0": 105.23,
+      "x1": 157.41,
+      "y1": 117.19
+     },
      "sha": "4e4ab259c49d202a",
      "lines_sha": "d429765d0260ec0b",
      "heading_check": true
@@ -513,6 +878,19 @@
      "start": 8462,
      "end": 9200,
      "flags": [],
+     "confidence": null,
+     "parent": 4,
+     "heading_path": [
+      "2 Related work",
+      "3.1 Knowledge Graph Completion"
+     ],
+     "heading_bbox": {
+      "page": 3,
+      "x0": 70.87,
+      "y0": 588.63,
+      "x1": 238.34,
+      "y1": 599.54
+     },
      "sha": "774414fe69d6bac7",
      "lines_sha": "2e952a6be182190f",
      "heading_check": true
@@ -526,6 +904,19 @@
      "start": 9201,
      "end": 10503,
      "flags": [],
+     "confidence": null,
+     "parent": 4,
+     "heading_path": [
+      "2 Related work",
+      "3.2 A Seq2Seq Framework for KGC"
+     ],
+     "heading_bbox": {
+      "page": 3,
+      "x0": 70.87,
+      "y0": 359.76,
+      "x1": 247.14,
+      "y1": 370.67
+     },
      "sha": "568a65dd664c9075",
      "lines_sha": "cba8df58f60ce822",
      "heading_check": true
@@ -539,6 +930,19 @@
      "start": 10504,
      "end": 11934,
      "flags": [],
+     "confidence": null,
+     "parent": 4,
+     "heading_path": [
+      "2 Related work",
+      "3.3 Entity & Relation Representation"
+     ],
+     "heading_bbox": {
+      "page": 3,
+      "x0": 306.14,
+      "y0": 466.68,
+      "x1": 487.15,
+      "y1": 477.59
+     },
      "sha": "da071451cfccd365",
      "lines_sha": "643b3564eef61849",
      "heading_check": true
@@ -552,6 +956,20 @@
      "start": 11935,
      "end": 13148,
      "flags": [],
+     "confidence": null,
+     "parent": 7,
+     "heading_path": [
+      "2 Related work",
+      "3.3 Entity & Relation Representation",
+      "KG Soft Prompt"
+     ],
+     "heading_bbox": {
+      "page": 4,
+      "x0": 70.87,
+      "y0": 757.78,
+      "x1": 155.51,
+      "y1": 768.69
+     },
      "sha": "0c6ff5a4c062516b",
      "lines_sha": "9928a3b6a121da18",
      "heading_check": true
@@ -565,6 +983,20 @@
      "start": 13149,
      "end": 14177,
      "flags": [],
+     "confidence": null,
+     "parent": 7,
+     "heading_path": [
+      "2 Related work",
+      "3.3 Entity & Relation Representation",
+      "Seq2Seq Dropout"
+     ],
+     "heading_bbox": {
+      "page": 4,
+      "x0": 70.87,
+      "y0": 409.69,
+      "x1": 155.27,
+      "y1": 420.6
+     },
      "sha": "22232189bc3161b6",
      "lines_sha": "bc0bec8d5bf8cbef",
      "heading_check": true
@@ -578,6 +1010,19 @@
      "start": 14178,
      "end": 16833,
      "flags": [],
+     "confidence": null,
+     "parent": 4,
+     "heading_path": [
+      "2 Related work",
+      "3.4 KGC Inference"
+     ],
+     "heading_bbox": {
+      "page": 4,
+      "x0": 70.87,
+      "y0": 114.31,
+      "x1": 167.02,
+      "y1": 125.22
+     },
      "sha": "9574d3283b0f0e15",
      "lines_sha": "f47164db78870c7f",
      "heading_check": true
@@ -591,6 +1036,18 @@
      "start": 16834,
      "end": 16846,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "4 Experiment"
+     ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 70.87,
+      "y0": 691.77,
+      "x1": 149.23,
+      "y1": 703.72
+     },
      "sha": "9c5e37da1b6ae8bd",
      "lines_sha": "9c5e37da1b6ae8bd",
      "heading_check": true
@@ -604,6 +1061,19 @@
      "start": 16847,
      "end": 17176,
      "flags": [],
+     "confidence": null,
+     "parent": 11,
+     "heading_path": [
+      "4 Experiment",
+      "4.2 Experimental results"
+     ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 306.14,
+      "y0": 688.93,
+      "x1": 427.76,
+      "y1": 699.84
+     },
      "sha": "526aeb562ea5f217",
      "lines_sha": "91a89626bc10b200",
      "heading_check": true
@@ -613,25 +1083,25 @@
      "title": "Experimental Settings",
      "level": 2,
      "page_start": 5,
-     "page_end": 5,
-     "start": 17177,
-     "end": 17895,
-     "flags": [],
-     "sha": "316f9f2f42e3bdc5",
-     "lines_sha": "066f74ca236a119d",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "Implementation details",
-     "level": 3,
-     "page_start": 5,
      "page_end": 7,
-     "start": 17896,
+     "start": 17177,
      "end": 26911,
      "flags": [],
-     "sha": "b84eed22027884f6",
-     "lines_sha": "84dab4681f79025e",
+     "confidence": null,
+     "parent": 11,
+     "heading_path": [
+      "4 Experiment",
+      "4.1 Experimental Settings"
+     ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 70.87,
+      "y0": 565.02,
+      "x1": 198.74,
+      "y1": 575.93
+     },
+     "sha": "fc3151b50d96bd5e",
+     "lines_sha": "3d3f21a80ffaee9d",
      "heading_check": true
     },
     {
@@ -643,6 +1113,19 @@
      "start": 26912,
      "end": 27158,
      "flags": [],
+     "confidence": null,
+     "parent": 11,
+     "heading_path": [
+      "4 Experiment",
+      "4.3 Ablation Study"
+     ],
+     "heading_bbox": {
+      "page": 7,
+      "x0": 70.87,
+      "y0": 217.04,
+      "x1": 166.04,
+      "y1": 227.95
+     },
      "sha": "b4eae743e32b28e8",
      "lines_sha": "6f2f51179b1a7837",
      "heading_check": true
@@ -656,6 +1139,20 @@
      "start": 27159,
      "end": 29150,
      "flags": [],
+     "confidence": null,
+     "parent": 14,
+     "heading_path": [
+      "4 Experiment",
+      "4.3 Ablation Study",
+      "Source and target description"
+     ],
+     "heading_bbox": {
+      "page": 7,
+      "x0": 70.87,
+      "y0": 122.71,
+      "x1": 289.13,
+      "y1": 133.69
+     },
      "sha": "17d25e7a973ae8f1",
      "lines_sha": "f4448404793e30c8",
      "heading_check": true
@@ -669,6 +1166,20 @@
      "start": 29151,
      "end": 30011,
      "flags": [],
+     "confidence": null,
+     "parent": 14,
+     "heading_path": [
+      "4 Experiment",
+      "4.3 Ablation Study",
+      "Impact of Decoding Methods"
+     ],
+     "heading_bbox": {
+      "page": 8,
+      "x0": 70.87,
+      "y0": 757.78,
+      "x1": 207.96,
+      "y1": 768.69
+     },
      "sha": "d060153b34464ccc",
      "lines_sha": "764c2afaa9d6d5d6",
      "heading_check": true
@@ -682,6 +1193,19 @@
      "start": 30012,
      "end": 30026,
      "flags": [],
+     "confidence": null,
+     "parent": 11,
+     "heading_path": [
+      "4 Experiment",
+      "4.4 Discussion"
+     ],
+     "heading_bbox": {
+      "page": 8,
+      "x0": 70.87,
+      "y0": 503.06,
+      "x1": 144.51,
+      "y1": 513.97
+     },
      "sha": "24ee1ec3fc0bc118",
      "lines_sha": "24ee1ec3fc0bc118",
      "heading_check": true
@@ -695,19 +1219,47 @@
      "start": 30027,
      "end": 33340,
      "flags": [],
+     "confidence": null,
+     "parent": 17,
+     "heading_path": [
+      "4 Experiment",
+      "4.4 Discussion",
+      "Comparison with previous SOTA PLM-based methods"
+     ],
+     "heading_bbox": {
+      "page": 8,
+      "x0": 70.87,
+      "y0": 484.43,
+      "x1": 289.14,
+      "y1": 495.34
+     },
      "sha": "ac775cf6434e4169",
      "lines_sha": "4e0a05d5c2b8185a",
      "heading_check": true
     },
     {
      "number": "",
-     "title": "Non-entity Generation Without Preﬁx Constraints module",
+     "title": "Non-entity Generation Without Prefix Constraints",
      "level": 3,
      "page_start": 8,
      "page_end": 9,
      "start": 33341,
      "end": 34300,
      "flags": [],
+     "confidence": null,
+     "parent": 17,
+     "heading_path": [
+      "4 Experiment",
+      "4.4 Discussion",
+      "Non-entity Generation Without Prefix Constraints"
+     ],
+     "heading_bbox": {
+      "page": 8,
+      "x0": 306.14,
+      "y0": 122.71,
+      "x1": 526.22,
+      "y1": 133.87
+     },
      "sha": "d4e126cb872d9bf3",
      "lines_sha": "44e91fe39daa252f",
      "heading_check": true
@@ -721,6 +1273,20 @@
      "start": 34301,
      "end": 35734,
      "flags": [],
+     "confidence": null,
+     "parent": 17,
+     "heading_path": [
+      "4 Experiment",
+      "4.4 Discussion",
+      "The Effect of Beam Width"
+     ],
+     "heading_bbox": {
+      "page": 9,
+      "x0": 70.87,
+      "y0": 546.46,
+      "x1": 290.94,
+      "y1": 557.45
+     },
      "sha": "423c19ccf563779b",
      "lines_sha": "4bd82b7fbaa501ab",
      "heading_check": true
@@ -734,6 +1300,20 @@
      "start": 35735,
      "end": 36461,
      "flags": [],
+     "confidence": null,
+     "parent": 17,
+     "heading_path": [
+      "4 Experiment",
+      "4.4 Discussion",
+      "Parameter Growth"
+     ],
+     "heading_bbox": {
+      "page": 9,
+      "x0": 306.14,
+      "y0": 567.75,
+      "x1": 524.41,
+      "y1": 579.64
+     },
      "sha": "2f0d27a968298e0b",
      "lines_sha": "74d78a5c0873ed02",
      "heading_check": true
@@ -747,6 +1327,18 @@
      "start": 36462,
      "end": 37251,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "5 Conclusion and Future Work"
+     ],
+     "heading_bbox": {
+      "page": 9,
+      "x0": 306.14,
+      "y0": 353.16,
+      "x1": 473.42,
+      "y1": 365.12
+     },
      "sha": "4fc6895e65a687bc",
      "lines_sha": "d66f033156a5b780",
      "heading_check": true
@@ -760,6 +1352,18 @@
      "start": 37252,
      "end": 37645,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Acknowledgement"
+     ],
+     "heading_bbox": {
+      "page": 9,
+      "x0": 306.14,
+      "y0": 103.54,
+      "x1": 400.33,
+      "y1": 115.5
+     },
      "sha": "d9656c63aa13b9ea",
      "lines_sha": "f6e3603c37c4f998",
      "heading_check": true
@@ -773,6 +1377,18 @@
      "start": 37646,
      "end": 52989,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "References"
+     ],
+     "heading_bbox": {
+      "page": 10,
+      "x0": 70.87,
+      "y0": 666.79,
+      "x1": 126.41,
+      "y1": 678.75
+     },
      "sha": "9c4dc85e7151957a",
      "lines_sha": "91a840bd05c66f33",
      "heading_check": true
@@ -780,12 +1396,25 @@
     {
      "number": "B",
      "title": "Inplementation details",
-     "level": 1,
+     "level": 2,
      "page_start": 13,
      "page_end": 13,
      "start": 52990,
      "end": 53155,
      "flags": [],
+     "confidence": null,
+     "parent": 24,
+     "heading_path": [
+      "References",
+      "B Inplementation details"
+     ],
+     "heading_bbox": {
+      "page": 13,
+      "x0": 306.14,
+      "y0": 757.57,
+      "x1": 440.65,
+      "y1": 769.52
+     },
      "sha": "3d41aed1f29c5c16",
      "lines_sha": "b5958d620175fe6d",
      "heading_check": true
@@ -793,12 +1422,26 @@
     {
      "number": "",
      "title": "Model Input and Output",
-     "level": 2,
+     "level": 3,
      "page_start": 13,
      "page_end": 13,
      "start": 53156,
      "end": 54337,
      "flags": [],
+     "confidence": null,
+     "parent": 25,
+     "heading_path": [
+      "References",
+      "B Inplementation details",
+      "Model Input and Output"
+     ],
+     "heading_bbox": {
+      "page": 13,
+      "x0": 306.14,
+      "y0": 688.78,
+      "x1": 526.22,
+      "y1": 699.77
+     },
      "sha": "c1642b0f6c1533e9",
      "lines_sha": "2dc2f29f99380ecd",
      "heading_check": true
@@ -806,12 +1449,26 @@
     {
      "number": "",
      "title": "Hyperparameters",
-     "level": 2,
+     "level": 3,
      "page_start": 13,
      "page_end": 13,
      "start": 54338,
      "end": 56002,
      "flags": [],
+     "confidence": null,
+     "parent": 25,
+     "heading_path": [
+      "References",
+      "B Inplementation details",
+      "Hyperparameters"
+     ],
+     "heading_bbox": {
+      "page": 13,
+      "x0": 306.14,
+      "y0": 348.95,
+      "x1": 389.04,
+      "y1": 359.86
+     },
      "sha": "b4e5b4b69d86b8f5",
      "lines_sha": "2d6fb35a318f53a3",
      "heading_check": true
@@ -819,39 +1476,57 @@
     {
      "number": "A",
      "title": "Dataset",
-     "level": 1,
+     "level": 2,
      "page_start": 13,
      "page_end": 13,
      "start": 56003,
      "end": 57153,
      "flags": [],
+     "confidence": null,
+     "parent": 24,
+     "heading_path": [
+      "References",
+      "A Dataset"
+     ],
+     "heading_bbox": {
+      "page": 13,
+      "x0": 70.87,
+      "y0": 445.66,
+      "x1": 129.96,
+      "y1": 457.62
+     },
      "sha": "b3403c56748fd482",
      "lines_sha": "0ec705ea6644f70d",
      "heading_check": true
     }
    ],
-   "readoc_teds": 46.6,
-   "readoc_headings": 30
+   "readoc_teds": 44.7
   },
   "standard": {
-   "section_anything": "0.1.5",
+   "section_anything": "0.1.11",
    "mode": "standard",
    "model": "gpt-6-luna",
-   "date": "2026-10-28",
-   "seconds": 18.56,
+   "date": "2026-11-13",
+   "seconds": 11.07,
    "calls": 1,
-   "input_tokens": 21973,
-   "output_tokens": 2041,
-   "cost_usd": 0.0032,
+   "input_tokens": 21902,
+   "output_tokens": 1059,
+   "cost_usd": 0.0027,
    "usage": {
     "calls": 1,
-    "input_tokens": 21973,
+    "input_tokens": 21902,
     "cached_tokens": 0,
-    "output_tokens": 2041,
-    "reasoning_tokens": 450,
-    "cost_usd": 0.0032,
+    "output_tokens": 1059,
+    "reasoning_tokens": 648,
+    "cost_usd": 0.0027,
     "cost_by_step": {
-     "read window 1/1": 0.0032
+     "read window 1/1": 0.0027
+    },
+    "kept_strong": {
+     "how": "ask",
+     "left_out": 0,
+     "restored": [],
+     "rejected": []
     }
    },
    "text_sha256": "9b6ea5ad2b0691a7c4f7c8150a35e4868f07fd43e4a58fb6480dc1aebc27d29e",
@@ -865,9 +1540,20 @@
      "start": 0,
      "end": 449,
      "flags": [
-      "end_mismatch",
       "doc_title"
      ],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Knowledge Is Flat: A Seq2Seq Generative Framework for Various Knowledge Graph Completion"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 94.72,
+      "y0": 742.2,
+      "x1": 500.56,
+      "y1": 772.49
+     },
      "sha": "12aec1184daa1105",
      "lines_sha": "8e7242090e26608f",
      "heading_check": true
@@ -881,6 +1567,18 @@
      "start": 450,
      "end": 1556,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Abstract"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 157.76,
+      "y0": 615.83,
+      "x1": 202.24,
+      "y1": 627.79
+     },
      "sha": "cd57f64e31a2209e",
      "lines_sha": "ddde4147a89650ef",
      "heading_check": true
@@ -893,9 +1591,19 @@
      "page_end": 2,
      "start": 1557,
      "end": 7698,
-     "flags": [
-      "end_marker_not_found"
+     "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "1 Introduction"
      ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 70.87,
+      "y0": 286.98,
+      "x1": 153.68,
+      "y1": 298.93
+     },
      "sha": "06160026cd6dd9eb",
      "lines_sha": "48eb7a28ed914df2",
      "heading_check": true
@@ -908,9 +1616,19 @@
      "page_end": 2,
      "start": 7699,
      "end": 7716,
-     "flags": [
-      "end_mismatch"
+     "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "3 Proposed Method"
      ],
+     "heading_bbox": {
+      "page": 2,
+      "x0": 306.14,
+      "y0": 135.97,
+      "x1": 414.52,
+      "y1": 147.92
+     },
      "sha": "4111a6a399f32381",
      "lines_sha": "4111a6a399f32381",
      "heading_check": true
@@ -923,9 +1641,19 @@
      "page_end": 3,
      "start": 7717,
      "end": 8461,
-     "flags": [
-      "end_marker_not_found"
+     "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "2 Related work"
      ],
+     "heading_bbox": {
+      "page": 2,
+      "x0": 70.87,
+      "y0": 105.23,
+      "x1": 157.41,
+      "y1": 117.19
+     },
      "sha": "4e4ab259c49d202a",
      "lines_sha": "d429765d0260ec0b",
      "heading_check": true
@@ -939,6 +1667,19 @@
      "start": 8462,
      "end": 9200,
      "flags": [],
+     "confidence": null,
+     "parent": 4,
+     "heading_path": [
+      "2 Related work",
+      "3.1 Knowledge Graph Completion"
+     ],
+     "heading_bbox": {
+      "page": 3,
+      "x0": 70.87,
+      "y0": 588.63,
+      "x1": 238.34,
+      "y1": 599.54
+     },
      "sha": "774414fe69d6bac7",
      "lines_sha": "2e952a6be182190f",
      "heading_check": true
@@ -952,6 +1693,19 @@
      "start": 9201,
      "end": 10503,
      "flags": [],
+     "confidence": null,
+     "parent": 4,
+     "heading_path": [
+      "2 Related work",
+      "3.2 A Seq2Seq Framework for KGC"
+     ],
+     "heading_bbox": {
+      "page": 3,
+      "x0": 70.87,
+      "y0": 359.76,
+      "x1": 247.14,
+      "y1": 370.67
+     },
      "sha": "568a65dd664c9075",
      "lines_sha": "cba8df58f60ce822",
      "heading_check": true
@@ -961,38 +1715,25 @@
      "title": "Entity & Relation Representation",
      "level": 2,
      "page_start": 3,
-     "page_end": 3,
+     "page_end": 4,
      "start": 10504,
-     "end": 11934,
-     "flags": [],
-     "sha": "da071451cfccd365",
-     "lines_sha": "643b3564eef61849",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "KG Soft Prompt",
-     "level": 3,
-     "page_start": 4,
-     "page_end": 4,
-     "start": 11935,
-     "end": 13148,
-     "flags": [],
-     "sha": "0c6ff5a4c062516b",
-     "lines_sha": "9928a3b6a121da18",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "Seq2Seq Dropout",
-     "level": 3,
-     "page_start": 4,
-     "page_end": 4,
-     "start": 13149,
      "end": 14177,
      "flags": [],
-     "sha": "22232189bc3161b6",
-     "lines_sha": "bc0bec8d5bf8cbef",
+     "confidence": null,
+     "parent": 4,
+     "heading_path": [
+      "2 Related work",
+      "3.3 Entity & Relation Representation"
+     ],
+     "heading_bbox": {
+      "page": 3,
+      "x0": 306.14,
+      "y0": 466.68,
+      "x1": 487.15,
+      "y1": 477.59
+     },
+     "sha": "1e1f4b84158d8823",
+     "lines_sha": "bec88716bf9d1d47",
      "heading_check": true
     },
     {
@@ -1004,6 +1745,19 @@
      "start": 14178,
      "end": 16833,
      "flags": [],
+     "confidence": null,
+     "parent": 4,
+     "heading_path": [
+      "2 Related work",
+      "3.4 KGC Inference"
+     ],
+     "heading_bbox": {
+      "page": 4,
+      "x0": 70.87,
+      "y0": 114.31,
+      "x1": 167.02,
+      "y1": 125.22
+     },
      "sha": "9574d3283b0f0e15",
      "lines_sha": "f47164db78870c7f",
      "heading_check": true
@@ -1016,9 +1770,19 @@
      "page_end": 5,
      "start": 16834,
      "end": 16846,
-     "flags": [
-      "end_marker_not_found"
+     "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "4 Experiment"
      ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 70.87,
+      "y0": 691.77,
+      "x1": 149.23,
+      "y1": 703.72
+     },
      "sha": "9c5e37da1b6ae8bd",
      "lines_sha": "9c5e37da1b6ae8bd",
      "heading_check": true
@@ -1031,9 +1795,20 @@
      "page_end": 5,
      "start": 16847,
      "end": 17176,
-     "flags": [
-      "end_marker_not_found"
+     "flags": [],
+     "confidence": null,
+     "parent": 9,
+     "heading_path": [
+      "4 Experiment",
+      "4.2 Experimental results"
      ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 306.14,
+      "y0": 688.93,
+      "x1": 427.76,
+      "y1": 699.84
+     },
      "sha": "526aeb562ea5f217",
      "lines_sha": "91a89626bc10b200",
      "heading_check": true
@@ -1046,9 +1821,20 @@
      "page_end": 7,
      "start": 17177,
      "end": 26911,
-     "flags": [
-      "end_mismatch"
+     "flags": [],
+     "confidence": null,
+     "parent": 9,
+     "heading_path": [
+      "4 Experiment",
+      "4.1 Experimental Settings"
      ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 70.87,
+      "y0": 565.02,
+      "x1": 198.74,
+      "y1": 575.93
+     },
      "sha": "fc3151b50d96bd5e",
      "lines_sha": "3d3f21a80ffaee9d",
      "heading_check": true
@@ -1062,6 +1848,19 @@
      "start": 26912,
      "end": 29150,
      "flags": [],
+     "confidence": null,
+     "parent": 9,
+     "heading_path": [
+      "4 Experiment",
+      "4.3 Ablation Study"
+     ],
+     "heading_bbox": {
+      "page": 7,
+      "x0": 70.87,
+      "y0": 217.04,
+      "x1": 166.04,
+      "y1": 227.95
+     },
      "sha": "7cbca032d053a25a",
      "lines_sha": "d0375869b1c71f87",
      "heading_check": true
@@ -1075,6 +1874,20 @@
      "start": 29151,
      "end": 30011,
      "flags": [],
+     "confidence": null,
+     "parent": 12,
+     "heading_path": [
+      "4 Experiment",
+      "4.3 Ablation Study",
+      "Impact of Decoding Methods"
+     ],
+     "heading_bbox": {
+      "page": 8,
+      "x0": 70.87,
+      "y0": 757.78,
+      "x1": 207.96,
+      "y1": 768.69
+     },
      "sha": "d060153b34464ccc",
      "lines_sha": "764c2afaa9d6d5d6",
      "heading_check": true
@@ -1088,6 +1901,19 @@
      "start": 30012,
      "end": 36461,
      "flags": [],
+     "confidence": null,
+     "parent": 9,
+     "heading_path": [
+      "4 Experiment",
+      "4.4 Discussion"
+     ],
+     "heading_bbox": {
+      "page": 8,
+      "x0": 70.87,
+      "y0": 503.06,
+      "x1": 144.51,
+      "y1": 513.97
+     },
      "sha": "b3992f4118bb199c",
      "lines_sha": "a6219b416a259e99",
      "heading_check": true
@@ -1101,6 +1927,18 @@
      "start": 36462,
      "end": 37251,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "5 Conclusion and Future Work"
+     ],
+     "heading_bbox": {
+      "page": 9,
+      "x0": 306.14,
+      "y0": 353.16,
+      "x1": 473.42,
+      "y1": 365.12
+     },
      "sha": "4fc6895e65a687bc",
      "lines_sha": "d66f033156a5b780",
      "heading_check": true
@@ -1114,6 +1952,18 @@
      "start": 37252,
      "end": 37645,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Acknowledgement"
+     ],
+     "heading_bbox": {
+      "page": 9,
+      "x0": 306.14,
+      "y0": 103.54,
+      "x1": 400.33,
+      "y1": 115.5
+     },
      "sha": "d9656c63aa13b9ea",
      "lines_sha": "f6e3603c37c4f998",
      "heading_check": true
@@ -1127,39 +1977,74 @@
      "start": 37646,
      "end": 52989,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "References"
+     ],
+     "heading_bbox": {
+      "page": 10,
+      "x0": 70.87,
+      "y0": 666.79,
+      "x1": 126.41,
+      "y1": 678.75
+     },
      "sha": "9c4dc85e7151957a",
      "lines_sha": "91a840bd05c66f33",
      "heading_check": true
     },
     {
-     "number": "B",
-     "title": "Inplementation details",
+     "number": "",
+     "title": "B Inplementation details",
      "level": 1,
      "page_start": 13,
      "page_end": 13,
      "start": 52990,
      "end": 56002,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "B Inplementation details"
+     ],
+     "heading_bbox": {
+      "page": 13,
+      "x0": 306.14,
+      "y0": 757.57,
+      "x1": 440.65,
+      "y1": 769.52
+     },
      "sha": "7dc99347310897d2",
      "lines_sha": "87d1aa3c21840d6d",
      "heading_check": true
     },
     {
-     "number": "A",
-     "title": "Dataset",
+     "number": "",
+     "title": "A Dataset",
      "level": 1,
      "page_start": 13,
      "page_end": 13,
      "start": 56003,
      "end": 57153,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "A Dataset"
+     ],
+     "heading_bbox": {
+      "page": 13,
+      "x0": 70.87,
+      "y0": 445.66,
+      "x1": 129.96,
+      "y1": 457.62
+     },
      "sha": "b3403c56748fd482",
      "lines_sha": "0ec705ea6644f70d",
      "heading_check": true
     }
    ],
-   "readoc_teds": 63.5,
-   "readoc_headings": 22
+   "readoc_teds": 69.8
   }
  },
  "pages": 13,

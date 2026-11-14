@@ -3,8 +3,8 @@
 Paper:   Visual Instruction Tuning, Liu et al., arXiv:2304.08485v2 (CC BY 4.0),
          https://arxiv.org/pdf/2304.08485v2 (sha256 dc8bace378a282ea78caa9b5959306202fbfa3b8cedaf8a66541a9af18f4d3bf)
 Mode:    quick, default model (gpt-6-luna)
-Library: section-anything 0.1.3
-Date:    2026-10-27
+Library: section-anything 0.1.11
+Date:    2026-11-13
 
 Two steps:
 

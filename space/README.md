@@ -27,7 +27,7 @@ mode on any PDF: PDF bookmarks or the printed table of contents as the outline, 
 and numbering rules. No model is called and no API key is used.
 
 On three example papers you can also switch to Quick check and Standard, the two modes that use
-a model. Those are saved runs (section-anything 0.1.5, gpt-6-luna, 28 Oct 2026), computed once by
+a model. Those are saved runs (section-anything 0.1.11, gpt-6-luna, 13 Nov 2026), computed once by
 the maintainers with [`make_examples.py`](make_examples.py) and stored in `examples/` as headings,
 levels, pages and character spans, with each run's cost and time and, where READoc has an answer
 key, the paper's READoc heading-tree TEDS. The Space has no API key and never calls a model.
@@ -86,20 +86,20 @@ heading-tree TEDS was closest to the group's median (both came out a little belo
 41st and 38th percentiles). Each stands for its group, not for papers in general: without
 bookmarks Free has less to go on.
 
-Saved runs (section-anything 0.1.5; Quick check and Standard on gpt-6-luna; READoc heading-tree
+Saved runs (section-anything 0.1.11; Quick check and Standard on gpt-6-luna; READoc heading-tree
 TEDS on that one paper, with READoc's own scorer):
 
 | Paper | Mode | Sections | TEDS | Cost | Time |
 |---|---|---|---|---|---|
 | 2304.08485v2 | Free | 19 | - | $0 | 2.6 s |
-| 2304.08485v2 | Quick check | 19 | - | $0.0006 | 13.3 s |
-| 2304.08485v2 | Standard | 20 | - | $0.0033 | 18.5 s |
-| 2209.07299v2 | Free | 28 | 49.9 | $0 | 0.6 s |
-| 2209.07299v2 | Quick check | 30 | 46.6 | $0.0009 | 10.5 s |
-| 2209.07299v2 | Standard | 22 | 63.5 | $0.0032 | 18.6 s |
-| 2305.06327v1 | Free | 85 | 60.4 | $0 | 2.4 s |
-| 2305.06327v1 | Quick check | 83 | 71.7 | $0.0028 | 27.4 s |
-| 2305.06327v1 | Standard | 65 | 82.6 | $0.0093 | 55.0 s |
+| 2304.08485v2 | Quick check | 19 | - | $0.0007 | 13.6 s |
+| 2304.08485v2 | Standard | 20 | - | $0.0027 | 10.0 s |
+| 2209.07299v2 | Free | 26 | 53.7 | $0 | 0.6 s |
+| 2209.07299v2 | Quick check | 29 | 44.7 | $0.0011 | 15.3 s |
+| 2209.07299v2 | Standard | 20 | 69.8 | $0.0027 | 11.1 s |
+| 2305.06327v1 | Free | 61 | 66.2 | $0 | 2.6 s |
+| 2305.06327v1 | Quick check | 62 | 76.5 | $0.0022 | 24.5 s |
+| 2305.06327v1 | Standard | 70 | 84.0 | $0.0074 | 22.1 s |
 
 Single runs; Quick check and Standard can vary slightly between runs.
 

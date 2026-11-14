@@ -1,12 +1,12 @@
 {
  "schema": 1,
  "id": "2305.06327v1",
- "title": "Thermalization, Chaos and Hydrodynamics in Classical Hamiltonian Systems",
  "button": "Thermalization, Chaos and Hydrodynamics · 88 pages, nested",
+ "title": "Thermalization, Chaos and Hydrodynamics in Classical Hamiltonian Systems",
  "authors": "Ganapa",
  "licence": "CC BY 4.0",
  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
- "why": "Long and deeply nested: 88 pages, PDF bookmarks, and an answer key four levels deep. Picked by a fixed rule: of the 39 held-out READoc arXiv papers with 30-100 pages and an answer key at least three levels deep, the CC BY paper whose Free (0.1.5) READoc heading-tree TEDS was closest to the group's median (68.7). Its Free score, 60.4, is at the group's 38th percentile.",
+ "why": "Long and deeply nested: 88 pages, PDF bookmarks, and an answer key four levels deep. Picked by a fixed rule: of the 39 held-out READoc arXiv papers with 30-100 pages and an answer key at least three levels deep, the CC BY paper whose Free (0.1.5) READoc heading-tree TEDS was closest to the group's median (68.7). Its Free score then, 60.4, was at the group's 38th percentile.",
  "arxiv": "https://arxiv.org/abs/2305.06327v1",
  "pdf_urls": [
   "https://arxiv.org/pdf/2305.06327v1",
@@ -24,11 +24,11 @@
  },
  "runs": {
   "free": {
-   "section_anything": "0.1.5",
+   "section_anything": "0.1.11",
    "mode": "free",
    "model": null,
-   "date": "2026-10-28",
-   "seconds": 2.41,
+   "date": "2026-11-13",
+   "seconds": 2.61,
    "calls": 0,
    "input_tokens": 0,
    "output_tokens": 0,
@@ -46,275 +46,46 @@
    "sections": [
     {
      "number": "",
-     "title": "Thermalization, Chaos and Hydrodynamics in Classical Hamiltonian Systems",
+     "title": "Front matter",
      "level": 2,
      "page_start": 1,
-     "page_end": 1,
-     "start": 0,
-     "end": 406,
-     "flags": [],
-     "sha": "6fd0d4693cf6d92a",
-     "lines_sha": "80c4caedb178a47e",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "Declaration",
-     "level": 2,
-     "page_start": 3,
      "page_end": 4,
-     "start": 407,
+     "start": 0,
      "end": 1106,
-     "flags": [],
-     "sha": "c0670d02ee52d27e",
-     "lines_sha": "f59d4e7d3cf2e477",
-     "heading_check": true
+     "flags": [
+      "front_matter"
+     ],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [],
+     "heading_bbox": null,
+     "sha": "5024a0004f271adb",
+     "lines_sha": "6c09cd65a120850e",
+     "heading_check": null
     },
     {
      "number": "",
      "title": "Acknowledgements",
      "level": 2,
      "page_start": 5,
-     "page_end": 6,
+     "page_end": 10,
      "start": 1107,
-     "end": 3358,
-     "flags": [],
-     "sha": "e074d28b1637b745",
-     "lines_sha": "0e783c933f7e8992",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "List of Publications",
-     "level": 2,
-     "page_start": 7,
-     "page_end": 7,
-     "start": 3359,
-     "end": 4064,
-     "flags": [],
-     "sha": "e487f055434fdd56",
-     "lines_sha": "6e3f76e5b23b1051",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "List of Collaborators",
-     "level": 2,
-     "page_start": 7,
-     "page_end": 7,
-     "start": 4065,
-     "end": 4441,
-     "flags": [],
-     "sha": "afb198e81e26ae8c",
-     "lines_sha": "0f2e2b57d6527a2e",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "List of Abbreviations",
-     "level": 2,
-     "page_start": 8,
-     "page_end": 8,
-     "start": 4442,
-     "end": 5057,
-     "flags": [],
-     "sha": "2fe64d7ecaa5f7af",
-     "lines_sha": "78962409fce8487e",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "Contents",
-     "level": 2,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 5058,
-     "end": 5066,
-     "flags": [],
-     "sha": "437aea62a5bd6ad4",
-     "lines_sha": "437aea62a5bd6ad4",
-     "heading_check": true
-    },
-    {
-     "number": "1",
-     "title": "Introduction",
-     "level": 1,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 5067,
-     "end": 5238,
-     "flags": [],
-     "sha": "7e70208738ea20da",
-     "lines_sha": "7e70208738ea20da",
-     "heading_check": true
-    },
-    {
-     "number": "1.1.2",
-     "title": "Evolution Before Thermalization - Description in Terms of Con-",
-     "level": 3,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 5239,
-     "end": 5319,
-     "flags": [],
-     "sha": "a06355d443b057f5",
-     "lines_sha": "758959843f52f771",
-     "heading_check": true
-    },
-    {
-     "number": "1.2",
-     "title": "Problem Statements",
-     "level": 2,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 5320,
-     "end": 6116,
-     "flags": [],
-     "sha": "049342ca44c93f53",
-     "lines_sha": "c48ca055e7f894c1",
-     "heading_check": true
-    },
-    {
-     "number": "1.3.5",
-     "title": "Navier-Stokes-Fourier (NSF) Equations and the MacCormack Method 12",
-     "level": 3,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 6117,
-     "end": 6189,
-     "flags": [],
-     "sha": "47250c9a7f9a0df8",
-     "lines_sha": "47250c9a7f9a0df8",
-     "heading_check": true
-    },
-    {
-     "number": "2",
-     "title": "The Fermi-Pasta-Ulam-Tsingou Story",
-     "level": 1,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 6190,
-     "end": 6572,
-     "flags": [],
-     "sha": "fd09ec5a5df414c3",
-     "lines_sha": "b339bb8451032cec",
-     "heading_check": true
-    },
-    {
-     "number": "3",
-     "title": "Thermalization of Local Observables in the α−FPUT Chain",
-     "level": 1,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 6573,
-     "end": 6715,
-     "flags": [],
-     "sha": "024d0380dd3967b9",
-     "lines_sha": "f328cb84ed4e4eec",
-     "heading_check": true
-    },
-    {
-     "number": "3.2",
-     "title": "Evolution of Local Observables from Space Localized Initial Conditions . . 21",
-     "level": 2,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 6716,
-     "end": 6836,
-     "flags": [],
-     "sha": "24bcde844d720979",
-     "lines_sha": "c16c804cb55f9da6",
-     "heading_check": true
-    },
-    {
-     "number": "3.3",
-     "title": "Normal Mode Localized Initial Conditions",
-     "level": 2,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 6837,
-     "end": 7048,
-     "flags": [],
-     "sha": "7ae2a2f24236504d",
-     "lines_sha": "7ae2a2f24236504d",
-     "heading_check": true
-    },
-    {
-     "number": "3.6",
-     "title": "Dependence of Equilibration on the Choice of Initial Conditions and Ob-",
-     "level": 2,
-     "page_start": 9,
-     "page_end": 10,
-     "start": 7049,
-     "end": 7557,
-     "flags": [],
-     "sha": "31e02922a7353607",
-     "lines_sha": "4d009dafc128c210",
-     "heading_check": true
-    },
-    {
-     "number": "4",
-     "title": "The Taylor−von Neumann−Sedov Blast Wave Solution",
-     "level": 1,
-     "page_start": 10,
-     "page_end": 10,
-     "start": 7558,
-     "end": 7611,
-     "flags": [],
-     "sha": "13438c85e275fb66",
-     "lines_sha": "99955b411ca36229",
-     "heading_check": true
-    },
-    {
-     "number": "4.1",
-     "title": "Euler Equations and its Self-similar Solutions",
-     "level": 2,
-     "page_start": 10,
-     "page_end": 10,
-     "start": 7612,
-     "end": 8030,
-     "flags": [],
-     "sha": "8b9d3260316ae2e9",
-     "lines_sha": "1de45485f72f7a5f",
-     "heading_check": true
-    },
-    {
-     "number": "5",
-     "title": "Blast Wave in the One Dimensional Cold Gas",
-     "level": 1,
-     "page_start": 10,
-     "page_end": 10,
-     "start": 8031,
-     "end": 8530,
-     "flags": [],
-     "sha": "38551a53afcd8dc3",
-     "lines_sha": "bc32cbeb9fe54e70",
-     "heading_check": true
-    },
-    {
-     "number": "5.5.1",
-     "title": "Comparison with the Empirical Fields",
-     "level": 3,
-     "page_start": 10,
-     "page_end": 10,
-     "start": 8531,
-     "end": 9236,
-     "flags": [],
-     "sha": "403b3f2df44e8af0",
-     "lines_sha": "7fca7b0095d9a29c",
-     "heading_check": true
-    },
-    {
-     "number": "6",
-     "title": "Conclusion",
-     "level": 1,
-     "page_start": 10,
-     "page_end": 10,
-     "start": 9237,
      "end": 9852,
      "flags": [],
-     "sha": "d7f4c5a33f24dd8c",
-     "lines_sha": "020359b25104b71c",
+     "confidence": 0.974,
+     "parent": null,
+     "heading_path": [
+      "Acknowledgements"
+     ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 217.3,
+      "y0": 755.73,
+      "x1": 377.97,
+      "y1": 772.94
+     },
+     "sha": "64797c65de439f94",
+     "lines_sha": "937974350e761f1f",
      "heading_check": true
     },
     {
@@ -326,6 +97,18 @@
      "start": 9853,
      "end": 11848,
      "flags": [],
+     "confidence": 0.883,
+     "parent": null,
+     "heading_path": [
+      "Chapter 1 Introduction"
+     ],
+     "heading_bbox": {
+      "page": 11,
+      "x0": 70.87,
+      "y0": 610.34,
+      "x1": 224.32,
+      "y1": 692.14
+     },
      "sha": "adae8cec5f8a9198",
      "lines_sha": "b5b7865f25a72689",
      "heading_check": true
@@ -339,6 +122,18 @@
      "start": 11849,
      "end": 11888,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "1.1 A General Introduction to this Work"
+     ],
+     "heading_bbox": {
+      "page": 12,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 429.56,
+      "y1": 772.94
+     },
      "sha": "584c61d72b7b462f",
      "lines_sha": "584c61d72b7b462f",
      "heading_check": true
@@ -352,6 +147,19 @@
      "start": 11889,
      "end": 14668,
      "flags": [],
+     "confidence": 0.983,
+     "parent": 3,
+     "heading_path": [
+      "1.1 A General Introduction to this Work",
+      "1.1.1 Thermalization and its Importance in Statistical Physics"
+     ],
+     "heading_bbox": {
+      "page": 12,
+      "x0": 70.87,
+      "y0": 722.19,
+      "x1": 520.13,
+      "y1": 736.54
+     },
      "sha": "31ce15bd8c09a425",
      "lines_sha": "7e33e84292f92156",
      "heading_check": true
@@ -365,6 +173,19 @@
      "start": 14669,
      "end": 16784,
      "flags": [],
+     "confidence": 0.906,
+     "parent": 3,
+     "heading_path": [
+      "1.1 A General Introduction to this Work",
+      "1.1.2 Evolution Before Thermalization - Description in Terms of Conserved Fields"
+     ],
+     "heading_bbox": {
+      "page": 13,
+      "x0": 70.87,
+      "y0": 734.03,
+      "x1": 524.41,
+      "y1": 770.63
+     },
      "sha": "afbdf84ad075cc38",
      "lines_sha": "03508368c38ca391",
      "heading_check": true
@@ -378,6 +199,19 @@
      "start": 16785,
      "end": 19034,
      "flags": [],
+     "confidence": 0.983,
+     "parent": 3,
+     "heading_path": [
+      "1.1 A General Introduction to this Work",
+      "1.1.3 Structure of the Thesis"
+     ],
+     "heading_bbox": {
+      "page": 13,
+      "x0": 70.87,
+      "y0": 257.07,
+      "x1": 283.87,
+      "y1": 271.42
+     },
      "sha": "df2753eb88689513",
      "lines_sha": "58e27f509ec42aa7",
      "heading_check": true
@@ -391,6 +225,18 @@
      "start": 19035,
      "end": 19057,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "1.2 Problem Statements"
+     ],
+     "heading_bbox": {
+      "page": 14,
+      "x0": 70.87,
+      "y0": 423.68,
+      "x1": 287.82,
+      "y1": 440.89
+     },
      "sha": "90422d51bae5c59a",
      "lines_sha": "90422d51bae5c59a",
      "heading_check": true
@@ -404,6 +250,19 @@
      "start": 19058,
      "end": 26454,
      "flags": [],
+     "confidence": 0.962,
+     "parent": 7,
+     "heading_path": [
+      "1.2 Problem Statements",
+      "1.2.1 Thermalization in the α−FPUT Chain"
+     ],
+     "heading_bbox": {
+      "page": 14,
+      "x0": 70.87,
+      "y0": 390.14,
+      "x1": 391.88,
+      "y1": 404.49
+     },
      "sha": "469ab66bff9145f7",
      "lines_sha": "4ac5a42397e43421",
      "heading_check": true
@@ -417,6 +276,19 @@
      "start": 26455,
      "end": 31910,
      "flags": [],
+     "confidence": 0.983,
+     "parent": 7,
+     "heading_path": [
+      "1.2 Problem Statements",
+      "1.2.2 Blast Wave in an Alternate Mass Hard Particle Gas"
+     ],
+     "heading_bbox": {
+      "page": 17,
+      "x0": 70.87,
+      "y0": 239.23,
+      "x1": 489.04,
+      "y1": 253.58
+     },
      "sha": "53b58abb05cb7c3d",
      "lines_sha": "f437f09b28cfa443",
      "heading_check": true
@@ -430,6 +302,18 @@
      "start": 31911,
      "end": 31941,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "1.3 Methods Used in this Study"
+     ],
+     "heading_bbox": {
+      "page": 19,
+      "x0": 70.87,
+      "y0": 342.4,
+      "x1": 354.52,
+      "y1": 359.61
+     },
      "sha": "80b5052d4f30b248",
      "lines_sha": "80b5052d4f30b248",
      "heading_check": true
@@ -443,6 +327,19 @@
      "start": 31942,
      "end": 33200,
      "flags": [],
+     "confidence": 0.983,
+     "parent": 10,
+     "heading_path": [
+      "1.3 Methods Used in this Study",
+      "1.3.1 Symplectic Integrator"
+     ],
+     "heading_bbox": {
+      "page": 19,
+      "x0": 70.87,
+      "y0": 308.86,
+      "x1": 274.03,
+      "y1": 323.2
+     },
      "sha": "e1ffc614e04d13ee",
      "lines_sha": "a448e4c2e38dc00b",
      "heading_check": true
@@ -456,6 +353,19 @@
      "start": 33201,
      "end": 34523,
      "flags": [],
+     "confidence": 0.983,
+     "parent": 10,
+     "heading_path": [
+      "1.3 Methods Used in this Study",
+      "1.3.2 Equipartition Theorem"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 70.87,
+      "y0": 699.37,
+      "x1": 283.11,
+      "y1": 713.72
+     },
      "sha": "8118a72334b7a546",
      "lines_sha": "56f422b6677b81c8",
      "heading_check": true
@@ -465,51 +375,25 @@
      "title": "Averaging Methods",
      "level": 3,
      "page_start": 20,
-     "page_end": 20,
-     "start": 34524,
-     "end": 34789,
-     "flags": [],
-     "sha": "fa81222d0068ff0d",
-     "lines_sha": "fa81222d0068ff0d",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "Averaging over Initial Conditions",
-     "level": 4,
-     "page_start": 20,
-     "page_end": 21,
-     "start": 34790,
-     "end": 35752,
-     "flags": [],
-     "sha": "61d15c8a62485a74",
-     "lines_sha": "dbf3ccfdd8c51579",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "Temporal Coarse Graining",
-     "level": 4,
-     "page_start": 21,
-     "page_end": 21,
-     "start": 35753,
-     "end": 36573,
-     "flags": [],
-     "sha": "3e3a7c36101cde56",
-     "lines_sha": "fdf669a3e2ca2e65",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "Spatial Coarse Graining",
-     "level": 4,
-     "page_start": 21,
      "page_end": 22,
-     "start": 36574,
+     "start": 34524,
      "end": 38125,
      "flags": [],
-     "sha": "57c093cb10b0fd68",
-     "lines_sha": "27cc7e0a7b3b2e03",
+     "confidence": 0.983,
+     "parent": 10,
+     "heading_path": [
+      "1.3 Methods Used in this Study",
+      "1.3.3 Averaging Methods"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 70.87,
+      "y0": 352.17,
+      "x1": 258.98,
+      "y1": 366.52
+     },
+     "sha": "4cff0bd263842e43",
+     "lines_sha": "c1b4ca0f9e6c8622",
      "heading_check": true
     },
     {
@@ -521,6 +405,19 @@
      "start": 38126,
      "end": 39555,
      "flags": [],
+     "confidence": 0.983,
+     "parent": 10,
+     "heading_path": [
+      "1.3 Methods Used in this Study",
+      "1.3.4 Estimation of Equilibration Time"
+     ],
+     "heading_bbox": {
+      "page": 22,
+      "x0": 70.87,
+      "y0": 699.37,
+      "x1": 355.38,
+      "y1": 713.72
+     },
      "sha": "2ffa1725452d9968",
      "lines_sha": "3fe29384e3bfc374",
      "heading_check": true
@@ -537,6 +434,19 @@
       "start_marker_fuzzy",
       "title_not_in_text"
      ],
+     "confidence": 0.966,
+     "parent": 10,
+     "heading_path": [
+      "1.3 Methods Used in this Study",
+      "1.3.5 Navier-Stokes-Fourier (NSF) Equations and the MacCor- mack Method"
+     ],
+     "heading_bbox": {
+      "page": 22,
+      "x0": 70.87,
+      "y0": 272.18,
+      "x1": 524.42,
+      "y1": 308.78
+     },
      "sha": "f7643a5797a52be6",
      "lines_sha": "9604b38dea3a521b",
      "heading_check": false
@@ -550,6 +460,18 @@
      "start": 42422,
      "end": 44564,
      "flags": [],
+     "confidence": 0.883,
+     "parent": null,
+     "heading_path": [
+      "Chapter 2 The Fermi-Pasta-Ulam-Tsingou Story"
+     ],
+     "heading_bbox": {
+      "page": 24,
+      "x0": 70.87,
+      "y0": 573.25,
+      "x1": 456.17,
+      "y1": 692.14
+     },
      "sha": "eaf0cddb6e615550",
      "lines_sha": "1db85ef79f4f3054",
      "heading_check": true
@@ -563,6 +485,18 @@
      "start": 44565,
      "end": 45567,
      "flags": [],
+     "confidence": 0.961,
+     "parent": null,
+     "heading_path": [
+      "2.1 Continuum Limit and the KdV Equation"
+     ],
+     "heading_bbox": {
+      "page": 25,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 463.09,
+      "y1": 772.94
+     },
      "sha": "3ca92fed2e60b418",
      "lines_sha": "d61d1073242c1154",
      "heading_check": true
@@ -576,6 +510,18 @@
      "start": 45568,
      "end": 48876,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "2.2 Overlap of Resonances"
+     ],
+     "heading_bbox": {
+      "page": 25,
+      "x0": 70.87,
+      "y0": 483.55,
+      "x1": 306.65,
+      "y1": 500.76
+     },
      "sha": "c8ddd064a4f0a8e7",
      "lines_sha": "461a0a38560931d0",
      "heading_check": true
@@ -589,6 +535,18 @@
      "start": 48877,
      "end": 50596,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "2.3 Role of Breather Solutions"
+     ],
+     "heading_bbox": {
+      "page": 26,
+      "x0": 70.87,
+      "y0": 441.6,
+      "x1": 340.84,
+      "y1": 458.82
+     },
      "sha": "d99e57451cfc37de",
      "lines_sha": "7c4bf0346a5aa078",
      "heading_check": true
@@ -602,6 +560,18 @@
      "start": 50597,
      "end": 58143,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "2.4 Ideas from Wave Turbulence"
+     ],
+     "heading_bbox": {
+      "page": 27,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 358.12,
+      "y1": 772.94
+     },
      "sha": "2ed7a686c086e8c1",
      "lines_sha": "17cfce2fa7faae10",
      "heading_check": true
@@ -615,6 +585,18 @@
      "start": 58144,
      "end": 59243,
      "flags": [],
+     "confidence": 0.883,
+     "parent": null,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain"
+     ],
+     "heading_bbox": {
+      "page": 30,
+      "x0": 70.87,
+      "y0": 573.25,
+      "x1": 516.88,
+      "y1": 692.14
+     },
      "sha": "2aae6f75714e05b4",
      "lines_sha": "317a53e9dfdbd91e",
      "heading_check": true
@@ -628,6 +610,18 @@
      "start": 59244,
      "end": 61518,
      "flags": [],
+     "confidence": 0.801,
+     "parent": null,
+     "heading_path": [
+      "3.1 Initial Conditions and the Observables that are Considered in this Study"
+     ],
+     "heading_bbox": {
+      "page": 30,
+      "x0": 70.87,
+      "y0": 247.32,
+      "x1": 524.41,
+      "y1": 291.74
+     },
      "sha": "a75aabfc7237e7d8",
      "lines_sha": "c736adffb08bf69d",
      "heading_check": true
@@ -644,6 +638,18 @@
       "start_marker_fuzzy",
       "title_not_in_text"
      ],
+     "confidence": 0.771,
+     "parent": null,
+     "heading_path": [
+      "3.2 Evolution of Local Observables from Space Lo- calized Initial Conditions"
+     ],
+     "heading_bbox": {
+      "page": 31,
+      "x0": 70.87,
+      "y0": 220.27,
+      "x1": 524.4,
+      "y1": 264.68
+     },
      "sha": "ce269c46fc68b14e",
      "lines_sha": "64677e38ce516c03",
      "heading_check": false
@@ -657,6 +663,18 @@
      "start": 64398,
      "end": 65633,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "3.3 Normal Mode Localized Initial Conditions"
+     ],
+     "heading_bbox": {
+      "page": 33,
+      "x0": 70.87,
+      "y0": 213.51,
+      "x1": 474.14,
+      "y1": 230.73
+     },
      "sha": "b6514f2283c97a24",
      "lines_sha": "6f35629605204f76",
      "heading_check": true
@@ -670,6 +688,18 @@
      "start": 65634,
      "end": 67454,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "3.4 Dependence of Equilibration on the Averaging Procedure"
+     ],
+     "heading_bbox": {
+      "page": 34,
+      "x0": 70.87,
+      "y0": 359.46,
+      "x1": 524.42,
+      "y1": 403.88
+     },
      "sha": "986113a069716bc3",
      "lines_sha": "006bdcec5a5f29ea",
      "heading_check": true
@@ -683,6 +713,18 @@
      "start": 67455,
      "end": 68901,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "3.5 Quantification of the Equilibration Time"
+     ],
+     "heading_bbox": {
+      "page": 35,
+      "x0": 70.87,
+      "y0": 227.98,
+      "x1": 458.63,
+      "y1": 245.19
+     },
      "sha": "3828e38a17c0f68a",
      "lines_sha": "d833a22329be61f9",
      "heading_check": true
@@ -694,23 +736,22 @@
      "page_start": 36,
      "page_end": 37,
      "start": 68902,
-     "end": 70687,
-     "flags": [],
-     "sha": "bb12aa471ef03e6a",
-     "lines_sha": "f74d068515d3cc3d",
-     "heading_check": true
-    },
-    {
-     "number": "0.9",
-     "title": "respectively. We also show the equilibration times obtained from the normal mode",
-     "level": 2,
-     "page_start": 37,
-     "page_end": 37,
-     "start": 70688,
      "end": 70878,
      "flags": [],
-     "sha": "3f4e7fffe8c67a7d",
-     "lines_sha": "3f4e7fffe8c67a7d",
+     "confidence": 0.872,
+     "parent": null,
+     "heading_path": [
+      "3.6 Dependence of Equilibration on the Choice of Initial Conditions and Observables"
+     ],
+     "heading_bbox": {
+      "page": 36,
+      "x0": 70.87,
+      "y0": 350.66,
+      "x1": 524.41,
+      "y1": 395.08
+     },
+     "sha": "2b9f5ae569acaa82",
+     "lines_sha": "3d88084ea0a8d8c6",
      "heading_check": true
     },
     {
@@ -722,6 +763,18 @@
      "start": 70879,
      "end": 72928,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "3.7 Comparison with Other Integrable Models"
+     ],
+     "heading_bbox": {
+      "page": 37,
+      "x0": 70.87,
+      "y0": 115.22,
+      "x1": 476.4,
+      "y1": 132.44
+     },
      "sha": "e454c33ee1c05596",
      "lines_sha": "a17a0378f690adb2",
      "heading_check": true
@@ -735,6 +788,18 @@
      "start": 72929,
      "end": 75027,
      "flags": [],
+     "confidence": 0.872,
+     "parent": null,
+     "heading_path": [
+      "3.8 Dependence of Equilibration on the Width of the Initial Distribution"
+     ],
+     "heading_bbox": {
+      "page": 39,
+      "x0": 70.87,
+      "y0": 238.87,
+      "x1": 524.41,
+      "y1": 283.28
+     },
      "sha": "3ee6685e31d9ef44",
      "lines_sha": "b70b05e24c4f2318",
      "heading_check": true
@@ -748,6 +813,18 @@
      "start": 75028,
      "end": 82947,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "3.9 Relation to Chaos"
+     ],
+     "heading_bbox": {
+      "page": 40,
+      "x0": 70.87,
+      "y0": 238.52,
+      "x1": 268.03,
+      "y1": 255.73
+     },
      "sha": "91770574f30b92be",
      "lines_sha": "4e8263ec0d78615e",
      "heading_check": true
@@ -761,6 +838,18 @@
      "start": 82948,
      "end": 85435,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "3.10 Summary"
+     ],
+     "heading_bbox": {
+      "page": 44,
+      "x0": 70.87,
+      "y0": 369.9,
+      "x1": 206.01,
+      "y1": 387.11
+     },
      "sha": "93b63e042c19f167",
      "lines_sha": "1094434c3eafbe71",
      "heading_check": true
@@ -774,6 +863,18 @@
      "start": 85436,
      "end": 87632,
      "flags": [],
+     "confidence": 0.883,
+     "parent": null,
+     "heading_path": [
+      "Chapter 4 The Taylor−von Neumann−Sedov Blast Wave Solution"
+     ],
+     "heading_bbox": {
+      "page": 46,
+      "x0": 70.87,
+      "y0": 573.25,
+      "x1": 486.04,
+      "y1": 692.14
+     },
      "sha": "a768d0527bed9781",
      "lines_sha": "b47d5d21320330f8",
      "heading_check": true
@@ -787,6 +888,18 @@
      "start": 87633,
      "end": 92503,
      "flags": [],
+     "confidence": 0.961,
+     "parent": null,
+     "heading_path": [
+      "4.1 Euler Equations and its Self-similar Solutions"
+     ],
+     "heading_bbox": {
+      "page": 47,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 500.62,
+      "y1": 772.94
+     },
      "sha": "397bf38d39295d27",
      "lines_sha": "24409a3d927cad78",
      "heading_check": true
@@ -803,6 +916,18 @@
       "start_marker_fuzzy",
       "title_not_in_text"
      ],
+     "confidence": 0.953,
+     "parent": null,
+     "heading_path": [
+      "4.2 The TvNS Blast Wave Solution in One Dimen- sion"
+     ],
+     "heading_bbox": {
+      "page": 49,
+      "x0": 70.87,
+      "y0": 310.9,
+      "x1": 524.41,
+      "y1": 355.32
+     },
      "sha": "b143b75196968de7",
      "lines_sha": "16ef97bc861cb2c7",
      "heading_check": false
@@ -819,6 +944,18 @@
       "start_marker_fuzzy",
       "title_not_in_text"
      ],
+     "confidence": 0.771,
+     "parent": null,
+     "heading_path": [
+      "4.3 Earlier Attempts to Observe TvNS Scaling in Mi- croscopic Models"
+     ],
+     "heading_bbox": {
+      "page": 51,
+      "x0": 70.87,
+      "y0": 728.53,
+      "x1": 524.42,
+      "y1": 772.94
+     },
      "sha": "7e29cfc34c77a6cb",
      "lines_sha": "d8af682704c1bbe1",
      "heading_check": false
@@ -832,6 +969,18 @@
      "start": 97489,
      "end": 100256,
      "flags": [],
+     "confidence": 0.995,
+     "parent": null,
+     "heading_path": [
+      "Appendix 4.A Rankine-Hugoniot Conditions"
+     ],
+     "heading_bbox": {
+      "page": 52,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 461.93,
+      "y1": 772.94
+     },
      "sha": "9ed05d05b382c58f",
      "lines_sha": "d79348c8cc0dde95",
      "heading_check": true
@@ -845,6 +994,18 @@
      "start": 100257,
      "end": 104105,
      "flags": [],
+     "confidence": 0.995,
+     "parent": null,
+     "heading_path": [
+      "Appendix 4.B Other Scalings of the Euler Equations"
+     ],
+     "heading_bbox": {
+      "page": 53,
+      "x0": 70.87,
+      "y0": 305.72,
+      "x1": 524.41,
+      "y1": 322.94
+     },
      "sha": "7da4783613710d23",
      "lines_sha": "e0c717ac45a8b4c0",
      "heading_check": true
@@ -858,6 +1019,18 @@
      "start": 104106,
      "end": 105939,
      "flags": [],
+     "confidence": 0.883,
+     "parent": null,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas"
+     ],
+     "heading_bbox": {
+      "page": 56,
+      "x0": 70.87,
+      "y0": 573.25,
+      "x1": 507.76,
+      "y1": 692.14
+     },
      "sha": "234bfa3842b08d8c",
      "lines_sha": "d94600d79f2c19f6",
      "heading_check": true
@@ -871,6 +1044,18 @@
      "start": 105940,
      "end": 108256,
      "flags": [],
+     "confidence": 0.961,
+     "parent": null,
+     "heading_path": [
+      "5.1 The Alternate Mass Hard Particle Gas"
+     ],
+     "heading_bbox": {
+      "page": 57,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 445.48,
+      "y1": 772.94
+     },
      "sha": "7ba319a9512940e0",
      "lines_sha": "5a0872bc4fdcc002",
      "heading_check": true
@@ -884,6 +1069,18 @@
      "start": 108257,
      "end": 109939,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "5.2 Earlier Studies done on the AHP gas"
+     ],
+     "heading_bbox": {
+      "page": 57,
+      "x0": 70.87,
+      "y0": 130.09,
+      "x1": 430.27,
+      "y1": 147.3
+     },
      "sha": "504325af40cc8a37",
      "lines_sha": "ee5c8fe3740c8f72",
      "heading_check": true
@@ -897,6 +1094,18 @@
      "start": 109940,
      "end": 114201,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "5.3 ``Blast Wave\" Initial Conditions for Microscopic Simulations"
+     ],
+     "heading_bbox": {
+      "page": 58,
+      "x0": 70.87,
+      "y0": 396.48,
+      "x1": 524.4,
+      "y1": 440.89
+     },
      "sha": "4daafa84f3add63d",
      "lines_sha": "083342d6d9c48aa3",
      "heading_check": true
@@ -910,6 +1119,18 @@
      "start": 114202,
      "end": 117125,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "5.4 Microscopic Simulations and Comparison with the TvNS Solution"
+     ],
+     "heading_bbox": {
+      "page": 60,
+      "x0": 70.87,
+      "y0": 452.39,
+      "x1": 524.4,
+      "y1": 496.81
+     },
      "sha": "9f07bb28ed73b177",
      "lines_sha": "36779dedbb0d9cb6",
      "heading_check": true
@@ -923,6 +1144,18 @@
      "start": 117126,
      "end": 117172,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "5.5 Various Aspects of Microscopic Simulations"
+     ],
+     "heading_bbox": {
+      "page": 61,
+      "x0": 70.87,
+      "y0": 177.3,
+      "x1": 485.3,
+      "y1": 194.51
+     },
      "sha": "4cde4721578bc307",
      "lines_sha": "4cde4721578bc307",
      "heading_check": true
@@ -936,6 +1169,19 @@
      "start": 117173,
      "end": 119761,
      "flags": [],
+     "confidence": 0.983,
+     "parent": 43,
+     "heading_path": [
+      "5.5 Various Aspects of Microscopic Simulations",
+      "5.5.1 Comparison with the Empirical Fields"
+     ],
+     "heading_bbox": {
+      "page": 61,
+      "x0": 70.87,
+      "y0": 143.76,
+      "x1": 390.03,
+      "y1": 158.11
+     },
      "sha": "f87fdbc2129c9725",
      "lines_sha": "3f9a9890406696bc",
      "heading_check": true
@@ -947,23 +1193,23 @@
      "page_start": 63,
      "page_end": 64,
      "start": 119762,
-     "end": 120408,
-     "flags": [],
-     "sha": "0bea39fe8e51fae0",
-     "lines_sha": "05a6e24181f32870",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "momentum, with mean energy ﬁxed at E and mean momentum at 0 (a,b,c)",
-     "level": 4,
-     "page_start": 64,
-     "page_end": 64,
-     "start": 120409,
      "end": 120977,
      "flags": [],
-     "sha": "1bcb56c1c6d338a7",
-     "lines_sha": "fd99f919d9c652ff",
+     "confidence": 0.983,
+     "parent": 43,
+     "heading_path": [
+      "5.5 Various Aspects of Microscopic Simulations",
+      "5.5.2 Dependence on Initial Conditions"
+     ],
+     "heading_bbox": {
+      "page": 63,
+      "x0": 70.87,
+      "y0": 208.79,
+      "x1": 357.52,
+      "y1": 223.14
+     },
+     "sha": "5bb11465bd025857",
+     "lines_sha": "b5f8798a15ebe8ea",
      "heading_check": true
     },
     {
@@ -975,6 +1221,19 @@
      "start": 120978,
      "end": 121617,
      "flags": [],
+     "confidence": 0.983,
+     "parent": 43,
+     "heading_path": [
+      "5.5 Various Aspects of Microscopic Simulations",
+      "5.5.3 Dependence on the Initial Ensemble"
+     ],
+     "heading_bbox": {
+      "page": 64,
+      "x0": 70.87,
+      "y0": 319.55,
+      "x1": 376.31,
+      "y1": 333.89
+     },
      "sha": "0815a23af76c38e6",
      "lines_sha": "922a36c68ea15e32",
      "heading_check": true
@@ -988,6 +1247,19 @@
      "start": 121618,
      "end": 123916,
      "flags": [],
+     "confidence": 0.983,
+     "parent": 43,
+     "heading_path": [
+      "5.5 Various Aspects of Microscopic Simulations",
+      "5.5.4 Validity of Local Thermal Equilibrium"
+     ],
+     "heading_bbox": {
+      "page": 64,
+      "x0": 70.87,
+      "y0": 147.51,
+      "x1": 391.78,
+      "y1": 161.86
+     },
      "sha": "6acd7c2e1c402b07",
      "lines_sha": "d8b126df7e4a1049",
      "heading_check": true
@@ -1001,6 +1273,19 @@
      "start": 123917,
      "end": 125775,
      "flags": [],
+     "confidence": 0.983,
+     "parent": 43,
+     "heading_path": [
+      "5.5 Various Aspects of Microscopic Simulations",
+      "5.5.5 Structure of the Shock"
+     ],
+     "heading_bbox": {
+      "page": 66,
+      "x0": 70.87,
+      "y0": 363.24,
+      "x1": 280.8,
+      "y1": 377.58
+     },
      "sha": "2b82b24e38cbd59b",
      "lines_sha": "5ded8bcdf194dbb7",
      "heading_check": true
@@ -1014,6 +1299,18 @@
      "start": 125776,
      "end": 128951,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "5.6 Modelling by the Navier-Stokes-Fourier (NSF) Equations"
+     ],
+     "heading_bbox": {
+      "page": 67,
+      "x0": 70.87,
+      "y0": 611.6,
+      "x1": 524.4,
+      "y1": 656.02
+     },
      "sha": "64eacd2b54c19595",
      "lines_sha": "c77cd713acde7c5d",
      "heading_check": true
@@ -1027,6 +1324,18 @@
      "start": 128952,
      "end": 139164,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "5.7 Scaling near the Core of the Blast"
+     ],
+     "heading_bbox": {
+      "page": 68,
+      "x0": 70.87,
+      "y0": 342.6,
+      "x1": 404.63,
+      "y1": 359.81
+     },
      "sha": "8dfe9319ce0d8a1e",
      "lines_sha": "4e254375bc8a3147",
      "heading_check": true
@@ -1040,6 +1349,18 @@
      "start": 139165,
      "end": 141342,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "5.8 Summary"
+     ],
+     "heading_bbox": {
+      "page": 74,
+      "x0": 70.87,
+      "y0": 318.44,
+      "x1": 196.33,
+      "y1": 335.66
+     },
      "sha": "daf7f9bfc96214c7",
      "lines_sha": "767d69ed1a1e6344",
      "heading_check": true
@@ -1053,6 +1374,18 @@
      "start": 141343,
      "end": 144218,
      "flags": [],
+     "confidence": 0.995,
+     "parent": null,
+     "heading_path": [
+      "Appendix 5.A Derivation of Scaling Functions near the Core"
+     ],
+     "heading_bbox": {
+      "page": 75,
+      "x0": 70.87,
+      "y0": 384.52,
+      "x1": 524.41,
+      "y1": 428.93
+     },
      "sha": "12504c5bae7368c0",
      "lines_sha": "4ad28041ea83d8d2",
      "heading_check": true
@@ -1066,6 +1399,18 @@
      "start": 144219,
      "end": 144239,
      "flags": [],
+     "confidence": 0.883,
+     "parent": null,
+     "heading_path": [
+      "Chapter 6 Conclusion"
+     ],
+     "heading_bbox": {
+      "page": 77,
+      "x0": 70.87,
+      "y0": 610.34,
+      "x1": 204.25,
+      "y1": 692.14
+     },
      "sha": "f109e2c7d8c94255",
      "lines_sha": "f109e2c7d8c94255",
      "heading_check": true
@@ -1079,6 +1424,18 @@
      "start": 144240,
      "end": 146721,
      "flags": [],
+     "confidence": 0.961,
+     "parent": null,
+     "heading_path": [
+      "6.1 Outcomes of the Study"
+     ],
+     "heading_bbox": {
+      "page": 77,
+      "x0": 70.87,
+      "y0": 544.76,
+      "x1": 310.85,
+      "y1": 561.97
+     },
      "sha": "7e7d2eef00c860c4",
      "lines_sha": "6ef18b1cbbd9ec0d",
      "heading_check": true
@@ -1092,6 +1449,18 @@
      "start": 146722,
      "end": 147869,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "6.2 Limitations of the Study"
+     ],
+     "heading_bbox": {
+      "page": 78,
+      "x0": 70.87,
+      "y0": 656.73,
+      "x1": 323.59,
+      "y1": 673.95
+     },
      "sha": "8f1cfd1641a8a61b",
      "lines_sha": "2227de464d1c795b",
      "heading_check": true
@@ -1105,6 +1474,18 @@
      "start": 147870,
      "end": 147891,
      "flags": [],
+     "confidence": 0.976,
+     "parent": null,
+     "heading_path": [
+      "6.3 Future Directions"
+     ],
+     "heading_bbox": {
+      "page": 78,
+      "x0": 70.87,
+      "y0": 348.7,
+      "x1": 264.37,
+      "y1": 365.91
+     },
      "sha": "4a71db35b25a36ec",
      "lines_sha": "4a71db35b25a36ec",
      "heading_check": true
@@ -1118,6 +1499,19 @@
      "start": 147892,
      "end": 150878,
      "flags": [],
+     "confidence": 0.983,
+     "parent": 56,
+     "heading_path": [
+      "6.3 Future Directions",
+      "6.3.1 Thermalization and Chaos"
+     ],
+     "heading_bbox": {
+      "page": 78,
+      "x0": 70.87,
+      "y0": 315.16,
+      "x1": 306.85,
+      "y1": 329.51
+     },
      "sha": "e0763f6a1946c190",
      "lines_sha": "693f35d7fae0f0df",
      "heading_check": true
@@ -1131,6 +1525,19 @@
      "start": 150879,
      "end": 153670,
      "flags": [],
+     "confidence": 0.983,
+     "parent": 56,
+     "heading_path": [
+      "6.3 Future Directions",
+      "6.3.2 Hydrodynamics"
+     ],
+     "heading_bbox": {
+      "page": 79,
+      "x0": 70.87,
+      "y0": 340.83,
+      "x1": 231.16,
+      "y1": 355.18
+     },
      "sha": "4e526b6d0210edf6",
      "lines_sha": "68943e40be58547b",
      "heading_check": true
@@ -1144,6 +1551,19 @@
      "start": 153671,
      "end": 154692,
      "flags": [],
+     "confidence": 0.983,
+     "parent": 56,
+     "heading_path": [
+      "6.3 Future Directions",
+      "6.3.3 Concluding Remarks"
+     ],
+     "heading_bbox": {
+      "page": 80,
+      "x0": 70.87,
+      "y0": 376.68,
+      "x1": 267.54,
+      "y1": 391.03
+     },
      "sha": "a051d39ac2cb25cc",
      "lines_sha": "b36e4aa783decd1b",
      "heading_check": true
@@ -1157,33 +1577,93 @@
      "start": 154693,
      "end": 171025,
      "flags": [],
+     "confidence": 0.997,
+     "parent": null,
+     "heading_path": [
+      "Bibliography"
+     ],
+     "heading_bbox": {
+      "page": 81,
+      "x0": 70.87,
+      "y0": 667.36,
+      "x1": 227.19,
+      "y1": 692.14
+     },
      "sha": "3c7e2284dc3942b2",
      "lines_sha": "3e1539ec1eaa694b",
      "heading_check": true
     }
    ],
-   "readoc_teds": 60.4,
-   "readoc_headings": 85
+   "readoc_teds": 66.2
   },
   "quick": {
-   "section_anything": "0.1.5",
+   "section_anything": "0.1.11",
    "mode": "quick",
    "model": "gpt-6-luna",
-   "date": "2026-10-28",
-   "seconds": 27.35,
+   "date": "2026-11-13",
+   "seconds": 24.54,
    "calls": 1,
-   "input_tokens": 7145,
-   "output_tokens": 4140,
-   "cost_usd": 0.0028,
+   "input_tokens": 6476,
+   "output_tokens": 3062,
+   "cost_usd": 0.0022,
    "usage": {
     "calls": 1,
-    "input_tokens": 7145,
+    "input_tokens": 6476,
     "cached_tokens": 0,
-    "output_tokens": 4140,
-    "reasoning_tokens": 478,
-    "cost_usd": 0.0028,
+    "output_tokens": 3062,
+    "reasoning_tokens": 0,
+    "cost_usd": 0.0022,
     "cost_by_step": {
-     "review batch 1/1": 0.0028
+     "review batch 1/1": 0.0022
+    },
+    "kept_strong": {
+     "how": "ask",
+     "left_out": 6,
+     "restored": [
+      {
+       "line": 318,
+       "page": 13,
+       "title": "1.1.3 Structure of the Thesis",
+       "level": 3,
+       "listed": true
+      },
+      {
+       "line": 508,
+       "page": 17,
+       "title": "1.2.2 Blast Wave in an Alternate Mass Hard Particle Gas",
+       "level": 3,
+       "listed": true
+      },
+      {
+       "line": 608,
+       "page": 20,
+       "title": "1.3.2 Equipartition Theorem",
+       "level": 3,
+       "listed": true
+      },
+      {
+       "line": 638,
+       "page": 20,
+       "title": "1.3.3 Averaging Methods",
+       "level": 3,
+       "listed": true
+      },
+      {
+       "line": 702,
+       "page": 22,
+       "title": "1.3.4 Estimation of Equilibration Time",
+       "level": 3,
+       "listed": true
+      },
+      {
+       "line": 744,
+       "page": 22,
+       "title": "1.3.5 Navier-Stokes-Fourier (NSF) Equations and the MacCor- mack Method",
+       "level": 3,
+       "listed": true
+      }
+     ],
+     "rejected": []
     }
    },
    "text_sha256": "493c9fae19a4f89f295d5fd8862af63dfe194a9ed11c9ab99992dfd47bc223e5",
@@ -1197,6 +1677,18 @@
      "start": 0,
      "end": 406,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Thermalization, Chaos and Hydrodynamics in Classical Hamiltonian Systems"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 113.13,
+      "y0": 728.53,
+      "x1": 482.14,
+      "y1": 772.94
+     },
      "sha": "6fd0d4693cf6d92a",
      "lines_sha": "80c4caedb178a47e",
      "heading_check": true
@@ -1210,6 +1702,18 @@
      "start": 407,
      "end": 1106,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Declaration"
+     ],
+     "heading_bbox": {
+      "page": 3,
+      "x0": 248.76,
+      "y0": 755.73,
+      "x1": 346.52,
+      "y1": 772.94
+     },
      "sha": "c0670d02ee52d27e",
      "lines_sha": "f59d4e7d3cf2e477",
      "heading_check": true
@@ -1223,6 +1727,18 @@
      "start": 1107,
      "end": 3358,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Acknowledgements"
+     ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 217.3,
+      "y0": 755.73,
+      "x1": 377.97,
+      "y1": 772.94
+     },
      "sha": "e074d28b1637b745",
      "lines_sha": "0e783c933f7e8992",
      "heading_check": true
@@ -1236,6 +1752,18 @@
      "start": 3359,
      "end": 4064,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "List of Publications"
+     ],
+     "heading_bbox": {
+      "page": 7,
+      "x0": 215.03,
+      "y0": 755.73,
+      "x1": 380.25,
+      "y1": 772.94
+     },
      "sha": "e487f055434fdd56",
      "lines_sha": "6e3f76e5b23b1051",
      "heading_check": true
@@ -1249,6 +1777,18 @@
      "start": 4065,
      "end": 4441,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "List of Collaborators"
+     ],
+     "heading_bbox": {
+      "page": 7,
+      "x0": 209.83,
+      "y0": 448.76,
+      "x1": 385.44,
+      "y1": 465.97
+     },
      "sha": "afb198e81e26ae8c",
      "lines_sha": "0f2e2b57d6527a2e",
      "heading_check": true
@@ -1262,6 +1802,18 @@
      "start": 4442,
      "end": 5057,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "List of Abbreviations"
+     ],
+     "heading_bbox": {
+      "page": 8,
+      "x0": 207.84,
+      "y0": 755.73,
+      "x1": 387.44,
+      "y1": 772.94
+     },
      "sha": "2fe64d7ecaa5f7af",
      "lines_sha": "78962409fce8487e",
      "heading_check": true
@@ -1271,194 +1823,24 @@
      "title": "Contents",
      "level": 1,
      "page_start": 9,
-     "page_end": 9,
+     "page_end": 10,
      "start": 5058,
-     "end": 5066,
-     "flags": [],
-     "sha": "437aea62a5bd6ad4",
-     "lines_sha": "437aea62a5bd6ad4",
-     "heading_check": true
-    },
-    {
-     "number": "1",
-     "title": "Introduction",
-     "level": 1,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 5067,
-     "end": 5163,
-     "flags": [],
-     "sha": "638a4427f3b95f7d",
-     "lines_sha": "638a4427f3b95f7d",
-     "heading_check": true
-    },
-    {
-     "number": "1.1.1",
-     "title": "Thermalization and its Importance in Statistical Physics",
-     "level": 3,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 5164,
-     "end": 5319,
-     "flags": [],
-     "sha": "b5af00686df57770",
-     "lines_sha": "21b67a95c6dda875",
-     "heading_check": true
-    },
-    {
-     "number": "1.2",
-     "title": "Problem Statements",
-     "level": 2,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 5320,
-     "end": 6116,
-     "flags": [],
-     "sha": "049342ca44c93f53",
-     "lines_sha": "c48ca055e7f894c1",
-     "heading_check": true
-    },
-    {
-     "number": "1.3.5",
-     "title": "Navier-Stokes-Fourier (NSF) Equations and the MacCormack Method",
-     "level": 3,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 6117,
-     "end": 6189,
-     "flags": [],
-     "sha": "47250c9a7f9a0df8",
-     "lines_sha": "47250c9a7f9a0df8",
-     "heading_check": true
-    },
-    {
-     "number": "2",
-     "title": "The Fermi-Pasta-Ulam-Tsingou Story",
-     "level": 1,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 6190,
-     "end": 6572,
-     "flags": [],
-     "sha": "fd09ec5a5df414c3",
-     "lines_sha": "b339bb8451032cec",
-     "heading_check": true
-    },
-    {
-     "number": "3",
-     "title": "Thermalization of Local Observables in the α−FPUT Chain",
-     "level": 1,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 6573,
-     "end": 6715,
-     "flags": [],
-     "sha": "024d0380dd3967b9",
-     "lines_sha": "f328cb84ed4e4eec",
-     "heading_check": true
-    },
-    {
-     "number": "3.2",
-     "title": "Evolution of Local Observables from Space Localized Initial Conditions",
-     "level": 2,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 6716,
-     "end": 6836,
-     "flags": [],
-     "sha": "24bcde844d720979",
-     "lines_sha": "c16c804cb55f9da6",
-     "heading_check": true
-    },
-    {
-     "number": "3.3",
-     "title": "Normal Mode Localized Initial Conditions",
-     "level": 2,
-     "page_start": 9,
-     "page_end": 9,
-     "start": 6837,
-     "end": 7048,
-     "flags": [],
-     "sha": "7ae2a2f24236504d",
-     "lines_sha": "7ae2a2f24236504d",
-     "heading_check": true
-    },
-    {
-     "number": "3.6",
-     "title": "Dependence of Equilibration on the Choice of Initial Conditions and Observables",
-     "level": 2,
-     "page_start": 9,
-     "page_end": 10,
-     "start": 7049,
-     "end": 7557,
-     "flags": [],
-     "sha": "31e02922a7353607",
-     "lines_sha": "4d009dafc128c210",
-     "heading_check": true
-    },
-    {
-     "number": "4",
-     "title": "The Taylor−von Neumann−Sedov Blast Wave Solution",
-     "level": 1,
-     "page_start": 10,
-     "page_end": 10,
-     "start": 7558,
-     "end": 7611,
-     "flags": [],
-     "sha": "13438c85e275fb66",
-     "lines_sha": "99955b411ca36229",
-     "heading_check": true
-    },
-    {
-     "number": "4.1",
-     "title": "Euler Equations and its Self-similar Solutions",
-     "level": 2,
-     "page_start": 10,
-     "page_end": 10,
-     "start": 7612,
-     "end": 8030,
-     "flags": [],
-     "sha": "8b9d3260316ae2e9",
-     "lines_sha": "1de45485f72f7a5f",
-     "heading_check": true
-    },
-    {
-     "number": "5",
-     "title": "Blast Wave in the One Dimensional Cold Gas",
-     "level": 1,
-     "page_start": 10,
-     "page_end": 10,
-     "start": 8031,
-     "end": 8530,
-     "flags": [],
-     "sha": "38551a53afcd8dc3",
-     "lines_sha": "bc32cbeb9fe54e70",
-     "heading_check": true
-    },
-    {
-     "number": "5.5.1",
-     "title": "Comparison with the Empirical Fields",
-     "level": 3,
-     "page_start": 10,
-     "page_end": 10,
-     "start": 8531,
-     "end": 9236,
-     "flags": [],
-     "sha": "403b3f2df44e8af0",
-     "lines_sha": "7fca7b0095d9a29c",
-     "heading_check": true
-    },
-    {
-     "number": "6",
-     "title": "Conclusion",
-     "level": 1,
-     "page_start": 10,
-     "page_end": 10,
-     "start": 9237,
      "end": 9852,
      "flags": [],
-     "sha": "d7f4c5a33f24dd8c",
-     "lines_sha": "020359b25104b71c",
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Contents"
+     ],
+     "heading_bbox": {
+      "page": 9,
+      "x0": 70.87,
+      "y0": 667.36,
+      "x1": 179.81,
+      "y1": 692.14
+     },
+     "sha": "f59ef87ad3d512f3",
+     "lines_sha": "1baa38389196552c",
      "heading_check": true
     },
     {
@@ -1470,6 +1852,18 @@
      "start": 9853,
      "end": 11848,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Chapter 1 Introduction"
+     ],
+     "heading_bbox": {
+      "page": 11,
+      "x0": 70.87,
+      "y0": 610.34,
+      "x1": 224.32,
+      "y1": 692.14
+     },
      "sha": "adae8cec5f8a9198",
      "lines_sha": "b5b7865f25a72689",
      "heading_check": true
@@ -1479,38 +1873,25 @@
      "title": "A General Introduction to this Work",
      "level": 2,
      "page_start": 12,
-     "page_end": 12,
-     "start": 11849,
-     "end": 11888,
-     "flags": [],
-     "sha": "584c61d72b7b462f",
-     "lines_sha": "584c61d72b7b462f",
-     "heading_check": true
-    },
-    {
-     "number": "1.1.1",
-     "title": "Thermalization and its Importance in Statistical Physics",
-     "level": 3,
-     "page_start": 12,
-     "page_end": 12,
-     "start": 11889,
-     "end": 14668,
-     "flags": [],
-     "sha": "31ce15bd8c09a425",
-     "lines_sha": "7e33e84292f92156",
-     "heading_check": true
-    },
-    {
-     "number": "1.1.2",
-     "title": "Evolution Before Thermalization - Description in Terms of Conserved Fields",
-     "level": 3,
-     "page_start": 13,
      "page_end": 13,
-     "start": 14669,
+     "start": 11849,
      "end": 16784,
      "flags": [],
-     "sha": "afbdf84ad075cc38",
-     "lines_sha": "03508368c38ca391",
+     "confidence": null,
+     "parent": 7,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.1 A General Introduction to this Work"
+     ],
+     "heading_bbox": {
+      "page": 12,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 429.56,
+      "y1": 772.94
+     },
+     "sha": "456a0048f20660e5",
+     "lines_sha": "9caf4dc306b0a425",
      "heading_check": true
     },
     {
@@ -1521,7 +1902,23 @@
      "page_end": 14,
      "start": 16785,
      "end": 19034,
-     "flags": [],
+     "flags": [
+      "kept_strong"
+     ],
+     "confidence": null,
+     "parent": 8,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.1 A General Introduction to this Work",
+      "1.1.3 Structure of the Thesis"
+     ],
+     "heading_bbox": {
+      "page": 13,
+      "x0": 70.87,
+      "y0": 257.07,
+      "x1": 283.87,
+      "y1": 271.42
+     },
      "sha": "df2753eb88689513",
      "lines_sha": "58e27f509ec42aa7",
      "heading_check": true
@@ -1531,25 +1928,25 @@
      "title": "Problem Statements",
      "level": 2,
      "page_start": 14,
-     "page_end": 14,
-     "start": 19035,
-     "end": 19057,
-     "flags": [],
-     "sha": "90422d51bae5c59a",
-     "lines_sha": "90422d51bae5c59a",
-     "heading_check": true
-    },
-    {
-     "number": "1.2.1",
-     "title": "Thermalization in the α−FPUT Chain",
-     "level": 3,
-     "page_start": 14,
      "page_end": 17,
-     "start": 19058,
+     "start": 19035,
      "end": 26454,
      "flags": [],
-     "sha": "469ab66bff9145f7",
-     "lines_sha": "4ac5a42397e43421",
+     "confidence": null,
+     "parent": 7,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.2 Problem Statements"
+     ],
+     "heading_bbox": {
+      "page": 14,
+      "x0": 70.87,
+      "y0": 423.68,
+      "x1": 287.82,
+      "y1": 440.89
+     },
+     "sha": "24baef61487df4e1",
+     "lines_sha": "9b6359cdef495dbd",
      "heading_check": true
     },
     {
@@ -1560,7 +1957,23 @@
      "page_end": 19,
      "start": 26455,
      "end": 31910,
-     "flags": [],
+     "flags": [
+      "kept_strong"
+     ],
+     "confidence": null,
+     "parent": 10,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.2 Problem Statements",
+      "1.2.2 Blast Wave in an Alternate Mass Hard Particle Gas"
+     ],
+     "heading_bbox": {
+      "page": 17,
+      "x0": 70.87,
+      "y0": 239.23,
+      "x1": 489.04,
+      "y1": 253.58
+     },
      "sha": "53b58abb05cb7c3d",
      "lines_sha": "f437f09b28cfa443",
      "heading_check": true
@@ -1570,25 +1983,25 @@
      "title": "Methods Used in this Study",
      "level": 2,
      "page_start": 19,
-     "page_end": 19,
-     "start": 31911,
-     "end": 31941,
-     "flags": [],
-     "sha": "80b5052d4f30b248",
-     "lines_sha": "80b5052d4f30b248",
-     "heading_check": true
-    },
-    {
-     "number": "1.3.1",
-     "title": "Symplectic Integrator",
-     "level": 3,
-     "page_start": 19,
      "page_end": 20,
-     "start": 31942,
+     "start": 31911,
      "end": 33200,
      "flags": [],
-     "sha": "e1ffc614e04d13ee",
-     "lines_sha": "a448e4c2e38dc00b",
+     "confidence": null,
+     "parent": 7,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.3 Methods Used in this Study"
+     ],
+     "heading_bbox": {
+      "page": 19,
+      "x0": 70.87,
+      "y0": 342.4,
+      "x1": 354.52,
+      "y1": 359.61
+     },
+     "sha": "2e99498d222ef640",
+     "lines_sha": "5f3e00c446942afb",
      "heading_check": true
     },
     {
@@ -1599,7 +2012,23 @@
      "page_end": 20,
      "start": 33201,
      "end": 34523,
-     "flags": [],
+     "flags": [
+      "kept_strong"
+     ],
+     "confidence": null,
+     "parent": 12,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.3 Methods Used in this Study",
+      "1.3.2 Equipartition Theorem"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 70.87,
+      "y0": 699.37,
+      "x1": 283.11,
+      "y1": 713.72
+     },
      "sha": "8118a72334b7a546",
      "lines_sha": "56f422b6677b81c8",
      "heading_check": true
@@ -1609,51 +2038,28 @@
      "title": "Averaging Methods",
      "level": 3,
      "page_start": 20,
-     "page_end": 20,
-     "start": 34524,
-     "end": 34789,
-     "flags": [],
-     "sha": "fa81222d0068ff0d",
-     "lines_sha": "fa81222d0068ff0d",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "Averaging over Initial Conditions",
-     "level": 4,
-     "page_start": 20,
-     "page_end": 21,
-     "start": 34790,
-     "end": 35752,
-     "flags": [],
-     "sha": "61d15c8a62485a74",
-     "lines_sha": "dbf3ccfdd8c51579",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "Temporal Coarse Graining",
-     "level": 4,
-     "page_start": 21,
-     "page_end": 21,
-     "start": 35753,
-     "end": 36573,
-     "flags": [],
-     "sha": "3e3a7c36101cde56",
-     "lines_sha": "fdf669a3e2ca2e65",
-     "heading_check": true
-    },
-    {
-     "number": "",
-     "title": "Spatial Coarse Graining",
-     "level": 4,
-     "page_start": 21,
      "page_end": 22,
-     "start": 36574,
+     "start": 34524,
      "end": 38125,
-     "flags": [],
-     "sha": "57c093cb10b0fd68",
-     "lines_sha": "27cc7e0a7b3b2e03",
+     "flags": [
+      "kept_strong"
+     ],
+     "confidence": null,
+     "parent": 12,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.3 Methods Used in this Study",
+      "1.3.3 Averaging Methods"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 70.87,
+      "y0": 352.17,
+      "x1": 258.98,
+      "y1": 366.52
+     },
+     "sha": "4cff0bd263842e43",
+     "lines_sha": "c1b4ca0f9e6c8622",
      "heading_check": true
     },
     {
@@ -1664,23 +2070,57 @@
      "page_end": 22,
      "start": 38126,
      "end": 39555,
-     "flags": [],
+     "flags": [
+      "kept_strong"
+     ],
+     "confidence": null,
+     "parent": 12,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.3 Methods Used in this Study",
+      "1.3.4 Estimation of Equilibration Time"
+     ],
+     "heading_bbox": {
+      "page": 22,
+      "x0": 70.87,
+      "y0": 699.37,
+      "x1": 355.38,
+      "y1": 713.72
+     },
      "sha": "2ffa1725452d9968",
      "lines_sha": "3fe29384e3bfc374",
      "heading_check": true
     },
     {
      "number": "1.3.5",
-     "title": "Navier-Stokes-Fourier (NSF) Equations and the MacCormack Method",
+     "title": "Navier-Stokes-Fourier (NSF) Equations and the MacCor- mack Method",
      "level": 3,
      "page_start": 22,
      "page_end": 23,
      "start": 39556,
      "end": 42421,
-     "flags": [],
+     "flags": [
+      "start_marker_fuzzy",
+      "title_not_in_text",
+      "kept_strong"
+     ],
+     "confidence": null,
+     "parent": 12,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.3 Methods Used in this Study",
+      "1.3.5 Navier-Stokes-Fourier (NSF) Equations and the MacCor- mack Method"
+     ],
+     "heading_bbox": {
+      "page": 22,
+      "x0": 70.87,
+      "y0": 272.18,
+      "x1": 524.42,
+      "y1": 308.78
+     },
      "sha": "f7643a5797a52be6",
      "lines_sha": "9604b38dea3a521b",
-     "heading_check": true
+     "heading_check": false
     },
     {
      "number": "Chapter 2",
@@ -1691,6 +2131,18 @@
      "start": 42422,
      "end": 44564,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Chapter 2 The Fermi-Pasta-Ulam-Tsingou Story"
+     ],
+     "heading_bbox": {
+      "page": 24,
+      "x0": 70.87,
+      "y0": 573.25,
+      "x1": 456.17,
+      "y1": 692.14
+     },
      "sha": "eaf0cddb6e615550",
      "lines_sha": "1db85ef79f4f3054",
      "heading_check": true
@@ -1704,6 +2156,19 @@
      "start": 44565,
      "end": 45567,
      "flags": [],
+     "confidence": null,
+     "parent": 17,
+     "heading_path": [
+      "Chapter 2 The Fermi-Pasta-Ulam-Tsingou Story",
+      "2.1 Continuum Limit and the KdV Equation"
+     ],
+     "heading_bbox": {
+      "page": 25,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 463.09,
+      "y1": 772.94
+     },
      "sha": "3ca92fed2e60b418",
      "lines_sha": "d61d1073242c1154",
      "heading_check": true
@@ -1717,6 +2182,19 @@
      "start": 45568,
      "end": 48876,
      "flags": [],
+     "confidence": null,
+     "parent": 17,
+     "heading_path": [
+      "Chapter 2 The Fermi-Pasta-Ulam-Tsingou Story",
+      "2.2 Overlap of Resonances"
+     ],
+     "heading_bbox": {
+      "page": 25,
+      "x0": 70.87,
+      "y0": 483.55,
+      "x1": 306.65,
+      "y1": 500.76
+     },
      "sha": "c8ddd064a4f0a8e7",
      "lines_sha": "461a0a38560931d0",
      "heading_check": true
@@ -1730,6 +2208,19 @@
      "start": 48877,
      "end": 50596,
      "flags": [],
+     "confidence": null,
+     "parent": 17,
+     "heading_path": [
+      "Chapter 2 The Fermi-Pasta-Ulam-Tsingou Story",
+      "2.3 Role of Breather Solutions"
+     ],
+     "heading_bbox": {
+      "page": 26,
+      "x0": 70.87,
+      "y0": 441.6,
+      "x1": 340.84,
+      "y1": 458.82
+     },
      "sha": "d99e57451cfc37de",
      "lines_sha": "7c4bf0346a5aa078",
      "heading_check": true
@@ -1743,6 +2234,19 @@
      "start": 50597,
      "end": 58143,
      "flags": [],
+     "confidence": null,
+     "parent": 17,
+     "heading_path": [
+      "Chapter 2 The Fermi-Pasta-Ulam-Tsingou Story",
+      "2.4 Ideas from Wave Turbulence"
+     ],
+     "heading_bbox": {
+      "page": 27,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 358.12,
+      "y1": 772.94
+     },
      "sha": "2ed7a686c086e8c1",
      "lines_sha": "17cfce2fa7faae10",
      "heading_check": true
@@ -1756,6 +2260,18 @@
      "start": 58144,
      "end": 59243,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain"
+     ],
+     "heading_bbox": {
+      "page": 30,
+      "x0": 70.87,
+      "y0": 573.25,
+      "x1": 516.88,
+      "y1": 692.14
+     },
      "sha": "2aae6f75714e05b4",
      "lines_sha": "317a53e9dfdbd91e",
      "heading_check": true
@@ -1769,6 +2285,19 @@
      "start": 59244,
      "end": 61518,
      "flags": [],
+     "confidence": null,
+     "parent": 22,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.1 Initial Conditions and the Observables that are Considered in this Study"
+     ],
+     "heading_bbox": {
+      "page": 30,
+      "x0": 70.87,
+      "y0": 247.32,
+      "x1": 524.41,
+      "y1": 291.74
+     },
      "sha": "a75aabfc7237e7d8",
      "lines_sha": "c736adffb08bf69d",
      "heading_check": true
@@ -1782,6 +2311,19 @@
      "start": 61519,
      "end": 64397,
      "flags": [],
+     "confidence": null,
+     "parent": 22,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.2 Evolution of Local Observables from Space Localized Initial Conditions"
+     ],
+     "heading_bbox": {
+      "page": 31,
+      "x0": 70.87,
+      "y0": 220.27,
+      "x1": 524.4,
+      "y1": 264.68
+     },
      "sha": "ce269c46fc68b14e",
      "lines_sha": "64677e38ce516c03",
      "heading_check": true
@@ -1795,6 +2337,19 @@
      "start": 64398,
      "end": 65633,
      "flags": [],
+     "confidence": null,
+     "parent": 22,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.3 Normal Mode Localized Initial Conditions"
+     ],
+     "heading_bbox": {
+      "page": 33,
+      "x0": 70.87,
+      "y0": 213.51,
+      "x1": 474.14,
+      "y1": 230.73
+     },
      "sha": "b6514f2283c97a24",
      "lines_sha": "6f35629605204f76",
      "heading_check": true
@@ -1808,6 +2363,19 @@
      "start": 65634,
      "end": 67454,
      "flags": [],
+     "confidence": null,
+     "parent": 22,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.4 Dependence of Equilibration on the Averaging Procedure"
+     ],
+     "heading_bbox": {
+      "page": 34,
+      "x0": 70.87,
+      "y0": 359.46,
+      "x1": 524.42,
+      "y1": 403.88
+     },
      "sha": "986113a069716bc3",
      "lines_sha": "006bdcec5a5f29ea",
      "heading_check": true
@@ -1821,6 +2389,19 @@
      "start": 67455,
      "end": 68901,
      "flags": [],
+     "confidence": null,
+     "parent": 22,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.5 Quantification of the Equilibration Time"
+     ],
+     "heading_bbox": {
+      "page": 35,
+      "x0": 70.87,
+      "y0": 227.98,
+      "x1": 458.63,
+      "y1": 245.19
+     },
      "sha": "3828e38a17c0f68a",
      "lines_sha": "d833a22329be61f9",
      "heading_check": true
@@ -1834,6 +2415,19 @@
      "start": 68902,
      "end": 70878,
      "flags": [],
+     "confidence": null,
+     "parent": 22,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.6 Dependence of Equilibration on the Choice of Initial Conditions and Observables"
+     ],
+     "heading_bbox": {
+      "page": 36,
+      "x0": 70.87,
+      "y0": 350.66,
+      "x1": 524.41,
+      "y1": 395.08
+     },
      "sha": "2b9f5ae569acaa82",
      "lines_sha": "3d88084ea0a8d8c6",
      "heading_check": true
@@ -1847,6 +2441,19 @@
      "start": 70879,
      "end": 72928,
      "flags": [],
+     "confidence": null,
+     "parent": 22,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.7 Comparison with Other Integrable Models"
+     ],
+     "heading_bbox": {
+      "page": 37,
+      "x0": 70.87,
+      "y0": 115.22,
+      "x1": 476.4,
+      "y1": 132.44
+     },
      "sha": "e454c33ee1c05596",
      "lines_sha": "a17a0378f690adb2",
      "heading_check": true
@@ -1860,6 +2467,19 @@
      "start": 72929,
      "end": 75027,
      "flags": [],
+     "confidence": null,
+     "parent": 22,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.8 Dependence of Equilibration on the Width of the Initial Distribution"
+     ],
+     "heading_bbox": {
+      "page": 39,
+      "x0": 70.87,
+      "y0": 238.87,
+      "x1": 524.41,
+      "y1": 283.28
+     },
      "sha": "3ee6685e31d9ef44",
      "lines_sha": "b70b05e24c4f2318",
      "heading_check": true
@@ -1873,6 +2493,19 @@
      "start": 75028,
      "end": 82947,
      "flags": [],
+     "confidence": null,
+     "parent": 22,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.9 Relation to Chaos"
+     ],
+     "heading_bbox": {
+      "page": 40,
+      "x0": 70.87,
+      "y0": 238.52,
+      "x1": 268.03,
+      "y1": 255.73
+     },
      "sha": "91770574f30b92be",
      "lines_sha": "4e8263ec0d78615e",
      "heading_check": true
@@ -1886,6 +2519,19 @@
      "start": 82948,
      "end": 85435,
      "flags": [],
+     "confidence": null,
+     "parent": 22,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.10 Summary"
+     ],
+     "heading_bbox": {
+      "page": 44,
+      "x0": 70.87,
+      "y0": 369.9,
+      "x1": 206.01,
+      "y1": 387.11
+     },
      "sha": "93b63e042c19f167",
      "lines_sha": "1094434c3eafbe71",
      "heading_check": true
@@ -1899,6 +2545,18 @@
      "start": 85436,
      "end": 87632,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Chapter 4 The Taylor−von Neumann−Sedov Blast Wave Solution"
+     ],
+     "heading_bbox": {
+      "page": 46,
+      "x0": 70.87,
+      "y0": 573.25,
+      "x1": 486.04,
+      "y1": 692.14
+     },
      "sha": "a768d0527bed9781",
      "lines_sha": "b47d5d21320330f8",
      "heading_check": true
@@ -1912,6 +2570,19 @@
      "start": 87633,
      "end": 92503,
      "flags": [],
+     "confidence": null,
+     "parent": 33,
+     "heading_path": [
+      "Chapter 4 The Taylor−von Neumann−Sedov Blast Wave Solution",
+      "4.1 Euler Equations and its Self-similar Solutions"
+     ],
+     "heading_bbox": {
+      "page": 47,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 500.62,
+      "y1": 772.94
+     },
      "sha": "397bf38d39295d27",
      "lines_sha": "24409a3d927cad78",
      "heading_check": true
@@ -1925,6 +2596,19 @@
      "start": 92504,
      "end": 94602,
      "flags": [],
+     "confidence": null,
+     "parent": 33,
+     "heading_path": [
+      "Chapter 4 The Taylor−von Neumann−Sedov Blast Wave Solution",
+      "4.2 The TvNS Blast Wave Solution in One Dimension"
+     ],
+     "heading_bbox": {
+      "page": 49,
+      "x0": 70.87,
+      "y0": 310.9,
+      "x1": 524.41,
+      "y1": 355.32
+     },
      "sha": "b143b75196968de7",
      "lines_sha": "16ef97bc861cb2c7",
      "heading_check": true
@@ -1938,6 +2622,19 @@
      "start": 94603,
      "end": 97488,
      "flags": [],
+     "confidence": null,
+     "parent": 33,
+     "heading_path": [
+      "Chapter 4 The Taylor−von Neumann−Sedov Blast Wave Solution",
+      "4.3 Earlier Attempts to Observe TvNS Scaling in Microscopic Models"
+     ],
+     "heading_bbox": {
+      "page": 51,
+      "x0": 70.87,
+      "y0": 728.53,
+      "x1": 524.42,
+      "y1": 772.94
+     },
      "sha": "7e29cfc34c77a6cb",
      "lines_sha": "d8af682704c1bbe1",
      "heading_check": true
@@ -1951,6 +2648,19 @@
      "start": 97489,
      "end": 100256,
      "flags": [],
+     "confidence": null,
+     "parent": 33,
+     "heading_path": [
+      "Chapter 4 The Taylor−von Neumann−Sedov Blast Wave Solution",
+      "Appendix 4.A Rankine-Hugoniot Conditions"
+     ],
+     "heading_bbox": {
+      "page": 52,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 461.93,
+      "y1": 772.94
+     },
      "sha": "9ed05d05b382c58f",
      "lines_sha": "d79348c8cc0dde95",
      "heading_check": true
@@ -1964,6 +2674,19 @@
      "start": 100257,
      "end": 104105,
      "flags": [],
+     "confidence": null,
+     "parent": 33,
+     "heading_path": [
+      "Chapter 4 The Taylor−von Neumann−Sedov Blast Wave Solution",
+      "Appendix 4.B Other Scalings of the Euler Equations"
+     ],
+     "heading_bbox": {
+      "page": 53,
+      "x0": 70.87,
+      "y0": 305.72,
+      "x1": 524.41,
+      "y1": 322.94
+     },
      "sha": "7da4783613710d23",
      "lines_sha": "e0c717ac45a8b4c0",
      "heading_check": true
@@ -1977,6 +2700,18 @@
      "start": 104106,
      "end": 105939,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas"
+     ],
+     "heading_bbox": {
+      "page": 56,
+      "x0": 70.87,
+      "y0": 573.25,
+      "x1": 507.76,
+      "y1": 692.14
+     },
      "sha": "234bfa3842b08d8c",
      "lines_sha": "d94600d79f2c19f6",
      "heading_check": true
@@ -1990,6 +2725,19 @@
      "start": 105940,
      "end": 108256,
      "flags": [],
+     "confidence": null,
+     "parent": 39,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.1 The Alternate Mass Hard Particle Gas"
+     ],
+     "heading_bbox": {
+      "page": 57,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 445.48,
+      "y1": 772.94
+     },
      "sha": "7ba319a9512940e0",
      "lines_sha": "5a0872bc4fdcc002",
      "heading_check": true
@@ -2003,6 +2751,19 @@
      "start": 108257,
      "end": 109939,
      "flags": [],
+     "confidence": null,
+     "parent": 39,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.2 Earlier Studies done on the AHP gas"
+     ],
+     "heading_bbox": {
+      "page": 57,
+      "x0": 70.87,
+      "y0": 130.09,
+      "x1": 430.27,
+      "y1": 147.3
+     },
      "sha": "504325af40cc8a37",
      "lines_sha": "ee5c8fe3740c8f72",
      "heading_check": true
@@ -2016,6 +2777,19 @@
      "start": 109940,
      "end": 114201,
      "flags": [],
+     "confidence": null,
+     "parent": 39,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.3 “Blast Wave” Initial Conditions for Microscopic Simulations"
+     ],
+     "heading_bbox": {
+      "page": 58,
+      "x0": 70.87,
+      "y0": 396.48,
+      "x1": 524.4,
+      "y1": 440.89
+     },
      "sha": "4daafa84f3add63d",
      "lines_sha": "083342d6d9c48aa3",
      "heading_check": true
@@ -2029,6 +2803,19 @@
      "start": 114202,
      "end": 117125,
      "flags": [],
+     "confidence": null,
+     "parent": 39,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.4 Microscopic Simulations and Comparison with the TvNS Solution"
+     ],
+     "heading_bbox": {
+      "page": 60,
+      "x0": 70.87,
+      "y0": 452.39,
+      "x1": 524.4,
+      "y1": 496.81
+     },
      "sha": "9f07bb28ed73b177",
      "lines_sha": "36779dedbb0d9cb6",
      "heading_check": true
@@ -2042,6 +2829,19 @@
      "start": 117126,
      "end": 117172,
      "flags": [],
+     "confidence": null,
+     "parent": 39,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.5 Various Aspects of Microscopic Simulations"
+     ],
+     "heading_bbox": {
+      "page": 61,
+      "x0": 70.87,
+      "y0": 177.3,
+      "x1": 485.3,
+      "y1": 194.51
+     },
      "sha": "4cde4721578bc307",
      "lines_sha": "4cde4721578bc307",
      "heading_check": true
@@ -2055,6 +2855,20 @@
      "start": 117173,
      "end": 119761,
      "flags": [],
+     "confidence": null,
+     "parent": 44,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.5 Various Aspects of Microscopic Simulations",
+      "5.5.1 Comparison with the Empirical Fields"
+     ],
+     "heading_bbox": {
+      "page": 61,
+      "x0": 70.87,
+      "y0": 143.76,
+      "x1": 390.03,
+      "y1": 158.11
+     },
      "sha": "f87fdbc2129c9725",
      "lines_sha": "3f9a9890406696bc",
      "heading_check": true
@@ -2068,6 +2882,20 @@
      "start": 119762,
      "end": 120977,
      "flags": [],
+     "confidence": null,
+     "parent": 44,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.5 Various Aspects of Microscopic Simulations",
+      "5.5.2 Dependence on Initial Conditions"
+     ],
+     "heading_bbox": {
+      "page": 63,
+      "x0": 70.87,
+      "y0": 208.79,
+      "x1": 357.52,
+      "y1": 223.14
+     },
      "sha": "5bb11465bd025857",
      "lines_sha": "b5f8798a15ebe8ea",
      "heading_check": true
@@ -2081,6 +2909,20 @@
      "start": 120978,
      "end": 121617,
      "flags": [],
+     "confidence": null,
+     "parent": 44,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.5 Various Aspects of Microscopic Simulations",
+      "5.5.3 Dependence on the Initial Ensemble"
+     ],
+     "heading_bbox": {
+      "page": 64,
+      "x0": 70.87,
+      "y0": 319.55,
+      "x1": 376.31,
+      "y1": 333.89
+     },
      "sha": "0815a23af76c38e6",
      "lines_sha": "922a36c68ea15e32",
      "heading_check": true
@@ -2094,6 +2936,20 @@
      "start": 121618,
      "end": 123916,
      "flags": [],
+     "confidence": null,
+     "parent": 44,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.5 Various Aspects of Microscopic Simulations",
+      "5.5.4 Validity of Local Thermal Equilibrium"
+     ],
+     "heading_bbox": {
+      "page": 64,
+      "x0": 70.87,
+      "y0": 147.51,
+      "x1": 391.78,
+      "y1": 161.86
+     },
      "sha": "6acd7c2e1c402b07",
      "lines_sha": "d8b126df7e4a1049",
      "heading_check": true
@@ -2107,6 +2963,20 @@
      "start": 123917,
      "end": 125775,
      "flags": [],
+     "confidence": null,
+     "parent": 44,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.5 Various Aspects of Microscopic Simulations",
+      "5.5.5 Structure of the Shock"
+     ],
+     "heading_bbox": {
+      "page": 66,
+      "x0": 70.87,
+      "y0": 363.24,
+      "x1": 280.8,
+      "y1": 377.58
+     },
      "sha": "2b82b24e38cbd59b",
      "lines_sha": "5ded8bcdf194dbb7",
      "heading_check": true
@@ -2120,6 +2990,19 @@
      "start": 125776,
      "end": 128951,
      "flags": [],
+     "confidence": null,
+     "parent": 39,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.6 Modelling by the Navier-Stokes-Fourier (NSF) Equations"
+     ],
+     "heading_bbox": {
+      "page": 67,
+      "x0": 70.87,
+      "y0": 611.6,
+      "x1": 524.4,
+      "y1": 656.02
+     },
      "sha": "64eacd2b54c19595",
      "lines_sha": "c77cd713acde7c5d",
      "heading_check": true
@@ -2133,6 +3016,19 @@
      "start": 128952,
      "end": 139164,
      "flags": [],
+     "confidence": null,
+     "parent": 39,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.7 Scaling near the Core of the Blast"
+     ],
+     "heading_bbox": {
+      "page": 68,
+      "x0": 70.87,
+      "y0": 342.6,
+      "x1": 404.63,
+      "y1": 359.81
+     },
      "sha": "8dfe9319ce0d8a1e",
      "lines_sha": "4e254375bc8a3147",
      "heading_check": true
@@ -2146,6 +3042,19 @@
      "start": 139165,
      "end": 141342,
      "flags": [],
+     "confidence": null,
+     "parent": 39,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.8 Summary"
+     ],
+     "heading_bbox": {
+      "page": 74,
+      "x0": 70.87,
+      "y0": 318.44,
+      "x1": 196.33,
+      "y1": 335.66
+     },
      "sha": "daf7f9bfc96214c7",
      "lines_sha": "767d69ed1a1e6344",
      "heading_check": true
@@ -2159,6 +3068,19 @@
      "start": 141343,
      "end": 144218,
      "flags": [],
+     "confidence": null,
+     "parent": 39,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "Appendix 5.A Derivation of Scaling Functions near the Core"
+     ],
+     "heading_bbox": {
+      "page": 75,
+      "x0": 70.87,
+      "y0": 384.52,
+      "x1": 524.41,
+      "y1": 428.93
+     },
      "sha": "12504c5bae7368c0",
      "lines_sha": "4ad28041ea83d8d2",
      "heading_check": true
@@ -2172,6 +3094,18 @@
      "start": 144219,
      "end": 144239,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Chapter 6 Conclusion"
+     ],
+     "heading_bbox": {
+      "page": 77,
+      "x0": 70.87,
+      "y0": 610.34,
+      "x1": 204.25,
+      "y1": 692.14
+     },
      "sha": "f109e2c7d8c94255",
      "lines_sha": "f109e2c7d8c94255",
      "heading_check": true
@@ -2185,6 +3119,19 @@
      "start": 144240,
      "end": 146721,
      "flags": [],
+     "confidence": null,
+     "parent": 54,
+     "heading_path": [
+      "Chapter 6 Conclusion",
+      "6.1 Outcomes of the Study"
+     ],
+     "heading_bbox": {
+      "page": 77,
+      "x0": 70.87,
+      "y0": 544.76,
+      "x1": 310.85,
+      "y1": 561.97
+     },
      "sha": "7e7d2eef00c860c4",
      "lines_sha": "6ef18b1cbbd9ec0d",
      "heading_check": true
@@ -2198,6 +3145,19 @@
      "start": 146722,
      "end": 147869,
      "flags": [],
+     "confidence": null,
+     "parent": 54,
+     "heading_path": [
+      "Chapter 6 Conclusion",
+      "6.2 Limitations of the Study"
+     ],
+     "heading_bbox": {
+      "page": 78,
+      "x0": 70.87,
+      "y0": 656.73,
+      "x1": 323.59,
+      "y1": 673.95
+     },
      "sha": "8f1cfd1641a8a61b",
      "lines_sha": "2227de464d1c795b",
      "heading_check": true
@@ -2211,6 +3171,19 @@
      "start": 147870,
      "end": 147891,
      "flags": [],
+     "confidence": null,
+     "parent": 54,
+     "heading_path": [
+      "Chapter 6 Conclusion",
+      "6.3 Future Directions"
+     ],
+     "heading_bbox": {
+      "page": 78,
+      "x0": 70.87,
+      "y0": 348.7,
+      "x1": 264.37,
+      "y1": 365.91
+     },
      "sha": "4a71db35b25a36ec",
      "lines_sha": "4a71db35b25a36ec",
      "heading_check": true
@@ -2224,6 +3197,20 @@
      "start": 147892,
      "end": 150878,
      "flags": [],
+     "confidence": null,
+     "parent": 57,
+     "heading_path": [
+      "Chapter 6 Conclusion",
+      "6.3 Future Directions",
+      "6.3.1 Thermalization and Chaos"
+     ],
+     "heading_bbox": {
+      "page": 78,
+      "x0": 70.87,
+      "y0": 315.16,
+      "x1": 306.85,
+      "y1": 329.51
+     },
      "sha": "e0763f6a1946c190",
      "lines_sha": "693f35d7fae0f0df",
      "heading_check": true
@@ -2237,6 +3224,20 @@
      "start": 150879,
      "end": 153670,
      "flags": [],
+     "confidence": null,
+     "parent": 57,
+     "heading_path": [
+      "Chapter 6 Conclusion",
+      "6.3 Future Directions",
+      "6.3.2 Hydrodynamics"
+     ],
+     "heading_bbox": {
+      "page": 79,
+      "x0": 70.87,
+      "y0": 340.83,
+      "x1": 231.16,
+      "y1": 355.18
+     },
      "sha": "4e526b6d0210edf6",
      "lines_sha": "68943e40be58547b",
      "heading_check": true
@@ -2250,6 +3251,20 @@
      "start": 153671,
      "end": 154692,
      "flags": [],
+     "confidence": null,
+     "parent": 57,
+     "heading_path": [
+      "Chapter 6 Conclusion",
+      "6.3 Future Directions",
+      "6.3.3 Concluding Remarks"
+     ],
+     "heading_bbox": {
+      "page": 80,
+      "x0": 70.87,
+      "y0": 376.68,
+      "x1": 267.54,
+      "y1": 391.03
+     },
      "sha": "a051d39ac2cb25cc",
      "lines_sha": "b36e4aa783decd1b",
      "heading_check": true
@@ -2263,34 +3278,51 @@
      "start": 154693,
      "end": 171025,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Bibliography"
+     ],
+     "heading_bbox": {
+      "page": 81,
+      "x0": 70.87,
+      "y0": 667.36,
+      "x1": 227.19,
+      "y1": 692.14
+     },
      "sha": "3c7e2284dc3942b2",
      "lines_sha": "3e1539ec1eaa694b",
      "heading_check": true
     }
    ],
-   "readoc_teds": 71.7,
-   "readoc_headings": 83
+   "readoc_teds": 76.5
   },
   "standard": {
-   "section_anything": "0.1.5",
+   "section_anything": "0.1.11",
    "mode": "standard",
    "model": "gpt-6-luna",
-   "date": "2026-10-28",
-   "seconds": 55.02,
+   "date": "2026-11-13",
+   "seconds": 22.05,
    "calls": 2,
-   "input_tokens": 63631,
-   "output_tokens": 5894,
-   "cost_usd": 0.0093,
+   "input_tokens": 63495,
+   "output_tokens": 2053,
+   "cost_usd": 0.0074,
    "usage": {
     "calls": 2,
-    "input_tokens": 63631,
+    "input_tokens": 63495,
     "cached_tokens": 0,
-    "output_tokens": 5894,
-    "reasoning_tokens": 1083,
-    "cost_usd": 0.0093,
+    "output_tokens": 2053,
+    "reasoning_tokens": 646,
+    "cost_usd": 0.0074,
     "cost_by_step": {
-     "read window 1/2": 0.0058,
-     "read window 2/2": 0.0035
+     "read window 1/2": 0.0046,
+     "read window 2/2": 0.0028
+    },
+    "kept_strong": {
+     "how": "ask",
+     "left_out": 0,
+     "restored": [],
+     "rejected": []
     }
    },
    "text_sha256": "493c9fae19a4f89f295d5fd8862af63dfe194a9ed11c9ab99992dfd47bc223e5",
@@ -2304,6 +3336,18 @@
      "start": 0,
      "end": 406,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Thermalization, Chaos and Hydrodynamics in Classical Hamiltonian Systems"
+     ],
+     "heading_bbox": {
+      "page": 1,
+      "x0": 113.13,
+      "y0": 728.53,
+      "x1": 482.14,
+      "y1": 772.94
+     },
      "sha": "6fd0d4693cf6d92a",
      "lines_sha": "80c4caedb178a47e",
      "heading_check": true
@@ -2313,13 +3357,46 @@
      "title": "Declaration",
      "level": 1,
      "page_start": 3,
-     "page_end": 4,
+     "page_end": 3,
      "start": 407,
-     "end": 1106,
+     "end": 1062,
      "flags": [],
-     "sha": "c0670d02ee52d27e",
-     "lines_sha": "f59d4e7d3cf2e477",
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Declaration"
+     ],
+     "heading_bbox": {
+      "page": 3,
+      "x0": 248.76,
+      "y0": 755.73,
+      "x1": 346.52,
+      "y1": 772.94
+     },
+     "sha": "6d13f7229fad2ced",
+     "lines_sha": "dfcc0a2762daf87f",
      "heading_check": true
+    },
+    {
+     "number": "",
+     "title": "Dedication",
+     "level": 1,
+     "page_start": 4,
+     "page_end": 4,
+     "start": 1063,
+     "end": 1106,
+     "flags": [
+      "generated_title"
+     ],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Dedication"
+     ],
+     "heading_bbox": null,
+     "sha": "239be9dfe7694704",
+     "lines_sha": "239be9dfe7694704",
+     "heading_check": null
     },
     {
      "number": "",
@@ -2330,6 +3407,18 @@
      "start": 1107,
      "end": 3358,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Acknowledgements"
+     ],
+     "heading_bbox": {
+      "page": 5,
+      "x0": 217.3,
+      "y0": 755.73,
+      "x1": 377.97,
+      "y1": 772.94
+     },
      "sha": "e074d28b1637b745",
      "lines_sha": "0e783c933f7e8992",
      "heading_check": true
@@ -2343,6 +3432,18 @@
      "start": 3359,
      "end": 4064,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "List of Publications"
+     ],
+     "heading_bbox": {
+      "page": 7,
+      "x0": 215.03,
+      "y0": 755.73,
+      "x1": 380.25,
+      "y1": 772.94
+     },
      "sha": "e487f055434fdd56",
      "lines_sha": "6e3f76e5b23b1051",
      "heading_check": true
@@ -2356,6 +3457,18 @@
      "start": 4065,
      "end": 4441,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "List of Collaborators"
+     ],
+     "heading_bbox": {
+      "page": 7,
+      "x0": 209.83,
+      "y0": 448.76,
+      "x1": 385.44,
+      "y1": 465.97
+     },
      "sha": "afb198e81e26ae8c",
      "lines_sha": "0f2e2b57d6527a2e",
      "heading_check": true
@@ -2365,14 +3478,49 @@
      "title": "List of Abbreviations",
      "level": 1,
      "page_start": 8,
-     "page_end": 10,
+     "page_end": 8,
      "start": 4442,
-     "end": 9852,
-     "flags": [
-      "end_mismatch"
+     "end": 5057,
+     "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "List of Abbreviations"
      ],
-     "sha": "d543f94c74ee08c2",
-     "lines_sha": "c2751614df7e54b3",
+     "heading_bbox": {
+      "page": 8,
+      "x0": 207.84,
+      "y0": 755.73,
+      "x1": 387.44,
+      "y1": 772.94
+     },
+     "sha": "2fe64d7ecaa5f7af",
+     "lines_sha": "78962409fce8487e",
+     "heading_check": true
+    },
+    {
+     "number": "",
+     "title": "Contents",
+     "level": 1,
+     "page_start": 9,
+     "page_end": 10,
+     "start": 5058,
+     "end": 9852,
+     "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Contents"
+     ],
+     "heading_bbox": {
+      "page": 9,
+      "x0": 70.87,
+      "y0": 667.36,
+      "x1": 179.81,
+      "y1": 692.14
+     },
+     "sha": "f59ef87ad3d512f3",
+     "lines_sha": "1baa38389196552c",
      "heading_check": true
     },
     {
@@ -2384,6 +3532,18 @@
      "start": 9853,
      "end": 11848,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Chapter 1 Introduction"
+     ],
+     "heading_bbox": {
+      "page": 11,
+      "x0": 70.87,
+      "y0": 610.34,
+      "x1": 224.32,
+      "y1": 692.14
+     },
      "sha": "adae8cec5f8a9198",
      "lines_sha": "b5b7865f25a72689",
      "heading_check": true
@@ -2396,9 +3556,20 @@
      "page_end": 12,
      "start": 11849,
      "end": 11888,
-     "flags": [
-      "end_marker_not_found"
+     "flags": [],
+     "confidence": null,
+     "parent": 8,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.1 A General Introduction to this Work"
      ],
+     "heading_bbox": {
+      "page": 12,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 429.56,
+      "y1": 772.94
+     },
      "sha": "584c61d72b7b462f",
      "lines_sha": "584c61d72b7b462f",
      "heading_check": true
@@ -2412,6 +3583,20 @@
      "start": 11889,
      "end": 14668,
      "flags": [],
+     "confidence": null,
+     "parent": 9,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.1 A General Introduction to this Work",
+      "1.1.1 Thermalization and its Importance in Statistical Physics"
+     ],
+     "heading_bbox": {
+      "page": 12,
+      "x0": 70.87,
+      "y0": 722.19,
+      "x1": 520.13,
+      "y1": 736.54
+     },
      "sha": "31ce15bd8c09a425",
      "lines_sha": "7e33e84292f92156",
      "heading_check": true
@@ -2425,6 +3610,20 @@
      "start": 14669,
      "end": 16784,
      "flags": [],
+     "confidence": null,
+     "parent": 9,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.1 A General Introduction to this Work",
+      "1.1.2 Evolution Before Thermalization - Description in Terms of Conserved Fields"
+     ],
+     "heading_bbox": {
+      "page": 13,
+      "x0": 70.87,
+      "y0": 734.03,
+      "x1": 524.41,
+      "y1": 770.63
+     },
      "sha": "afbdf84ad075cc38",
      "lines_sha": "03508368c38ca391",
      "heading_check": true
@@ -2438,6 +3637,20 @@
      "start": 16785,
      "end": 19034,
      "flags": [],
+     "confidence": null,
+     "parent": 9,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.1 A General Introduction to this Work",
+      "1.1.3 Structure of the Thesis"
+     ],
+     "heading_bbox": {
+      "page": 13,
+      "x0": 70.87,
+      "y0": 257.07,
+      "x1": 283.87,
+      "y1": 271.42
+     },
      "sha": "df2753eb88689513",
      "lines_sha": "58e27f509ec42aa7",
      "heading_check": true
@@ -2450,9 +3663,20 @@
      "page_end": 14,
      "start": 19035,
      "end": 19057,
-     "flags": [
-      "end_marker_not_found"
+     "flags": [],
+     "confidence": null,
+     "parent": 8,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.2 Problem Statements"
      ],
+     "heading_bbox": {
+      "page": 14,
+      "x0": 70.87,
+      "y0": 423.68,
+      "x1": 287.82,
+      "y1": 440.89
+     },
      "sha": "90422d51bae5c59a",
      "lines_sha": "90422d51bae5c59a",
      "heading_check": true
@@ -2465,9 +3689,21 @@
      "page_end": 17,
      "start": 19058,
      "end": 26454,
-     "flags": [
-      "end_marker_not_found"
+     "flags": [],
+     "confidence": null,
+     "parent": 13,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.2 Problem Statements",
+      "1.2.1 Thermalization in the α−FPUT Chain"
      ],
+     "heading_bbox": {
+      "page": 14,
+      "x0": 70.87,
+      "y0": 390.14,
+      "x1": 391.88,
+      "y1": 404.49
+     },
      "sha": "469ab66bff9145f7",
      "lines_sha": "4ac5a42397e43421",
      "heading_check": true
@@ -2481,6 +3717,20 @@
      "start": 26455,
      "end": 31910,
      "flags": [],
+     "confidence": null,
+     "parent": 13,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.2 Problem Statements",
+      "1.2.2 Blast Wave in an Alternate Mass Hard Particle Gas"
+     ],
+     "heading_bbox": {
+      "page": 17,
+      "x0": 70.87,
+      "y0": 239.23,
+      "x1": 489.04,
+      "y1": 253.58
+     },
      "sha": "53b58abb05cb7c3d",
      "lines_sha": "f437f09b28cfa443",
      "heading_check": true
@@ -2494,6 +3744,19 @@
      "start": 31911,
      "end": 31941,
      "flags": [],
+     "confidence": null,
+     "parent": 8,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.3 Methods Used in this Study"
+     ],
+     "heading_bbox": {
+      "page": 19,
+      "x0": 70.87,
+      "y0": 342.4,
+      "x1": 354.52,
+      "y1": 359.61
+     },
      "sha": "80b5052d4f30b248",
      "lines_sha": "80b5052d4f30b248",
      "heading_check": true
@@ -2507,6 +3770,20 @@
      "start": 31942,
      "end": 33200,
      "flags": [],
+     "confidence": null,
+     "parent": 16,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.3 Methods Used in this Study",
+      "1.3.1 Symplectic Integrator"
+     ],
+     "heading_bbox": {
+      "page": 19,
+      "x0": 70.87,
+      "y0": 308.86,
+      "x1": 274.03,
+      "y1": 323.2
+     },
      "sha": "e1ffc614e04d13ee",
      "lines_sha": "a448e4c2e38dc00b",
      "heading_check": true
@@ -2520,6 +3797,20 @@
      "start": 33201,
      "end": 34523,
      "flags": [],
+     "confidence": null,
+     "parent": 16,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.3 Methods Used in this Study",
+      "1.3.2 Equipartition Theorem"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 70.87,
+      "y0": 699.37,
+      "x1": 283.11,
+      "y1": 713.72
+     },
      "sha": "8118a72334b7a546",
      "lines_sha": "56f422b6677b81c8",
      "heading_check": true
@@ -2529,12 +3820,110 @@
      "title": "Averaging Methods",
      "level": 3,
      "page_start": 20,
-     "page_end": 22,
+     "page_end": 20,
      "start": 34524,
+     "end": 34789,
+     "flags": [],
+     "confidence": null,
+     "parent": 16,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.3 Methods Used in this Study",
+      "1.3.3 Averaging Methods"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 70.87,
+      "y0": 352.17,
+      "x1": 258.98,
+      "y1": 366.52
+     },
+     "sha": "fa81222d0068ff0d",
+     "lines_sha": "fa81222d0068ff0d",
+     "heading_check": true
+    },
+    {
+     "number": "",
+     "title": "Averaging over Initial Conditions",
+     "level": 4,
+     "page_start": 20,
+     "page_end": 21,
+     "start": 34790,
+     "end": 35752,
+     "flags": [],
+     "confidence": null,
+     "parent": 19,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.3 Methods Used in this Study",
+      "1.3.3 Averaging Methods",
+      "Averaging over Initial Conditions"
+     ],
+     "heading_bbox": {
+      "page": 20,
+      "x0": 75.35,
+      "y0": 256.48,
+      "x1": 272.25,
+      "y1": 268.43
+     },
+     "sha": "61d15c8a62485a74",
+     "lines_sha": "dbf3ccfdd8c51579",
+     "heading_check": true
+    },
+    {
+     "number": "",
+     "title": "Temporal Coarse Graining",
+     "level": 4,
+     "page_start": 21,
+     "page_end": 21,
+     "start": 35753,
+     "end": 36573,
+     "flags": [],
+     "confidence": null,
+     "parent": 19,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.3 Methods Used in this Study",
+      "1.3.3 Averaging Methods",
+      "Temporal Coarse Graining"
+     ],
+     "heading_bbox": {
+      "page": 21,
+      "x0": 70.87,
+      "y0": 621.94,
+      "x1": 227.4,
+      "y1": 633.9
+     },
+     "sha": "3e3a7c36101cde56",
+     "lines_sha": "fdf669a3e2ca2e65",
+     "heading_check": true
+    },
+    {
+     "number": "",
+     "title": "Spatial Coarse Graining",
+     "level": 4,
+     "page_start": 21,
+     "page_end": 22,
+     "start": 36574,
      "end": 38125,
      "flags": [],
-     "sha": "4cff0bd263842e43",
-     "lines_sha": "c1b4ca0f9e6c8622",
+     "confidence": null,
+     "parent": 19,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.3 Methods Used in this Study",
+      "1.3.3 Averaging Methods",
+      "Spatial Coarse Graining"
+     ],
+     "heading_bbox": {
+      "page": 21,
+      "x0": 75.35,
+      "y0": 364.38,
+      "x1": 216.7,
+      "y1": 376.33
+     },
+     "sha": "57c093cb10b0fd68",
+     "lines_sha": "27cc7e0a7b3b2e03",
      "heading_check": true
     },
     {
@@ -2546,24 +3935,53 @@
      "start": 38126,
      "end": 39555,
      "flags": [],
+     "confidence": null,
+     "parent": 16,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.3 Methods Used in this Study",
+      "1.3.4 Estimation of Equilibration Time"
+     ],
+     "heading_bbox": {
+      "page": 22,
+      "x0": 70.87,
+      "y0": 699.37,
+      "x1": 355.38,
+      "y1": 713.72
+     },
      "sha": "2ffa1725452d9968",
      "lines_sha": "3fe29384e3bfc374",
      "heading_check": true
     },
     {
      "number": "1.3.5",
-     "title": "Navier-Stokes-Fourier (NSF) Equations and the MacCormack Method",
+     "title": "Navier-Stokes-Fourier (NSF) Equations and the MacCor- mack Method",
      "level": 3,
      "page_start": 22,
      "page_end": 23,
      "start": 39556,
      "end": 42421,
      "flags": [
-      "end_marker_not_found"
+      "start_marker_fuzzy",
+      "title_not_in_text"
      ],
+     "confidence": null,
+     "parent": 16,
+     "heading_path": [
+      "Chapter 1 Introduction",
+      "1.3 Methods Used in this Study",
+      "1.3.5 Navier-Stokes-Fourier (NSF) Equations and the MacCor- mack Method"
+     ],
+     "heading_bbox": {
+      "page": 22,
+      "x0": 70.87,
+      "y0": 272.18,
+      "x1": 524.42,
+      "y1": 308.78
+     },
      "sha": "f7643a5797a52be6",
      "lines_sha": "9604b38dea3a521b",
-     "heading_check": true
+     "heading_check": false
     },
     {
      "number": "Chapter 2",
@@ -2574,6 +3992,18 @@
      "start": 42422,
      "end": 44564,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Chapter 2 The Fermi-Pasta-Ulam-Tsingou Story"
+     ],
+     "heading_bbox": {
+      "page": 24,
+      "x0": 70.87,
+      "y0": 573.25,
+      "x1": 456.17,
+      "y1": 692.14
+     },
      "sha": "eaf0cddb6e615550",
      "lines_sha": "1db85ef79f4f3054",
      "heading_check": true
@@ -2587,6 +4017,19 @@
      "start": 44565,
      "end": 45567,
      "flags": [],
+     "confidence": null,
+     "parent": 25,
+     "heading_path": [
+      "Chapter 2 The Fermi-Pasta-Ulam-Tsingou Story",
+      "2.1 Continuum Limit and the KdV Equation"
+     ],
+     "heading_bbox": {
+      "page": 25,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 463.09,
+      "y1": 772.94
+     },
      "sha": "3ca92fed2e60b418",
      "lines_sha": "d61d1073242c1154",
      "heading_check": true
@@ -2600,6 +4043,19 @@
      "start": 45568,
      "end": 48876,
      "flags": [],
+     "confidence": null,
+     "parent": 25,
+     "heading_path": [
+      "Chapter 2 The Fermi-Pasta-Ulam-Tsingou Story",
+      "2.2 Overlap of Resonances"
+     ],
+     "heading_bbox": {
+      "page": 25,
+      "x0": 70.87,
+      "y0": 483.55,
+      "x1": 306.65,
+      "y1": 500.76
+     },
      "sha": "c8ddd064a4f0a8e7",
      "lines_sha": "461a0a38560931d0",
      "heading_check": true
@@ -2613,6 +4069,19 @@
      "start": 48877,
      "end": 50596,
      "flags": [],
+     "confidence": null,
+     "parent": 25,
+     "heading_path": [
+      "Chapter 2 The Fermi-Pasta-Ulam-Tsingou Story",
+      "2.3 Role of Breather Solutions"
+     ],
+     "heading_bbox": {
+      "page": 26,
+      "x0": 70.87,
+      "y0": 441.6,
+      "x1": 340.84,
+      "y1": 458.82
+     },
      "sha": "d99e57451cfc37de",
      "lines_sha": "7c4bf0346a5aa078",
      "heading_check": true
@@ -2626,6 +4095,19 @@
      "start": 50597,
      "end": 58143,
      "flags": [],
+     "confidence": null,
+     "parent": 25,
+     "heading_path": [
+      "Chapter 2 The Fermi-Pasta-Ulam-Tsingou Story",
+      "2.4 Ideas from Wave Turbulence"
+     ],
+     "heading_bbox": {
+      "page": 27,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 358.12,
+      "y1": 772.94
+     },
      "sha": "2ed7a686c086e8c1",
      "lines_sha": "17cfce2fa7faae10",
      "heading_check": true
@@ -2639,6 +4121,18 @@
      "start": 58144,
      "end": 59243,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain"
+     ],
+     "heading_bbox": {
+      "page": 30,
+      "x0": 70.87,
+      "y0": 573.25,
+      "x1": 516.88,
+      "y1": 692.14
+     },
      "sha": "2aae6f75714e05b4",
      "lines_sha": "317a53e9dfdbd91e",
      "heading_check": true
@@ -2652,22 +4146,51 @@
      "start": 59244,
      "end": 61518,
      "flags": [],
+     "confidence": null,
+     "parent": 30,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.1 Initial Conditions and the Observables that are Considered in this Study"
+     ],
+     "heading_bbox": {
+      "page": 30,
+      "x0": 70.87,
+      "y0": 247.32,
+      "x1": 524.41,
+      "y1": 291.74
+     },
      "sha": "a75aabfc7237e7d8",
      "lines_sha": "c736adffb08bf69d",
      "heading_check": true
     },
     {
      "number": "3.2",
-     "title": "Evolution of Local Observables from Space Localized Initial Conditions",
+     "title": "Evolution of Local Observables from Space Lo- calized Initial Conditions",
      "level": 2,
      "page_start": 31,
      "page_end": 33,
      "start": 61519,
      "end": 64397,
-     "flags": [],
+     "flags": [
+      "start_marker_fuzzy",
+      "title_not_in_text"
+     ],
+     "confidence": null,
+     "parent": 30,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.2 Evolution of Local Observables from Space Lo- calized Initial Conditions"
+     ],
+     "heading_bbox": {
+      "page": 31,
+      "x0": 70.87,
+      "y0": 220.27,
+      "x1": 524.4,
+      "y1": 264.68
+     },
      "sha": "ce269c46fc68b14e",
      "lines_sha": "64677e38ce516c03",
-     "heading_check": true
+     "heading_check": false
     },
     {
      "number": "3.3",
@@ -2678,6 +4201,19 @@
      "start": 64398,
      "end": 65633,
      "flags": [],
+     "confidence": null,
+     "parent": 30,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.3 Normal Mode Localized Initial Conditions"
+     ],
+     "heading_bbox": {
+      "page": 33,
+      "x0": 70.87,
+      "y0": 213.51,
+      "x1": 474.14,
+      "y1": 230.73
+     },
      "sha": "b6514f2283c97a24",
      "lines_sha": "6f35629605204f76",
      "heading_check": true
@@ -2690,24 +4226,46 @@
      "page_end": 35,
      "start": 65634,
      "end": 67454,
-     "flags": [
-      "start_marker_not_found"
+     "flags": [],
+     "confidence": null,
+     "parent": 30,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.4 Dependence of Equilibration on the Averaging Procedure"
      ],
+     "heading_bbox": {
+      "page": 34,
+      "x0": 70.87,
+      "y0": 359.46,
+      "x1": 524.42,
+      "y1": 403.88
+     },
      "sha": "986113a069716bc3",
      "lines_sha": "006bdcec5a5f29ea",
      "heading_check": true
     },
     {
      "number": "3.5",
-     "title": "Quantification of the Equilibration Time",
+     "title": "Quantiﬁcation of the Equilibration Time",
      "level": 2,
      "page_start": 35,
      "page_end": 36,
      "start": 67455,
      "end": 68901,
-     "flags": [
-      "end_mismatch"
+     "flags": [],
+     "confidence": null,
+     "parent": 30,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.5 Quantiﬁcation of the Equilibration Time"
      ],
+     "heading_bbox": {
+      "page": 35,
+      "x0": 70.87,
+      "y0": 227.98,
+      "x1": 458.63,
+      "y1": 245.19
+     },
      "sha": "3828e38a17c0f68a",
      "lines_sha": "d833a22329be61f9",
      "heading_check": true
@@ -2721,6 +4279,19 @@
      "start": 68902,
      "end": 70878,
      "flags": [],
+     "confidence": null,
+     "parent": 30,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.6 Dependence of Equilibration on the Choice of Initial Conditions and Observables"
+     ],
+     "heading_bbox": {
+      "page": 36,
+      "x0": 70.87,
+      "y0": 350.66,
+      "x1": 524.41,
+      "y1": 395.08
+     },
      "sha": "2b9f5ae569acaa82",
      "lines_sha": "3d88084ea0a8d8c6",
      "heading_check": true
@@ -2733,9 +4304,20 @@
      "page_end": 39,
      "start": 70879,
      "end": 72928,
-     "flags": [
-      "end_marker_not_found"
+     "flags": [],
+     "confidence": null,
+     "parent": 30,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.7 Comparison with Other Integrable Models"
      ],
+     "heading_bbox": {
+      "page": 37,
+      "x0": 70.87,
+      "y0": 115.22,
+      "x1": 476.4,
+      "y1": 132.44
+     },
      "sha": "e454c33ee1c05596",
      "lines_sha": "a17a0378f690adb2",
      "heading_check": true
@@ -2749,6 +4331,19 @@
      "start": 72929,
      "end": 75027,
      "flags": [],
+     "confidence": null,
+     "parent": 30,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.8 Dependence of Equilibration on the Width of the Initial Distribution"
+     ],
+     "heading_bbox": {
+      "page": 39,
+      "x0": 70.87,
+      "y0": 238.87,
+      "x1": 524.41,
+      "y1": 283.28
+     },
      "sha": "3ee6685e31d9ef44",
      "lines_sha": "b70b05e24c4f2318",
      "heading_check": true
@@ -2762,6 +4357,19 @@
      "start": 75028,
      "end": 82947,
      "flags": [],
+     "confidence": null,
+     "parent": 30,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.9 Relation to Chaos"
+     ],
+     "heading_bbox": {
+      "page": 40,
+      "x0": 70.87,
+      "y0": 238.52,
+      "x1": 268.03,
+      "y1": 255.73
+     },
      "sha": "91770574f30b92be",
      "lines_sha": "4e8263ec0d78615e",
      "heading_check": true
@@ -2775,6 +4383,19 @@
      "start": 82948,
      "end": 85435,
      "flags": [],
+     "confidence": null,
+     "parent": 30,
+     "heading_path": [
+      "Chapter 3 Thermalization of Local Observables in the α−FPUT Chain",
+      "3.10 Summary"
+     ],
+     "heading_bbox": {
+      "page": 44,
+      "x0": 70.87,
+      "y0": 369.9,
+      "x1": 206.01,
+      "y1": 387.11
+     },
      "sha": "93b63e042c19f167",
      "lines_sha": "1094434c3eafbe71",
      "heading_check": true
@@ -2788,6 +4409,18 @@
      "start": 85436,
      "end": 87632,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Chapter 4 The Taylor−von Neumann−Sedov Blast Wave Solution"
+     ],
+     "heading_bbox": {
+      "page": 46,
+      "x0": 70.87,
+      "y0": 573.25,
+      "x1": 486.04,
+      "y1": 692.14
+     },
      "sha": "a768d0527bed9781",
      "lines_sha": "b47d5d21320330f8",
      "heading_check": true
@@ -2801,58 +4434,129 @@
      "start": 87633,
      "end": 92503,
      "flags": [],
+     "confidence": null,
+     "parent": 41,
+     "heading_path": [
+      "Chapter 4 The Taylor−von Neumann−Sedov Blast Wave Solution",
+      "4.1 Euler Equations and its Self-similar Solutions"
+     ],
+     "heading_bbox": {
+      "page": 47,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 500.62,
+      "y1": 772.94
+     },
      "sha": "397bf38d39295d27",
      "lines_sha": "24409a3d927cad78",
      "heading_check": true
     },
     {
      "number": "4.2",
-     "title": "The TvNS Blast Wave Solution in One Dimension",
+     "title": "The TvNS Blast Wave Solution in One Dimen- sion",
      "level": 2,
      "page_start": 49,
      "page_end": 50,
      "start": 92504,
      "end": 94602,
-     "flags": [],
+     "flags": [
+      "start_marker_fuzzy",
+      "title_not_in_text"
+     ],
+     "confidence": null,
+     "parent": 41,
+     "heading_path": [
+      "Chapter 4 The Taylor−von Neumann−Sedov Blast Wave Solution",
+      "4.2 The TvNS Blast Wave Solution in One Dimen- sion"
+     ],
+     "heading_bbox": {
+      "page": 49,
+      "x0": 70.87,
+      "y0": 310.9,
+      "x1": 524.41,
+      "y1": 355.32
+     },
      "sha": "b143b75196968de7",
      "lines_sha": "16ef97bc861cb2c7",
-     "heading_check": true
+     "heading_check": false
     },
     {
      "number": "4.3",
-     "title": "Earlier Attempts to Observe TvNS Scaling in Microscopic Models",
+     "title": "Earlier Attempts to Observe TvNS Scaling in Mi- croscopic Models",
      "level": 2,
      "page_start": 51,
      "page_end": 51,
      "start": 94603,
      "end": 97488,
-     "flags": [],
+     "flags": [
+      "start_marker_fuzzy",
+      "title_not_in_text"
+     ],
+     "confidence": null,
+     "parent": 41,
+     "heading_path": [
+      "Chapter 4 The Taylor−von Neumann−Sedov Blast Wave Solution",
+      "4.3 Earlier Attempts to Observe TvNS Scaling in Mi- croscopic Models"
+     ],
+     "heading_bbox": {
+      "page": 51,
+      "x0": 70.87,
+      "y0": 728.53,
+      "x1": 524.42,
+      "y1": 772.94
+     },
      "sha": "7e29cfc34c77a6cb",
      "lines_sha": "d8af682704c1bbe1",
-     "heading_check": true
+     "heading_check": false
     },
     {
-     "number": "Appendix 4.A",
-     "title": "Rankine-Hugoniot Conditions",
+     "number": "",
+     "title": "Appendix 4.A Rankine-Hugoniot Conditions",
      "level": 2,
      "page_start": 52,
      "page_end": 53,
      "start": 97489,
      "end": 100256,
      "flags": [],
+     "confidence": null,
+     "parent": 41,
+     "heading_path": [
+      "Chapter 4 The Taylor−von Neumann−Sedov Blast Wave Solution",
+      "Appendix 4.A Rankine-Hugoniot Conditions"
+     ],
+     "heading_bbox": {
+      "page": 52,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 461.93,
+      "y1": 772.94
+     },
      "sha": "9ed05d05b382c58f",
      "lines_sha": "d79348c8cc0dde95",
      "heading_check": true
     },
     {
-     "number": "Appendix 4.B",
-     "title": "Other Scalings of the Euler Equations",
+     "number": "",
+     "title": "Appendix 4.B Other Scalings of the Euler Equations",
      "level": 2,
      "page_start": 53,
      "page_end": 55,
      "start": 100257,
      "end": 104105,
      "flags": [],
+     "confidence": null,
+     "parent": 41,
+     "heading_path": [
+      "Chapter 4 The Taylor−von Neumann−Sedov Blast Wave Solution",
+      "Appendix 4.B Other Scalings of the Euler Equations"
+     ],
+     "heading_bbox": {
+      "page": 53,
+      "x0": 70.87,
+      "y0": 305.72,
+      "x1": 524.41,
+      "y1": 322.94
+     },
      "sha": "7da4783613710d23",
      "lines_sha": "e0c717ac45a8b4c0",
      "heading_check": true
@@ -2865,9 +4569,19 @@
      "page_end": 56,
      "start": 104106,
      "end": 105939,
-     "flags": [
-      "end_marker_not_found"
+     "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas"
      ],
+     "heading_bbox": {
+      "page": 56,
+      "x0": 70.87,
+      "y0": 573.25,
+      "x1": 507.76,
+      "y1": 692.14
+     },
      "sha": "234bfa3842b08d8c",
      "lines_sha": "d94600d79f2c19f6",
      "heading_check": true
@@ -2881,6 +4595,19 @@
      "start": 105940,
      "end": 108256,
      "flags": [],
+     "confidence": null,
+     "parent": 47,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.1 The Alternate Mass Hard Particle Gas"
+     ],
+     "heading_bbox": {
+      "page": 57,
+      "x0": 70.87,
+      "y0": 755.73,
+      "x1": 445.48,
+      "y1": 772.94
+     },
      "sha": "7ba319a9512940e0",
      "lines_sha": "5a0872bc4fdcc002",
      "heading_check": true
@@ -2894,6 +4621,19 @@
      "start": 108257,
      "end": 109939,
      "flags": [],
+     "confidence": null,
+     "parent": 47,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.2 Earlier Studies done on the AHP gas"
+     ],
+     "heading_bbox": {
+      "page": 57,
+      "x0": 70.87,
+      "y0": 130.09,
+      "x1": 430.27,
+      "y1": 147.3
+     },
      "sha": "504325af40cc8a37",
      "lines_sha": "ee5c8fe3740c8f72",
      "heading_check": true
@@ -2907,6 +4647,19 @@
      "start": 109940,
      "end": 114201,
      "flags": [],
+     "confidence": null,
+     "parent": 47,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.3 “Blast Wave” Initial Conditions for Microscopic Simulations"
+     ],
+     "heading_bbox": {
+      "page": 58,
+      "x0": 70.87,
+      "y0": 396.48,
+      "x1": 524.4,
+      "y1": 440.89
+     },
      "sha": "4daafa84f3add63d",
      "lines_sha": "083342d6d9c48aa3",
      "heading_check": true
@@ -2920,6 +4673,19 @@
      "start": 114202,
      "end": 117125,
      "flags": [],
+     "confidence": null,
+     "parent": 47,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.4 Microscopic Simulations and Comparison with the TvNS Solution"
+     ],
+     "heading_bbox": {
+      "page": 60,
+      "x0": 70.87,
+      "y0": 452.39,
+      "x1": 524.4,
+      "y1": 496.81
+     },
      "sha": "9f07bb28ed73b177",
      "lines_sha": "36779dedbb0d9cb6",
      "heading_check": true
@@ -2932,9 +4698,20 @@
      "page_end": 61,
      "start": 117126,
      "end": 117172,
-     "flags": [
-      "end_mismatch"
+     "flags": [],
+     "confidence": null,
+     "parent": 47,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.5 Various Aspects of Microscopic Simulations"
      ],
+     "heading_bbox": {
+      "page": 61,
+      "x0": 70.87,
+      "y0": 177.3,
+      "x1": 485.3,
+      "y1": 194.51
+     },
      "sha": "4cde4721578bc307",
      "lines_sha": "4cde4721578bc307",
      "heading_check": true
@@ -2948,6 +4725,20 @@
      "start": 117173,
      "end": 119761,
      "flags": [],
+     "confidence": null,
+     "parent": 52,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.5 Various Aspects of Microscopic Simulations",
+      "5.5.1 Comparison with the Empirical Fields"
+     ],
+     "heading_bbox": {
+      "page": 61,
+      "x0": 70.87,
+      "y0": 143.76,
+      "x1": 390.03,
+      "y1": 158.11
+     },
      "sha": "f87fdbc2129c9725",
      "lines_sha": "3f9a9890406696bc",
      "heading_check": true
@@ -2961,6 +4752,20 @@
      "start": 119762,
      "end": 120977,
      "flags": [],
+     "confidence": null,
+     "parent": 52,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.5 Various Aspects of Microscopic Simulations",
+      "5.5.2 Dependence on Initial Conditions"
+     ],
+     "heading_bbox": {
+      "page": 63,
+      "x0": 70.87,
+      "y0": 208.79,
+      "x1": 357.52,
+      "y1": 223.14
+     },
      "sha": "5bb11465bd025857",
      "lines_sha": "b5f8798a15ebe8ea",
      "heading_check": true
@@ -2974,6 +4779,20 @@
      "start": 120978,
      "end": 121617,
      "flags": [],
+     "confidence": null,
+     "parent": 52,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.5 Various Aspects of Microscopic Simulations",
+      "5.5.3 Dependence on the Initial Ensemble"
+     ],
+     "heading_bbox": {
+      "page": 64,
+      "x0": 70.87,
+      "y0": 319.55,
+      "x1": 376.31,
+      "y1": 333.89
+     },
      "sha": "0815a23af76c38e6",
      "lines_sha": "922a36c68ea15e32",
      "heading_check": true
@@ -2987,6 +4806,20 @@
      "start": 121618,
      "end": 123916,
      "flags": [],
+     "confidence": null,
+     "parent": 52,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.5 Various Aspects of Microscopic Simulations",
+      "5.5.4 Validity of Local Thermal Equilibrium"
+     ],
+     "heading_bbox": {
+      "page": 64,
+      "x0": 70.87,
+      "y0": 147.51,
+      "x1": 391.78,
+      "y1": 161.86
+     },
      "sha": "6acd7c2e1c402b07",
      "lines_sha": "d8b126df7e4a1049",
      "heading_check": true
@@ -3000,6 +4833,20 @@
      "start": 123917,
      "end": 125775,
      "flags": [],
+     "confidence": null,
+     "parent": 52,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.5 Various Aspects of Microscopic Simulations",
+      "5.5.5 Structure of the Shock"
+     ],
+     "heading_bbox": {
+      "page": 66,
+      "x0": 70.87,
+      "y0": 363.24,
+      "x1": 280.8,
+      "y1": 377.58
+     },
      "sha": "2b82b24e38cbd59b",
      "lines_sha": "5ded8bcdf194dbb7",
      "heading_check": true
@@ -3013,6 +4860,19 @@
      "start": 125776,
      "end": 128951,
      "flags": [],
+     "confidence": null,
+     "parent": 47,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.6 Modelling by the Navier-Stokes-Fourier (NSF) Equations"
+     ],
+     "heading_bbox": {
+      "page": 67,
+      "x0": 70.87,
+      "y0": 611.6,
+      "x1": 524.4,
+      "y1": 656.02
+     },
      "sha": "64eacd2b54c19595",
      "lines_sha": "c77cd713acde7c5d",
      "heading_check": true
@@ -3025,9 +4885,20 @@
      "page_end": 74,
      "start": 128952,
      "end": 139164,
-     "flags": [
-      "end_marker_not_found"
+     "flags": [],
+     "confidence": null,
+     "parent": 47,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.7 Scaling near the Core of the Blast"
      ],
+     "heading_bbox": {
+      "page": 68,
+      "x0": 70.87,
+      "y0": 342.6,
+      "x1": 404.63,
+      "y1": 359.81
+     },
      "sha": "8dfe9319ce0d8a1e",
      "lines_sha": "4e254375bc8a3147",
      "heading_check": true
@@ -3041,19 +4912,45 @@
      "start": 139165,
      "end": 141342,
      "flags": [],
+     "confidence": null,
+     "parent": 47,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "5.8 Summary"
+     ],
+     "heading_bbox": {
+      "page": 74,
+      "x0": 70.87,
+      "y0": 318.44,
+      "x1": 196.33,
+      "y1": 335.66
+     },
      "sha": "daf7f9bfc96214c7",
      "lines_sha": "767d69ed1a1e6344",
      "heading_check": true
     },
     {
-     "number": "Appendix 5.A",
-     "title": "Derivation of Scaling Functions near the Core",
+     "number": "",
+     "title": "Appendix 5.A Derivation of Scaling Functions near the Core",
      "level": 2,
      "page_start": 75,
      "page_end": 76,
      "start": 141343,
      "end": 144218,
      "flags": [],
+     "confidence": null,
+     "parent": 47,
+     "heading_path": [
+      "Chapter 5 Blast Wave in the One Dimensional Cold Gas",
+      "Appendix 5.A Derivation of Scaling Functions near the Core"
+     ],
+     "heading_bbox": {
+      "page": 75,
+      "x0": 70.87,
+      "y0": 384.52,
+      "x1": 524.41,
+      "y1": 428.93
+     },
      "sha": "12504c5bae7368c0",
      "lines_sha": "4ad28041ea83d8d2",
      "heading_check": true
@@ -3067,6 +4964,18 @@
      "start": 144219,
      "end": 144239,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Chapter 6 Conclusion"
+     ],
+     "heading_bbox": {
+      "page": 77,
+      "x0": 70.87,
+      "y0": 610.34,
+      "x1": 204.25,
+      "y1": 692.14
+     },
      "sha": "f109e2c7d8c94255",
      "lines_sha": "f109e2c7d8c94255",
      "heading_check": true
@@ -3080,6 +4989,19 @@
      "start": 144240,
      "end": 146721,
      "flags": [],
+     "confidence": null,
+     "parent": 62,
+     "heading_path": [
+      "Chapter 6 Conclusion",
+      "6.1 Outcomes of the Study"
+     ],
+     "heading_bbox": {
+      "page": 77,
+      "x0": 70.87,
+      "y0": 544.76,
+      "x1": 310.85,
+      "y1": 561.97
+     },
      "sha": "7e7d2eef00c860c4",
      "lines_sha": "6ef18b1cbbd9ec0d",
      "heading_check": true
@@ -3093,6 +5015,19 @@
      "start": 146722,
      "end": 147869,
      "flags": [],
+     "confidence": null,
+     "parent": 62,
+     "heading_path": [
+      "Chapter 6 Conclusion",
+      "6.2 Limitations of the Study"
+     ],
+     "heading_bbox": {
+      "page": 78,
+      "x0": 70.87,
+      "y0": 656.73,
+      "x1": 323.59,
+      "y1": 673.95
+     },
      "sha": "8f1cfd1641a8a61b",
      "lines_sha": "2227de464d1c795b",
      "heading_check": true
@@ -3106,6 +5041,19 @@
      "start": 147870,
      "end": 147891,
      "flags": [],
+     "confidence": null,
+     "parent": 62,
+     "heading_path": [
+      "Chapter 6 Conclusion",
+      "6.3 Future Directions"
+     ],
+     "heading_bbox": {
+      "page": 78,
+      "x0": 70.87,
+      "y0": 348.7,
+      "x1": 264.37,
+      "y1": 365.91
+     },
      "sha": "4a71db35b25a36ec",
      "lines_sha": "4a71db35b25a36ec",
      "heading_check": true
@@ -3119,6 +5067,20 @@
      "start": 147892,
      "end": 150878,
      "flags": [],
+     "confidence": null,
+     "parent": 65,
+     "heading_path": [
+      "Chapter 6 Conclusion",
+      "6.3 Future Directions",
+      "6.3.1 Thermalization and Chaos"
+     ],
+     "heading_bbox": {
+      "page": 78,
+      "x0": 70.87,
+      "y0": 315.16,
+      "x1": 306.85,
+      "y1": 329.51
+     },
      "sha": "e0763f6a1946c190",
      "lines_sha": "693f35d7fae0f0df",
      "heading_check": true
@@ -3132,6 +5094,20 @@
      "start": 150879,
      "end": 153670,
      "flags": [],
+     "confidence": null,
+     "parent": 65,
+     "heading_path": [
+      "Chapter 6 Conclusion",
+      "6.3 Future Directions",
+      "6.3.2 Hydrodynamics"
+     ],
+     "heading_bbox": {
+      "page": 79,
+      "x0": 70.87,
+      "y0": 340.83,
+      "x1": 231.16,
+      "y1": 355.18
+     },
      "sha": "4e526b6d0210edf6",
      "lines_sha": "68943e40be58547b",
      "heading_check": true
@@ -3145,6 +5121,20 @@
      "start": 153671,
      "end": 154692,
      "flags": [],
+     "confidence": null,
+     "parent": 65,
+     "heading_path": [
+      "Chapter 6 Conclusion",
+      "6.3 Future Directions",
+      "6.3.3 Concluding Remarks"
+     ],
+     "heading_bbox": {
+      "page": 80,
+      "x0": 70.87,
+      "y0": 376.68,
+      "x1": 267.54,
+      "y1": 391.03
+     },
      "sha": "a051d39ac2cb25cc",
      "lines_sha": "b36e4aa783decd1b",
      "heading_check": true
@@ -3158,13 +5148,24 @@
      "start": 154693,
      "end": 171025,
      "flags": [],
+     "confidence": null,
+     "parent": null,
+     "heading_path": [
+      "Bibliography"
+     ],
+     "heading_bbox": {
+      "page": 81,
+      "x0": 70.87,
+      "y0": 667.36,
+      "x1": 227.19,
+      "y1": 692.14
+     },
      "sha": "3c7e2284dc3942b2",
      "lines_sha": "3e1539ec1eaa694b",
      "heading_check": true
     }
    ],
-   "readoc_teds": 82.6,
-   "readoc_headings": 65
+   "readoc_teds": 84.0
   }
  },
  "pages": 88,

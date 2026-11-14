@@ -86,12 +86,12 @@ Expected:
 Then open `https://huggingface.co/spaces/<HF_USERNAME>/section-anything` and check:
 
 1. Click each of the three example buttons with Mode on Free: "Visual Instruction Tuning" gives
-   25 pages and 19 sections, "Knowledge Is Flat" 13 and 28, "Thermalization, Chaos and
-   Hydrodynamics" 88 and 85, each with "(Free mode, run live on this Space ...)", the paper's
+   25 pages and 19 sections, "Knowledge Is Flat" 13 and 26, "Thermalization, Chaos and
+   Hydrodynamics" 88 and 61, each with "(Free mode, run live on this Space ...)", the paper's
    note, a table of the three saved runs and a JSON file.
 2. Switch Mode to Quick check and to Standard on each example. The status line starts with
-   "Saved run, section-anything 0.1.5, gpt-6-luna, 2026-10-28, cost $..." and the section counts
-   are 19 and 20, 30 and 22, 83 and 65. The section text box shows text. If the status line says
+   "Saved run, section-anything 0.1.11, gpt-6-luna, 2026-11-13, cost $..." and the section counts
+   are 19 and 20, 29 and 20, 62 and 70. The section text box shows text. If the status line says
    "Text shown for N of M sections", this Space's extraction differs from the saved run's in
    those sections (for example after a change to the pinned pdfplumber, pdfminer.six or
    pypdfium2): their text is withheld rather than shown wrong.
@@ -120,7 +120,7 @@ link to the same URL.
 ## Updating
 
 - New library release: bump `section-anything==` in `requirements.txt`, then upload again. The
-  saved runs keep their own version label (0.1.5) until they are made again.
+  saved runs keep their own version label (0.1.11) until they are made again.
 - To make the saved runs again (for a new release, or other papers in `EXAMPLES`): from `space/`,
   `python make_examples.py --estimate` (no model call), then
   `OPENAI_API_KEY=... python make_examples.py` (sends the three papers' text to the model; about

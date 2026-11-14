@@ -59,7 +59,7 @@ EXAMPLES = [
         "why": "No PDF bookmarks, so Free has only typography and numbering to go on. Picked by a fixed "
                "rule: of the 73 held-out READoc arXiv papers with no bookmarks, 8-100 pages and at least "
                "8 headings in the answer key, the CC BY paper whose Free (0.1.5) READoc heading-tree TEDS "
-               "was closest to the group's median (55.9). Its Free score, 49.9, is at the group's 41st "
+               "was closest to the group's median (55.9). Its Free score then, 49.9, was at the group's 41st "
                "percentile.",
     },
     {
@@ -72,7 +72,7 @@ EXAMPLES = [
         "why": "Long and deeply nested: 88 pages, PDF bookmarks, and an answer key four levels deep. Picked "
                "by a fixed rule: of the 39 held-out READoc arXiv papers with 30-100 pages and an answer key "
                "at least three levels deep, the CC BY paper whose Free (0.1.5) READoc heading-tree TEDS was "
-               "closest to the group's median (68.7). Its Free score, 60.4, is at the group's 38th "
+               "closest to the group's median (68.7). Its Free score then, 60.4, was at the group's 38th "
                "percentile.",
     },
 ]
