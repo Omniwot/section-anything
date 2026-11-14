@@ -51,6 +51,15 @@ hf upload <HF_USERNAME>/section-anything space . --type space \
   --commit-message "Section Anything demo: Free live, saved Quick check and Standard on three examples"
 ```
 
+With an older `hf` (huggingface_hub 0.x) the command above stops with `unrecognized arguments: --type space`.
+There the option is `--repo-type`, and one `--exclude` takes both patterns:
+
+```sh
+hf upload <HF_USERNAME>/section-anything space . --repo-type space \
+  --exclude DEPLOY.md "*__pycache__*" \
+  --commit-message "Section Anything demo: Free live, saved Quick check and Standard on three examples"
+```
+
 This puts `app.py`, `requirements.txt`, `README.md`, `make_examples.py` and `examples/` at the
 root of the Space repository and replaces the README the Hub created. There are no binary files:
 the example papers are downloaded from arXiv on first use, so no Xet/LFS set-up is needed.
